@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = { // eslint-disable-line
     "env": {
         "browser": true,
         "es6": true
