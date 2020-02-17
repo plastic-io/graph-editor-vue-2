@@ -25,7 +25,6 @@
         ></v-select>
         <v-color-picker v-model="color"></v-color-picker>
         <v-text-field
-            v-model.number="5"
             label="number"
             number
             placeholder="Placeholder"
@@ -41,4 +40,4 @@ export default {
     computed: {}
 };
 </script>
-<style scoped></style>
+<style></style>
