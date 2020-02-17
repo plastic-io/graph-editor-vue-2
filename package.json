@@ -11,14 +11,22 @@
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-typescript": "^7.8.3",
     "@mdi/font": "^3.6.95",
+    "@plastic-io/plastic-io": "^1.0.3",
+    "@types/escodegen": "0.0.6",
     "core-js": "^3.6.4",
     "roboto-fontface": "*",
+    "v-runtime-template": "^1.10.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
-    "vuetify": "^2.2.11"
+    "vue-router": "^3.1.5",
+    "vuetify": "^2.2.11",
+    "vuex": "^3.1.2",
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@mdi/js": "^4.9.95",
+    "@types/bezier-js": "0.0.8",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "@vue/cli-plugin-babel": "~4.2.0",
@@ -27,12 +35,15 @@
     "@vue/cli-service": "~4.2.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.1",
+    "bezier-js": "^2.5.1",
+    "deep-diff": "^1.0.2",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.1.2",
     "prettier": "^1.19.1",
     "typescript": "~3.7.5",
     "vue-cli-plugin-vuetify": "~2.0.5",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vue2-ace-editor": "0.0.15"
   }
 }

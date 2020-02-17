@@ -1,0 +1,89 @@
+{
+    "vectors": [
+        {
+            "id": "1",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": [
+                        {
+                            "id": "0",
+                            "vectorId": "2",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        }
+                    ]
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "index",
+            "data": "",
+            "properties": {
+                "x": 300,
+                "y": 200,
+                "presentation": {
+                    "x": 400,
+                    "y": 100
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ]
+            },
+            "template": {
+                "set": "edges.proxy = value;",
+                "vue": "export default { template: '<div>Set 1</div>' }"
+            }
+        },
+        {
+            "id": "2",
+            "edges": [],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 100,
+                "y": 100,
+                "presentation": {
+                    "x": 400,
+                    "y": 100
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { template: '<div>Set 2</div>' }"
+            }
+        }
+    ],
+    "id": "0",
+    "version": 0,
+    "properties": {
+        "name": "",
+        "description": "",
+        "createdBy": "",
+        "createdOn": 0,
+        "lastUpdate": 0,
+        "exportable": false,
+        "height": 1,
+        "width": 1
+    }
+}
