@@ -3,7 +3,9 @@
         <v-system-bar style="z-index: 2;">
             <span>Plastic-IO</span>
             <v-divider />
-            <v-icon>mdi-folder</v-icon>
+            <v-icon @click="showDialog = !showDialog">
+                mdi-folder
+            </v-icon>
             <v-icon>mdi-undo-variant</v-icon>
             <v-icon>mdi-redo-variant</v-icon>
             <v-icon
@@ -174,6 +176,7 @@
                 {{ (view.k * 100).toFixed(2) }}%</span
             >
         </v-system-bar>
+        <OpenDialog v-if="showDialog" @close="showDialog = false" />
     </v-app>
 </template>
 <script>
@@ -181,13 +184,15 @@ import GraphCanvas from "./GraphCanvas";
 import editor from "vue2-ace-editor";
 import { mapState } from "vuex";
 import PropertiesForm from "./PropertiesForm";
+import OpenDialog from "./OpenDialog";
 
 export default {
     name: "GraphEditor",
     components: {
         GraphCanvas,
         editor,
-        PropertiesForm
+        PropertiesForm,
+        OpenDialog
     },
     watch: {
         graphJSON() {
@@ -405,6 +410,7 @@ export default {
             panel: "",
             localGraph: null,
             panelOpen: true,
+            showDialog: false,
             showGrid: true,
             selectedVectors: ["1"]
         };

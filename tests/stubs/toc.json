@@ -1,0 +1,290 @@
+{
+    "TOC": [
+        {
+            "Key": "artifacts/exports/export_graph_1-26-20_a.12.json",
+            "LastModified": "2020-01-27T04:37:19.000Z",
+            "ETag": "\"1cbf88934925d6ec676a95d4e84123f5\"",
+            "Size": 2898,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "12",
+                "name": "export_graph_1-26-20_a",
+                "description": "",
+                "documentid": "export_graph_1-26-20_a"
+            }
+        },
+        {
+            "Key": "artifacts/exports/frederick.134.json",
+            "LastModified": "2020-01-28T00:40:07.000Z",
+            "ETag": "\"42ff15d7da6c614ead99268bc062e968\"",
+            "Size": 10153,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "134",
+                "name": "frederick",
+                "description": "",
+                "documentid": "frederick"
+            }
+        },
+        {
+            "Key": "artifacts/exports/frederick.23.json",
+            "LastModified": "2020-01-28T00:06:20.000Z",
+            "ETag": "\"293ce29725c6091b445bb6a00db240b5\"",
+            "Size": 2070,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "23",
+                "name": "frederick",
+                "description": "",
+                "documentid": "frederick"
+            }
+        },
+        {
+            "Key": "artifacts/exports/frederick.38.json",
+            "LastModified": "2020-01-28T00:09:10.000Z",
+            "ETag": "\"ae3aded1951cc5fb566faf0807b5a1c8\"",
+            "Size": 4136,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "38",
+                "name": "frederick",
+                "description": "",
+                "documentid": "frederick"
+            }
+        },
+        {
+            "Key": "artifacts/exports/frederick.57.json",
+            "LastModified": "2020-01-28T00:11:15.000Z",
+            "ETag": "\"c461f40b72c001f619399ac0abbfb32c\"",
+            "Size": 4136,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "57",
+                "name": "frederick",
+                "description": "",
+                "documentid": "frederick"
+            }
+        },
+        {
+            "Key": "artifacts/exports/import_node_test_1-23-18_c.59.json",
+            "LastModified": "2020-01-27T03:14:54.000Z",
+            "ETag": "\"f010104a3f3d06aad0cdfe3cb50f953a\"",
+            "Size": 4821,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "59",
+                "name": "import_node_test_1-23-18_c",
+                "description": "",
+                "documentid": "import_node_test_1-23-18_c"
+            }
+        },
+        {
+            "Key": "artifacts/exports/import_node_test_1-23-18_c.66.json",
+            "LastModified": "2020-01-27T04:31:46.000Z",
+            "ETag": "\"38772788a4743d813fe945551b185683\"",
+            "Size": 4820,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "66",
+                "name": "import_node_test_1-23-18_c",
+                "description": "",
+                "documentid": "import_node_test_1-23-18_c"
+            }
+        },
+        {
+            "Key": "artifacts/exports/import_node_test_1-23-18_c.68.json",
+            "LastModified": "2020-01-27T04:33:35.000Z",
+            "ETag": "\"b1fd3b95b1522160311d768c6b864a9d\"",
+            "Size": 4799,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "68",
+                "name": "LFFA",
+                "description": "",
+                "documentid": "import_node_test_1-23-18_c"
+            }
+        },
+        {
+            "Key": "artifacts/exports/import_node_test_1-23-18_d.136.json",
+            "LastModified": "2020-01-26T06:08:14.000Z",
+            "ETag": "\"6a5b6a46283029555e51bc8937fbdc6e\"",
+            "Size": 8082,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "136",
+                "name": "import_node_test_1-23-18_d",
+                "description": "",
+                "documentid": "import_node_test_1-23-18_d"
+            }
+        },
+        {
+            "Key": "artifacts/exports/koby_1-23-20.22.json",
+            "LastModified": "2020-01-23T19:26:46.000Z",
+            "ETag": "\"0f3be1b6f2b379ab6ebab47f5ba47495\"",
+            "Size": 3106,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "22",
+                "name": "koby_1-23-20",
+                "description": "",
+                "documentid": "koby_1-23-20"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/228cceac-f944-4f36-a977-88bf46c0cbb8_http-lambda_44.json",
+            "LastModified": "2020-01-23T11:59:09.000Z",
+            "ETag": "\"2fca8a920b3b3e524a1ac18c538bcf10\"",
+            "Size": 1852,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "44",
+                "name": "http-lambda",
+                "description": "Http Lambda Server Domains: any",
+                "documentid": "wf_lambda"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/4465f698-8781-469d-bcfa-0b4ebb04dbd1_unnamed-new-node-1579850557647_37.json",
+            "LastModified": "2020-01-24T09:17:24.000Z",
+            "ETag": "\"4faf919c14dcf5ba1bf51d1b6e7c3b77\"",
+            "Size": 2038,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "37",
+                "name": "unnamed-new-node-1579850557647",
+                "description": "Domains: any",
+                "documentid": "import_node_test_1-23-18_b"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/5dff00a6-f4cc-4c14-9b6a-0059a619b35d_unnamed-new-node-1579806339408_44.json",
+            "LastModified": "2020-01-24T01:18:03.000Z",
+            "ETag": "\"7e7db51f59970c526029fcdfb0249dad\"",
+            "Size": 1424,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "44",
+                "name": "unnamed-new-node-1579806339408",
+                "description": "Domains: any",
+                "documentid": "koby"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/8214e829-3253-4754-8918-43a544cd96dd_example-cli_19.json",
+            "LastModified": "2020-01-29T07:33:00.000Z",
+            "ETag": "\"ce7c78ad6842d5a896ddaa6cb66c72df\"",
+            "Size": 854,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "19",
+                "name": "example-cli",
+                "description": "example-cli-echo Domains: any",
+                "documentid": "test_import_export_1-28-20"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/8214e829-3253-4754-8918-43a544cd96dd_example-cli_25.json",
+            "LastModified": "2020-01-29T07:46:57.000Z",
+            "ETag": "\"064fab926120f3ef26b4e9f83cbf63ce\"",
+            "Size": 865,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "25",
+                "name": "example-cli",
+                "description": "example-cli-echo Domains: lambda,shell",
+                "documentid": "test_import_export_1-28-20"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/bd4abe3f-e4be-4eb8-8e98-778db010424a_structure_32.json",
+            "LastModified": "2020-01-22T08:44:30.000Z",
+            "ETag": "\"7963d6eadaccd9e6e9388e92cf89c5e8\"",
+            "Size": 3026,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "32",
+                "name": "structure",
+                "description": "",
+                "documentid": "wf_structure"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/bd4abe3f-e4be-4eb8-8e98-778db010424a_structure_38.json",
+            "LastModified": "2020-01-22T08:51:07.000Z",
+            "ETag": "\"907165154a85507cb7a4587226e923ad\"",
+            "Size": 3095,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "38",
+                "name": "structure",
+                "description": "Combines multiple named inputs into a single object. Domains: any",
+                "documentid": "wf_structure"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/c3e30cff-e4c2-4653-b79e-a2e67cbc5a75_unnamed-new-node-sat_305.json",
+            "LastModified": "2020-01-26T01:22:44.000Z",
+            "ETag": "\"888cc0a60aad6ce125296e07a0a68726\"",
+            "Size": 1227,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "305",
+                "name": "unnamed-new-node-sat",
+                "description": "Domains: any",
+                "documentid": "import_node_test_1-23-18_d"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/d4807bcb-440d-46a8-b53c-44a8cc2c3d18_proxy-node_42.json",
+            "LastModified": "2020-01-28T22:05:04.000Z",
+            "ETag": "\"0e3a7ff0f309ddbb7cd7a1d9788bf34e\"",
+            "Size": 1525,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "42",
+                "name": "proxy-node",
+                "description": "Just passes the data Domains: any",
+                "documentid": "irshad_1-28-20"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/d54090dd-9f72-4638-9b89-7dd4e3f81557_example-node-1_70.json",
+            "LastModified": "2020-01-28T12:17:37.000Z",
+            "ETag": "\"fc864b2f52aae7d9a66248a3521d56ea\"",
+            "Size": 1560,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "70",
+                "name": "example-node-1",
+                "description": "Another Test Node Domains: any",
+                "documentid": "prototype_test-1-28-20_b"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/f646e445-ec6e-4233-84b8-248d6d57e44f_Hippo_22.json",
+            "LastModified": "2020-01-25T01:02:42.000Z",
+            "ETag": "\"842e25f7207ed8508253e7c5dfc24cc4\"",
+            "Size": 717,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "22",
+                "name": "Hippo",
+                "description": "Domains: any",
+                "documentid": "import_node_test_1-23-18_c"
+            }
+        },
+        {
+            "Key": "artifacts/exports/nodes/f7475eda-a1ba-4d1c-9c81-9268900db1e4_frederick-1_71.json",
+            "LastModified": "2020-01-28T00:15:43.000Z",
+            "ETag": "\"c824047488a956706d7e4f8128eb0131\"",
+            "Size": 618,
+            "StorageClass": "STANDARD",
+            "Metadata": {
+                "version": "71",
+                "name": "frederick-1",
+                "description": "undefined Domains: ",
+                "documentid": "frederick"
+            }
+        }
+    ]
+}
