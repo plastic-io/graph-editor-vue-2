@@ -1,236 +1,134 @@
 <template>
-    <v-app class="graph-editor" v-if="localGraph">
-        <v-system-bar style="z-index: 2;">
+    <v-app class="graph-editor" v-if="graph">
+        <v-system-bar ref="topBar" style="z-index: 2;">
+            <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
+                <v-icon>mdi-file</v-icon>{{ graph.id }}
+            </div>
+            <v-divider vertical style="margin: 5px;"/>
             <span>Plastic-IO</span>
-            <v-divider />
-            <v-icon @click="showDialog = !showDialog">
-                mdi-folder
-            </v-icon>
-            <v-icon>mdi-undo-variant</v-icon>
-            <v-icon>mdi-redo-variant</v-icon>
-            <v-icon
-                @click="showGrid = !showGrid"
-                :color="showGrid ? 'accent' : ''"
-                >mdi-grid</v-icon
-            >
-            <v-icon>mdi-lock-open</v-icon>
-            <v-icon>mdi-share</v-icon>
+            <v-spacer/>
+            <span>
+                <v-icon @click="showDialog = !showDialog" title="Show open graph dialog (^ + O)">
+                    mdi-folder
+                </v-icon>
+                <v-divider vertical style="margin: 5px;"/>
+                <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
+                <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
+                <v-divider vertical style="margin: 5px;"/>
+                <v-icon :disabled="selectedVectors.length === 0" @click="cut" title="Cut selection (^ + X)">mdi-content-cut</v-icon>
+                <v-icon :disabled="selectedVectors.length === 0" @click="copy" title="Copy selection (^ + C)">mdi-content-copy</v-icon>
+                <v-icon @click="paste" title="Paste (^ + V)">mdi-content-paste</v-icon>
+                <v-divider vertical style="margin: 5px;"/>
+                <v-icon title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
+                <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
+                    title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
+                <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
+                    @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
+                <v-divider vertical style="margin: 5px;"/>
+                <v-icon :disabled="selectedVectors.length < 2" title="Group (^ + G)" @click="groupSelected">mdi-group</v-icon>
+                <v-icon :disabled="primaryGroup === null" title="Ungroup (^ + Shift + G)" @click="ungroupSelected">mdi-ungroup</v-icon>
+                <v-divider vertical style="margin: 5px;"/>
+                <v-icon @click="bringForward" title="Bring forward (^ + ])">mdi-arrange-bring-forward</v-icon>
+                <v-icon @click="bringToFront" title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
+                <v-icon @click="sendBackward" title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
+                <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
+            </span>
         </v-system-bar>
-        <v-navigation-drawer
-            disable-resize-watcher
-            permanent
-            :style="navStyle"
-            class="nav-drawer"
-            ref="nav"
-            app
-            color="secondary"
-            height="calc(100vh - 48px)"
-        >
-            <v-container
-                class="flex-d align-stretch pa-0"
-                fill-height
-                style="z-index: 1;"
-            >
-                <v-card
-                    class="main-nav"
-                    tile
-                    elevation="0"
-                    v-if="panel"
-                    color="secondary darken-2"
-                >
-                    <div
-                        v-if="panel === 'graph'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        <PropertiesForm />
-                    </div>
-                    <div
-                        v-if="panel === 'properties'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        <PropertiesForm />
-                    </div>
-                    <div
-                        v-if="panel === 'set'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        VECTOR.TEMPLATE.SET
-                    </div>
-                    <div
-                        v-if="panel === 'template'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        VECTOR.TEMPLATE.VUE
-                    </div>
-                    <div
-                        v-if="panel === 'raw'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        <editor
-                            v-model="graphJSON"
-                            @init="editorInit"
-                            lang="json"
-                            theme="twilight"
-                            :width="navWidth - iconGutterSize + 'px'"
-                            height="calc(100vh - 55px)"
-                        ></editor>
-                    </div>
-                    <div
-                        v-if="panel === 'import'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        IMPORT GALLERY
-                    </div>
-                    <div
-                        v-if="panel === 'settings'"
-                        :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                    >
-                        EDITOR SETTINGS
-                    </div>
-                </v-card>
-                <v-card
-                    class="icon-nav"
-                    tile
-                    elevation="0"
-                    color="secondary darken-2"
-                >
-                    <div style="margin-top: 5px;">
-                        <v-icon
-                            :color="panel === 'graph' ? 'accent' : ''"
-                            @click="selectPanel('graph')"
-                        >
-                            mdi-file-document
-                        </v-icon>
-                        <v-icon
-                            v-if="selectedVectors.length"
-                            :color="panel === 'properties' ? 'accent' : ''"
-                            @click="selectPanel('properties')"
-                        >
-                            mdi-view-list
-                        </v-icon>
-                        <v-icon
-                            v-if="selectedVectors.length === 1"
-                            :color="panel === 'set' ? 'accent' : ''"
-                            @click="selectPanel('set')"
-                        >
-                            mdi-ray-end
-                        </v-icon>
-                        <v-icon
-                            v-if="selectedVectors.length === 1"
-                            :color="panel === 'template' ? 'accent' : ''"
-                            @click="selectPanel('template')"
-                        >
-                            mdi-vuejs
-                        </v-icon>
-                        <v-icon
-                            v-if="selectedVectors.length === 1"
-                            :color="panel === 'raw' ? 'accent' : ''"
-                            @click="selectPanel('raw')"
-                        >
-                            mdi-json
-                        </v-icon>
-                    </div>
-                    <div style="position: absolute; bottom: 5px;">
-                        <v-icon
-                            :color="panel === 'import' ? 'accent' : ''"
-                            @click="selectPanel('import')"
-                        >
-                            mdi-package
-                        </v-icon>
-                        <v-icon
-                            :color="panel === 'settings' ? 'accent' : ''"
-                            @click="selectPanel('settings')"
-                        >
-                            mdi-cogs
-                        </v-icon>
-                        <v-icon
-                            :style="
-                                !navWidths[panel]
-                                    ? 'cursor: ew-resize;'
-                                    : 'cursor: not-allowed;'
-                            "
-                            :color="!navWidths[panel] ? '' : 'secondary'"
-                            @mousedown="startPanelDrag"
-                        >
-                            mdi-drag-vertical
-                        </v-icon>
-                    </div>
-                </v-card>
-            </v-container>
-        </v-navigation-drawer>
+        <control-panel ref="panel"/>
         <div class="graph-container" :style="graphContainerStyle">
             <graph-canvas
-                :showGrid="showGrid"
-                :graph="localGraph"
-                :view="view"
-                @select-vector="selectVector"
+                :class="translating && mouse.lmb ? 'no-select' : ''"
+                :showGrid="preferences.appearance.showGrid"
             ></graph-canvas>
         </div>
         <v-system-bar
+            ref="bottomBar"
             style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
+            class="no-select bottom-system-bar"
         >
-            <v-divider />
-            <span
-                >Graph ID: {{ graph.id }} : Vectors:
-                {{ graph.vectors.length }} : x:{{ view.x }} y:{{ view.y }}
-                {{ (view.k * 100).toFixed(2) }}%</span
+            <div title="Mouse Coordinates" style="width: 110px;cursor: crosshair;">
+                <v-icon>mdi-crosshairs-gps</v-icon>{{ Math.floor((mouse.x - view.x) / view.k) }} : {{ Math.floor((mouse.y - view.y) / view.k) }}
+            </div>
+            <div
+            title="Selection Coordinates"
+            style="width: 240px;cursor: crosshair;">
+                <v-icon>mdi-select</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
+            </div>
+            <v-spacer/>
+            <div title="Grouped Vectors" style="padding-right: 10px;cursor: pointer;">
+                <v-icon :disabled="!groupVectors.length">mdi-group</v-icon>{{ groupVectors.length > 1 && selectedVectors.length > 0 ? groupVectors.length : 0 }}
+            </div>
+            <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
+                <v-icon>mdi-selection</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
+            </div>
+            <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
+                <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
+            </div>
+            <v-icon title="Zoom Out" style="padding-right: 10px;cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
+            <div title="Zoom Level" style="padding-right: 10px;cursor: crosshair;" @click="resetZoom">
+                {{ (view.k * 100).toFixed(2) }}%
+            </div>
+            <v-icon title="Zoom In" style="padding-right: 10px;cursor: pointer;" @click="zoomIn">mdi-magnify-plus-outline</v-icon>
+            <v-icon title="Unlock Graph" style="padding-right: 10px;cursor: pointer;">mdi-lock-open</v-icon>
+            <v-icon
+                title="Toggle Grid Visibility"
+                @click="toggleGrid"
+                 style="padding-right: 10px;cursor: pointer;"
+                :color="preferences.appearance.showGrid ? 'accent' : ''"
+                >mdi-grid</v-icon
             >
+            <v-icon title="Share This Graph" style="padding-right: 10px;cursor: pointer;">mdi-share</v-icon>
         </v-system-bar>
+        <v-snackbar :timeout="50000" v-model="showError">
+            <v-alert prominent type="error">
+                <v-row align="center">
+                    <v-col class="grow">{{errorMessage}}</v-col>
+                    <v-col class="shrink">
+                        <v-btn>That Sucks</v-btn>
+                    </v-col>
+                </v-row>
+            </v-alert>
+        </v-snackbar>
         <OpenDialog v-if="showDialog" @close="showDialog = false" />
     </v-app>
 </template>
 <script>
+const TEXT_MIME_TYPE = "text/plain";
 import GraphCanvas from "./GraphCanvas";
-import editor from "vue2-ace-editor";
-import { mapState } from "vuex";
-import PropertiesForm from "./PropertiesForm";
+import {mapState, mapActions} from "vuex";
 import OpenDialog from "./OpenDialog";
-
+import ControlPanel from "./ControlPanel";
 export default {
     name: "GraphEditor",
     components: {
         GraphCanvas,
-        editor,
-        PropertiesForm,
-        OpenDialog
+        ControlPanel,
+        OpenDialog,
     },
     watch: {
-        graphJSON() {
-            let dGraph;
-            try {
-                dGraph = JSON.parse(this.graphJSON);
-            } catch (e) {
-                console.log(e);
-            }
-            console.log("send update to store");
-            this.$store.dispatch("update", dGraph);
-        },
-        graph: {
-            handler: function() {
-                console.log("update from store");
-                this.$set(this, "localGraph", this.graph);
-            },
-            deep: true
-        },
-        localGraph: {
-            handler: function() {
-                this.graphJSON = JSON.stringify(this.localGraph, null, "\t");
-            },
-            deep: true
-        },
-        "mouse.y"() {
-            this.mouseTranslate();
-        },
-        "mouse.x"() {
-            this.mouseTranslate();
-        },
         "keys.32"(e) {
             this.translate = e;
         }
     },
     computed: {
         ...mapState({
-            graph: state => state.graph
+            events: state => state.events,
+            historyPosition: state => state.historyPosition,
+            primaryGroup: state => state.primaryGroup,
+            groupVectors: state => state.groupVectors,
+            boundingRect: state => state.boundingRect,
+            selectionRect: state => state.selectionRect,
+            selectedConnectors: state => state.selectedConnectors,
+            selectedVectors: state => state.selectedVectors,
+            hoveredConnector: state => state.hoveredConnector,
+            hoveredVector: state => state.hoveredVector,
+            hoveredPort: state => state.hoveredPort,
+            graph: state => state.graph,
+            mouse: state => state.mouse,
+            translating: state => state.translating,
+            keys: state => state.keys,
+            view: state => state.view,
+            preferences: (state) => state.preferences,
         }),
         graphContainerStyle: function() {
             let cursor = "";
@@ -238,82 +136,118 @@ export default {
                 cursor = "grabbing";
             } else if (this.keys[this.spaceKeyCode]) {
                 cursor = "grab";
+            } else if (this.hoveredConnector) {
+                cursor = "move";
             }
             return {
                 cursor
             };
         },
-        navStyle: function() {
-            let navWidth = this.navWidths[this.panel];
-            if (!navWidth) {
-                navWidth = this.navWidth + "px";
-            }
-            return {
-                width: this.panel ? navWidth : "38px"
-            };
-        }
     },
     methods: {
-        startPanelDrag() {
-            if (this.navWidths[this.panel]) {
-                return;
-            }
-            this.$set(this, "panelDragging", {
-                x: this.mouse.x,
-                y: this.mouse.y,
-                w: this.navWidth
+        ...mapActions([
+            "undo",
+            "redo",
+            "duplicateSelection",
+            "pasteVectors",
+            "deleteSelected",
+            "groupSelected",
+            "ungroupSelected",
+            "bringForward",
+            "sendBackward",
+            "bringToFront",
+            "sendToBack",
+        ]),
+        toggleGrid() {
+            this.$store.dispatch("preferences", {
+                ...this.preferences,
+                ...{
+                    appearance: {
+                        ...this.preferences.appearance,
+                        showGrid: !this.preferences.appearance.showGrid,
+                    },
+                },
             });
-            const dragEnd = () => {
-                this.panelDragging = false;
-                document.removeEventListener("mouseup", dragEnd);
-            };
-            document.addEventListener("mouseup", dragEnd);
         },
-        editorInit() {
-            require("brace/mode/json"); // eslint-disable-line
-            require("brace/mode/javascript"); // eslint-disable-line
-            require("brace/ext/language_tools"); // eslint-disable-line
-            require("brace/theme/twilight"); // eslint-disable-line
+        zoomOut() {
+            this.$store.dispatch("view", {
+                ...this.view,
+                k: Math.max(this.view.k - .10, .10),
+            });
         },
-        mouseTranslate() {
-            if ((this.translate && this.mouse.lmb) || this.mouse.mmb) {
-                this.view.x =
-                    this.startTranslate.x +
-                    (this.mouse.x - this.startTranslate.mouseX);
-                this.view.y =
-                    this.startTranslate.y +
-                    (this.mouse.y - this.startTranslate.mouseY);
-            }
-            if (this.panelDragging) {
-                this.$refs.nav.$el.style.transition = "none";
-                this.navWidth =
-                    this.panelDragging.w +
-                    (this.mouse.x - this.panelDragging.x);
-                this.$refs.nav.$el.style.transition = undefined;
-            }
+        zoomIn() {
+            this.$store.dispatch("view", {
+                ...this.view,
+                k: Math.min(this.view.k + .10, 4),
+            });
+        },
+        resetView() {
+            this.$store.dispatch("view", {
+                ...this.view,
+                x: 0,
+                y: 0,
+            });
+        },
+        resetZoom() {
+            this.$store.dispatch("view", {
+                ...this.view,
+                k: 1,
+            });
+        },
+        isGraphTarget(e) {
+            return !((this.$refs.panel && this.$refs.panel.$el.contains(e.target))
+                    || (this.$refs.topBar && this.$refs.topBar.$el.contains(e.target))
+                    || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
         mousemove(e) {
             const mouse = this.getMousePosFromEvent(e);
-            this.$set(this.mouse, "x", mouse.x);
-            this.$set(this.mouse, "y", mouse.y);
+            this.$store.dispatch("mouse", {
+                ...this.mouse,
+                x: mouse.x,
+                y: mouse.y,
+            });
         },
         mousedown(e) {
-            this.startTranslate = {
-                mouseX: this.mouse.x,
-                mouseY: this.mouse.y,
-                y: this.view.y,
-                x: this.view.x
+            // do not track control panel inputs
+            if (!this.isGraphTarget(e)) {
+                return;
+            }
+            const translating = {
+                mouse: {
+                    x: this.mouse.x,
+                    y: this.mouse.y,
+                },
+                view: {
+                    y: this.view.y,
+                    x: this.view.x,
+                },
+                vectors: this.graph.vectors.map((v) => {
+                    return {
+                        id: v.id,
+                        properties: {
+                            x: v.properties.x,
+                            y: v.properties.y,
+                            presentation: {
+                                x: v.properties.presentation.x,
+                                y: v.properties.presentation.y,
+                            },
+                            newX: 0,
+                            newY: 0,
+                        },
+                    };
+                }),
             };
-            this.$set(this.mouse, this.buttonMap[e.button], true);
+            this.$store.dispatch("translating", translating);
+            this.$store.dispatch("mouse", {
+                ...this.mouse,
+                [this.buttonMap[e.button]]: true,
+            });
         },
         mouseup(e) {
-            this.$set(this.mouse, this.buttonMap[e.button], false);
-        },
-        selectVector(e, vector) {
-            if (e.ctrlKey || e.metaKey) {
-                return this.selectedVectors.push(vector);
-            }
-            this.selectedVectors = [this.selectedVectors];
+            this.$store.dispatch("mouse", {
+                ...this.mouse,
+                [this.buttonMap[e.button]]: false,
+            });
         },
         getMousePosFromEvent(e) {
             if (!this.$el) {
@@ -344,83 +278,155 @@ export default {
             };
             x = -target.x * k + mouse.x;
             y = -target.y * k + mouse.y;
-            this.view.k = k;
-            this.view.x = Math.floor(x);
-            this.view.y = Math.floor(y);
+            const view = {
+                k,
+                x: Math.floor(x),
+                y: Math.floor(y),
+            };
+            this.$store.dispatch("view", view);
         },
-        selectPanel(panel) {
-            if (this.panel === panel) {
-                this.panel = "";
-                return;
+        copyVectors(vectors) {
+            vectors = JSON.parse(JSON.stringify(vectors));
+            const vectorIds = vectors.map(v => v.id);
+            // get rid of connectors that point to vectors not in this array
+            vectors.forEach((vector) => {
+                vector.edges.forEach((edge) => {
+                    const dropConnectors = [];
+                    edge.connectors.forEach((connector) => {
+                        if (vectorIds.indexOf(connector.vectorId) === -1) {
+                            dropConnectors.push(connector);
+                        }
+                    });
+                    console.log("dropping connector", dropConnectors);
+                    dropConnectors.forEach((connector) => {
+                        edge.connectors.splice(edge.connectors.indexOf(connector), 1);
+                    });
+                });
+            });
+
+            return vectors;
+        },
+        cut() {
+            navigator.clipboard.writeText("<empty clipboard>").then(function() {
+            }, function() {
+            });
+        },
+        copy() {
+            navigator.clipboard.writeText("<empty clipboard>").then(function() {
+            }, function() {
+            });
+        },
+        paste() {
+            navigator.clipboard.read().then(data => {
+                for (let i=0; i<data.items.length; i++) {
+                    // data.items[i].getAs("text/plain")
+                    // data.items[i].type != "text/plain"
+                }
+            });
+        },
+        evCut(e) {
+            e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
+            this.deleteSelected();
+            e.preventDefault();
+        },
+        evCopy(e) {
+            e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
+            e.preventDefault();
+        },
+        evPaste(e) {
+            console.log("paste");
+            const data = e.clipboardData.getData(TEXT_MIME_TYPE);
+            const msg = "The text pasted onto the graph does not appear to be vector data.";
+            let vectors;
+            const er = () => {
+                this.errorMessage = msg;
+                this.showError = true;
+                console.warn(msg);
+            };
+            try {
+                vectors = JSON.parse(data);
+            } catch(err) {
+                console.error(err);
+                return er();
             }
-            this.panel = panel;
-        }
+            if (!Array.isArray(vectors)) {
+                return er();
+            }
+            for (var x = 0; x < vectors.length; x += 1) {
+                if(!this.validateVector(vectors[x])){
+                    return er();
+                }
+            }
+            this.pasteVectors(vectors);
+            e.preventDefault();
+        },
+        validateVector(vector) {
+            if (
+                !vector.id ||
+                !vector.edges ||
+                !Array.isArray(vector.edges) ||
+                typeof vector.properties !== "object" ||
+                vector.properties.x === undefined ||
+                vector.properties.y === undefined ||
+                vector.properties.z === undefined ||
+                typeof vector.template !== "object" ||
+                vector.template.set === undefined ||
+                vector.template.vue === undefined
+            ) {
+                return false;
+            }
+            return true;
+        },
     },
     mounted() {
         document.onwheel = e => {
             this.scale(e);
         };
+        document.oncut = this.evCut;
+        document.onpaste = this.evPaste;
+        document.oncopy = this.evCopy;
         document.onmousedown = this.mousedown;
         document.onmouseup = this.mouseup;
         document.onmousemove = this.mousemove;
         window.onkeyup = e => {
-            this.$set(this.keys, e.keyCode, false);
+            this.$store.dispatch("keys", {
+                ...this.keys,
+                [e.keyCode]: false,
+                event: e,
+            });
         };
         window.onkeydown = e => {
-            this.$set(this.keys, e.keyCode, true);
+            this.$store.dispatch("keys", {
+                ...this.keys,
+                [e.keyCode]: true,
+                event: e,
+            });
         };
-        this.localGraph = this.graph;
     },
     data: () => {
         return {
-            iconGutterSize: 55,
-            graphJSON: null,
-            panelDragging: null,
-            navWidth: 250,
-            navWidths: {
-                properties: "250px",
-                graph: "250px",
-                set: null,
-                template: null,
-                raw: null,
-                import: "250px",
-                settings: "250px"
-            },
             buttonMap: {
                 "0": "lmb",
                 "2": "rmb",
                 "1": "mmb"
             },
-            startTranslate: null,
-            mouse: {
-                lmb: false,
-                rmb: false,
-                mmb: false,
-                x: 0,
-                y: 0
-            },
             spaceKeyCode: 32,
-            keys: {},
             translate: false,
-            view: {
-                x: 0,
-                y: 0,
-                k: 1
-            },
-            panel: "",
-            localGraph: null,
-            panelOpen: true,
             showDialog: false,
-            showGrid: true,
-            selectedVectors: ["1"]
+            showError: false,
+            errorMessage: "",
         };
     }
 };
 </script>
 <style>
+.bottom-system-bar {
+    white-space: nowrap;
+}
 .graph-container {
-    color: red;
-    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 .nav-drawer {
     margin-top: 24px;
@@ -435,5 +441,16 @@ export default {
     position: absolute;
     height: calc(100vh - 48px);
     padding: 5px;
+}
+.no-pointer-events {
+    pointer-events: none;
+}
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 </style>

@@ -149,11 +149,11 @@
     </v-container>
 </template>
 <script>
-import toc from "../../tests/stubs/toc";
-
 export default {
+    name: "data-iterator",
     data() {
         return {
+            localItems: [],
             itemsPerPageArray: [4, 8, 12],
             search: "",
             filter: {},
@@ -168,8 +168,10 @@ export default {
                 "description",
                 "documentid"
             ],
-            items: []
         };
+    },
+    props: {
+        items: Array,
     },
     computed: {
         numberOfPages() {
@@ -203,7 +205,7 @@ export default {
         }
     },
     mounted() {
-        this.items = toc.TOC;
+        this.localItems = this.items;
     }
 };
 </script>

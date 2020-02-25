@@ -1,10 +1,16 @@
 <template>
-    <canvas ref="canvas" class="edge-connector" :height="height" :width="width"></canvas>
+    <canvas
+        ref="canvas"
+        class="edge-connector"
+        :style="connectorStyle"
+        :height="height * ratio"
+        :width="width * ratio"/>
 </template>
 <script>
 import {Connector, Vector, Edge} from "@plastic-io/plastic-io";
 import {mapState} from "vuex";
-import Bezier from "bezier-js";
+import bezier from "./bezier";
+import {diff} from "deep-diff";
 export default {
     name: "edge-connector",
     props: {
@@ -14,88 +20,176 @@ export default {
     },
     data() {
         return {
-            height: 200,
-            width: 200,
+            localGraph: null,
+            connections: null,
+            sourceRect: null,
+            targetRect: null,
+            source: null,
+            target: null,
+            height: 20,
+            width: 20,
             x: 0,
             y: 0,
             ctx: null,
+            ratio: 1,
+            calls: 0,
         };
     },
     computed: {
         ...mapState({
+            historyPosition: (state) => state.historyPosition,
+            addingConnector: (state) => state.addingConnector,
+            graphSnapshot: (state) => state.graphSnapshot,
             graph: (state) => state.graph,
+            view: (state) => state.view,
+            mouse: (state) => state.mouse,
+            translating: (state) => state.translating,
+            preferences: (state) => state.preferences,
+            selectedConnectors: state => state.selectedConnectors,
+            hoveredConnector: state => state.hoveredConnector,
+            errorConnectors: state => state.errorConnectors,
+            watchConnectors: state => state.watchConnectors,
+            activityConnectors: state => state.activityConnectors,
+            movingConnector: state => state.movingConnector,
         }),
         output() {
-            const output = this.vector.properties.outputs.find((output) => {
-                return this.connector.field === output.name;
+            const field = this.vector.properties.outputs.find((output) => {
+                return this.edge.field === output.name;
             });
-            const index = this.vector.properties.outputs.indexOf(output);
+            const index = this.vector.properties.outputs.indexOf(field);
             return {
                 index,
                 vector: this.vector,
-                output
+                field
             };
         },
         input() {
-            const vector = this.graph.vectors.find((v) => {
+            const vector = (this.localGraph || this.graph).vectors.find((v) => {
                 return v.id === this.connector.vectorId;
             });
-            const input = vector.properties.inputs.find((input) => {
+            const field = vector ? vector.properties.inputs.find((input) => {
                 return this.connector.field === input.name;
-            });
-            const index = vector.properties.inputs.indexOf(input);
+            }) : null;
+            const index = vector ? vector.properties.inputs.indexOf(field) : null;
             return {
                 index,
                 vector,
-                input
+                field
+            };
+        },
+        connectorStyle() {
+            return {
+                height: (this.height * this.ratio) + "px",
+                width: (this.width * this.ratio) + "px",
+                left: this.x + "px",
+                top: this.y + "px",
             };
         },
     },
-    methods: {
-        drawCurve: function(curve, offset) {
-            offset = offset || { x:0, y:0 };
-            var ox = offset.x;
-            var oy = offset.y;
-            this.ctx.beginPath();
-            var p = curve.points;
-            this.ctx.moveTo(p[0].x + ox, p[0].y + oy);
-            if(p.length === 3) {
-                this.ctx.quadraticCurveTo(p[1].x + ox, p[1].y + oy, p[2].x + ox, p[2].y + oy);
-            }
-            if(p.length === 4) {
-                this.ctx.bezierCurveTo(
-                    p[1].x + ox, p[1].y + oy,
-                    p[2].x + ox, p[2].y + oy,
-                    p[3].x + ox, p[3].y + oy
-                );
-            }
-            this.ctx.stroke();
-            this.ctx.closePath();
+    watch: {
+        graphSnapshot: {
+            handler: function () {
+                this.localGraph = this.graphSnapshot;
+                this.redraw();
+            },
+            deep: true,
         },
+        graph: {
+            handler: function () {
+                this.localGraph = this.graph;
+                this.redraw();
+            },
+            deep: true,
+        },
+        translating: {
+            handler: function () {
+                this.redraw();
+            },
+            deep: true,
+        },
+        movingConnector: {
+            handler: function () {
+                this.redraw();
+            },
+            deep: true,
+        },
+        mouse: {
+            handler: function () {
+                if (this.movingConnector || this.addingConnector) {
+                    this.redraw();
+                }
+            },
+            deep: true,
+        },
+        selectedConnectors: {
+            handler: function () {
+                this.redraw();
+            },
+        },
+        historyPosition: {
+            handler: function () {
+                this.redraw();
+            },
+        },
+        hoveredConnector: {
+            handler: function () {
+                this.redraw();
+            },
+        },
+        vector: {
+            handler: function () {
+                const o = {
+                    input: this.input,
+                    output: this.output,
+                };
+                if (diff(this.connections, o)) {
+                    this.connections = JSON.parse(JSON.stringify(o));
+                    this.redraw();
+                }
+            },
+            deep: true,
+        },
+    },
+    methods: {
         redraw() {
-            const input = this.input;
-            const output = this.output;
-            this.ctx = this.$refs.canvas.getContext("2d");
-            const curve = new Bezier(0, 0, 80, 30, input.vector.properties.x, input.vector.properties.y);
-            this.ctx.strokeStyle = "blue";
-            this.drawCurve(curve);
-            console.log(input, output, this.ctx, Bezier);
+            this.calls += 1;
+            bezier(this);
+        },
+        getCanvasRatio() {
+            return (1 /
+                (this.ctx.webkitBackingStorePixelRatio ||
+                    this.ctx.mozBackingStorePixelRatio ||
+                    this.ctx.msBackingStorePixelRatio ||
+                    this.ctx.oBackingStorePixelRatio ||
+                    this.ctx.backingStorePixelRatio || 1));
         },
     },
     updated() {
         this.redraw();
     },
     mounted() {
+        this.localGraph = this.graph;
+        this.ctx = this.$refs.canvas.getContext("2d");
+        // this.ratio = 2;//this.getCanvasRatio();
+        this.ctx.scale(this.ratio, this.ratio);
+        this.connections = JSON.parse(JSON.stringify({
+            input: this.input,
+            output: this.output,
+        }));
         this.redraw();
     }
 };
 </script>
 <style>
     .edge-connector {
+/*        background: rgba(244, 0, 0, .1);
+        border: solid 1px red;*/
+        pointer-events: none;
         position: absolute;
         top: 0;
         left: 0;
         height: 200px;
         width: 200px;
+        z-index: -1597463006;
     }
 </style>

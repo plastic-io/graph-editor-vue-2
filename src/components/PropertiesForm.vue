@@ -1,6 +1,6 @@
 <template>
-    <v-form light>
-        <PropertyFields />
+    <v-form class="property-form">
+        <property-fields/>
     </v-form>
 </template>
 <script>
@@ -14,4 +14,11 @@ export default {
     props: {}
 };
 </script>
-<style scoped></style>
+<style>
+    .property-form {
+        width: 210px;
+        max-width: 210px;
+        min-width: 210px;
+        padding: 10px 0 0 10px;
+    }
+</style>

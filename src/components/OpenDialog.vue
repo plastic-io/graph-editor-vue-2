@@ -12,17 +12,18 @@
                 >
                     <v-icon dark>mdi-close</v-icon>
                 </v-btn>
-                <DataItorator />
+                <data-iterator :items="toc"/>
             </v-card>
         </v-dialog>
     </v-row>
 </template>
 <script>
-import DataItorator from "../components/DataItorator";
+import DataIterator from "./DataIterator";
+import {mapState} from "vuex";
 export default {
     name: "open-dialog",
     components: {
-        DataItorator
+        DataIterator
     },
     data() {
         return {
@@ -34,7 +35,11 @@ export default {
             this.$emit("close");
         }
     },
-    computed: {}
+    computed: {
+        ...mapState({
+            toc: (state) => state.toc,
+        }),
+    }
 };
 </script>
 <style></style>

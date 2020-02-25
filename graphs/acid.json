@@ -1,14 +1,14 @@
 {
     "vectors": [
         {
-            "id": "1",
+            "id": "v1",
             "edges": [
                 {
                     "field": "proxy",
                     "connectors": [
                         {
-                            "id": "0",
-                            "vectorId": "2",
+                            "id": "v1c0",
+                            "vectorId": "v2",
                             "field": "proxy",
                             "graphId": "0",
                             "version": 0
@@ -21,11 +21,17 @@
             "url": "index",
             "data": "",
             "properties": {
-                "x": 300,
-                "y": 200,
+                "groups": [
+                    "g1",
+                    "g4"
+                ],
+                "x": 1000,
+                "y": 100,
+                "z": 0,
                 "presentation": {
                     "x": 400,
-                    "y": 100
+                    "y": 100,
+                    "z": 0
                 },
                 "inputs": [
                     {
@@ -40,22 +46,155 @@
             },
             "template": {
                 "set": "edges.proxy = value;",
-                "vue": "export default { template: '<div>Set 1</div>' }"
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
             }
         },
         {
-            "id": "2",
-            "edges": [],
+            "id": "v2",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 900,
+                "y": 400,
+                "z": 0,
+                "groups": [
+                    "g1",
+                    "g4"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v3",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": [
+                        {
+                            "id": "v3c0",
+                            "vectorId": "v2",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c1",
+                            "vectorId": "v4",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c2",
+                            "vectorId": "v1",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c3",
+                            "vectorId": "v5",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c5",
+                            "vectorId": "v6",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c6",
+                            "vectorId": "v5",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c7",
+                            "vectorId": "v7",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c8",
+                            "vectorId": "v8",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c9",
+                            "vectorId": "v9",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c10",
+                            "vectorId": "v10",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        }
+                    ]
+                }
+            ],
             "version": 0,
             "graphId": "0",
             "url": "",
             "data": "",
             "properties": {
                 "x": 100,
-                "y": 100,
+                "y": 200,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g4"
+                ],
                 "presentation": {
                     "x": 400,
-                    "y": 100
+                    "y": 100,
+                    "z": 0
                 },
                 "inputs": [
                     {
@@ -69,8 +208,352 @@
                 ]
             },
             "template": {
+                "set": "edges.proxy = value;",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v4",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 400,
+                "y": 600,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g4"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
                 "set": "console.info(value);console.warn(data)",
-                "vue": "export default { template: '<div>Set 2</div>' }"
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v5",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 30,
+                "y": 800,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g1"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v6",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": -100,
+                "y": 600,
+                "z": 0,
+                "groups": [
+                    "g1"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v7",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": -240,
+                "y": 300,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v8",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": -250,
+                "y": 100,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v9",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 10,
+                "y": -200,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+            }
+        },
+        {
+            "id": "v10",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "x": 160,
+                "y": -150,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "foo"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    },
+                    {
+                        "name": "bar"
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);console.warn(data)",
+                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
             }
         }
     ],

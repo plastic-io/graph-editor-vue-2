@@ -1,34 +1,107 @@
 <template>
-    <div
-        v-if="graph"
-        :style="graphCanvasStyle"
-        :class="graphCanvasClasses"
-    >
+    <div :style="graphCanvasStyle" v-if="localGraph">
+        <div
+            :class="graphCanvasClasses"
+        ></div>
+        <edge-connector
+            v-for="c in connectors"
+            :key="c.connector.id"
+            :connector="c.connector"
+            :edge="c.edge"
+            :vector="c.vector"
+        />
         <graph-vector
-            v-for="vector in graph.vectors"
-            style="transform: translate(5000vh, 5000vh);"
+            v-for="vector in localGraph.vectors"
             :key="vector.id"
             :vector="vector"
         />
+        <div v-if="selectionRect.visible" class="selection-rect" :style="selectionRectStyle"></div>
+        <div v-if="selectedVectors.length > 0" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
 </template>
 <script>
-import {Graph} from "@plastic-io/plastic-io";
+import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
+import {mapState} from "vuex";
+import {diff} from "deep-diff";
 export default {
     name: "graph-canvas",
-    components: {GraphVector},
+    components: {GraphVector, EdgeConnector},
     props: {
-        view: Object,
-        showGrid: Boolean,
-        graph: Graph
+        showGrid: Boolean
     },
     data() {
         return {
             dragged: null,
+            localGraph: null,
         };
     },
+    mounted() {
+        this.localGraph = this.graphSnapshot;
+    },
+    watch: {
+        graphSnapshot: {
+            handler: function () {
+                // when this becomes unbound
+                const changes = diff(this.localGraph, this.graphSnapshot);
+                if (changes) {
+                    console.log("graphCanvas: set graphSnapshot to localGraph");
+                    this.localGraph = this.graphSnapshot;
+                }
+            },
+            deep: true,
+        },
+    },
     computed: {
+        ...mapState({
+            addingConnector: state => state.addingConnector,
+            selectionRect: state => state.selectionRect,
+            boundingRect: state => state.boundingRect,
+            selectedVectors: state => state.selectedVectors,
+            graphSnapshot: state => state.graphSnapshot,
+            view: state => state.view,
+        }),
+        selectionRectStyle: function() {
+            return {
+                borderWidth: 1 / this.view.k + "px",
+                left: this.selectionRect.x + "px",
+                top: this.selectionRect.y + "px",
+                width: this.selectionRect.width + "px",
+                height: this.selectionRect.height + "px",
+            };
+        },
+        boundingRectStyle: function() {
+            return {
+                borderWidth: 1 / this.view.k + "px",
+                left: this.boundingRect.x + "px",
+                top: this.boundingRect.y + "px",
+                width: this.boundingRect.width + "px",
+                height: this.boundingRect.height + "px",
+            };
+        },
+        connectors: function () {
+            let connectors = [];
+            this.localGraph.vectors.forEach((vector) => {
+                vector.edges.forEach((edge) => {
+                    edge.connectors.forEach((connector) => {
+                        connectors.push({
+                            connector,
+                            edge,
+                            vector,
+                        });
+                    });
+                });
+            });
+            if (this.addingConnector) {
+                console.log("addingConnector", this.addingConnector);
+                connectors.push({
+                    connector: this.addingConnector.connector,
+                    edge: this.addingConnector.edge,
+                    vector: this.addingConnector.vector,
+                });
+            }
+            return connectors;
+        },
         graphCanvasStyle: function () {
             return {
                 transform: `translate(${this.view.x}px, ${this.view.y}px) scale(${this.view.k})`,
@@ -41,24 +114,38 @@ export default {
 };
 </script>
 <style>
+.bounding-rect {
+    pointer-events: none;
+    position: absolute;
+    border-style: solid;
+    border-color: var(--v-info-lighten3);
+}
+.selection-rect {
+    position: absolute;
+    border-style: dotted;
+    border-color: var(--v-info-lighten5);
+}
 .graph-canvas-container {
-    background: #333;
-    transform-origin: 5000vh 5000vh;
-    margin: -5000vh -5000vh;
-    width: 10000vh;
+    background: #000;
+    position: absolute;
+    width: 10000vw;
     height: 10000vh;
+    top: -5000vh;
+    left: -5000vw;
+    z-index: -1597463007;
 }
 .grid {
+    /* creates grid pattern at 10px */
     background:
-        linear-gradient(-90deg, rgba(0,0,0,.1) 1px, transparent 1px),
-        linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),
-        linear-gradient(-90deg, rgba(0, 0, 0, .1) 1px, transparent 1px),
-        linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),
-        linear-gradient(transparent 3px, #333 3px, #333 98px, transparent 98px),
-        linear-gradient(-90deg, #000 1px, transparent 1px),
-        linear-gradient(-90deg, transparent 3px, #333 3px, #333 98px, transparent 98px),
-        linear-gradient(#000 1px, transparent 1px),
-        #333;
+        linear-gradient(-90deg, rgba(128, 128, 128, .1) 1px, transparent 1px),
+        linear-gradient(rgba(128, 128, 128, .1) 1px, transparent 1px),
+        linear-gradient(-90deg, rgba(128, 128, 128, .1) 1px, transparent 1px),
+        linear-gradient(rgba(128, 128, 128, .1) 1px, transparent 1px),
+        linear-gradient(transparent 3px, #111 3px, #111 98px, transparent 98px),
+        linear-gradient(-90deg, #222 1px, transparent 1px),
+        linear-gradient(-90deg, transparent 3px, #111 3px, #111 98px, transparent 98px),
+        linear-gradient(#222 1px, transparent 1px),
+        #111;
     background-size:
         10px 10px,
         10px 10px,

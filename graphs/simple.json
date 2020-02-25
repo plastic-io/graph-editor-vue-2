@@ -1,0 +1,91 @@
+{
+    "vectors": [
+        {
+            "id": "1",
+            "edges": [],
+            "version": 0,
+            "graphId": "0",
+            "url": "index",
+            "data": "",
+            "properties": {
+                "x": 1000,
+                "y": 100,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ]
+            },
+            "template": {
+                "set": "edges.proxy = value;",
+                "vue": "export default { template: '<div style=\"width: 300px;background: tan;height: 150px;\">Set 1</div>' }"
+            }
+        },
+        {
+            "id": "2",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": [
+                        {
+                            "id": "a",
+                            "vectorId": "1",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        }
+                    ]
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "index",
+            "data": "",
+            "properties": {
+                "x": 500,
+                "y": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100
+                },
+                "inputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy"
+                    }
+                ]
+            },
+            "template": {
+                "set": "edges.proxy = value;",
+                "vue": "export default { template: '<div style=\"width: 300px;background: blue;height: 150px;\">Set 2</div>' }"
+            }
+        }
+    ],
+    "id": "0",
+    "version": 0,
+    "properties": {
+        "name": "",
+        "description": "",
+        "createdBy": "",
+        "createdOn": 0,
+        "lastUpdate": 0,
+        "exportable": false,
+        "height": 1,
+        "width": 1
+    }
+}
