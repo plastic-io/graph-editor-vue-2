@@ -45,6 +45,9 @@ import {Vector} from "@plastic-io/plastic-io";
 import Vue from "vue";
 import {mapState} from "vuex";
 import {parseScript} from "meriyah";
+import {Parser} from "htmlparser2";
+import {DomHandler} from "domhandler";
+import domutils from "domutils";
 import {generate} from "escodegen";
 import VectorField from "./VectorField";
 import {diff} from "deep-diff";
@@ -85,6 +88,7 @@ export default {
             dragged: null,
             localVector: null,
             template: null,
+            style: "",
         };
     },
     mounted() {
@@ -100,14 +104,65 @@ export default {
             this.$store.dispatch("hoveredVector", null);
         },
         compileTemplate() {
-            const ast = parseScript(this.vector.template.vue.replace("export default", "return "), {
+            let script;
+            let template;
+            let style;
+            const handler = new DomHandler(function(error, dom) {
+                if (error) {
+                    // Handle error
+                } else {
+                    // Parsing completed, do something
+                    dom.forEach((el) => {
+                        if (el.tagName === "script") {
+                            if (script !== undefined) {
+                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one script tag.`));
+                                return;
+                            }
+                            script = domutils.getInnerHTML(el);
+                        }
+                        if (el.tagName === "template") {
+                            if (template !== undefined) {
+                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one template tag.`));
+                                return;
+                            }
+                            template = domutils.getInnerHTML(el);
+                        }
+                        if (el.tagName === "style") {
+                            if (style !== undefined) {
+                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one style tag.`));
+                                return;
+                            }
+                            style = domutils.getInnerHTML(el);
+                        }
+                    });
+                }
+            });
+            const parser = new Parser(handler, {
+                decodeEntities: true,
+                recognizeSelfClosing: true,
+            });
+            parser.write(this.vector.template.vue);
+            parser.end();
+            if (script === undefined) {
+                script = "export default {}";
+            }
+            const ast = parseScript(script.replace("export default", "return "), {
                 globalReturn: true,
                 module: true,
                 next: true,
             });
-            const vueFn = new Function(generate(ast));
-            const obj = vueFn();
-            this.component = Vue.component("vector-" + this.vector.id, obj);
+            const astString = generate(ast);
+            const vueFn = new Function(astString);
+            try {
+                const obj = vueFn();
+                this.component = Vue.component("vector-" + this.vector.id, {
+                    ...obj,
+                    template,
+                });
+            } catch (err) {
+                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains an error in the Vue script. ${err}.`));
+            }
+            this.style = style;
         },
     },
     computed: {
@@ -120,9 +175,6 @@ export default {
             keys: state => state.keys,
             view: state => state.view,
         }),
-        style: function () {
-            return this.vector.template.style || "";
-        },
         vectorStyle: function () {
             const hovered = this.localHoveredVector && this.localHoveredVector.id === this.localVector.id;
             const selected = !!this.localSelectedVectors.find(v => v.id === this.vector.id);

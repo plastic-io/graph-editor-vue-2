@@ -14,6 +14,7 @@
     "@plastic-io/plastic-io": "^1.0.3",
     "@types/escodegen": "0.0.6",
     "core-js": "^3.6.4",
+    "htmlparser2": "^4.1.0",
     "roboto-fontface": "*",
     "v-runtime-template": "^1.10.0",
     "vue": "^2.6.11",

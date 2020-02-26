@@ -46,7 +46,7 @@
             },
             "template": {
                 "set": "edges.proxy = value;",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -96,8 +96,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -209,7 +209,7 @@
             },
             "template": {
                 "set": "edges.proxy = value;",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -259,8 +259,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -310,8 +310,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -360,8 +360,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -408,8 +408,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -456,8 +456,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -504,8 +504,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         },
         {
@@ -552,8 +552,8 @@
                 ]
             },
             "template": {
-                "set": "console.info(value);console.warn(data)",
-                "vue": "export default { props: {vector: Object}, template: '<div style=\"width: 300px;background: navy;height: 150px;\"><h1>{{vector.id}}</h1></div>' }"
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
             }
         }
     ],

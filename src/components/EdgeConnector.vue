@@ -153,7 +153,9 @@ export default {
     methods: {
         redraw() {
             this.calls += 1;
-            bezier(this);
+            this.$nextTick(() => {
+                bezier(this);
+            });
         },
         getCanvasRatio() {
             return (1 /

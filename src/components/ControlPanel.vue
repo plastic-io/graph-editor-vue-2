@@ -21,77 +21,14 @@
                 v-if="panel"
                 color="secondary darken-2"
             >
-                <properties-form
-                    v-if="panel === 'graph'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                />
-                <properties-form
-                    v-if="panel === 'properties'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                />
-                <div
-                    v-if="panel === 'set'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    <editor
-                        v-model="graphSet"
-                        @init="editorInit"
-                        lang="json"
-                        theme="twilight"
-                        :width="navWidth - iconGutterSize + 'px'"
-                        height="calc(100vh - 55px)"
-                    ></editor>
-                </div>
-                <div
-                    v-if="panel === 'template'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    <editor
-                        v-model="graphVue"
-                        @init="editorInit"
-                        lang="json"
-                        theme="twilight"
-                        :width="navWidth - iconGutterSize + 'px'"
-                        height="calc(100vh - 55px)"
-                    ></editor>
-                </div>
-                <div
-                    v-if="panel === 'raw'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    <editor
-                        v-model="graphJSON"
-                        @init="editorInit"
-                        lang="json"
-                        theme="twilight"
-                        :width="navWidth - iconGutterSize + 'px'"
-                        height="calc(100vh - 55px)"
-                    ></editor>
-                </div>
-                <div
-                    v-if="panel === 'history'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    <div
-                        v-for="(event, index) in events"
-                        :key="index"
-                        :style="historyPosition === index + 1 ? 'background: tan;' : ''"
-                        @click="moveHistoryPosition(-(historyPosition - (index + 1)))">
-                        {{index}} {{historyPosition}}
-                    </div>
-                </div>
-                <div
-                    v-if="panel === 'import'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    IMPORT GALLERY
-                </div>
-                <div
-                    v-if="panel === 'settings'"
-                    :style="'width: ' + (navWidth - iconGutterSize) + 'px'"
-                >
-                    EDITOR SETTINGS
-                </div>
+                <graph-properties   v-if="panel === 'graph'"        :style="gutterStyle"/>
+                <vector-properties  v-if="panel === 'properties'"   :style="gutterStyle"/>
+                <set-editor         v-if="panel === 'set'"          :style="gutterStyle" :width="this.navWidth - this.iconGutterSize"/>
+                <template-editor    v-if="panel === 'template'"     :style="gutterStyle" :width="this.navWidth - this.iconGutterSize"/>
+                <history-panel      v-if="panel === 'history'"      :style="gutterStyle"/>
+                <edge-properties    v-if="panel === 'edge'"         :style="gutterStyle"/>
+                <import-panel       v-if="panel === 'import'"       :style="gutterStyle"/>
+                <editor-settings    v-if="panel === 'settings'"     :style="gutterStyle"/>
             </v-card>
             <v-card
                 class="icon-nav"
@@ -121,7 +58,7 @@
                         :color="panel === 'set' ? 'accent' : ''"
                         @click="selectPanel('set')"
                     >
-                        mdi-ray-end
+                        mdi-video-input-antenna
                     </v-icon>
                     <v-icon
                         title="Vector Template Code.  Code that runs when your vector appears in the graph IDE."
@@ -131,6 +68,14 @@
                     >
                         mdi-vuejs
                     </v-icon>
+                    <v-icon
+                        title="Vector edges."
+                        v-if="selectedVectors.length === 1"
+                        :color="panel === 'edge' ? 'accent' : ''"
+                        @click="selectPanel('edge')"
+                    >
+                        mdi-ray-start-arrow
+                    </v-icon>
                 </div>
                 <div style="position: absolute; bottom: 5px;">
                     <v-icon
@@ -139,13 +84,6 @@
                         @click="selectPanel('history')"
                     >
                         mdi-history
-                    </v-icon>
-                    <v-icon
-                        title="Raw Graph JSON.  View and edit the raw JSON that created this graph."
-                        :color="panel === 'raw' ? 'accent' : ''"
-                        @click="selectPanel('raw')"
-                    >
-                        mdi-json
                     </v-icon>
                     <v-icon
                         title="Import new vectors and graphs into this graph."
@@ -179,14 +117,26 @@
     </v-navigation-drawer>
 </template>
 <script>
-import editor from "vue2-ace-editor";
-import {mapState, mapActions} from "vuex";
-import PropertiesForm from "./PropertiesForm";
+import {mapState} from "vuex";
+import HistoryPanel from "./HistoryPanel";
+import VectorProperties from "./VectorProperties";
+import GraphProperties from "./GraphProperties";
+import EdgeProperties from "./EdgeProperties";
+import SetEditor from "./SetEditor";
+import TemplateEditor from "./TemplateEditor";
+import EditorSettings from "./EditorSettings";
+import ImportPanel from "./ImportPanel";
 export default {
     name: "control-panel",
     components: {
-        editor,
-        PropertiesForm,
+        VectorProperties,
+        GraphProperties,
+        SetEditor,
+        TemplateEditor,
+        EdgeProperties,
+        EditorSettings,
+        ImportPanel,
+        HistoryPanel,
     },
     watch: {
         "mouse.y"() {
@@ -195,34 +145,11 @@ export default {
         "mouse.x"() {
             this.mouseTranslate();
         },
-        localGraph: {
-            handler: function() {
-                this.graphJSON = JSON.stringify(this.localGraph, null, "\t");
-            },
-            deep: true
-        },
         graph: {
             handler: function() {
                 this.$set(this, "localGraph", this.graph);
             },
             deep: true
-        },
-        graphVue(val) {
-            this.graph.template.vue = val;
-            // this.$store.dispatch("graph", this.graph);
-        },
-        graphSet(val) {
-            this.graph.template.set = val;
-            // this.$store.dispatch("graph", this.graph);
-        },
-        graphJSON(val) {
-            let dGraph; // eslint-disable-line
-            try {
-                dGraph = JSON.parse(val);
-            } catch (e) {
-                console.log(e);
-            }
-            // this.$store.dispatch("graph", dGraph);
         },
     },
     computed: {
@@ -235,13 +162,17 @@ export default {
             hoveredConnectors: state => state.hoveredConnectors,
             hoveredVectors: state => state.hoveredVectors,
             hoveredPorts: state => state.hoveredPorts,
-            graph: state => state.graph,
             mouse: state => state.mouse,
             translating: state => state.translating,
             keys: state => state.keys,
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        gutterStyle: function () {
+            return {
+                width: (this.navWidth - this.iconGutterSize) + "px",
+            };
+        },
         navStyle: function() {
             let navWidth = this.navWidths[this.panel];
             if (!navWidth) {
@@ -253,9 +184,6 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            "moveHistoryPosition",
-        ]),
         mouseTranslate() {
             if (this.panelDragging) {
                 this.$refs.nav.$el.style.transition = "none";
@@ -266,7 +194,6 @@ export default {
             }
         },
         startPanelDrag() {
-            console.log(this.navWidths, this.panel);
             if (this.navWidths[this.panel]) {
                 return;
             }
@@ -280,12 +207,6 @@ export default {
                 document.removeEventListener("mouseup", dragEnd);
             };
             document.addEventListener("mouseup", dragEnd);
-        },
-        editorInit() {
-            require("brace/mode/json"); // eslint-disable-line
-            require("brace/mode/javascript"); // eslint-disable-line
-            require("brace/ext/language_tools"); // eslint-disable-line
-            require("brace/theme/twilight"); // eslint-disable-line
         },
         selectPanel(panel) {
             if (this.panel === panel) {
@@ -305,14 +226,14 @@ export default {
             graphSet: null,
             graphJSON: null,
             panelDragging: null,
-            navWidth: 250,
+            navWidth: 450,
             navWidths: {
                 properties: "250px",
                 history: "250px",
                 graph: "250px",
                 set: null,
                 template: null,
-                raw: null,
+                edge: "250px",
                 import: "250px",
                 settings: "250px"
             },

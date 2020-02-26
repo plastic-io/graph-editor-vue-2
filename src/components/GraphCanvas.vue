@@ -16,7 +16,7 @@
             :vector="vector"
         />
         <div v-if="selectionRect.visible" class="selection-rect" :style="selectionRectStyle"></div>
-        <div v-if="selectedVectors.length > 0" class="bounding-rect" :style="boundingRectStyle"></div>
+        <div :key="historyPosition" v-if="selectedVectors.length > 0" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
 </template>
 <script>
@@ -45,7 +45,6 @@ export default {
                 // when this becomes unbound
                 const changes = diff(this.localGraph, this.graphSnapshot);
                 if (changes) {
-                    console.log("graphCanvas: set graphSnapshot to localGraph");
                     this.localGraph = this.graphSnapshot;
                 }
             },
@@ -54,6 +53,7 @@ export default {
     },
     computed: {
         ...mapState({
+            historyPosition: state => state.historyPosition,
             addingConnector: state => state.addingConnector,
             selectionRect: state => state.selectionRect,
             boundingRect: state => state.boundingRect,
@@ -93,7 +93,6 @@ export default {
                 });
             });
             if (this.addingConnector) {
-                console.log("addingConnector", this.addingConnector);
                 connectors.push({
                     connector: this.addingConnector.connector,
                     edge: this.addingConnector.edge,

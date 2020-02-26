@@ -55,21 +55,17 @@
                 <v-icon>mdi-select</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
             </div>
             <v-spacer/>
-            <div title="Grouped Vectors" style="padding-right: 10px;cursor: pointer;">
-                <v-icon :disabled="!groupVectors.length">mdi-group</v-icon>{{ groupVectors.length > 1 && selectedVectors.length > 0 ? groupVectors.length : 0 }}
-            </div>
             <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
                 <v-icon>mdi-selection</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
             </div>
             <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
                 <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
             </div>
-            <v-icon title="Zoom Out" style="padding-right: 10px;cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
-            <div title="Zoom Level" style="padding-right: 10px;cursor: crosshair;" @click="resetZoom">
+            <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
+            <div title="Zoom Level" style="padding-right: 5px;cursor: crosshair;" @click="resetZoom">
                 {{ (view.k * 100).toFixed(2) }}%
             </div>
-            <v-icon title="Zoom In" style="padding-right: 10px;cursor: pointer;" @click="zoomIn">mdi-magnify-plus-outline</v-icon>
-            <v-icon title="Unlock Graph" style="padding-right: 10px;cursor: pointer;">mdi-lock-open</v-icon>
+            <v-icon title="Zoom In (^ + +)" style="padding-right: 10px;cursor: pointer;" @click="zoomIn">mdi-magnify-plus-outline</v-icon>
             <v-icon
                 title="Toggle Grid Visibility"
                 @click="toggleGrid"
@@ -77,14 +73,13 @@
                 :color="preferences.appearance.showGrid ? 'accent' : ''"
                 >mdi-grid</v-icon
             >
-            <v-icon title="Share This Graph" style="padding-right: 10px;cursor: pointer;">mdi-share</v-icon>
         </v-system-bar>
         <v-snackbar :timeout="50000" v-model="showError">
             <v-alert prominent type="error">
                 <v-row align="center">
                     <v-col class="grow">{{errorMessage}}</v-col>
                     <v-col class="shrink">
-                        <v-btn>That Sucks</v-btn>
+                        <v-btn @click="showError = false">That Sucks</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
@@ -263,6 +258,10 @@ export default {
             };
         },
         scale(e) {
+            // do not track control panel inputs
+            if (!this.isGraphTarget(e)) {
+                return;
+            }
             const mouse = this.getMousePosFromEvent(e);
             const ok = this.view.k;
             const delta =
@@ -297,13 +296,11 @@ export default {
                             dropConnectors.push(connector);
                         }
                     });
-                    console.log("dropping connector", dropConnectors);
                     dropConnectors.forEach((connector) => {
                         edge.connectors.splice(edge.connectors.indexOf(connector), 1);
                     });
                 });
             });
-
             return vectors;
         },
         cut() {
@@ -334,7 +331,6 @@ export default {
             e.preventDefault();
         },
         evPaste(e) {
-            console.log("paste");
             const data = e.clipboardData.getData(TEXT_MIME_TYPE);
             const msg = "The text pasted onto the graph does not appear to be vector data.";
             let vectors;
@@ -377,6 +373,12 @@ export default {
             }
             return true;
         },
+        keyup(e) {
+            this.$store.dispatch("keyup", e);
+        },
+        keydown(e) {
+            this.$store.dispatch("keydown", e);
+        }
     },
     mounted() {
         document.onwheel = e => {
@@ -388,20 +390,8 @@ export default {
         document.onmousedown = this.mousedown;
         document.onmouseup = this.mouseup;
         document.onmousemove = this.mousemove;
-        window.onkeyup = e => {
-            this.$store.dispatch("keys", {
-                ...this.keys,
-                [e.keyCode]: false,
-                event: e,
-            });
-        };
-        window.onkeydown = e => {
-            this.$store.dispatch("keys", {
-                ...this.keys,
-                [e.keyCode]: true,
-                event: e,
-            });
-        };
+        window.onkeyup = this.keyup;
+        window.onkeydown = this.keydown;
     },
     data: () => {
         return {

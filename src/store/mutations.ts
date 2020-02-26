@@ -1,6 +1,6 @@
 import {diff, applyChange, revertChange} from "deep-diff";
 import mouse from "./modules/mouse";
-import keys from "./modules/keys";
+import {keyup, keydown} from "./modules/keys";
 export interface UIVector {
     id: string;
     edges: any[],
@@ -11,10 +11,14 @@ export interface UIVector {
         z: number;
     };
 }
-export function applyGraphChanges(state: any) {
+export function applyGraphChanges(state: any, name: string) {
     const changes = diff(state.graph, state.graphSnapshot);
     if (changes) {
-        state.events.push(changes);
+        state.events.push({
+            name,
+            changes,
+            time: Date.now(),
+        });
         changes.forEach((change: any) => {
             applyChange(state.graph, true, change);
         });
@@ -30,17 +34,43 @@ export function newId(): string {
         return v.toString(16);
     });
 }
+function nudge(state: any, x: number, y: number) {
+    state.selectedVectors.forEach((selectedVector: any) => {
+        const vector = state.graphSnapshot.vectors.find((v: UIVector) => selectedVector.id === v.id);
+        vector.properties.x += x;
+        vector.properties.y += y;
+    });
+    applyGraphChanges(state, "Nudge");
+}
+export function nudgeUp(state: any, offset: number) {
+    nudge(state, 0, -offset);
+}
+export function nudgeDown(state: any, offset: number) {
+    nudge(state, 0, offset);
+}
+export function nudgeLeft(state: any, offset: number) {
+    nudge(state, -offset, 0);
+}
+export function nudgeRight(state: any, offset: number) {
+    nudge(state, offset, 0);
+}
+export function zoom(state: any, kOffset: number) {
+    state.view.k = Math.min(4, Math.max(state.view.k + kOffset, 0.1));
+}
 export function moveHistoryPosition(state: any, move: number) {
     const target = state.historyPosition + move;
+    if (target > state.events.length || target < 0) {
+        return;
+    }
     while (state.historyPosition !== target) {
         if (state.historyPosition > target) {
             state.historyPosition -= 1;
-            const changes = state.events[state.historyPosition];
+            const changes = state.events[state.historyPosition].changes;
             changes.forEach((change: any) => {
                 revertChange(state.graphSnapshot, true, change);
             });
         } else if (state.historyPosition < target) {
-            const changes = state.events[state.historyPosition];
+            const changes = state.events[state.historyPosition].changes;
             changes.forEach((change: any) => {
                 applyChange(state.graphSnapshot, true, change);
             });
@@ -50,7 +80,7 @@ export function moveHistoryPosition(state: any, move: number) {
     state.graph = state.graphSnapshot;
     state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
-export function pasteVectors(state: any, vectors: UIVector[]) {
+export function pasteVectors(state: any, vectors: UIVector[], name: string = "Paste") {
     const idMap:{
         [key: string]: string;
     } = {};
@@ -81,33 +111,33 @@ export function pasteVectors(state: any, vectors: UIVector[]) {
         ...vectors,
     ];
     state.selectedVectors = vectors;
-    applyGraphChanges(state);
+    applyGraphChanges(state, name);
 }
 export function undo(state: any) {
-    console.log("undo", state);
+    moveHistoryPosition(state, -1);
 }
 export function redo(state: any) {
-    console.log("redo", state);
+    moveHistoryPosition(state, 1);
 }
 export function duplicateSelection(state: any) {
     if (state.selectedVectors.length > 0) {
-        pasteVectors(state, JSON.parse(JSON.stringify(state.selectedVectors)));
+        pasteVectors(state, JSON.parse(JSON.stringify(state.selectedVectors)), "Duplicate");
     }
 }
-function setSelRelPropZ(num: number, state: any) {
+function setSelRelPropZ(num: number, state: any, name: string) {
     const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
     state.graphSnapshot.vectors.forEach((v: UIVector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             v.properties.z += num;
         }
     });
-    applyGraphChanges(state);
+    applyGraphChanges(state, name);
 }
 export function bringForward(state: any) {
-    setSelRelPropZ(1, state);
+    setSelRelPropZ(1, state, "Send Forward");
 }
 export function sendBackward(state: any) {
-    setSelRelPropZ(-1, state);
+    setSelRelPropZ(-1, state, "Send Backward");
 }
 export function bringToFront(state: any) {
     const maxVectorZ = Math.max.apply(null, state.graph.vectors.map((v: UIVector) => v.properties.z));
@@ -117,7 +147,7 @@ export function bringToFront(state: any) {
             v.properties.z = maxVectorZ + 1;
         }
     });
-    applyGraphChanges(state);
+    applyGraphChanges(state, "Bring to Front");
 }
 export function sendToBack(state: any) {
     const minVectorZ = Math.min.apply(null, state.graph.vectors.map((v: UIVector) => v.properties.z));
@@ -127,7 +157,7 @@ export function sendToBack(state: any) {
             v.properties.z = minVectorZ - 1;
         }
     });
-    applyGraphChanges(state);
+    applyGraphChanges(state, "Send to Back");
 }
 export function groupSelected(state: any) {
     const newGroupID = newId();
@@ -139,7 +169,7 @@ export function groupSelected(state: any) {
             }
         }
     });
-    applyGraphChanges(state);
+    applyGraphChanges(state, "Group");
 }
 export function ungroupSelected(state: any) {
     const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
@@ -148,7 +178,7 @@ export function ungroupSelected(state: any) {
             v.properties.groups.splice(v.properties.groups.indexOf(state.primaryGroup), 1);
         }
     });
-    applyGraphChanges(state);
+    applyGraphChanges(state, "Ungroup");
 }
 export function deleteSelected(state: any) {
     const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
@@ -190,75 +220,65 @@ export function deleteSelected(state: any) {
     state.hoveredVector = null;
     selectedVectorIds.forEach(deleteVectorById);
     selectedConnectorIds.forEach(deleteConnectorById);
-    applyGraphChanges(state);
+    applyGraphChanges(state, "Delete");
+}
+export function preferences(state: any, e: object) {
+    state.preferences = e;
+}
+export function hoveredConnector(state: any, e: object) {
+    state.hoveredConnector = e;
+}
+export function hoveredVector(state: any, e: object) {
+    if (state.movingVectors.length > 0) {
+        return;
+    }
+    state.hoveredVector = e;
+}
+export function hoveredPort(state: any, e: object) {
+    state.hoveredPort = e;
+}
+export function graph(state: any, e: object) {
+    state.graphSnapshot = e;
+    applyGraphChanges(state, "Write to Graph");
+}
+export function lut(state: any, e: {lut: any[], connector: {id: string}}) {
+    state.luts[e.connector.id] = {
+        ...e,
+    };
+}
+export function view(state: any, e: object) {
+    state.view = e;
+}
+export function translating(state: any, e: object) {
+    state.translating = e;
+}
+export function error(state: any, e: Error) {
+    state.error = e;
+    state.showError = true;
 }
 export default {
-    undo(state: any) {
-        moveHistoryPosition(state, -1);
-    },
-    redo(state: any) {
-        moveHistoryPosition(state, 1);
-    },
-    moveHistoryPosition(state: any, index: number) {
-        moveHistoryPosition(state, index);
-    },
-    duplicateSelection(state: any) {
-        duplicateSelection(state);
-    },
-    pasteVectors(state: any, e: UIVector[]) {
-        pasteVectors(state, e);
-    },
-    bringForward(state: any) {
-        bringForward(state);
-    },
-    sendBackward(state: any) {
-        sendBackward(state);
-    },
-    bringToFront(state: any) {
-        bringToFront(state);
-    },
-    sendToBack(state: any) {
-        sendToBack(state);
-    },
-    groupSelected(state: any) {
-        groupSelected(state);
-    },
-    ungroupSelected(state: any) {
-        ungroupSelected(state);
-    },
-    deleteSelected(state: any) {
-        deleteSelected(state);
-    },
-    preferences(state: any, e: object) {
-        state.preferences = e;
-    },
-    hoveredConnector(state: any, e: object) {
-        state.hoveredConnector = e;
-    },
-    hoveredVector(state: any, e: object) {
-        if (state.movingVectors.length > 0) {
-            return;
-        }
-        state.hoveredVector = e;
-    },
-    hoveredPort(state: any, e: object) {
-        state.hoveredPort = e;
-    },
+    error,
+    undo,
+    redo,
+    moveHistoryPosition,
+    duplicateSelection,
+    pasteVectors,
+    bringForward,
+    sendBackward,
+    bringToFront,
+    sendToBack,
+    groupSelected,
+    ungroupSelected,
+    deleteSelected,
+    preferences,
+    hoveredConnector,
+    hoveredVector,
+    hoveredPort,
     mouse,
-    graph(state: any, e: object) {
-        state.graphSnapshot = e;
-        applyGraphChanges(state);
-    },
-    lut(state: any, e: {lut: any[], connector: {id: string}}) {
-        state.luts[e.connector.id] = {
-            ...e,
-        };
-    },
-    view(state: any, e: object) {
-        state.view = e;
-    },
-    keys,
-    translating(state: any, e: object) {
-        state.translating = e;
-    }
+    graph,
+    lut,
+    view,
+    keyup,
+    keydown,
+    translating,
 };

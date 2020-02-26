@@ -62,7 +62,7 @@ export default function mouse(state: any, mouse: {
         };
     });
     // adding a connector
-    if (state.hoveredPort && !state.mouse.lmb && mouse.lmb && !state.movingConnector) {
+    if (state.hoveredPort && !state.mouse.lmb && mouse.lmb && !state.movingConnector && state.hoveredPort.type === "output") {
         state.addingConnector = state.hoveredPort;
         state.addingConnector.connector = {
             id: newId(),
@@ -146,9 +146,10 @@ export default function mouse(state: any, mouse: {
         const connector = edge.connectors.find((e: {id: string}) => e.id === state.movingConnector.connector.id);
         connector.vectorId = state.hoveredPort.vector.id;
         connector.field = state.hoveredPort.field.name;
-        applyGraphChanges(state);
+        applyGraphChanges(state, "Move Connector");
         state.movingConnector = null;
     }
+    // add a new connector to a port
     if (!mouse.lmb && state.mouse.lmb && state.hoveredPort && state.addingConnector) {
         const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.addingConnector.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.addingConnector.field.name);
@@ -158,13 +159,13 @@ export default function mouse(state: any, mouse: {
         connector.graphId = state.hoveredPort.vector.graphId;
         connector.version = state.hoveredPort.vector.version;
         edge.connectors.push(connector);
-        applyGraphChanges(state);
+        applyGraphChanges(state, "Add Connector");
         state.addingConnector = null;
     }
     // drop moving vectors and connectors
     if (!mouse.lmb && state.mouse.lmb) {
         state.movingVectors = [];
-        applyGraphChanges(state);
+        applyGraphChanges(state, "Move Vectors");
         state.movingConnector = null;
         state.addingConnector = null;
         state.translating = {};

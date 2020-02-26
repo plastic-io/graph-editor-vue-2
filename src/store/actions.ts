@@ -1,5 +1,8 @@
 import {UIVector} from "./mutations"; // eslint-disable-line
 export default {
+    error(context: any, e: Error) {
+        context.commit("error", e);
+    },
     undo(context: any) {
         context.commit("undo");
     },
@@ -48,8 +51,11 @@ export default {
     translating(context: any, e: object) {
         context.commit("translating", e);
     },
-    keys(context: any, e: object) {
-        context.commit("keys", e);
+    keyup(context: any, e: Event) {
+        context.commit("keyup", e);
+    },
+    keydown(context: any, e: Event) {
+        context.commit("keydown", e);
     },
     view(context: any, e: object) {
         context.commit("view", e);
