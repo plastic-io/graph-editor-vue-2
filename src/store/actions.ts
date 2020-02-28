@@ -1,7 +1,34 @@
 import {UIVector} from "./mutations"; // eslint-disable-line
 export default {
-    error(context: any, e: Error) {
-        context.commit("error", e);
+    createNewVector(context: any) {
+        context.commit("createNewVector");
+    },
+    updateGraphProperties(context: any, e: any) {
+        context.commit("updateGraphProperties", e);
+    },
+    updateVectorProperties(context: any, e: any) {
+        context.commit("updateVectorProperties", e);
+    },
+    changeInputOrder(context: any, e: any) {
+        context.commit("changeInputOrder", e);
+    },
+    changeOutputOrder(context: any, e: any) {
+        context.commit("changeOutputOrder", e);
+    },
+    addInput(context: any, e: any) {
+        context.commit("addInput", e);
+    },
+    addOutput(context: any, e: any) {
+        context.commit("addOutput", e);
+    },
+    removeInput(context: any, e: any) {
+        context.commit("removeInput", e);
+    },
+    removeOutput(context: any, e: any) {
+        context.commit("removeOutput", e);
+    },
+    updateTemplate(context: any, e: {id: string, key: string, value: string}) {
+        context.commit("updateTemplate", e);
     },
     undo(context: any) {
         context.commit("undo");

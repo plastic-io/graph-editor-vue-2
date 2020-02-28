@@ -19,7 +19,6 @@
                 tile
                 elevation="0"
                 v-if="panel"
-                color="secondary darken-2"
             >
                 <graph-properties   v-if="panel === 'graph'"        :style="gutterStyle"/>
                 <vector-properties  v-if="panel === 'properties'"   :style="gutterStyle"/>
@@ -34,12 +33,11 @@
                 class="icon-nav"
                 tile
                 elevation="0"
-                color="secondary darken-2"
             >
                 <div style="margin-top: 5px;">
                     <v-icon
                         title="Graph Properties"
-                        :color="panel === 'graph' ? 'accent' : ''"
+                        :color="panel === 'graph' ? 'info' : ''"
                         @click="selectPanel('graph')"
                     >
                         mdi-file-document
@@ -47,7 +45,7 @@
                     <v-icon
                         title="Vector Properties"
                         v-if="selectedVectors.length"
-                        :color="panel === 'properties' ? 'accent' : ''"
+                        :color="panel === 'properties' ? 'info' : ''"
                         @click="selectPanel('properties')"
                     >
                         mdi-view-list
@@ -55,15 +53,15 @@
                     <v-icon
                         title="Vector Set Code.  Code that runs when your vector is invoked at run time."
                         v-if="selectedVectors.length === 1"
-                        :color="panel === 'set' ? 'accent' : ''"
+                        :color="panel === 'set' ? 'info' : ''"
                         @click="selectPanel('set')"
                     >
-                        mdi-video-input-antenna
+                        mdi-lambda
                     </v-icon>
                     <v-icon
                         title="Vector Template Code.  Code that runs when your vector appears in the graph IDE."
                         v-if="selectedVectors.length === 1"
-                        :color="panel === 'template' ? 'accent' : ''"
+                        :color="panel === 'template' ? 'info' : ''"
                         @click="selectPanel('template')"
                     >
                         mdi-vuejs
@@ -71,30 +69,30 @@
                     <v-icon
                         title="Vector edges."
                         v-if="selectedVectors.length === 1"
-                        :color="panel === 'edge' ? 'accent' : ''"
+                        :color="panel === 'edge' ? 'info' : ''"
                         @click="selectPanel('edge')"
                     >
-                        mdi-ray-start-arrow
+                        mdi-video-input-component
                     </v-icon>
                 </div>
                 <div style="position: absolute; bottom: 5px;">
                     <v-icon
                         title="History of changes for this session."
-                        :color="panel === 'history' ? 'accent' : ''"
+                        :color="panel === 'history' ? 'info' : ''"
                         @click="selectPanel('history')"
                     >
                         mdi-history
                     </v-icon>
                     <v-icon
                         title="Import new vectors and graphs into this graph."
-                        :color="panel === 'import' ? 'accent' : ''"
+                        :color="panel === 'import' ? 'info' : ''"
                         @click="selectPanel('import')"
                     >
                         mdi-package
                     </v-icon>
                     <v-icon
                         title="View and edit the settings of the graph IDE."
-                        :color="panel === 'settings' ? 'accent' : ''"
+                        :color="panel === 'settings' ? 'info' : ''"
                         @click="selectPanel('settings')"
                     >
                         mdi-cogs

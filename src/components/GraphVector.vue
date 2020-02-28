@@ -23,6 +23,7 @@
             <component
                 :is="'vector-' + vector.id"
                 :vector="vector"
+                :state="scheduler.state"
             />
             <component
                 :is="'style'"
@@ -167,6 +168,7 @@ export default {
     },
     computed: {
         ...mapState({
+            scheduler: state => state.scheduler,
             hoveredVector: state => state.hoveredVector,
             selectedVectors: state => state.selectedVectors,
             graph: state => state.graph,
@@ -181,14 +183,14 @@ export default {
             const hoveredAndSelected = hovered && selected;
             let borderColor = "transparent";
             if (hoveredAndSelected) {
-                borderColor = "orange";
+                borderColor = "var(--v-info-lighten4)";
             } else if (selected) {
-                borderColor = "yellow";
+                borderColor = "var(--v-info-lighten3)";
             } else if (hovered) {
-                borderColor = "white";
+                borderColor = "var(--v-info-lighten2)";
             }
             return {
-                outline: "solid 5px " + borderColor,
+                outline: "solid 1px " + borderColor,
                 width: this.localVector.properties.width + "px",
                 height: this.localVector.properties.height + "px",
                 left: this.localVector.properties.x + "px",

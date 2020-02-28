@@ -19,7 +19,7 @@
                 <v-icon :disabled="selectedVectors.length === 0" @click="copy" title="Copy selection (^ + C)">mdi-content-copy</v-icon>
                 <v-icon @click="paste" title="Paste (^ + V)">mdi-content-paste</v-icon>
                 <v-divider vertical style="margin: 5px;"/>
-                <v-icon title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
+                <v-icon @click="createNewVector" title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
                 <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
                     title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
                 <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
@@ -62,17 +62,31 @@
                 <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
             </div>
             <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
-            <div title="Zoom Level" style="padding-right: 5px;cursor: crosshair;" @click="resetZoom">
+            <div
+                title="Zoom Level"
+                style="padding-right: 5px;cursor: crosshair;"
+                @click="resetZoom">
                 {{ (view.k * 100).toFixed(2) }}%
             </div>
-            <v-icon title="Zoom In (^ + +)" style="padding-right: 10px;cursor: pointer;" @click="zoomIn">mdi-magnify-plus-outline</v-icon>
+            <v-icon
+                title="Zoom In (^ + +)"
+                style="padding-right: 10px;cursor: pointer;"
+                @click="zoomIn">mdi-magnify-plus-outline</v-icon>
             <v-icon
                 title="Toggle Grid Visibility"
                 @click="toggleGrid"
-                 style="padding-right: 10px;cursor: pointer;"
-                :color="preferences.appearance.showGrid ? 'accent' : ''"
+                style="padding-right: 10px;cursor: pointer;"
+                :color="preferences.appearance.showGrid ? 'info' : ''"
                 >mdi-grid</v-icon
             >
+            <v-icon
+                title="Toggle Lock"
+                :color="locked ? 'info' : ''"
+                style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
+            <v-icon
+                title="Toggle Presentation"
+                :color="presentation ? 'info' : ''"
+                style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
         </v-system-bar>
         <v-snackbar :timeout="50000" v-model="showError">
             <v-alert prominent type="error">
@@ -107,6 +121,8 @@ export default {
     },
     computed: {
         ...mapState({
+            presentation: state => state.presentation,
+            locked: state => state.locked,
             events: state => state.events,
             historyPosition: state => state.historyPosition,
             primaryGroup: state => state.primaryGroup,
@@ -141,6 +157,7 @@ export default {
     },
     methods: {
         ...mapActions([
+            "createNewVector",
             "undo",
             "redo",
             "duplicateSelection",
@@ -322,15 +339,24 @@ export default {
             });
         },
         evCut(e) {
+            if (e.target !== document.body) {
+                return;
+            }
             e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             this.deleteSelected();
             e.preventDefault();
         },
         evCopy(e) {
+            if (e.target !== document.body) {
+                return;
+            }
             e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             e.preventDefault();
         },
         evPaste(e) {
+            if (e.target !== document.body) {
+                return;
+            }
             const data = e.clipboardData.getData(TEXT_MIME_TYPE);
             const msg = "The text pasted onto the graph does not appear to be vector data.";
             let vectors;
@@ -374,9 +400,15 @@ export default {
             return true;
         },
         keyup(e) {
+            if (e.target !== document.body) {
+                return;
+            }
             this.$store.dispatch("keyup", e);
         },
         keydown(e) {
+            if (e.target !== document.body) {
+                return;
+            }
             this.$store.dispatch("keydown", e);
         }
     },

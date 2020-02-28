@@ -22,8 +22,8 @@ export default {
                 && this.hoveredPort.field.name === this.field.name
                 && this.type === this.hoveredPort.type;
             return {
-                background: this.type === "output" ? "chartreuse" : "lavender",
-                outline: isHovered ? "solid 2px yellow" : undefined,
+                background: this.type === "output" ? "var(--v-info-lighten2)" : "var(--v-info-lighten2)",
+                outline: isHovered ? "solid 1px var(--v-info-lighten2)" : undefined,
             };
         },
         edge() {

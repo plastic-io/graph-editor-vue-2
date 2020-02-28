@@ -1,6 +1,7 @@
 <template>
     <div :style="graphCanvasStyle" v-if="localGraph">
         <div
+            :style="preferences.appearance.theme === 'dark' ? '' : 'filter: invert(1);'"
             :class="graphCanvasClasses"
         ></div>
         <edge-connector
@@ -24,6 +25,7 @@ import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
 import {mapState} from "vuex";
 import {diff} from "deep-diff";
+import colors from "vuetify/lib/util/colors";
 export default {
     name: "graph-canvas",
     components: {GraphVector, EdgeConnector},
@@ -37,6 +39,7 @@ export default {
         };
     },
     mounted() {
+        this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
         this.localGraph = this.graphSnapshot;
     },
     watch: {
@@ -60,23 +63,26 @@ export default {
             selectedVectors: state => state.selectedVectors,
             graphSnapshot: state => state.graphSnapshot,
             view: state => state.view,
+            preferences: state => state.preferences,
         }),
         selectionRectStyle: function() {
             return {
-                borderWidth: 1 / this.view.k + "px",
+                borderWidth: 0.5 / this.view.k + "px",
                 left: this.selectionRect.x + "px",
                 top: this.selectionRect.y + "px",
                 width: this.selectionRect.width + "px",
                 height: this.selectionRect.height + "px",
+                borderColor: colors[this.preferences.appearance.selectionRectColor].base,
             };
         },
         boundingRectStyle: function() {
             return {
-                borderWidth: 1 / this.view.k + "px",
+                borderWidth: 0.5 / this.view.k + "px",
                 left: this.boundingRect.x + "px",
                 top: this.boundingRect.y + "px",
                 width: this.boundingRect.width + "px",
                 height: this.boundingRect.height + "px",
+                borderColor: colors[this.preferences.appearance.boundingRectColor].base,
             };
         },
         connectors: function () {
@@ -117,12 +123,10 @@ export default {
     pointer-events: none;
     position: absolute;
     border-style: solid;
-    border-color: var(--v-info-lighten3);
 }
 .selection-rect {
     position: absolute;
     border-style: dotted;
-    border-color: var(--v-info-lighten5);
 }
 .graph-canvas-container {
     background: #000;

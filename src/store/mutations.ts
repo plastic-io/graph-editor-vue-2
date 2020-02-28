@@ -256,7 +256,152 @@ export function error(state: any, e: Error) {
     state.error = e;
     state.showError = true;
 }
+export function updateTemplate(state: any, e: {id: string, key: string, value: string}) {
+    const vector = state.graphSnapshot.vectors.find((v: UIVector) => {
+        return v.id === e.id;
+    });
+    if (!vector) {
+        throw new Error("Cannot find vector to write to.");
+    }
+    vector.template[e.key] = e.value;
+}
+export function changeInputOrder(state: any, e: {
+    vectorId: string,
+    name: string,
+    direction: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    const prop = vector.properties.inputs.find(o => o.name === e.name);
+    const propIndex = vector.properties.inputs.indexOf(prop);
+    vector.properties.inputs.splice(propIndex, 1);
+    vector.properties.inputs.splice(propIndex + (direction === "down" ? 1 : -1), 0, prop);
+    applyGraphChanges(state, "Change Input Order");
+}
+export function changeOutputOrder(state: any, e: {
+    vectorId: string,
+    name: string,
+    direction: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    const prop = vector.properties.outputs.find(o => o.name === e.name);
+    const propIndex = vector.properties.outputs.indexOf(prop);
+    const edge = vector.edges.find(o => o.field === e.name);
+    const edgeIndex = vector.edges.indexOf(edge);
+    vector.properties.outputs.splice(propIndex, 1);
+    vector.properties.outputs.splice(propIndex + (direction === "down" ? 1 : -1), 0, prop);
+    vector.edges.splice(edgeIndex, 1);
+    vector.edges.splice(edgeIndex + (direction === "down" ? 1 : -1), 0, edge);
+    applyGraphChanges(state, "Change Output Order");
+}
+export function addInput(state: any, e: {
+    vectorId: string,
+    name: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    vector.properties.inputs.push({
+        name: e.name,
+    });
+    applyGraphChanges(state, "Add Input");
+}
+export function addOutput(state: any, e: {
+    vectorId: string,
+    name: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    vector.properties.inputs.push({
+        name,
+    });
+    vector.properties.edges.push({
+        field: name,
+        connectors: [],
+    });
+    applyGraphChanges(state, "Add Output");
+}
+export function removeInput(state: any, e: {
+    vectorId: string,
+    name: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    const prop = vector.properties.inputs.find(o => o.name === e.name);
+    vector.properties.inputs.splice(vector.properties.inputs.indexOf(prop), 1);
+    applyGraphChanges(state, "Remove Input");
+}
+export function removeOutput(state: any, e: {
+    vectorId: string,
+    name: string,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    const prop = vector.properties.outputs.find(o => o.name === e.name);
+    const edge = vector.edges.find(o => o.field === e.name);
+    vector.edges.splice(vector.edges.indexOf(edge), 1);
+    vector.properties.outputs.splice(vector.properties.outputs.indexOf(prop), 1);
+    applyGraphChanges(state, "Remove Output");
+}
+export function updateVectorProperties(state: any, e: {
+    vectorId: string,
+    properties: any,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    vector.properties = e.properties;
+    applyGraphChanges(state, "Update Vector Properties");
+}
+export function updateGraphProperties(state: any, e: any) {
+    state.graphSnapshot.properties = e;
+    applyGraphChanges(state, "Update Graph Properties");
+}
+export function createNewVector(state: any) {
+    state.graphSnapshot.vectors.push({
+        id: newId(),
+        edges: [],
+        version: state.graphSnapshot.version,
+        graphId: state.graphSnapshot.id,
+        url: "",
+        data: "",
+        properties: {
+            x: state.view.x + state.preferences.newVectorOffset.x,
+            y: state.view.y + state.preferences.newVectorOffset.y,
+            z: 0 + state.preferences.newVectorOffset.z,
+            presentation: {
+                x: state.view.x + state.preferences.newVectorOffset.x,
+                y: state.view.y + state.preferences.newVectorOffset.y,
+                z: 0 + state.preferences.newVectorOffset.z,
+            },
+        },
+    });
+    applyGraphChanges(state, "Create New Vector");
+}
 export default {
+    createNewVector,
+    updateGraphProperties,
+    updateVectorProperties,
+    changeInputOrder,
+    changeOutputOrder,
+    addInput,
+    addOutput,
+    removeInput,
+    removeOutput,
+    updateTemplate,
     error,
     undo,
     redo,

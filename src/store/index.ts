@@ -4,10 +4,32 @@ import acidGraph from "../../graphs/acid.json";
 // import simpleGraph from "../graphs/simple.json";
 import toc from "../../tests/stubs/toc.json";
 const graph = acidGraph;
+const defaultNewSetTemplate = "console.info(value)";
+const defaultNewVueTemplate = `<template>
+    <div>
+        New Vector
+    </div>
+</template>
+<script>
+export default {
+    props: {
+        vector: Object,
+        state: Object,
+    }
+}
+</script>
+<style>
+</style>
+`;
 export default function () {
     return {
         strict: true,
         state: {
+            scheduler: {
+                state: {},
+            },
+            presentation: false,
+            locked: false,
             historyPosition: 0,
             graphSnapshot: JSON.parse(JSON.stringify(graph)),
             vectorZCounter: 0,
@@ -64,20 +86,30 @@ export default function () {
             toc: toc.TOC,
             events: [],
             preferences: {
+                newVectorOffset: {
+                    x: 100,
+                    y: 100,
+                    z: 0,
+                },
+                defaultNewSetTemplate,
+                defaultNewVueTemplate,
                 snapToGrid: true,
                 gridSize: 10, // cannot be changed for now
                 appearance: {
+                    theme: "dark",
                     showGrid: true,
+                    selectionRectColor: "lightBlue",
+                    boundingRectColor: "shades",
                     connectors: {
                         dragDeadZone: 10,
-                        controlFillStyle: "green",
-                        strokeStyle: "blue",
-                        selectedStrokeStyle: "yellow",
-                        hoverStrokeStyle: "white",
+                        controlFillStyle: "blue",
+                        strokeStyle: "pink",
+                        selectedStrokeStyle: "amber",
+                        hoverStrokeStyle: "deepPurple",
                         watchStrokeStyle: "orange",
-                        activityStrokeStyle: "magenta",
+                        activityStrokeStyle: "indigo",
                         errorStrokeStyle: "red",
-                        lineWidth: 2,
+                        lineWidth: 1,
                     }
                 }
             }

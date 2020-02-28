@@ -560,13 +560,13 @@
     "id": "0",
     "version": 0,
     "properties": {
-        "name": "",
-        "description": "",
-        "createdBy": "",
-        "createdOn": 0,
-        "lastUpdate": 0,
+        "name": "Acid Test Graph",
+        "description": "Acid test of the graph editing IDE.",
+        "createdBy": "Tony.Germaneri@gmail.com",
+        "createdOn": 1582834575578,
+        "lastUpdate": 1582834575578,
         "exportable": false,
-        "height": 1,
-        "width": 1
+        "height": 150,
+        "width": 300
     }
 }

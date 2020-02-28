@@ -1,4 +1,5 @@
 import Bezier from "bezier-js"; // eslint-disable-line
+import colors from "vuetify/lib/util/colors";
 export default function bezierDraw(connector: any): void {
     // controlFillStyle: "green",
     // strokeStyle: "blue",
@@ -9,21 +10,24 @@ export default function bezierDraw(connector: any): void {
     // errorStrokeStyle: "red",
     // lineWidth: 2,
     const ctx = connector.ctx;
-    let strokeStyle = connector.preferences.appearance.connectors.strokeStyle;
+    function getColor(key: string) {
+        return (colors as {[key: string]: any})[key].base;
+    }
+    let strokeStyle = getColor(connector.preferences.appearance.connectors.strokeStyle) || "blue";
     if (connector.watchConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = connector.preferences.appearance.connectors.watchStrokeStyle;
+        strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
     }
     if (connector.activityConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = connector.preferences.appearance.connectors.watchStrokeStyle;
+        strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
     }
     if (connector.errorConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = connector.preferences.appearance.connectors.watchStrokeStyle;
+        strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
     }
     if (connector.selectedConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = connector.preferences.appearance.connectors.selectedStrokeStyle;
+        strokeStyle = getColor(connector.preferences.appearance.connectors.selectedStrokeStyle) || "blue";
     }
     if (connector.hoveredConnector && connector.hoveredConnector.connector.id === connector.connector.id) {
-        strokeStyle = connector.preferences.appearance.connectors.hoverStrokeStyle;
+        strokeStyle = getColor(connector.preferences.appearance.connectors.hoverStrokeStyle) || "blue";
     }
     function drawCurve(curve: any): void { // eslint-disable-line
         ctx.beginPath();
@@ -99,7 +103,7 @@ export default function bezierDraw(connector: any): void {
             x: isMoving ? mouseX : inRect.x,
             y: isMoving ? mouseY : inRect.y
         };
-        ctx.clearRect(connector.x, connector.y, connector.width, connector.height);
+        ctx.clearRect(0, 0, connector.width, connector.height);
         ctx.translate(-connector.x, -connector.y);
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = connector.preferences.appearance.connectors.lineWidth;
@@ -117,9 +121,9 @@ export default function bezierDraw(connector: any): void {
         const cStart = curve.get(0);
         const cEnd = curve.get(1);
         const middlePoint = curve.get(0.5);
-        arc(cStart.x, cStart.y, 5, 0, 2 * Math.PI, connector.preferences.appearance.connectors.controlFillStyle);
-        arc(cEnd.x, cEnd.y, 5, 0, 2 * Math.PI, connector.preferences.appearance.connectors.controlFillStyle);
-        arc(middlePoint.x, middlePoint.y, 5, 0, 2 * Math.PI, connector.preferences.appearance.connectors.controlFillStyle);
+        arc(cStart.x, cStart.y, 5, 0, 2 * Math.PI, getColor(connector.preferences.appearance.connectors.controlFillStyle) || "blue");
+        arc(cEnd.x, cEnd.y, 5, 0, 2 * Math.PI, getColor(connector.preferences.appearance.connectors.controlFillStyle) || "blue");
+        arc(middlePoint.x, middlePoint.y, 5, 0, 2 * Math.PI, getColor(connector.preferences.appearance.connectors.controlFillStyle) || "blue");
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         // report to store
         const len: number = curve.length();
