@@ -40,19 +40,19 @@
                         :color="panel === 'graph' ? 'info' : ''"
                         @click="selectPanel('graph')"
                     >
-                        mdi-file-document
+                        mdi-lan
                     </v-icon>
                     <v-icon
                         title="Vector Properties"
-                        v-if="selectedVectors.length"
+                        v-if="selectedVector"
                         :color="panel === 'properties' ? 'info' : ''"
                         @click="selectPanel('properties')"
                     >
-                        mdi-view-list
+                        mdi-network
                     </v-icon>
                     <v-icon
                         title="Vector Set Code.  Code that runs when your vector is invoked at run time."
-                        v-if="selectedVectors.length === 1"
+                        v-if="selectedVector"
                         :color="panel === 'set' ? 'info' : ''"
                         @click="selectPanel('set')"
                     >
@@ -60,7 +60,7 @@
                     </v-icon>
                     <v-icon
                         title="Vector Template Code.  Code that runs when your vector appears in the graph IDE."
-                        v-if="selectedVectors.length === 1"
+                        v-if="selectedVector"
                         :color="panel === 'template' ? 'info' : ''"
                         @click="selectPanel('template')"
                     >
@@ -68,7 +68,7 @@
                     </v-icon>
                     <v-icon
                         title="Vector edges."
-                        v-if="selectedVectors.length === 1"
+                        v-if="selectedVector"
                         :color="panel === 'edge' ? 'info' : ''"
                         @click="selectPanel('edge')"
                     >
@@ -156,6 +156,7 @@ export default {
             events: state => state.events,
             selectRect: state => state.selectRect,
             selectedConnectors: state => state.selectedConnectors,
+            selectedVector: state => state.selectedVector,
             selectedVectors: state => state.selectedVectors,
             hoveredConnectors: state => state.hoveredConnectors,
             hoveredVectors: state => state.hoveredVectors,
@@ -226,12 +227,12 @@ export default {
             panelDragging: null,
             navWidth: 450,
             navWidths: {
-                properties: "250px",
+                properties: "300px",
                 history: "250px",
                 graph: "250px",
                 set: null,
                 template: null,
-                edge: "250px",
+                edge: "300px",
                 import: "250px",
                 settings: "250px"
             },
@@ -243,4 +244,7 @@ export default {
 };
 </script>
 <style>
+.main-nav {
+    padding-right: 38px;
+}
 </style>

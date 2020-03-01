@@ -133,6 +133,7 @@ export default {
         },
         hoveredConnector: {
             handler: function () {
+                console.log("hoveredConnector detected");
                 this.redraw();
             },
         },
@@ -152,8 +153,8 @@ export default {
     },
     methods: {
         redraw() {
-            this.calls += 1;
             this.$nextTick(() => {
+                this.calls += 1;
                 bezier(this);
             });
         },

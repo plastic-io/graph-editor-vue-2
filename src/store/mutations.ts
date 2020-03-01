@@ -1,4 +1,4 @@
-import {diff, applyChange, revertChange} from "deep-diff";
+import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
 export interface UIVector {
@@ -228,6 +228,15 @@ export function preferences(state: any, e: object) {
 export function hoveredConnector(state: any, e: object) {
     state.hoveredConnector = e;
 }
+export function selectConnector(state: any, e: {id: string}) {
+    if (state.keys.event && (state.keys.event.shiftKey || state.keys.event.ctrlKey || state.keys.event.metaKey)) {
+        if (state.selectedConnectors.map((c: {id: string}) => c.id).indexOf(e.id) === -1) {
+            state.selectedConnectors.push(e);
+        }
+        return;
+    }
+    state.selectedConnectors = [e];
+}
 export function hoveredVector(state: any, e: object) {
     if (state.movingVectors.length > 0) {
         return;
@@ -274,10 +283,10 @@ export function changeInputOrder(state: any, e: {
     if (!vector) {
         throw new Error("Cannot find vector to update.");
     }
-    const prop = vector.properties.inputs.find(o => o.name === e.name);
+    const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     const propIndex = vector.properties.inputs.indexOf(prop);
     vector.properties.inputs.splice(propIndex, 1);
-    vector.properties.inputs.splice(propIndex + (direction === "down" ? 1 : -1), 0, prop);
+    vector.properties.inputs.splice(propIndex + (e.direction === "down" ? 1 : -1), 0, prop);
     applyGraphChanges(state, "Change Input Order");
 }
 export function changeOutputOrder(state: any, e: {
@@ -289,14 +298,14 @@ export function changeOutputOrder(state: any, e: {
     if (!vector) {
         throw new Error("Cannot find vector to update.");
     }
-    const prop = vector.properties.outputs.find(o => o.name === e.name);
+    const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
     const propIndex = vector.properties.outputs.indexOf(prop);
-    const edge = vector.edges.find(o => o.field === e.name);
+    const edge = vector.edges.find((o: {field: string}) => o.field === e.name);
     const edgeIndex = vector.edges.indexOf(edge);
     vector.properties.outputs.splice(propIndex, 1);
-    vector.properties.outputs.splice(propIndex + (direction === "down" ? 1 : -1), 0, prop);
+    vector.properties.outputs.splice(propIndex + (e.direction === "down" ? 1 : -1), 0, prop);
     vector.edges.splice(edgeIndex, 1);
-    vector.edges.splice(edgeIndex + (direction === "down" ? 1 : -1), 0, edge);
+    vector.edges.splice(edgeIndex + (e.direction === "down" ? 1 : -1), 0, edge);
     applyGraphChanges(state, "Change Output Order");
 }
 export function addInput(state: any, e: {
@@ -320,11 +329,11 @@ export function addOutput(state: any, e: {
     if (!vector) {
         throw new Error("Cannot find vector to update.");
     }
-    vector.properties.inputs.push({
-        name,
+    vector.properties.outputs.push({
+        name: e.name,
     });
-    vector.properties.edges.push({
-        field: name,
+    vector.edges.push({
+        field: e.name,
         connectors: [],
     });
     applyGraphChanges(state, "Add Output");
@@ -337,8 +346,21 @@ export function removeInput(state: any, e: {
     if (!vector) {
         throw new Error("Cannot find vector to update.");
     }
-    const prop = vector.properties.inputs.find(o => o.name === e.name);
+    const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     vector.properties.inputs.splice(vector.properties.inputs.indexOf(prop), 1);
+    // remove any connectors that refrenced this input
+    state.graphSnapshot.vectors.forEach((v:UIVector) => {
+        v.edges.forEach((edge: {field: string, connectors: any[]}) => {
+            const rmConnectors = edge.connectors.filter((connector) => {
+                return connector.vectorId === e.vectorId && connector.field === e.name;
+            });
+            if (rmConnectors.length > 0) {
+                rmConnectors.forEach((c: any) => {
+                    edge.connectors.splice(edge.connectors.indexOf(c), 1);
+                });
+            }
+        });
+    });
     applyGraphChanges(state, "Remove Input");
 }
 export function removeOutput(state: any, e: {
@@ -349,8 +371,8 @@ export function removeOutput(state: any, e: {
     if (!vector) {
         throw new Error("Cannot find vector to update.");
     }
-    const prop = vector.properties.outputs.find(o => o.name === e.name);
-    const edge = vector.edges.find(o => o.field === e.name);
+    const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
+    const edge = vector.edges.find((o: {field: string}) => o.field === e.name);
     vector.edges.splice(vector.edges.indexOf(edge), 1);
     vector.properties.outputs.splice(vector.properties.outputs.indexOf(prop), 1);
     applyGraphChanges(state, "Remove Output");
@@ -379,6 +401,7 @@ export function createNewVector(state: any) {
         url: "",
         data: "",
         properties: {
+            groups: [],
             x: state.view.x + state.preferences.newVectorOffset.x,
             y: state.view.y + state.preferences.newVectorOffset.y,
             z: 0 + state.preferences.newVectorOffset.z,
@@ -388,10 +411,79 @@ export function createNewVector(state: any) {
                 z: 0 + state.preferences.newVectorOffset.z,
             },
         },
+        template: {
+            set: state.preferences.defaultNewSetTemplate,
+            vue: state.preferences.defaultNewVueTemplate,
+        },
     });
     applyGraphChanges(state, "Create New Vector");
 }
+export function updateVectorNames(state: any, e: {
+    vector: UIVector,
+}) {
+    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vector.id);
+    if (!vector) {
+        throw new Error("Cannot find vector to update.");
+    }
+    observableDiff(vector, e.vector, (d: any) => {
+        // output changes
+        if (d.path[0] === "properties" && d.path[1] === "outputs"
+                && !isNaN(d.path[2]) && d.path[3] === "name") {
+            applyChange(vector, e.vector, d);
+            // also apply the change to local edge names
+            const edge = vector.edges.find((ed: {field: string}) => {
+                return ed.field === d.lhs;
+            });
+            edge.field = d.rhs;
+        }
+        // input changes
+        if (d.path[0] === "properties" && d.path[1] === "inputs"
+                && !isNaN(d.path[2]) && d.path[3] === "name") {
+            applyChange(vector, e.vector, d);
+            // also apply the change to the edge connectors that interact with it
+            state.graphSnapshot.vectors.forEach((v: UIVector) => {
+                v.edges.forEach((edge) => {
+                    edge.connectors.forEach((con: {vectorId: string, field: string}) => {
+                        if (con.field === d.lhs && con.vectorId === e.vector.id) {
+                            con.field = d.rhs;
+                        }
+                    });
+                });
+            });
+        }
+    });
+    applyGraphChanges(state, "Rename IO");
+}
+function deleteConnector(state: any, e: {id: string}): void {
+    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+        v.edges.forEach((edge: {connectors: any[]}) => {
+            edge.connectors.forEach((connector: {id: string}, index) => {
+                if (e.id === connector.id) {
+                    edge.connectors.splice(index, 1);
+                }
+            });
+        });
+    });
+    applyGraphChanges(state, "Delete Connector");
+}
+function changeConnectorOrder(state: any, e: {vectorId: string, connectorId: string, direction: string}) {
+    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+        v.edges.forEach((edge: {connectors: any[]}) => {
+            edge.connectors.forEach((connector: {id: string}, index) => {
+                if (e.connectorId === connector.id && v.id === e.vectorId) {
+                    edge.connectors.splice(index, 1);
+                    edge.connectors.splice(index + (e.direction === "down" ? 1 : -1), 0, connector);
+                }
+            });
+        });
+    });
+    applyGraphChanges(state, "Reorder Connectors");
+}
 export default {
+    changeConnectorOrder,
+    deleteConnector,
+    selectConnector,
+    updateVectorNames,
     createNewVector,
     updateGraphProperties,
     updateVectorProperties,

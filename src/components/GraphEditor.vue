@@ -212,6 +212,10 @@ export default {
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
         mousemove(e) {
+            // do not track control panel inputs
+            if (!this.isGraphTarget(e)) {
+                return;
+            }
             const mouse = this.getMousePosFromEvent(e);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
@@ -452,9 +456,6 @@ export default {
 }
 .nav-drawer {
     margin-top: 24px;
-}
-.main-nav {
-    padding-right: 38px;
 }
 .icon-nav {
     border: solid 1px black;

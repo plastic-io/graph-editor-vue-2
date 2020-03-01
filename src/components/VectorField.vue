@@ -5,6 +5,7 @@
         class="vector-field"
         @mouseout="unhoverPort"
         @mouseover="hoverPort"
+        :title="field.name"
         :id="`vector-${type}-${vector.id}-${field.name}`"
     ></div>
 </template>

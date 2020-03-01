@@ -73,7 +73,7 @@ export default function mouse(state: any, mouse: {
         };
     }
     // moving a connector
-    if (state.hoveredConnector && !state.mouse.lmb && mouse.lmb) {
+    if (state.hoveredConnector && !state.mouse.lmb && mouse.lmb && pastDeadZone) {
         state.movingConnector = state.hoveredConnector;
     }
     // draw select box maybe
@@ -176,6 +176,7 @@ export default function mouse(state: any, mouse: {
         state.selectedConnectors = [];
         state.selectedVectors = [];
         state.primaryGroup = null;
+        state.selectedVector = null;
     }
     // start moving vectors
     if (!state.mouse.lmb && mouse.lmb && state.hoveredVector && state.movingVectors.length === 0) {
@@ -202,8 +203,9 @@ export default function mouse(state: any, mouse: {
                 state.selectedGroups = [];
             }
             if (state.hoveredVector) {
-                state.selectedVectors.push(state.graph.vectors
-                    .find((v: UIVector) => v.id === state.hoveredVector.id));
+                const v = state.graph.vectors.find((v: UIVector) => v.id === state.hoveredVector.id);
+                state.selectedVectors.push(v);
+                state.selectedVector = v;
             }
             if (state.selectedVectors.length > 0) {
                 state.groupVectors = [
@@ -229,6 +231,7 @@ export default function mouse(state: any, mouse: {
                 && rect.y < sel.bottom
                 && rect.bottom > sel.y) {
                 state.selectedVectors.push(v);
+                state.selectedVector = v;
             }
         });
         expandGroupVectorArray(state.selectedVectors);

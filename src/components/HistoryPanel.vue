@@ -13,7 +13,7 @@
                     <v-list-item-icon>
                         <v-icon>{{getIcon(event.name)}}</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-content>
+                    <v-list-item-content style="font-size: 14px;">
                         {{event.name}}
                     </v-list-item-content>
                 </v-list-item>
@@ -54,6 +54,9 @@ export default {
                 "Remove Output": "mdi-minus-circle-outline",
                 "Update Vector Properties": "mdi-pencil",
                 "Update Graph Properties": "mdi-pencil",
+                "Reorder Connectors": "mdi-sync",
+                "Delete Connector": "mdi-delete",
+                "Rename IO": "mdi-pencil",
             }[name] || "mdi-pencil";
         },
     },

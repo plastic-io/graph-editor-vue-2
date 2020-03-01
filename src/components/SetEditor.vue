@@ -32,7 +32,7 @@ export default {
         };
     },
     watch: {
-        selectedVectors: {
+        selectedVector: {
             handler: function () {
                 this.setValue();
             },
@@ -50,10 +50,10 @@ export default {
             });
         },
         setValue() {
-            if (this.selectedVectors.length !== 1) {
+            if (!this.selectedVector) {
                 return;
             }
-            this.vector = this.selectedVectors[0];
+            this.vector = this.selectedVector;
             if (!this.vector) {
                 throw new Error("Set editor invoked with no selected vector.");
             }
@@ -69,7 +69,7 @@ export default {
     computed: {
         ...mapState({
             preferences: state => state.preferences,
-            selectedVectors: state => state.selectedVectors,
+            selectedVector: state => state.selectedVector,
         }),
     }
 };

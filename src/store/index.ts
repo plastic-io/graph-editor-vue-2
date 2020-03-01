@@ -60,6 +60,7 @@ export default function () {
             movingVectors: [],
             selectedConnectors: [],
             groupVectors: [],
+            selectedVector: null,
             selectedVectors: [],
             errorConnectors: [],
             watchConnectors: [],

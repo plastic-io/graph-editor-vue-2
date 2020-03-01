@@ -1,5 +1,14 @@
 import {UIVector} from "./mutations"; // eslint-disable-line
 export default {
+    changeConnectorOrder(context: any, e: {vectorId: string, connectorId: string, direction: string}) {
+        context.commit("changeConnectorOrder", e);
+    },
+    deleteConnector(context: any, e: {id: string}) {
+        context.commit("deleteConnector", e);
+    },
+    updateVectorNames(context: any, e: UIVector) {
+        context.commit("updateVectorNames", e);
+    },
     createNewVector(context: any) {
         context.commit("createNewVector");
     },
@@ -71,6 +80,9 @@ export default {
     },
     hoveredVector(context: any, e: object) {
         context.commit("hoveredVector", e);
+    },
+    selectConnector(context: any, e: object) {
+        context.commit("selectConnector", e);
     },
     hoveredConnector(context: any, e: object) {
         context.commit("hoveredConnector", e);
