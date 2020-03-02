@@ -133,7 +133,6 @@ export default {
         },
         hoveredConnector: {
             handler: function () {
-                console.log("hoveredConnector detected");
                 this.redraw();
             },
         },

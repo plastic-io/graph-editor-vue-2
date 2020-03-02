@@ -1,126 +1,148 @@
 <template>
-    <v-app class="graph-editor" v-if="graph">
-        <v-system-bar ref="topBar" style="z-index: 2;">
-            <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
-                <v-icon>mdi-file</v-icon>{{ graph.id }}
+    <v-app class="graph-editor">
+        <template  v-if="graph">
+            <v-system-bar ref="topBar" style="z-index: 2;">
+                <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
+                    <v-icon>mdi-file</v-icon>
+                    {{ graph.properties.name || "Untitled" }}
+                </div>
+                <v-spacer/>
+                <span>Plastic-IO</span>
+                <v-spacer/>
+                <span>
+                    <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
+                        mdi-folder
+                    </v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
+                    <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon :disabled="selectedVectors.length === 0" @click="cut" title="Cut selection (^ + X)">mdi-content-cut</v-icon>
+                    <v-icon :disabled="selectedVectors.length === 0" @click="copy" title="Copy selection (^ + C)">mdi-content-copy</v-icon>
+                    <v-icon @click="paste" title="Paste (^ + V)">mdi-content-paste</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon @click="createNewVector" title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
+                    <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
+                        title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
+                    <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
+                        @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon :disabled="selectedVectors.length < 2" title="Group (^ + G)" @click="groupSelected">mdi-group</v-icon>
+                    <v-icon :disabled="primaryGroup === null" title="Ungroup (^ + Shift + G)" @click="ungroupSelected">mdi-ungroup</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon @click="bringForward" title="Bring forward (^ + ])">mdi-arrange-bring-forward</v-icon>
+                    <v-icon @click="bringToFront" title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
+                    <v-icon @click="sendBackward" title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
+                    <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
+                </span>
+            </v-system-bar>
+            <control-panel ref="panel"/>
+            <div class="graph-container" :style="graphContainerStyle">
+                <graph-canvas
+                    :class="translating && mouse.lmb ? 'no-select' : ''"
+                    :showGrid="preferences.appearance.showGrid"
+                ></graph-canvas>
             </div>
-            <v-divider vertical style="margin: 5px;"/>
-            <span>Plastic-IO</span>
-            <v-spacer/>
-            <span>
-                <v-icon @click="showDialog = !showDialog" title="Show open graph dialog (^ + O)">
-                    mdi-folder
-                </v-icon>
-                <v-divider vertical style="margin: 5px;"/>
-                <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
-                <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
-                <v-divider vertical style="margin: 5px;"/>
-                <v-icon :disabled="selectedVectors.length === 0" @click="cut" title="Cut selection (^ + X)">mdi-content-cut</v-icon>
-                <v-icon :disabled="selectedVectors.length === 0" @click="copy" title="Copy selection (^ + C)">mdi-content-copy</v-icon>
-                <v-icon @click="paste" title="Paste (^ + V)">mdi-content-paste</v-icon>
-                <v-divider vertical style="margin: 5px;"/>
-                <v-icon @click="createNewVector" title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
-                <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
-                    title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
-                <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
-                    @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
-                <v-divider vertical style="margin: 5px;"/>
-                <v-icon :disabled="selectedVectors.length < 2" title="Group (^ + G)" @click="groupSelected">mdi-group</v-icon>
-                <v-icon :disabled="primaryGroup === null" title="Ungroup (^ + Shift + G)" @click="ungroupSelected">mdi-ungroup</v-icon>
-                <v-divider vertical style="margin: 5px;"/>
-                <v-icon @click="bringForward" title="Bring forward (^ + ])">mdi-arrange-bring-forward</v-icon>
-                <v-icon @click="bringToFront" title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
-                <v-icon @click="sendBackward" title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
-                <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
-            </span>
-        </v-system-bar>
-        <control-panel ref="panel"/>
-        <div class="graph-container" :style="graphContainerStyle">
-            <graph-canvas
-                :class="translating && mouse.lmb ? 'no-select' : ''"
-                :showGrid="preferences.appearance.showGrid"
-            ></graph-canvas>
-        </div>
-        <v-system-bar
-            ref="bottomBar"
-            style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
-            class="no-select bottom-system-bar"
-        >
-            <div title="Mouse Coordinates" style="width: 110px;cursor: crosshair;">
-                <v-icon>mdi-crosshairs-gps</v-icon>{{ Math.floor((mouse.x - view.x) / view.k) }} : {{ Math.floor((mouse.y - view.y) / view.k) }}
-            </div>
-            <div
-            title="Selection Coordinates"
-            style="width: 240px;cursor: crosshair;">
-                <v-icon>mdi-select</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
-            </div>
-            <v-spacer/>
-            <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
-                <v-icon>mdi-selection</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
-            </div>
-            <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
-                <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
-            </div>
-            <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
-            <div
-                title="Zoom Level"
-                style="padding-right: 5px;cursor: crosshair;"
-                @click="resetZoom">
-                {{ (view.k * 100).toFixed(2) }}%
-            </div>
-            <v-icon
-                title="Zoom In (^ + +)"
-                style="padding-right: 10px;cursor: pointer;"
-                @click="zoomIn">mdi-magnify-plus-outline</v-icon>
-            <v-icon
-                title="Toggle Grid Visibility"
-                @click="toggleGrid"
-                style="padding-right: 10px;cursor: pointer;"
-                :color="preferences.appearance.showGrid ? 'info' : ''"
-                >mdi-grid</v-icon
+            <v-system-bar
+                ref="bottomBar"
+                style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
+                class="no-select bottom-system-bar"
             >
-            <v-icon
-                title="Toggle Lock"
-                :color="locked ? 'info' : ''"
-                style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
-            <v-icon
-                title="Toggle Presentation"
-                :color="presentation ? 'info' : ''"
-                style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
-        </v-system-bar>
-        <v-snackbar :timeout="50000" v-model="showError">
+                <div title="Mouse Coordinates" style="width: 110px;cursor: crosshair;">
+                    <v-icon>mdi-crosshairs-gps</v-icon>{{ Math.floor((mouse.x - view.x) / view.k) }} : {{ Math.floor((mouse.y - view.y) / view.k) }}
+                </div>
+                <div
+                title="Selection Coordinates"
+                style="width: 240px;cursor: crosshair;">
+                    <v-icon>mdi-select</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
+                </div>
+                <v-spacer/>
+                <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
+                    <v-icon>mdi-selection</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
+                </div>
+                <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
+                    <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
+                </div>
+                <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
+                <div
+                    title="Zoom Level"
+                    style="padding-right: 5px;cursor: crosshair;"
+                    @click="resetZoom">
+                    {{ (view.k * 100).toFixed(2) }}%
+                </div>
+                <v-icon
+                    title="Zoom In (^ + +)"
+                    style="padding-right: 10px;cursor: pointer;"
+                    @click="zoomIn">mdi-magnify-plus-outline</v-icon>
+                <v-icon
+                    title="Toggle Grid Visibility"
+                    @click="toggleGrid"
+                    style="padding-right: 10px;cursor: pointer;"
+                    :color="preferences.appearance.showGrid ? 'info' : ''"
+                    >mdi-grid</v-icon
+                >
+                <v-icon
+                    title="Toggle Lock"
+                    :color="locked ? 'info' : ''"
+                    style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
+                <v-icon
+                    title="Toggle Presentation"
+                    :color="presentation ? 'info' : ''"
+                    style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
+            </v-system-bar>
+        </template>
+        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph">
             <v-alert prominent type="error">
                 <v-row align="center">
-                    <v-col class="grow">{{errorMessage}}</v-col>
-                    <v-col class="shrink">
-                        <v-btn @click="showError = false">That Sucks</v-btn>
+                    <v-col class="grow">{{localErrorMessage}}</v-col>
+                    <v-col class="shrink" v-if="graph">
+                        <v-btn @click="clearError">That Sucks</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
         </v-snackbar>
-        <OpenDialog v-if="showDialog" @close="showDialog = false" />
+        <v-progress-linear v-if="!graph && !localShowError" indeterminate></v-progress-linear>
     </v-app>
 </template>
 <script>
 const TEXT_MIME_TYPE = "text/plain";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions} from "vuex";
-import OpenDialog from "./OpenDialog";
 import ControlPanel from "./ControlPanel";
 export default {
     name: "GraphEditor",
+    props: {
+        route: Object,
+    },
     components: {
         GraphCanvas,
         ControlPanel,
-        OpenDialog,
     },
     watch: {
+        graph: {
+            handler: function () {
+                if (this.localVersion > 0) {
+                    this.save();
+                }
+                this.localVersion += 1;
+            },
+            deep: true,
+        },
+        showError() {
+            console.log("showError watch");
+            this.localShowError = this.showError;
+            if (this.error) {
+                this.localErrorMessage = this.error.toString();
+            }
+        },
         "keys.32"(e) {
             this.translate = e;
         }
     },
     computed: {
         ...mapState({
+            showError: state => state.showError,
+            error: state => state.error,
             presentation: state => state.presentation,
             locked: state => state.locked,
             events: state => state.events,
@@ -134,6 +156,7 @@ export default {
             hoveredConnector: state => state.hoveredConnector,
             hoveredVector: state => state.hoveredVector,
             hoveredPort: state => state.hoveredPort,
+            graphSnapshot: state => state.graphSnapshot,
             graph: state => state.graph,
             mouse: state => state.mouse,
             translating: state => state.translating,
@@ -157,6 +180,9 @@ export default {
     },
     methods: {
         ...mapActions([
+            "save",
+            "raiseError",
+            "clearError",
             "createNewVector",
             "undo",
             "redo",
@@ -170,6 +196,12 @@ export default {
             "bringToFront",
             "sendToBack",
         ]),
+        openGraph() {
+            window.open(
+                "/graphs",
+                "_graphs",
+            );
+        },
         toggleGrid() {
             this.$store.dispatch("preferences", {
                 ...this.preferences,
@@ -212,6 +244,9 @@ export default {
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
         mousemove(e) {
+            if (!this.graph) {
+                return;
+            }
             // do not track control panel inputs
             if (!this.isGraphTarget(e)) {
                 return;
@@ -224,6 +259,9 @@ export default {
             });
         },
         mousedown(e) {
+            if (!this.graph) {
+                return;
+            }
             // do not track control panel inputs
             if (!this.isGraphTarget(e)) {
                 return;
@@ -365,8 +403,7 @@ export default {
             const msg = "The text pasted onto the graph does not appear to be vector data.";
             let vectors;
             const er = () => {
-                this.errorMessage = msg;
-                this.showError = true;
+                this.raiseError(msg);
                 console.warn(msg);
             };
             try {
@@ -428,6 +465,14 @@ export default {
         document.onmousemove = this.mousemove;
         window.onkeyup = this.keyup;
         window.onkeydown = this.keydown;
+        this.$store.dispatch("getToc");
+        let graphId = "index";
+        if (this.route.path.split("/")[1]) {
+            graphId = this.route.path.split("/")[1];
+        }
+        this.$store.dispatch("open", {
+            graphId,
+        });
     },
     data: () => {
         return {
@@ -439,8 +484,9 @@ export default {
             spaceKeyCode: 32,
             translate: false,
             showDialog: false,
-            showError: false,
-            errorMessage: "",
+            localErrorMessage: "",
+            localShowError: false,
+            localVersion: 0,
         };
     }
 };

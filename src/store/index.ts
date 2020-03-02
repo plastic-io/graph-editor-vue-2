@@ -1,9 +1,5 @@
 import actions from "./actions";
 import mutations from "./mutations";
-import acidGraph from "../../graphs/acid.json";
-// import simpleGraph from "../graphs/simple.json";
-import toc from "../../tests/stubs/toc.json";
-const graph = acidGraph;
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -25,13 +21,23 @@ export default function () {
     return {
         strict: true,
         state: {
+            remoteSnapshot: {},
+            graphSnapshot: null,
+            graph: null,
+            loading: {},
+            dataProviders: {
+                graph: null,
+                session: null,
+            },
+            error: null,
+            showError: false,
             scheduler: {
                 state: {},
             },
             presentation: false,
             locked: false,
             historyPosition: 0,
-            graphSnapshot: JSON.parse(JSON.stringify(graph)),
+            
             vectorZCounter: 0,
             selectedGroups: [],
             boundingRect: {
@@ -68,7 +74,6 @@ export default function () {
             hoveredConnector: null,
             hoveredVector: null,
             hoveredPort: null,
-            graph: graph,
             mouse: {
                 lmb: false,
                 rmb: false,
@@ -84,7 +89,7 @@ export default function () {
                 y: 0,
                 k: 1
             },
-            toc: toc.TOC,
+            toc: null,
             events: [],
             preferences: {
                 newVectorOffset: {

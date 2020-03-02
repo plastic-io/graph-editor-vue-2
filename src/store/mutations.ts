@@ -11,6 +11,11 @@ export interface UIVector {
         z: number;
     };
 }
+export interface ChangeEvent {
+    id: string,
+    date: number,
+    changes: any[],
+}
 export function applyGraphChanges(state: any, name: string) {
     const changes = diff(state.graph, state.graphSnapshot);
     if (changes) {
@@ -261,7 +266,12 @@ export function view(state: any, e: object) {
 export function translating(state: any, e: object) {
     state.translating = e;
 }
-export function error(state: any, e: Error) {
+export function clearError(state: any) {
+    state.error = null;
+    state.showError = false;
+}
+export function raiseError(state: any, e: Error) {
+    console.error(e);
     state.error = e;
     state.showError = true;
 }
@@ -270,7 +280,7 @@ export function updateTemplate(state: any, e: {id: string, key: string, value: s
         return v.id === e.id;
     });
     if (!vector) {
-        throw new Error("Cannot find vector to write to.");
+        raiseError(state, new Error("Cannot find vector to write to."));
     }
     vector.template[e.key] = e.value;
 }
@@ -281,7 +291,7 @@ export function changeInputOrder(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     const propIndex = vector.properties.inputs.indexOf(prop);
@@ -296,7 +306,7 @@ export function changeOutputOrder(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
     const propIndex = vector.properties.outputs.indexOf(prop);
@@ -314,7 +324,7 @@ export function addInput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties.inputs.push({
         name: e.name,
@@ -327,7 +337,7 @@ export function addOutput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties.outputs.push({
         name: e.name,
@@ -344,7 +354,7 @@ export function removeInput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     vector.properties.inputs.splice(vector.properties.inputs.indexOf(prop), 1);
@@ -369,7 +379,7 @@ export function removeOutput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
     const edge = vector.edges.find((o: {field: string}) => o.field === e.name);
@@ -383,7 +393,7 @@ export function updateVectorProperties(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties = e.properties;
     applyGraphChanges(state, "Update Vector Properties");
@@ -393,7 +403,7 @@ export function updateGraphProperties(state: any, e: any) {
     applyGraphChanges(state, "Update Graph Properties");
 }
 export function createNewVector(state: any) {
-    state.graphSnapshot.vectors.push({
+    const vector = {
         id: newId(),
         edges: [],
         version: state.graphSnapshot.version,
@@ -401,6 +411,8 @@ export function createNewVector(state: any) {
         url: "",
         data: "",
         properties: {
+            inputs: [],
+            outputs: [],
             groups: [],
             x: state.view.x + state.preferences.newVectorOffset.x,
             y: state.view.y + state.preferences.newVectorOffset.y,
@@ -415,7 +427,8 @@ export function createNewVector(state: any) {
             set: state.preferences.defaultNewSetTemplate,
             vue: state.preferences.defaultNewVueTemplate,
         },
-    });
+    };
+    state.graphSnapshot.vectors.push(vector);
     applyGraphChanges(state, "Create New Vector");
 }
 export function updateVectorNames(state: any, e: {
@@ -423,7 +436,7 @@ export function updateVectorNames(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vector.id);
     if (!vector) {
-        throw new Error("Cannot find vector to update.");
+        raiseError(state, new Error("Cannot find vector to update."));
     }
     observableDiff(vector, e.vector, (d: any) => {
         // output changes
@@ -479,7 +492,34 @@ function changeConnectorOrder(state: any, e: {vectorId: string, connectorId: str
     });
     applyGraphChanges(state, "Reorder Connectors");
 }
+async function open(state: any, e: any) {
+    state.graph = e;
+    state.graphSnapshot = JSON.parse(JSON.stringify(e));
+    state.remoteSnapshot = JSON.parse(JSON.stringify(e));
+}
+function setDataProviders(state: any, e: {
+        [key: string]: any;
+    }) {
+    Object.keys(e).forEach((type) => {
+        state.dataProviders[type] = e[type];
+    });
+}
+function setLoadingStatus(state: any, e: {key: string, type: string, loading: boolean}) {
+    state.loading[e.type] = state.loading[e.type] || {};
+    state.loading[e.type][e.key] = e.loading;
+}
+function setRemoteSnapshot(state: any, e: any) {
+    state.remoteSnapshot = e;
+}
+function setToc(state: any, e: any) {
+    state.toc = e;
+}
 export default {
+    setRemoteSnapshot,
+    setToc,
+    setLoadingStatus,
+    open,
+    setDataProviders,
     changeConnectorOrder,
     deleteConnector,
     selectConnector,
@@ -494,7 +534,8 @@ export default {
     removeInput,
     removeOutput,
     updateTemplate,
-    error,
+    clearError,
+    raiseError,
     undo,
     redo,
     moveHistoryPosition,

@@ -245,6 +245,7 @@ export default {
             });
         },
         add(ioKey) {
+            console.log("add", ioKey);
             // if a key with this name exists, don't do it
             const isInput = ioKey === "inputs";
             const newName = isInput ? "new input" : "new output";
