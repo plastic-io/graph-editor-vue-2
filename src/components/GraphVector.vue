@@ -1,28 +1,28 @@
 <template>
     <div
-        v-if="localVector"
+        v-if="loaded"
         ref="vector"
         class="vector"
         :style="vectorStyle">
         <div class="vector-inputs">
             <vector-field
-                v-for="field in vector.properties.inputs"
+                v-for="field in inputs"
                 :key="'input_' + field.name"
                 :field="field"
-                :vector="vector"
+                :vector="localVector"
                 type="input"
             />
         </div>
         <div
             v-if="component"
-            :id="'vector-' + vector.id"
+            :id="'vector-' + localVector.id"
             @mouseover="hover"
             @mouseout="unhover"
             :class="translating && mouse.lmb ? 'no-select' : ''"
         >
             <component
-                :is="'vector-' + vector.id"
-                :vector="vector"
+                :is="'vector-' + localVector.id"
+                :vector="localVector"
                 :state="scheduler.state"
             />
             <component
@@ -32,10 +32,10 @@
         </div>
         <div class="vector-outputs">
             <vector-field
-                v-for="field in vector.properties.outputs"
+                v-for="field in outputs"
                 :key="'output_' + field.name"
                 :field="field"
-                :vector="vector"
+                :vector="localVector"
                 type="output"
             />
         </div>
@@ -72,10 +72,11 @@ export default {
         },
         vector: {
             handler: function () {
-                const changes = diff(this.localVector, this.vector);
+                const changes = diff(this.localVectorSnapshot.template.vue, this.vector.template.vue);
+                this.localVector = this.vector;
+                this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
                 if (changes) {
-                    this.localVector = this.vector;
-                    this.compileTemplate();
+                    this.compileTemplate(this.localVector.id, this.localVector.template.vue);
                 }
             },
             deep: true,
@@ -83,31 +84,77 @@ export default {
     },
     data() {
         return {
+            loaded: null,
             localHoveredVector: null,
             localSelectedVectors: [],
             component: null,
             dragged: null,
             localVector: null,
+            localVectorSnapshot: null,
             template: null,
+            compileCount: 0,
+            remoteGraph: null,
             style: "",
         };
     },
-    mounted() {
-        this.localVector = this.vector;
+    async mounted() {
+        if (this.vector.url) {
+            const v = await this.dataProviders.publish.get(this.vector.url);
+            if (v.vectors) {
+                this.importGraph(v);
+            } else {
+                this.importVector(v);
+            }
+        } else {
+            this.localVector = this.vector;
+            const tmp = this.compileTemplate(this.localVector.id, this.localVector.template.vue);
+            this.component = tmp.component;
+            this.style = tmp.style;
+        }
+        this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localSelectedVectors = this.selectedVectors;
-        this.compileTemplate();
+        this.loaded = true;
     },
     methods: {
+        importGraph(v) {
+            this.remoteGraph = v;
+            this.localVector = this.vector;
+            // compile a template for every vector marked 
+            const templates = this.remoteGraph.vectors.map((v) => {
+                console.log("register", this.vector.id + "-" + v.id);
+                return this.compileTemplate(this.vector.id + "-" + v.id, v.template.vue);
+            });
+            const temp = [];
+            temp.push("<template><div>");
+            this.remoteGraph.vectors.forEach((v) => {
+                temp.push("<component is=\"vector-" + this.vector.id + "-" + v.id + "\" :state=\"$store.state.scheduler.state\"/>");
+            });
+            temp.push("</div></template>");
+            const tmp = this.compileTemplate(this.vector.id, temp.join(""));
+            this.component = tmp.component;
+            this.style = templates.map(t => t.style).join("\n");
+        },
+        importVector(v) {
+            v.url = this.vector.url;
+            v.originalId = v.id;
+            v.id = this.vector.id;
+            v.properties = this.vector.properties;
+            this.localVector = v;
+            const tmp = this.compileTemplate(this.localVector.id, this.localVector.template.vue);
+            this.component = tmp.component;
+            this.style = tmp.style;
+        },
         hover() {
-            this.$store.dispatch("hoveredVector", this.vector);
+            this.$store.dispatch("hoveredVector", this.localVector);
         },
         unhover() {
             this.$store.dispatch("hoveredVector", null);
         },
-        compileTemplate() {
+        compileTemplate(id, tmp) {
             let script;
             let template;
             let style;
+            let component;
             const handler = new DomHandler(function(error, dom) {
                 if (error) {
                     // Handle error
@@ -116,21 +163,21 @@ export default {
                     dom.forEach((el) => {
                         if (el.tagName === "script") {
                             if (script !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one script tag.`));
+                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one script tag.`));
                                 return;
                             }
                             script = domutils.getInnerHTML(el);
                         }
                         if (el.tagName === "template") {
                             if (template !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one template tag.`));
+                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one template tag.`));
                                 return;
                             }
                             template = domutils.getInnerHTML(el);
                         }
                         if (el.tagName === "style") {
                             if (style !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains a Vue template with more than one style tag.`));
+                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one style tag.`));
                                 return;
                             }
                             style = domutils.getInnerHTML(el);
@@ -142,7 +189,7 @@ export default {
                 decodeEntities: true,
                 recognizeSelfClosing: true,
             });
-            parser.write(this.vector.template.vue);
+            parser.write(tmp);
             parser.end();
             if (script === undefined) {
                 script = "export default {}";
@@ -156,18 +203,22 @@ export default {
             const vueFn = new Function(astString);
             try {
                 const obj = vueFn();
-                this.component = Vue.component("vector-" + this.vector.id, {
+                component = Vue.component("vector-" + id, {
                     ...obj,
                     template,
                 });
             } catch (err) {
-                this.$store.dispatch("error", new Error(`Vector ${this.vector.id} contains an error in the Vue script. ${err}.`));
+                this.$store.dispatch("error", new Error(`Vector ${id} contains an error in the Vue script. ${err}.`));
             }
-            this.style = style;
+            return {
+                style,
+                component,
+            };
         },
     },
     computed: {
         ...mapState({
+            dataProviders: state => state.dataProviders,
             scheduler: state => state.scheduler,
             hoveredVector: state => state.hoveredVector,
             selectedVectors: state => state.selectedVectors,
@@ -177,9 +228,15 @@ export default {
             keys: state => state.keys,
             view: state => state.view,
         }),
+        inputs: function () {
+            return this.localVector.properties.inputs;
+        },
+        outputs: function () {
+            return this.localVector.properties.outputs;
+        },
         vectorStyle: function () {
             const hovered = this.localHoveredVector && this.localHoveredVector.id === this.localVector.id;
-            const selected = !!this.localSelectedVectors.find(v => v.id === this.vector.id);
+            const selected = !!this.localSelectedVectors.find(v => v.id === this.localVector.id);
             const hoveredAndSelected = hovered && selected;
             let borderColor = "transparent";
             if (hoveredAndSelected) {

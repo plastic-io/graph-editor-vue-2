@@ -16,8 +16,13 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 const store = new Vuex.Store(storeConfig());
 store.dispatch("setDataProviders", {
+    publish: localStoreDataProvider,
     graph: localStoreDataProvider,
-    session: localStoreDataProvider,
+    preferences: localStoreDataProvider,
+});
+store.dispatch("getPreferences");
+store.watch((state) => state.historyPosition, () => {
+    store.dispatch("save");
 });
 const router = new VueRouter({
     mode: "history",

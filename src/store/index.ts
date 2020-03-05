@@ -1,5 +1,6 @@
 import actions from "./actions";
 import mutations from "./mutations";
+import {getField, updateField} from "vuex-map-fields";
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -26,6 +27,7 @@ export default function () {
             graph: null,
             loading: {},
             dataProviders: {
+                publish: null,
                 graph: null,
                 session: null,
             },
@@ -37,7 +39,6 @@ export default function () {
             presentation: false,
             locked: false,
             historyPosition: 0,
-            
             vectorZCounter: 0,
             selectedGroups: [],
             boundingRect: {
@@ -121,6 +122,12 @@ export default function () {
             }
         },
         actions,
-        mutations,
+        mutations: {
+            ...mutations,
+            updateField,
+        },
+        getters: {
+            getField,
+        },
     };
 }

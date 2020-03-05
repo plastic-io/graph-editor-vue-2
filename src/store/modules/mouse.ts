@@ -165,6 +165,7 @@ export default function mouse(state: any, mouse: {
     // drop moving vectors and connectors
     if (!mouse.lmb && state.mouse.lmb) {
         state.movingVectors = [];
+        console.log("moved vectors");
         applyGraphChanges(state, "Move Vectors");
         state.movingConnector = null;
         state.addingConnector = null;
@@ -204,7 +205,9 @@ export default function mouse(state: any, mouse: {
             }
             if (state.hoveredVector) {
                 const v = state.graph.vectors.find((v: UIVector) => v.id === state.hoveredVector.id);
-                state.selectedVectors.push(v);
+                if (state.selectedVectors.map((v) => v.id).indexOf(v.id) === -1) {
+                    state.selectedVectors.push(v);
+                }
                 state.selectedVector = v;
             }
             if (state.selectedVectors.length > 0) {
@@ -230,7 +233,9 @@ export default function mouse(state: any, mouse: {
                 && rect.right > sel.x
                 && rect.y < sel.bottom
                 && rect.bottom > sel.y) {
-                state.selectedVectors.push(v);
+                if (state.selectedVectors.map((v) => v.id).indexOf(v.id) === -1) {
+                    state.selectedVectors.push(v);
+                }
                 state.selectedVector = v;
             }
         });

@@ -164,6 +164,123 @@ export function sendToBack(state: any) {
     });
     applyGraphChanges(state, "Send to Back");
 }
+export function addGraphItem(state: any, e: any) {
+    const linkedGraphInputs = {};
+    const linkedGraphOutputs = {};
+    const graph = e.item;
+    graph.vectors.forEach((v) => {
+        v.properties.inputs.forEach((i) => {
+            if (i.external) {
+                linkedGraphInputs[i.name] = {
+                    id: v.id,
+                    field: i.name,
+                };
+            }
+        });
+        v.properties.outputs.forEach((i) => {
+            if (i.external) {
+                linkedGraphOutputs[i.name] = {
+                    id: v.id,
+                    field: i.name,
+                };
+            }
+        });
+    });
+    // create IOs (inputs, outputs/edges) on outter vector to support IO of graphs's externals
+    const vector = {
+        id: newId(),
+        edges: [],
+        version: state.graphSnapshot.version,
+        graphId: state.graphSnapshot.id,
+        url: "artifacts/" + e.id + "." + e.version,
+        data: null,
+        linkedGraph: {
+            id: e.id,
+            version: e.version,
+            data: {},
+            properties: {},
+            fields: {
+                inputs: linkedGraphInputs,
+                outputs: linkedGraphOutputs
+            }
+        },
+        properties: {
+            inputs: [],
+            outputs: [],
+            groups: [],
+            name: e.name,
+            description: e.description,
+            tags: [],
+            appearsInPresentation: false,
+            appearsInExport: false,
+            x: state.view.x + state.preferences.newVectorOffset.x,
+            y: state.view.y + state.preferences.newVectorOffset.y,
+            z: 0 + state.preferences.newVectorOffset.z,
+            presentation: {
+                x: state.view.x + state.preferences.newVectorOffset.x,
+                y: state.view.y + state.preferences.newVectorOffset.y,
+                z: 0 + state.preferences.newVectorOffset.z,
+            },
+        },
+        template: {
+            set: null,
+            vue: null,
+        },
+    };
+    Object.keys(linkedGraphInputs).forEach((ioKey) => {
+        const io = linkedGraphInputs[ioKey];
+        vector.properties.inputs.push({
+            name: io.field,
+            external: false
+        });
+    });
+    Object.keys(linkedGraphOutputs).forEach((ioKey) => {
+        const io = linkedGraphOutputs[ioKey];
+        vector.properties.outputs.push({
+            name: io.field,
+            external: false
+        });
+        vector.edges.push({
+            field: io.field,
+            connectors: [],
+        });
+    });
+    state.graphSnapshot.vectors.push(vector);
+}
+export function addVectorItem(state: any, e: any) {
+    const vector = {
+        id: newId(),
+        edges: [],
+        version: state.graphSnapshot.version,
+        graphId: state.graphSnapshot.id,
+        url: "artifacts/" + e.id + "." + e.version,
+        data: null,
+        properties: {
+            inputs: [],
+            outputs: [],
+            groups: [],
+            name: e.name,
+            description: e.description,
+            tags: [],
+            appearsInPresentation: false,
+            appearsInExport: false,
+            x: state.view.x + state.preferences.newVectorOffset.x,
+            y: state.view.y + state.preferences.newVectorOffset.y,
+            z: 0 + state.preferences.newVectorOffset.z,
+            presentation: {
+                x: state.view.x + state.preferences.newVectorOffset.x,
+                y: state.view.y + state.preferences.newVectorOffset.y,
+                z: 0 + state.preferences.newVectorOffset.z,
+            },
+        },
+        template: {
+            set: null,
+            vue: null,
+        },
+    };
+    state.graphSnapshot.vectors.push(vector);
+    applyGraphChanges(state, "Import New Vector");
+}
 export function groupSelected(state: any) {
     const newGroupID = newId();
     const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
@@ -249,6 +366,7 @@ export function hoveredVector(state: any, e: object) {
     state.hoveredVector = e;
 }
 export function hoveredPort(state: any, e: object) {
+    console.log("hoveredPort", e);
     state.hoveredPort = e;
 }
 export function graph(state: any, e: object) {
@@ -283,6 +401,7 @@ export function updateTemplate(state: any, e: {id: string, key: string, value: s
         raiseError(state, new Error("Cannot find vector to write to."));
     }
     vector.template[e.key] = e.value;
+    applyGraphChanges(state, "Update Template");
 }
 export function changeInputOrder(state: any, e: {
     vectorId: string,
@@ -328,6 +447,7 @@ export function addInput(state: any, e: {
     }
     vector.properties.inputs.push({
         name: e.name,
+        external: false,
     });
     applyGraphChanges(state, "Add Input");
 }
@@ -341,6 +461,7 @@ export function addOutput(state: any, e: {
     }
     vector.properties.outputs.push({
         name: e.name,
+        external: false,
     });
     vector.edges.push({
         field: e.name,
@@ -395,6 +516,7 @@ export function updateVectorProperties(state: any, e: {
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
+    console.log("updateVectorProperties");
     vector.properties = e.properties;
     applyGraphChanges(state, "Update Vector Properties");
 }
@@ -408,12 +530,17 @@ export function createNewVector(state: any) {
         edges: [],
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        url: "",
-        data: "",
+        url: null,
+        data: null,
         properties: {
             inputs: [],
             outputs: [],
             groups: [],
+            name: "New Vector",
+            description: "",
+            tags: [],
+            appearsInPresentation: false,
+            appearsInExport: false,
             x: state.view.x + state.preferences.newVectorOffset.x,
             y: state.view.y + state.preferences.newVectorOffset.y,
             z: 0 + state.preferences.newVectorOffset.z,
@@ -431,7 +558,7 @@ export function createNewVector(state: any) {
     state.graphSnapshot.vectors.push(vector);
     applyGraphChanges(state, "Create New Vector");
 }
-export function updateVectorNames(state: any, e: {
+export function updateVectorFields(state: any, e: {
     vector: UIVector,
 }) {
     const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vector.id);
@@ -441,28 +568,32 @@ export function updateVectorNames(state: any, e: {
     observableDiff(vector, e.vector, (d: any) => {
         // output changes
         if (d.path[0] === "properties" && d.path[1] === "outputs"
-                && !isNaN(d.path[2]) && d.path[3] === "name") {
+                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external")) {
             applyChange(vector, e.vector, d);
-            // also apply the change to local edge names
-            const edge = vector.edges.find((ed: {field: string}) => {
-                return ed.field === d.lhs;
-            });
-            edge.field = d.rhs;
+            if (d.path[3] === "name") {
+                // also apply the change to local edge names
+                const edge = vector.edges.find((ed: {field: string}) => {
+                    return ed.field === d.lhs;
+                });
+                edge.field = d.rhs;
+            }
         }
         // input changes
         if (d.path[0] === "properties" && d.path[1] === "inputs"
-                && !isNaN(d.path[2]) && d.path[3] === "name") {
+                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external")) {
             applyChange(vector, e.vector, d);
-            // also apply the change to the edge connectors that interact with it
-            state.graphSnapshot.vectors.forEach((v: UIVector) => {
-                v.edges.forEach((edge) => {
-                    edge.connectors.forEach((con: {vectorId: string, field: string}) => {
-                        if (con.field === d.lhs && con.vectorId === e.vector.id) {
-                            con.field = d.rhs;
-                        }
+            if (d.path[3] === "name") {
+                // also apply the change to the edge connectors that interact with it
+                state.graphSnapshot.vectors.forEach((v: UIVector) => {
+                    v.edges.forEach((edge) => {
+                        edge.connectors.forEach((con: {vectorId: string, field: string}) => {
+                            if (con.field === d.lhs && con.vectorId === e.vector.id) {
+                                con.field = d.rhs;
+                            }
+                        });
                     });
                 });
-            });
+            }
         }
     });
     applyGraphChanges(state, "Rename IO");
@@ -511,10 +642,33 @@ function setLoadingStatus(state: any, e: {key: string, type: string, loading: bo
 function setRemoteSnapshot(state: any, e: any) {
     state.remoteSnapshot = e;
 }
+function setPreferences(state: any, e: any) {
+    state.preferences = e;
+}
+function setGraphVersion(state: any, e: number) {
+    state.graph.version = e;
+    state.graph.vectors.forEach((v) => {
+        v.version = e;
+        v.edges.forEach((edge) => {
+            edge.connectors.forEach((connector) => {
+                if (connector.graphId === state.graph.id) {
+                    connector.version = e;
+                }
+            });
+        });
+    });
+    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
+    state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
+}
 function setToc(state: any, e: any) {
+    console.log("set toc");
     state.toc = e;
 }
 export default {
+    addGraphItem,
+    setGraphVersion,
+    addVectorItem,
+    setPreferences,
     setRemoteSnapshot,
     setToc,
     setLoadingStatus,
@@ -523,7 +677,7 @@ export default {
     changeConnectorOrder,
     deleteConnector,
     selectConnector,
-    updateVectorNames,
+    updateVectorFields,
     createNewVector,
     updateGraphProperties,
     updateVectorProperties,

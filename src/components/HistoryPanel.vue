@@ -57,6 +57,7 @@ export default {
                 "Reorder Connectors": "mdi-sync",
                 "Delete Connector": "mdi-delete",
                 "Rename IO": "mdi-pencil",
+                "Update Template": "mdi-pencil",
             }[name] || "mdi-pencil";
         },
     },

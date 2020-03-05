@@ -52,7 +52,7 @@
                     </v-icon>
                     <v-icon
                         title="Vector Set Code.  Code that runs when your vector is invoked at run time."
-                        v-if="selectedVector"
+                        v-if="selectedVector && !selectedVector.url"
                         :color="panel === 'set' ? 'info' : ''"
                         @click="selectPanel('set')"
                     >
@@ -60,7 +60,7 @@
                     </v-icon>
                     <v-icon
                         title="Vector Template Code.  Code that runs when your vector appears in the graph IDE."
-                        v-if="selectedVector"
+                        v-if="selectedVector && !selectedVector.url"
                         :color="panel === 'template' ? 'info' : ''"
                         @click="selectPanel('template')"
                     >
@@ -229,11 +229,11 @@ export default {
             navWidths: {
                 properties: "300px",
                 history: "250px",
-                graph: "250px",
+                graph: "300px",
                 set: null,
                 template: null,
                 edge: "300px",
-                import: "250px",
+                import: "300px",
                 settings: "250px"
             },
             panel: "",

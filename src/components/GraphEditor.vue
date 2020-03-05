@@ -1,18 +1,17 @@
 <template>
     <v-app class="graph-editor">
         <template  v-if="graph">
-            <v-system-bar ref="topBar" style="z-index: 2;">
+            <v-system-bar ref="topBar" style="z-index: 2;white-space: nowrap;">
                 <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
-                    <v-icon>mdi-file</v-icon>
-                    {{ graph.properties.name || "Untitled" }}
-                </div>
-                <v-spacer/>
-                <span>Plastic-IO</span>
-                <v-spacer/>
-                <span>
                     <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
+                    {{ graph.properties.name || "Untitled" }}
+                </div>
+                <v-spacer style="margin-right: 5%;"/>
+                <span>Plastic-IO</span>
+                <v-spacer/>
+                <span>
                     <v-divider vertical style="margin: 5px;"/>
                     <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
                     <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
@@ -119,17 +118,7 @@ export default {
         ControlPanel,
     },
     watch: {
-        graph: {
-            handler: function () {
-                if (this.localVersion > 0) {
-                    this.save();
-                }
-                this.localVersion += 1;
-            },
-            deep: true,
-        },
         showError() {
-            console.log("showError watch");
             this.localShowError = this.showError;
             if (this.error) {
                 this.localErrorMessage = this.error.toString();

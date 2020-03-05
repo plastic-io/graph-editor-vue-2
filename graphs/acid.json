@@ -21,6 +21,8 @@
             "url": "index",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "groups": [
                     "g1",
                     "g4"
@@ -35,12 +37,14 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     }
                 ]
             },
@@ -66,6 +70,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 900,
                 "y": 400,
                 "z": 0,
@@ -80,18 +86,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -184,6 +194,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 100,
                 "y": 200,
                 "z": 0,
@@ -198,12 +210,14 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     }
                 ]
             },
@@ -229,6 +243,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 400,
                 "y": 600,
                 "z": 0,
@@ -243,18 +259,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -280,6 +300,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 30,
                 "y": 800,
                 "z": 0,
@@ -294,18 +316,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -331,6 +357,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": -100,
                 "y": 600,
                 "z": 0,
@@ -344,18 +372,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -381,6 +413,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": -240,
                 "y": 300,
                 "z": 0,
@@ -392,18 +426,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -429,6 +467,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": -250,
                 "y": 100,
                 "z": 0,
@@ -440,18 +480,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -477,6 +521,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 10,
                 "y": -200,
                 "z": 0,
@@ -488,18 +534,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },
@@ -525,6 +575,8 @@
             "url": "",
             "data": "",
             "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
                 "x": 160,
                 "y": -150,
                 "z": 0,
@@ -536,18 +588,22 @@
                 },
                 "inputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "foo"
+                        "name": "foo",
+                        "external": false
                     }
                 ],
                 "outputs": [
                     {
-                        "name": "proxy"
+                        "name": "proxy",
+                        "external": false
                     },
                     {
-                        "name": "bar"
+                        "name": "bar",
+                        "external": false
                     }
                 ]
             },

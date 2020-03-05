@@ -63,16 +63,21 @@ export default function bezierDraw(connector: any): void {
             || Math.abs(connector.mouse.y - connector.translating.mouse.y) > dragDeadZone) : false;
         const isMoving = (connector.movingConnector && connector.movingConnector.connector.id === connector.connector.id && pastDeadZone)
             || (connector.addingConnector && connector.addingConnector.connector.id === connector.connector.id);
-        const elOutPort = document.getElementById(`vector-output-${connector.output.vector.id}-${connector.output.field.name}`)!.getBoundingClientRect();
-        const elInPort = !isMoving ? document.getElementById(`vector-input-${connector.input.vector.id}-${connector.input.field.name}`)!.getBoundingClientRect() 
-            : {x: 0, y: 0,};
+        const elOutPort = document.getElementById(`vector-output-${connector.output.vector.id}-${connector.output.field.name}`);
+        const elInPort = document.getElementById(`vector-input-${connector.input.vector.id}-${connector.input.field.name}`);
+        // if a graph element is still loading, it might not have io yet
+        if ((!isMoving && !elInPort) || !elOutPort) {
+            return setTimeout(draw, 100);
+        }
+        const elOutPortRect = elOutPort.getBoundingClientRect();
+        const elInPortRect = !isMoving ? elInPort.getBoundingClientRect() : {x: 0, y: 0,};
         const inRect = {
-            x: elInPort.x,
-            y: elInPort.y,
+            x: elInPortRect.x,
+            y: elInPortRect.y,
         };
         const outRect = {
-            x: elOutPort.x,
-            y: elOutPort.y,
+            x: elOutPortRect.x,
+            y: elOutPortRect.y,
         };
         inRect.x = (inRect.x - connector.view.x) / connector.view.k;
         inRect.y = (inRect.y - connector.view.y) / connector.view.k;

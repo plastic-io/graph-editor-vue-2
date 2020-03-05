@@ -227,6 +227,7 @@ export default {
         sortBy: "name",
         keys: [
             "name",
+            "type",
             "version",
             "description",
         ],

@@ -5,12 +5,13 @@
                 Inputs and Outputs
             </v-toolbar-title>
         </v-toolbar>
-        <v-expansion-panels style="width: 260px" accordion flat multiple :value="[0]">
-            <v-expansion-panel v-for="ioKey in ['outputs', 'inputs']" :key="ioKey">
+        <v-expansion-panels style="width: 260px" accordion flat multiple :value="panels">
+            <v-expansion-panel v-for="ioKey in ['inputs', 'outputs']" :key="ioKey">
                 <v-expansion-panel-header>
                     <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
                         <v-btn
                             @click.stop="add(ioKey)"
+                             :disabled="controlsDisabled"
                             color="info"
                             fab
                             dark
@@ -20,7 +21,7 @@
                         >
                             <v-icon>mdi-plus-circle-outline</v-icon>
                         </v-btn>
-                        <v-icon style="margin-left: 45px;margin-right: 10px;">{{ioKey === "outputs" ? 'mdi-power-plug' : 'mdi-power-socket-us'}}</v-icon>
+                        <v-icon style="margin-left: 45px;margin-right: 10px;">{{ioKey === "outputs" ? 'mdi-power-plug' : 'mdi-power-socket'}}</v-icon>
                         <v-toolbar-title>
                             {{ioKey}}
                         </v-toolbar-title>
@@ -35,20 +36,20 @@
                                         <tr>
                                             <td>
                                                 <v-icon
-                                                    :disabled="index === 0"
+                                                    :disabled="index === 0 || controlsDisabled"
                                                     @click="moveUp(ioKey, io)">mdi-arrow-up-bold-box-outline</v-icon>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
                                                 <v-icon
-                                                    :disabled="index === vector.properties[ioKey].length - 1"
+                                                    :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
                                                     @click="moveDown(ioKey, io)">mdi-arrow-down-bold-box-outline</v-icon>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <v-icon @click="remove(ioKey, io)">mdi-delete</v-icon>
+                                                <v-icon :disabled="controlsDisabled" @click="remove(ioKey, io)">mdi-delete</v-icon>
                                             </td>
                                         </tr>
                                     </table>
@@ -62,7 +63,8 @@
                                             <v-icon>mdi-power-plug</v-icon>
                                         </v-tab>
                                         <v-tab-item style="transform: scale(1.3) translate(10%); width: 85%;margin-bottom: -20%;">
-                                            <v-text-field v-model.lazy="io.name"></v-text-field>
+                                            <v-text-field :disabled="controlsDisabled" v-model.lazy="io.name"/>
+                                            <v-checkbox v-if="!controlsDisabled" v-model.lazy="io.external" label="External"/>
                                         </v-tab-item>
                                         <v-tab-item>
                                             <v-card flat>
@@ -84,20 +86,20 @@
                                                                 <tr>
                                                                     <td>
                                                                         <v-icon
-                                                                            :disabled="index === 0"
+                                                                            :disabled="index === 0 || controlsDisabled"
                                                                             @click="moveConnectorUp(connectorInfo)">mdi-arrow-up-bold-box-outline</v-icon>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <v-icon
-                                                                            :disabled="index === vector.properties[ioKey].length - 1"
+                                                                            :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
                                                                             @click="moveConnectorDown(connectorInfo)">mdi-arrow-down-bold-box-outline</v-icon>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        <v-icon @click="removeConnector(connectorInfo)">mdi-delete</v-icon>
+                                                                        <v-icon :disabled="controlsDisabled" @click="removeConnector(connectorInfo)">mdi-delete</v-icon>
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -320,6 +322,7 @@ export default {
             showMessage: false,
             message: "",
             messageCallback: null,
+            panels: [0],
         };
     },
     watch: {
@@ -332,7 +335,7 @@ export default {
         },
         "vector.properties": {
             handler: function () {
-                this.$store.dispatch("updateVectorNames", {
+                this.$store.dispatch("updateVectorFields", {
                     vector: this.vector,
                 });
             },
@@ -351,6 +354,9 @@ export default {
         this.setLocalVector();
     },
     computed: {
+        controlsDisabled() {
+            return !!this.vector.url;
+        },
         ...mapState({
             selectedVector: state => state.selectedVector,
             graphSnapshot: state => state.graphSnapshot,
@@ -363,7 +369,8 @@ export default {
         display: none!important;
     }
     .connector-info {
-        height: 300px; width: 290px;
+        max-height: 300px;
+        width: 290px;
         overflow-y: auto;
         overflow-x: visible;
         padding-top: 10px;
