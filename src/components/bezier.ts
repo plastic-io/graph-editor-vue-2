@@ -64,7 +64,7 @@ export default function bezierDraw(connector: any): void {
         const isMoving = (connector.movingConnector && connector.movingConnector.connector.id === connector.connector.id && pastDeadZone)
             || (connector.addingConnector && connector.addingConnector.connector.id === connector.connector.id);
         const elOutPort = document.getElementById(`vector-output-${connector.output.vector.id}-${connector.output.field.name}`);
-        const elInPort = document.getElementById(`vector-input-${connector.input.vector.id}-${connector.input.field.name}`);
+        const elInPort = connector.input.vector ? document.getElementById(`vector-input-${connector.input.vector.id}-${connector.input.field.name}`) : null;
         // if a graph element is still loading, it might not have io yet
         if ((!isMoving && !elInPort) || !elOutPort) {
             return setTimeout(draw, 100);

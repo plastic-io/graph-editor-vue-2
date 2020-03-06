@@ -4,7 +4,6 @@ const eventsPrefix = "events/";
 const artifactsPrefix = "artifacts/";
 async function updateToc(key, value) {
     // write new data to TOC
-    console.log("update toc");
     let toc: object = await localStorage.getItem(tocKey);
     if (!toc) {
         toc = {};
@@ -34,7 +33,6 @@ const provider = {
         return obj;
     },
     async set(url: string, value: {time: number, changes: object[]}): Promise<void> {
-        console.info("set", url);
         let events: {time: number, changes: object[]}[] = [];
         const state: any = {};
         if (value.preferences) {
@@ -98,6 +96,7 @@ const provider = {
         }
     },
     async delete(url: string): Promise<void> {
+        console.log("delete", url);
         let toc = await localStorage.getItem(tocKey);
         if (!toc) {
             throw new Error("Cannot find TOC.");

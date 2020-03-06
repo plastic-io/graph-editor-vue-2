@@ -88,7 +88,7 @@
                         :color="panel === 'import' ? 'info' : ''"
                         @click="selectPanel('import')"
                     >
-                        mdi-package
+                        mdi-shape-rectangle-plus
                     </v-icon>
                     <v-icon
                         title="View and edit the settings of the graph IDE."

@@ -1,5 +1,7 @@
 import {UIVector, ChangeEvent, newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
+const artifactPrefix = "artifacts/";
+const eventsPrefix = "events/";
 export default {
     async publishGraph(context: any) {
         const graph = context.state.graph;
@@ -120,6 +122,20 @@ export default {
         };
         context.dispatch("save", e);
     },
+    async removeArtifact(context: any, item: any) {
+        context.commit("setLoadingStatus", {
+            key: item.id,
+            type: "removeItem",
+            loading: true,
+        });
+        await context.state.dataProviders.graph.delete(artifactPrefix + item.id + "." + item.version);
+        context.commit("setLoadingStatus", {
+            key: item.id,
+            type: "removeItem",
+            loading: false,
+        });
+        context.dispatch("getToc");
+    },
     async remove(context: any, graphId: any) {
         context.commit("setLoadingStatus", {
             key: graphId,
@@ -127,6 +143,7 @@ export default {
             loading: true,
         });
         await context.state.dataProviders.graph.delete(graphId);
+        await context.state.dataProviders.graph.delete(eventsPrefix + graphId);
         context.commit("setLoadingStatus", {
             key: graphId,
             type: "removeGraph",
@@ -148,33 +165,33 @@ export default {
             loading: true,
         });
     },
-    save(context: any) {
-        const graph = context.state.graph;
-        console.log("saving", graph);
+    async save(context: any, e?: any) {
+        const graph = e || context.state.graph;
+        const changes = diff(context.state.remoteSnapshot, graph);
+        if (!changes) {
+            return;
+        }
         context.commit("setLoadingStatus", {
             key: graph.id,
             type: "saveGraph",
             loading: true,
         });
-        const changes = diff(context.state.remoteSnapshot, graph);
-        if (changes) {
-            if (!context.state.dataProviders.asyncUpdate) {
-                if (context.state.graph) {
-                    changes.push({
-                        kind: "E",
-                        path: ["version"],
-                        lhs: graph.version,
-                        rhs: graph.version + 1,
-                    });
-                    context.commit("setGraphVersion", graph.version + 1);
-                }
+        console.info("saving");
+        if (!context.state.dataProviders.asyncUpdate) {
+            if (context.state.graph) {
+                changes.push({
+                    kind: "E",
+                    path: ["version"],
+                    lhs: graph.version,
+                    rhs: graph.version + 1,
+                });
+                context.commit("setGraphVersion", graph.version + 1);
             }
-            console.log("set changes");
-            context.state.dataProviders.graph.set(graph.id, {
-                changes,
-                id: newId(),
-            });
         }
+        await context.state.dataProviders.graph.set(graph.id, {
+            changes,
+            id: newId(),
+        });
         context.commit("setLoadingStatus", {
             key: graph.id,
             type: "saveGraph",
@@ -207,8 +224,8 @@ export default {
     async addItem(context: any, e: any) {
         let item, er;
         try {
-            console.log("artifacts/" + e.id + "." + e.version);
-            item = await context.state.dataProviders.publish.get("artifacts/" + e.id + "." + e.version);
+            console.log(artifactPrefix + e.id + "." + e.version);
+            item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
         } catch (err) {
             er = err;
         }
@@ -232,8 +249,8 @@ export default {
         context.commit("updateVectorFields", e);
         context.dispatch("save");
     },
-    createNewVector(context: any) {
-        context.commit("createNewVector");
+    createNewVector(context: any, e: any) {
+        context.commit("createNewVector", e);
         context.dispatch("save");
     },
     updateGraphProperties(context: any, e: any) {

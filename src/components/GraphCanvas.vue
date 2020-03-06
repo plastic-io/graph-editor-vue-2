@@ -1,5 +1,5 @@
 <template>
-    <div :style="graphCanvasStyle" v-if="localGraph">
+    <div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)">
         <div
             :style="preferences.appearance.theme === 'dark' ? '' : 'filter: invert(1);'"
             :class="graphCanvasClasses"
@@ -23,7 +23,7 @@
 <script>
 import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
-import {mapState} from "vuex";
+import {mapState, mapActions} from "vuex";
 import {diff} from "deep-diff";
 import colors from "vuetify/lib/util/colors";
 export default {
@@ -42,6 +42,32 @@ export default {
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
         this.localGraph = this.graphSnapshot;
     },
+    methods: {
+        ...mapActions([
+            "createNewVector",
+            "addItem",
+        ]),
+        dragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "link";
+        },
+        drop(e) {
+            const data = JSON.parse(e.dataTransfer.getData(this.vectorMimeType));
+            console.log("drop", data);
+            if (data.type === "newVector") {
+                this.createNewVector({
+                    x: e.clientX,
+                    y: e.clientY,
+                });
+                return;
+            }
+            this.addItem({
+                x: e.clientX,
+                y: e.clientY,
+                ...data,
+            });
+        },
+    },
     watch: {
         graphSnapshot: {
             handler: function () {
@@ -56,6 +82,7 @@ export default {
     },
     computed: {
         ...mapState({
+            vectorMimeType: state => state.vectorMimeType,
             historyPosition: state => state.historyPosition,
             addingConnector: state => state.addingConnector,
             selectionRect: state => state.selectionRect,

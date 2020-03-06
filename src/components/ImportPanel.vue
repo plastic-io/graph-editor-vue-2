@@ -1,30 +1,26 @@
 <template>
     <div v-if="localToc">
-        <v-list style="width: 270px;">
-            <v-subheader>Items</v-subheader>
-            <v-list-item-group v-model="selectedItem">
-                <v-list-item v-for="(item, index) in items" :key="index">
-                    <v-list-item-icon>
-                        <v-icon>mdi-cube-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>{{item.name}}</v-list-item-title>
-                        <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                        <v-btn icon @click="addItem(item)">
-                            <v-icon>mdi-plus-circle-outline</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                </v-list-item>
-            </v-list-item-group>
-        </v-list>
+        <v-tabs grow style="width: 260px;" icons-and-text>
+            <v-tab>
+                Local
+                <v-icon>mdi-folder</v-icon>
+            </v-tab>
+            <v-tab>
+                Public
+                <v-icon>mdi-folder-network</v-icon>
+            </v-tab>
+            <v-tab-item>
+                <import-panel-list :list="Object.keys(localToc).map(i => localToc[i])"/>
+            </v-tab-item>
+        </v-tabs>
     </div>
 </template>
 <script>
-import {mapState, mapActions} from "vuex";
+import ImportPanelList from "./ImportPanelList";
+import {mapState} from "vuex";
 export default {
     name: "import-panel",
+    components: {ImportPanelList},
     data: () => {
         return {
             localToc: null,
@@ -34,30 +30,47 @@ export default {
     watch: {
         toc: {
             handler() {
-                this.localToc = this.toc;
+                this.updateLocalToc();
             },
             deep: true,
         },
     },
     methods: {
-        ...mapActions([
-            "addItem",
-        ]),
+        updateLocalToc() {
+            this.localToc = {
+                "0": {type: "newVector", name: "Empty Vector", description: "An new, empty vector."},
+                ...JSON.parse(JSON.stringify(this.toc)),
+            };
+        },
     },
     computed: {
         ...mapState({
             toc: state => state.toc,
         }),
+        artifacts() {
+            return (id) => {
+                return Object.keys(this.toc).map((id) => {
+                    return this.toc[id];
+                }).filter((item) => {
+                    return /published|newVector/.test(item.type) && item.id === id;
+                });
+            };
+        },
         items() {
-            return Object.keys(this.toc).map((id) => {
-                return this.toc[id];
-            }).filter((item) => {
-                return /published/.test(item.type);
+            const items = {};
+            Object.keys(this.toc).forEach((id) => {
+                const item = this.toc[id];
+                if (/published|newVector/.test(item.type)) {
+                    if (!items[item.id] || items[item.id].version < item.version) {
+                        items[item.id] = item;
+                    }
+                }
             });
+            return Object.keys(items).map(key => items[key]);
         }
     },
     mounted() {
-        this.localToc = this.toc;
+        this.updateLocalToc();
     },
 };
 </script>

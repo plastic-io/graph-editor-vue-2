@@ -121,13 +121,14 @@ export default {
             this.localVector = this.vector;
             // compile a template for every vector marked 
             const templates = this.remoteGraph.vectors.map((v) => {
-                console.log("register", this.vector.id + "-" + v.id);
                 return this.compileTemplate(this.vector.id + "-" + v.id, v.template.vue);
             });
             const temp = [];
             temp.push("<template><div>");
             this.remoteGraph.vectors.forEach((v) => {
-                temp.push("<component is=\"vector-" + this.vector.id + "-" + v.id + "\" :state=\"$store.state.scheduler.state\"/>");
+                if (v.properties.appearsInExportedGraph) {
+                    temp.push("<component is=\"vector-" + this.vector.id + "-" + v.id + "\" :state=\"$store.state.scheduler.state\"/>");
+                }
             });
             temp.push("</div></template>");
             const tmp = this.compileTemplate(this.vector.id, temp.join(""));
@@ -138,7 +139,12 @@ export default {
             v.url = this.vector.url;
             v.originalId = v.id;
             v.id = this.vector.id;
-            v.properties = this.vector.properties;
+            v.properties.x = this.vector.properties.x;
+            v.properties.y = this.vector.properties.y;
+            v.properties.z = this.vector.properties.z;
+            v.properties.presentation.x = this.vector.properties.presentation.x;
+            v.properties.presentation.y = this.vector.properties.presentation.y;
+            v.properties.presentation.z = this.vector.properties.presentation.z;
             this.localVector = v;
             const tmp = this.compileTemplate(this.localVector.id, this.localVector.template.vue);
             this.component = tmp.component;

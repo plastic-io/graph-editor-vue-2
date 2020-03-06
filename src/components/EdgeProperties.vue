@@ -1,140 +1,140 @@
 <template>
-    <div v-if="vector">
-        <v-toolbar>
-            <v-toolbar-title>
-                Inputs and Outputs
-            </v-toolbar-title>
-        </v-toolbar>
-        <v-expansion-panels style="width: 260px" accordion flat multiple :value="panels">
-            <v-expansion-panel v-for="ioKey in ['inputs', 'outputs']" :key="ioKey">
-                <v-expansion-panel-header>
-                    <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
-                        <v-btn
-                            @click.stop="add(ioKey)"
-                             :disabled="controlsDisabled"
-                            color="info"
-                            fab
-                            dark
-                            x-small
-                            absolute
-                            left
-                        >
-                            <v-icon>mdi-plus-circle-outline</v-icon>
-                        </v-btn>
-                        <v-icon style="margin-left: 45px;margin-right: 10px;">{{ioKey === "outputs" ? 'mdi-power-plug' : 'mdi-power-socket'}}</v-icon>
-                        <v-toolbar-title>
-                            {{ioKey}}
-                        </v-toolbar-title>
-                    </v-toolbar>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-card :key="'card_' + ioKey" style="width: 215px;margin-bottom: 5px;" flat>
-                        <v-list two-line subheader :key="'list_' + ioKey">
-                            <v-list-item v-for="(io, index) in vector.properties[ioKey]" :key="index">
-                                <v-list-item-avatar style="overflow: visible;">
-                                    <table style="transform: scale(1) translate(-35px);">
-                                        <tr>
-                                            <td>
-                                                <v-icon
-                                                    :disabled="index === 0 || controlsDisabled"
-                                                    @click="moveUp(ioKey, io)">mdi-arrow-up-bold-box-outline</v-icon>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <v-icon
-                                                    :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
-                                                    @click="moveDown(ioKey, io)">mdi-arrow-down-bold-box-outline</v-icon>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <v-icon :disabled="controlsDisabled" @click="remove(ioKey, io)">mdi-delete</v-icon>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </v-list-item-avatar>
-                                <v-list-item-content style="overflow: visible;">
-                                    <v-tabs class="hide-arrows" style="transform: scale(0.7) translate(-110px, -20%); width: 250px;">
-                                        <v-tab>
-                                            <v-icon>mdi-rename-box</v-icon>
-                                        </v-tab>
-                                        <v-tab>
-                                            <v-icon>mdi-power-plug</v-icon>
-                                        </v-tab>
-                                        <v-tab-item style="transform: scale(1.3) translate(10%); width: 85%;margin-bottom: -20%;">
-                                            <v-text-field :disabled="controlsDisabled" v-model.lazy="io.name"/>
-                                            <v-checkbox v-if="!controlsDisabled" v-model.lazy="io.external" label="External"/>
-                                        </v-tab-item>
-                                        <v-tab-item>
-                                            <v-card flat>
-                                                <v-list two-line subheader class="connector-info">
-                                                    <v-list-item
-                                                        v-for="(connectorInfo, index) in getConnectors(ioKey, io.name)"
-                                                        @mouseover="connectorHover(connectorInfo.connector);"
-                                                        @click="connectorSelect(connectorInfo.connector);"
-                                                        :title="`Field: ${connectorInfo.connector.field}\nVector Id: ${connectorInfo.connector.vectorId}\nConnector Id: ${connectorInfo.connector.id}\nGraph Id: ${connectorInfo.connector.graphId}\nVersion: ${connectorInfo.connector.version}`"
-                                                        :key="index">
-                                                        <v-list-item-avatar style="overflow: visible;">
-                                                            <v-icon>mdi-power-plug</v-icon>
-                                                        </v-list-item-avatar>
-                                                        <v-list-item-content>
-                                                            {{connectorInfo.connector.field}}
-                                                        </v-list-item-content>
-                                                        <v-list-item-avatar style="overflow: visible;">
-                                                            <table style="transform: scale(0.70) translate(5px, -20%); padding-top: 50px;">
-                                                                <tr>
-                                                                    <td>
-                                                                        <v-icon
-                                                                            :disabled="index === 0 || controlsDisabled"
-                                                                            @click="moveConnectorUp(connectorInfo)">mdi-arrow-up-bold-box-outline</v-icon>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <v-icon
-                                                                            :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
-                                                                            @click="moveConnectorDown(connectorInfo)">mdi-arrow-down-bold-box-outline</v-icon>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <v-icon :disabled="controlsDisabled" @click="removeConnector(connectorInfo)">mdi-delete</v-icon>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </v-list-item-avatar>
-                                                    </v-list-item>
-                                                    <v-card v-if="getConnectors(ioKey, io.name).length === 0">
-                                                        <v-card-text>
-                                                            <i>No Connectors</i>
-                                                        </v-card-text>
-                                                    </v-card>
-                                                </v-list>
-                                            </v-card>
-                                        </v-tab-item>
-                                    </v-tabs>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                    </v-card>
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels>
-        <v-dialog absolute v-model="showMessage" max-width="290">
-            <v-card>
-                <v-card-title class="headline">Confirm</v-card-title>
-                <v-card-text>
-                    {{message}}
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn @click="showMessage = false">Cancel</v-btn>
-                    <v-btn @click="messageClick">Delete</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+    <v-card v-if="vector" flat>
+        <v-card-title>
+            Inputs and Outputs
+        </v-card-title>
+        <v-card-text class="pa-0 ma-0">
+            <v-expansion-panels style="width: 260px" accordion flat multiple :value="panels">
+                <v-expansion-panel v-for="ioKey in ['inputs', 'outputs']" :key="ioKey">
+                    <v-expansion-panel-header>
+                        <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
+                            <v-btn
+                                @click.stop="add(ioKey)"
+                                 :disabled="controlsDisabled"
+                                color="info"
+                                fab
+                                dark
+                                x-small
+                                absolute
+                                left
+                            >
+                                <v-icon>mdi-plus-circle-outline</v-icon>
+                            </v-btn>
+                            <v-icon style="margin-left: 45px;margin-right: 10px;">{{ioKey === "outputs" ? 'mdi-power-plug' : 'mdi-power-socket'}}</v-icon>
+                            <v-toolbar-title>
+                                {{ioKey}}
+                            </v-toolbar-title>
+                        </v-toolbar>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card :key="'card_' + ioKey" style="width: 215px;margin-bottom: 5px;" flat>
+                            <v-list two-line subheader :key="'list_' + ioKey">
+                                <v-list-item v-for="(io, index) in vector.properties[ioKey]" :key="index">
+                                    <v-list-item-avatar style="overflow: visible;">
+                                        <table style="transform: scale(1) translate(-35px);">
+                                            <tr>
+                                                <td>
+                                                    <v-icon
+                                                        :disabled="index === 0 || controlsDisabled"
+                                                        @click="moveUp(ioKey, io)">mdi-arrow-up-bold-box-outline</v-icon>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <v-icon
+                                                        :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
+                                                        @click="moveDown(ioKey, io)">mdi-arrow-down-bold-box-outline</v-icon>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <v-icon :disabled="controlsDisabled" @click="remove(ioKey, io)">mdi-delete</v-icon>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content style="overflow: visible;">
+                                        <v-tabs class="hide-arrows" style="transform: scale(0.7) translate(-110px, -20%); width: 250px;">
+                                            <v-tab>
+                                                <v-icon>mdi-rename-box</v-icon>
+                                            </v-tab>
+                                            <v-tab>
+                                                <v-icon>mdi-power-plug</v-icon>
+                                            </v-tab>
+                                            <v-tab-item style="transform: scale(1.3) translate(10%); width: 85%;margin-bottom: -20%;">
+                                                <v-text-field :disabled="controlsDisabled" v-model.lazy="io.name"/>
+                                                <v-checkbox v-if="!controlsDisabled" v-model.lazy="io.external" label="External"/>
+                                            </v-tab-item>
+                                            <v-tab-item>
+                                                <v-card flat>
+                                                    <v-list two-line subheader class="connector-info">
+                                                        <v-list-item
+                                                            v-for="(connectorInfo, index) in getConnectors(ioKey, io.name)"
+                                                            @mouseover="connectorHover(connectorInfo.connector);"
+                                                            @click="connectorSelect(connectorInfo.connector);"
+                                                            :title="`Field: ${connectorInfo.connector.field}\nVector Id: ${connectorInfo.connector.vectorId}\nConnector Id: ${connectorInfo.connector.id}\nGraph Id: ${connectorInfo.connector.graphId}\nVersion: ${connectorInfo.connector.version}`"
+                                                            :key="index">
+                                                            <v-list-item-avatar style="overflow: visible;">
+                                                                <v-icon>mdi-power-plug</v-icon>
+                                                            </v-list-item-avatar>
+                                                            <v-list-item-content>
+                                                                {{connectorInfo.connector.field}}
+                                                            </v-list-item-content>
+                                                            <v-list-item-avatar style="overflow: visible;">
+                                                                <table style="transform: scale(0.70) translate(5px, -20%); padding-top: 50px;">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <v-icon
+                                                                                :disabled="index === 0 || controlsDisabled"
+                                                                                @click="moveConnectorUp(connectorInfo)">mdi-arrow-up-bold-box-outline</v-icon>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <v-icon
+                                                                                :disabled="index === vector.properties[ioKey].length - 1 || controlsDisabled"
+                                                                                @click="moveConnectorDown(connectorInfo)">mdi-arrow-down-bold-box-outline</v-icon>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <v-icon :disabled="controlsDisabled" @click="removeConnector(connectorInfo)">mdi-delete</v-icon>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </v-list-item-avatar>
+                                                        </v-list-item>
+                                                        <v-card v-if="getConnectors(ioKey, io.name).length === 0">
+                                                            <v-card-text>
+                                                                <i>No Connectors</i>
+                                                            </v-card-text>
+                                                        </v-card>
+                                                    </v-list>
+                                                </v-card>
+                                            </v-tab-item>
+                                        </v-tabs>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+            <v-dialog absolute v-model="showMessage" max-width="290">
+                <v-card>
+                    <v-card-title class="headline">Confirm</v-card-title>
+                    <v-card-text>
+                        {{message}}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn @click="showMessage = false">Cancel</v-btn>
+                        <v-btn @click="messageClick">Delete</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-card-text>
+    </v-card>
 </template>
 <script>
 import {mapState, mapActions} from "vuex";

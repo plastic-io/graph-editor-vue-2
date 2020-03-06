@@ -73,14 +73,14 @@
                                             </v-card-title>
                                             <v-card-title class="pa-00">
                                                 <v-spacer/>
-                                                <v-btn @click="openGraph(item.id);">
+                                                <v-btn @click="openGraph(item.id);" v-if="item.type === 'graph'">
                                                     Open
                                                     <v-icon right>
                                                         mdi-folder-open
                                                     </v-icon>
                                                 </v-btn>
                                                 <v-spacer/>
-                                                <v-btn @click="deleteGraph(item.id);">
+                                                <v-btn @click="deleteItem(item);">
                                                     Delete
                                                     <v-icon right>
                                                         mdi-delete
@@ -189,13 +189,18 @@ export default {
     name: "graph-ganager",
     methods: {
         ...mapActions([
+            "removeArtifact",
             "remove",
             "create",
             "clearError",
             "getToc",
         ]),
-        deleteGraph(graphId) {
-            this.remove(graphId);
+        deleteItem(item) {
+            if (item.type === "graph") {
+                this.remove(item.id);
+            } else {
+                this.removeArtifact(item);
+            }
         },
         openGraph(graphId) {
             window.open(
@@ -235,6 +240,7 @@ export default {
     watch: {
         toc: {
             handler: function () {
+                console.log(" >>>> TOC UPDATE");
                 this.localItems = this.toc;
             },
             deep: true,

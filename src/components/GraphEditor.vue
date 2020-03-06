@@ -16,11 +16,6 @@
                     <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
                     <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon :disabled="selectedVectors.length === 0" @click="cut" title="Cut selection (^ + X)">mdi-content-cut</v-icon>
-                    <v-icon :disabled="selectedVectors.length === 0" @click="copy" title="Copy selection (^ + C)">mdi-content-copy</v-icon>
-                    <v-icon @click="paste" title="Paste (^ + V)">mdi-content-paste</v-icon>
-                    <v-divider vertical style="margin: 5px;"/>
-                    <v-icon @click="createNewVector" title="Create new vector (^ + Shift + N)">mdi-shape-rectangle-plus</v-icon>
                     <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
                         title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
                     <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
@@ -104,7 +99,6 @@
     </v-app>
 </template>
 <script>
-const TEXT_MIME_TYPE = "text/plain";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions} from "vuex";
 import ControlPanel from "./ControlPanel";
@@ -130,6 +124,7 @@ export default {
     },
     computed: {
         ...mapState({
+            vectorMimeType: state => state.vectorMimeType,
             showError: state => state.showError,
             error: state => state.error,
             presentation: state => state.presentation,
@@ -233,13 +228,6 @@ export default {
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
         mousemove(e) {
-            if (!this.graph) {
-                return;
-            }
-            // do not track control panel inputs
-            if (!this.isGraphTarget(e)) {
-                return;
-            }
             const mouse = this.getMousePosFromEvent(e);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
@@ -351,44 +339,31 @@ export default {
             });
             return vectors;
         },
-        cut() {
-            navigator.clipboard.writeText("<empty clipboard>").then(function() {
-            }, function() {
-            });
-        },
-        copy() {
-            navigator.clipboard.writeText("<empty clipboard>").then(function() {
-            }, function() {
-            });
-        },
-        paste() {
-            navigator.clipboard.read().then(data => {
-                for (let i=0; i<data.items.length; i++) {
-                    // data.items[i].getAs("text/plain")
-                    // data.items[i].type != "text/plain"
-                }
-            });
-        },
         evCut(e) {
-            if (e.target !== document.body) {
+            if (!this.isGraphTarget(e)) {
                 return;
             }
-            e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
+            e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             this.deleteSelected();
             e.preventDefault();
         },
         evCopy(e) {
-            if (e.target !== document.body) {
+            console.log("copy");
+            if (!this.isGraphTarget(e)) {
                 return;
             }
-            e.clipboardData.setData(TEXT_MIME_TYPE, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
+            e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             e.preventDefault();
         },
         evPaste(e) {
-            if (e.target !== document.body) {
+            if (!this.isGraphTarget(e)) {
                 return;
             }
-            const data = e.clipboardData.getData(TEXT_MIME_TYPE);
+            const data = e.clipboardData.getData(this.vectorMimeType);
+            this.tryPasteVectorString(data);
+            e.preventDefault();
+        },
+        tryPasteVectorString(data) {
             const msg = "The text pasted onto the graph does not appear to be vector data.";
             let vectors;
             const er = () => {
@@ -410,7 +385,6 @@ export default {
                 }
             }
             this.pasteVectors(vectors);
-            e.preventDefault();
         },
         validateVector(vector) {
             if (

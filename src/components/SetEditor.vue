@@ -6,6 +6,34 @@
             <v-btn @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
+            <v-menu bottom>
+                <template v-slot:activator="{ on: tooltip }">
+                    <v-icon style="margin-right: 7px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                </template>
+                <v-card>
+                    <v-card-text>
+                        <pre>
+# Set
+
+    This function runs when your vector is invoked directly, either by the scheudler
+    url function or by another vector's edge.
+
+# Globals
+
+    edges: These edge outputs are defined in the designer.  E.x.: edges.x = "foo" sends "foo" out of the x edge.
+    state: Scheduler state.  Use this shared object to track your application state.
+    field: The name of the input field trigged by the remote vector edge.
+    value: The value passed to the field.
+    vector: The vector schema, contains many of the other fields.
+    cache: Vector specific runtime cache object.  Stick what you want here, it's yours, but it goes away.
+    graph: The entire graph.
+    data: Vector specific data.  This data persists between runs.  Requires graph modification to change.
+    properties: Graph editor properties and input/output field list.
+
+                        </pre>
+                    </v-card-text>
+                </v-card>
+            </v-menu>
         </v-toolbar>
         <editor
             v-model="value"

@@ -165,6 +165,12 @@ export function sendToBack(state: any) {
     applyGraphChanges(state, "Send to Back");
 }
 export function addGraphItem(state: any, e: any) {
+    const pos = {
+        x: (e.x - state.view.x) / state.view.k,
+        y: (e.y - state.view.y) / state.view.k,
+    };
+    pos.x = Math.floor(pos.x / 10) * 10;
+    pos.y = Math.floor(pos.y / 10) * 10;
     const linkedGraphInputs = {};
     const linkedGraphOutputs = {};
     const graph = e.item;
@@ -213,12 +219,12 @@ export function addGraphItem(state: any, e: any) {
             tags: [],
             appearsInPresentation: false,
             appearsInExport: false,
-            x: state.view.x + state.preferences.newVectorOffset.x,
-            y: state.view.y + state.preferences.newVectorOffset.y,
+            x: pos.x,
+            y: pos.y,
             z: 0 + state.preferences.newVectorOffset.z,
             presentation: {
-                x: state.view.x + state.preferences.newVectorOffset.x,
-                y: state.view.y + state.preferences.newVectorOffset.y,
+                x: pos.x,
+                y: pos.y,
                 z: 0 + state.preferences.newVectorOffset.z,
             },
         },
@@ -246,30 +252,37 @@ export function addGraphItem(state: any, e: any) {
         });
     });
     state.graphSnapshot.vectors.push(vector);
+    applyGraphChanges(state, "Import New Graph");
 }
 export function addVectorItem(state: any, e: any) {
+    const pos = {
+        x: (e.x - state.view.x) / state.view.k,
+        y: (e.y - state.view.y) / state.view.k,
+    };
+    pos.x = Math.floor(pos.x / 10) * 10;
+    pos.y = Math.floor(pos.y / 10) * 10;
     const vector = {
         id: newId(),
-        edges: [],
+        edges: e.item.edges,
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
         url: "artifacts/" + e.id + "." + e.version,
         data: null,
         properties: {
-            inputs: [],
-            outputs: [],
+            inputs: e.item.properties.inputs,
+            outputs: e.item.properties.outputs,
             groups: [],
             name: e.name,
             description: e.description,
             tags: [],
             appearsInPresentation: false,
             appearsInExport: false,
-            x: state.view.x + state.preferences.newVectorOffset.x,
-            y: state.view.y + state.preferences.newVectorOffset.y,
+            x: pos.x,
+            y: pos.y,
             z: 0 + state.preferences.newVectorOffset.z,
             presentation: {
-                x: state.view.x + state.preferences.newVectorOffset.x,
-                y: state.view.y + state.preferences.newVectorOffset.y,
+                x: pos.x,
+                y: pos.y,
                 z: 0 + state.preferences.newVectorOffset.z,
             },
         },
@@ -524,7 +537,13 @@ export function updateGraphProperties(state: any, e: any) {
     state.graphSnapshot.properties = e;
     applyGraphChanges(state, "Update Graph Properties");
 }
-export function createNewVector(state: any) {
+export function createNewVector(state: any, e: any) {
+    const pos = {
+        x: (e.x - state.view.x) / state.view.k,
+        y: (e.y - state.view.y) / state.view.k,
+    };
+    pos.x = Math.floor(pos.x / 10) * 10;
+    pos.y = Math.floor(pos.y / 10) * 10;
     const vector = {
         id: newId(),
         edges: [],
@@ -541,12 +560,12 @@ export function createNewVector(state: any) {
             tags: [],
             appearsInPresentation: false,
             appearsInExport: false,
-            x: state.view.x + state.preferences.newVectorOffset.x,
-            y: state.view.y + state.preferences.newVectorOffset.y,
+            x: pos.x,
+            y: pos.y,
             z: 0 + state.preferences.newVectorOffset.z,
             presentation: {
-                x: state.view.x + state.preferences.newVectorOffset.x,
-                y: state.view.y + state.preferences.newVectorOffset.y,
+                x: pos.x,
+                y: pos.y,
                 z: 0 + state.preferences.newVectorOffset.z,
             },
         },
@@ -661,7 +680,6 @@ function setGraphVersion(state: any, e: number) {
     state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
 function setToc(state: any, e: any) {
-    console.log("set toc");
     state.toc = e;
 }
 export default {

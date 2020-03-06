@@ -22,6 +22,13 @@ export default function () {
     return {
         strict: true,
         state: {
+            tags: [
+                "any",
+                "browser",
+                "lambda",
+                "cli",
+            ],
+            vectorMimeType: "text/plain",
             remoteSnapshot: {},
             graphSnapshot: null,
             graph: null,

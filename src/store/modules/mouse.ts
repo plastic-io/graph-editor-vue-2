@@ -21,7 +21,8 @@ export default function mouse(state: any, mouse: {
         let addCount = 0;
         // gather items in related groups
         const groupIds: string[] = [];
-        arr.forEach((v: UIVector) => {
+        // HACK: sometimes this array is populated with an empty member, not sure why, needs a fix
+        arr.filter(v => !!v).forEach((v: UIVector) => {
             groupIds.push(...v.properties.groups);
         });
         state.graph.vectors.forEach((v: UIVector) => {
@@ -165,7 +166,6 @@ export default function mouse(state: any, mouse: {
     // drop moving vectors and connectors
     if (!mouse.lmb && state.mouse.lmb) {
         state.movingVectors = [];
-        console.log("moved vectors");
         applyGraphChanges(state, "Move Vectors");
         state.movingConnector = null;
         state.addingConnector = null;

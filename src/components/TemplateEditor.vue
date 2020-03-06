@@ -6,6 +6,30 @@
             <v-btn @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on: tooltip }">
+                    <v-icon style="margin-right: 7px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                </template>
+                <pre>
+# Props
+
+vector: This vector
+state: Runtime state
+scheduler: Graph execution scheduler
+
+# Scheduler Events
+
+beginedge: When an edge is about to be invoked
+endedge: When an edge is finished invoking
+error: When an error occurs
+set: When a set function is run
+begin: When the scheduler starts to run
+end: When the scheduler is done running
+warning: When a warning occurs
+load: When a remote resourse is loaded
+
+                </pre>
+            </v-tooltip>
         </v-toolbar>
         <editor
             v-model="value"
