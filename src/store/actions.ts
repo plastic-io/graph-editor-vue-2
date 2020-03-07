@@ -104,7 +104,6 @@ export default {
         console.log("remoteEvent", context, e);
     },
     create(context: any) {
-        console.log("create");
         const e = {
             id: newId(),
             version: 0,
@@ -157,7 +156,6 @@ export default {
             type: "savePreferences",
             loading: true,
         });
-        console.log("savePreferences", context.state.preferences);
         await context.state.dataProviders.preferences.set("preferences", {preferences: context.state.preferences});
         context.commit("setLoadingStatus", {
             key: 0,
@@ -176,7 +174,6 @@ export default {
             type: "saveGraph",
             loading: true,
         });
-        console.info("saving");
         if (!context.state.dataProviders.asyncUpdate) {
             if (context.state.graph) {
                 changes.push({
@@ -224,7 +221,6 @@ export default {
     async addItem(context: any, e: any) {
         let item, er;
         try {
-            console.log(artifactPrefix + e.id + "." + e.version);
             item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
         } catch (err) {
             er = err;
@@ -345,6 +341,12 @@ export default {
     },
     selectConnector(context: any, e: object) {
         context.commit("selectConnector", e);
+    },
+    togglePresentation(context: any) {
+        context.commit("setPresentation", !context.state.presentation);
+    },
+    toggleLock(context: any) {
+        context.commit("setLock", !context.state.locked);
     },
     hoveredConnector(context: any, e: object) {
         context.commit("hoveredConnector", e);

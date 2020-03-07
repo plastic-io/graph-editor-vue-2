@@ -1,18 +1,18 @@
 <template>
     <div>
         <v-toolbar short flat dense>
-            <v-toolbar-title>Set Function</v-toolbar-title>
+            <v-toolbar-title>Vector - Set Function</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
-            <v-menu bottom>
+            <v-menu bottom :close-on-content-click="false">
                 <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin-right: 7px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
                 </template>
                 <v-card>
                     <v-card-text>
-                        <pre>
+                        <pre class="dont-propagate-copy">
 # Set
 
     This function runs when your vector is invoked directly, either by the scheudler
@@ -85,7 +85,9 @@ export default {
             if (!this.vector) {
                 throw new Error("Set editor invoked with no selected vector.");
             }
-            this.value = this.vector.template.set;
+            if (this.vector.template.set) {
+                this.value = this.vector.template.set;
+            }
         },
         editorInit() {
             require("brace/mode/javascript"); // eslint-disable-line

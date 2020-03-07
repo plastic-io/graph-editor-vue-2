@@ -3,23 +3,32 @@
         <v-card-title>
             Vector
             <v-spacer/>
-            <v-tooltip bottom>
+            <v-menu flat bottom color="secondary" open-on-hover>
                 <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin-right: 7px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                    <v-icon v-on="{ ...tooltip }">
+                        {{vector.url ? 'mdi-link' : 'mdi-information-outline'}}
+                    </v-icon>
                 </template>
-                <i>Vector Id: {{vector.id}}</i>
+                <v-card v-if="!vector.url">
+                    <v-card-text>
+                        <i>Vector Id: {{vector.id}}</i>
+                    </v-card-text>
+                </v-card>
                 <v-alert
                     v-if="vector.url"
-                    outlined
                     type="warning"
                     prominent
-                    class="ma-4"
+                    class="ma-0"
+                    style="width: 35vw;"
                     border="left">
-                    This vector is from a remote source.
+                    This vector did not originate on this graph.
                     <i>Vector Url: {{vector.url}}</i>
                 </v-alert>
-            </v-tooltip>
+            </v-menu>
         </v-card-title>
+        <v-card-subtitle>
+            Properties
+        </v-card-subtitle>
         <v-card-text class="ma-0 pa-0">
             <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>

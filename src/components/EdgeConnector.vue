@@ -37,6 +37,7 @@ export default {
     },
     computed: {
         ...mapState({
+            presentation: (state) => state.presentation,
             historyPosition: (state) => state.historyPosition,
             addingConnector: (state) => state.addingConnector,
             graphSnapshot: (state) => state.graphSnapshot,
@@ -79,6 +80,7 @@ export default {
         },
         connectorStyle() {
             return {
+                display: this.presentation ? "none" : "block",
                 height: (this.height * this.ratio) + "px",
                 width: (this.width * this.ratio) + "px",
                 left: this.x + "px",
@@ -172,7 +174,6 @@ export default {
     mounted() {
         this.localGraph = this.graph;
         this.ctx = this.$refs.canvas.getContext("2d");
-        // this.ratio = 2;//this.getCanvasRatio();
         this.ctx.scale(this.ratio, this.ratio);
         this.connections = JSON.parse(JSON.stringify({
             input: this.input,
@@ -184,8 +185,6 @@ export default {
 </script>
 <style>
     .edge-connector {
-/*        background: rgba(244, 0, 0, .1);
-        border: solid 1px red;*/
         pointer-events: none;
         position: absolute;
         top: 0;

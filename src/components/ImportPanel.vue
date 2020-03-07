@@ -1,6 +1,6 @@
 <template>
     <div v-if="localToc">
-        <v-tabs grow style="width: 260px;" icons-and-text>
+        <v-tabs grow icons-and-text hide-slider>
             <v-tab>
                 Local
                 <v-icon>mdi-folder</v-icon>

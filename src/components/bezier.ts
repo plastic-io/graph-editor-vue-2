@@ -1,14 +1,6 @@
 import Bezier from "bezier-js"; // eslint-disable-line
 import colors from "vuetify/lib/util/colors";
 export default function bezierDraw(connector: any): void {
-    // controlFillStyle: "green",
-    // strokeStyle: "blue",
-    // selectedStrokeStyle: "yellow",
-    // hoverStrokeStyle: "white",
-    // watchStrokeStyle: "orange",
-    // activityStrokeStyle: "magenta",
-    // errorStrokeStyle: "red",
-    // lineWidth: 2,
     const ctx = connector.ctx;
     function getColor(key: string) {
         return (colors as {[key: string]: any})[key].base;

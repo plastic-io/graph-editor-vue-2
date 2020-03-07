@@ -224,6 +224,7 @@ export default {
     },
     computed: {
         ...mapState({
+            presentation: state => state.presentation,
             dataProviders: state => state.dataProviders,
             scheduler: state => state.scheduler,
             hoveredVector: state => state.hoveredVector,
@@ -252,7 +253,11 @@ export default {
             } else if (hovered) {
                 borderColor = "var(--v-info-lighten2)";
             }
+            if (this.presentation) {
+                return {};
+            }
             return {
+                position: "absolute",
                 outline: "solid 1px " + borderColor,
                 width: this.localVector.properties.width + "px",
                 height: this.localVector.properties.height + "px",
@@ -266,7 +271,6 @@ export default {
 </script>
 <style>
     .vector {
-        position: absolute;
         cursor: pointer;
     }
     .vector-inputs {

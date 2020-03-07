@@ -1,5 +1,5 @@
 <template>
-    <v-card flat v-if="graph" class="pa-0" style="width: 260px;">
+    <v-card flat v-if="graph" class="pa-0">
         <v-card-title>
             Graph
         </v-card-title>
@@ -26,6 +26,21 @@
                                 <v-text-field label="Created By" v-model="createdBy"></v-text-field>
                                 <v-text-field label="Created On" v-model="createdOn"></v-text-field>
                                 <v-text-field label="Last Update" v-model="lastUpdate"></v-text-field>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Publishing</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-btn color="info" style="margin-top: 10px;" @click="publishGraph">
+                                    Publish<br>Graph
+                                    <v-icon right>
+                                        mdi-share-variant
+                                    </v-icon>
+                                </v-btn>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>

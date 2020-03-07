@@ -53,7 +53,6 @@ export default {
         },
         drop(e) {
             const data = JSON.parse(e.dataTransfer.getData(this.vectorMimeType));
-            console.log("drop", data);
             if (data.type === "newVector") {
                 this.createNewVector({
                     x: e.clientX,
@@ -82,6 +81,7 @@ export default {
     },
     computed: {
         ...mapState({
+            presentation: state => state.presentation,
             vectorMimeType: state => state.vectorMimeType,
             historyPosition: state => state.historyPosition,
             addingConnector: state => state.addingConnector,
@@ -135,6 +135,9 @@ export default {
             return connectors;
         },
         graphCanvasStyle: function () {
+            // if (this.presentation) {
+            //     return {};
+            // }
             return {
                 transform: `translate(${this.view.x}px, ${this.view.y}px) scale(${this.view.k})`,
             };
@@ -146,6 +149,9 @@ export default {
 };
 </script>
 <style>
+body {
+    border: solid 1px black;
+}
 .bounding-rect {
     pointer-events: none;
     position: absolute;

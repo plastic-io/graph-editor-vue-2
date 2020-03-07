@@ -1,5 +1,5 @@
 <template>
-    <v-list style="width: 300px;" v-if="list">
+    <v-list v-if="list">
         <v-subheader>
             <v-list-item-icon>
                 <v-icon>mdi-magnify</v-icon>

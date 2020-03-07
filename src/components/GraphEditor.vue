@@ -77,10 +77,12 @@
                 >
                 <v-icon
                     title="Toggle Lock"
+                    @click="toggleLock"
                     :color="locked ? 'info' : ''"
                     style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
                 <v-icon
                     title="Toggle Presentation"
+                    @click="togglePresentation"
                     :color="presentation ? 'info' : ''"
                     style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
@@ -179,6 +181,8 @@ export default {
             "sendBackward",
             "bringToFront",
             "sendToBack",
+            "toggleLock",
+            "togglePresentation",
         ]),
         openGraph() {
             window.open(
@@ -340,7 +344,7 @@ export default {
             return vectors;
         },
         evCut(e) {
-            if (!this.isGraphTarget(e)) {
+            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
@@ -348,8 +352,7 @@ export default {
             e.preventDefault();
         },
         evCopy(e) {
-            console.log("copy");
-            if (!this.isGraphTarget(e)) {
+            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));

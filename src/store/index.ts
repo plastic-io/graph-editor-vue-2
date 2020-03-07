@@ -28,7 +28,7 @@ export default function () {
                 "lambda",
                 "cli",
             ],
-            vectorMimeType: "text/plain",
+            vectorMimeType: "application/json+plastic-io",
             remoteSnapshot: {},
             graphSnapshot: null,
             graph: null,

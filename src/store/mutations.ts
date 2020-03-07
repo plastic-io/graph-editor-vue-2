@@ -379,7 +379,6 @@ export function hoveredVector(state: any, e: object) {
     state.hoveredVector = e;
 }
 export function hoveredPort(state: any, e: object) {
-    console.log("hoveredPort", e);
     state.hoveredPort = e;
 }
 export function graph(state: any, e: object) {
@@ -529,7 +528,6 @@ export function updateVectorProperties(state: any, e: {
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
-    console.log("updateVectorProperties");
     vector.properties = e.properties;
     applyGraphChanges(state, "Update Vector Properties");
 }
@@ -682,7 +680,15 @@ function setGraphVersion(state: any, e: number) {
 function setToc(state: any, e: any) {
     state.toc = e;
 }
+function setPresentation(state: any, e: any) {
+    state.presentation = e;
+}
+function setLock(state: any, e: any) {
+    state.locked = e;
+}
 export default {
+    setLock,
+    setPresentation,
     addGraphItem,
     setGraphVersion,
     addVectorItem,

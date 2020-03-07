@@ -1,10 +1,13 @@
 <template>
     <v-card v-if="vector" flat>
         <v-card-title>
-            Inputs and Outputs
+            Vector
         </v-card-title>
+        <v-card-subtitle>
+            Inputs and Outputs
+        </v-card-subtitle>
         <v-card-text class="pa-0 ma-0">
-            <v-expansion-panels style="width: 260px" accordion flat multiple :value="panels">
+            <v-expansion-panels accordion flat multiple :value="panels" style="margin-left: -25px;">
                 <v-expansion-panel v-for="ioKey in ['inputs', 'outputs']" :key="ioKey">
                     <v-expansion-panel-header>
                         <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
@@ -13,7 +16,6 @@
                                  :disabled="controlsDisabled"
                                 color="info"
                                 fab
-                                dark
                                 x-small
                                 absolute
                                 left
@@ -27,11 +29,11 @@
                         </v-toolbar>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <v-card :key="'card_' + ioKey" style="width: 215px;margin-bottom: 5px;" flat>
+                        <v-card :key="'card_' + ioKey" style="margin-bottom: 5px;" flat>
                             <v-list two-line subheader :key="'list_' + ioKey">
                                 <v-list-item v-for="(io, index) in vector.properties[ioKey]" :key="index">
                                     <v-list-item-avatar style="overflow: visible;">
-                                        <table style="transform: scale(1) translate(-35px);">
+                                        <table>
                                             <tr>
                                                 <td>
                                                     <v-icon
@@ -54,14 +56,14 @@
                                         </table>
                                     </v-list-item-avatar>
                                     <v-list-item-content style="overflow: visible;">
-                                        <v-tabs class="hide-arrows" style="transform: scale(0.7) translate(-110px, -20%); width: 250px;">
+                                        <v-tabs class="hide-arrows">
                                             <v-tab>
                                                 <v-icon>mdi-rename-box</v-icon>
                                             </v-tab>
                                             <v-tab>
                                                 <v-icon>mdi-power-plug</v-icon>
                                             </v-tab>
-                                            <v-tab-item style="transform: scale(1.3) translate(10%); width: 85%;margin-bottom: -20%;">
+                                            <v-tab-item>
                                                 <v-text-field :disabled="controlsDisabled" v-model.lazy="io.name"/>
                                                 <v-checkbox v-if="!controlsDisabled" v-model.lazy="io.external" label="External"/>
                                             </v-tab-item>
@@ -104,7 +106,7 @@
                                                                 </table>
                                                             </v-list-item-avatar>
                                                         </v-list-item>
-                                                        <v-card v-if="getConnectors(ioKey, io.name).length === 0">
+                                                        <v-card flat v-if="getConnectors(ioKey, io.name).length === 0">
                                                             <v-card-text>
                                                                 <i>No Connectors</i>
                                                             </v-card-text>
@@ -370,10 +372,9 @@ export default {
     }
     .connector-info {
         max-height: 300px;
-        width: 290px;
         overflow-y: auto;
         overflow-x: visible;
         padding-top: 10px;
-        margin-bottom: -55%;
+        width: 240px;
     }
 </style>

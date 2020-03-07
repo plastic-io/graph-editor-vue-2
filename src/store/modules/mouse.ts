@@ -63,7 +63,7 @@ export default function mouse(state: any, mouse: {
         };
     });
     // adding a connector
-    if (state.hoveredPort && !state.mouse.lmb && mouse.lmb && !state.movingConnector && state.hoveredPort.type === "output") {
+    if (state.hoveredPort && !state.mouse.lmb && mouse.lmb && !state.movingConnector && state.hoveredPort.type === "output" && !state.locked) {
         state.addingConnector = state.hoveredPort;
         state.addingConnector.connector = {
             id: newId(),
@@ -74,7 +74,7 @@ export default function mouse(state: any, mouse: {
         };
     }
     // moving a connector
-    if (state.hoveredConnector && !state.mouse.lmb && mouse.lmb && pastDeadZone) {
+    if (state.hoveredConnector && !state.mouse.lmb && mouse.lmb && pastDeadZone && !state.locked) {
         state.movingConnector = state.hoveredConnector;
     }
     // draw select box maybe
@@ -180,7 +180,7 @@ export default function mouse(state: any, mouse: {
         state.selectedVector = null;
     }
     // start moving vectors
-    if (!state.mouse.lmb && mouse.lmb && state.hoveredVector && state.movingVectors.length === 0) {
+    if (!state.mouse.lmb && mouse.lmb && state.hoveredVector && state.movingVectors.length === 0 && !state.locked) {
         const selected = remapVectors(state.selectedVectors);
         if (selected.find((v: UIVector) => v.id === state.hoveredVector.id)) {
             state.movingVectors = [
@@ -255,7 +255,7 @@ export default function mouse(state: any, mouse: {
         state.view.y = state.translating.view.y + (mouse.y - state.translating.mouse.y);
     }
     // move vectors
-    if (state.movingVectors.length > 0) {
+    if (state.movingVectors.length > 0 && !state.locked) {
         state.movingVectors.forEach((movingVector: any) => {
             const vector = state.graphSnapshot.vectors.find((v: UIVector) => movingVector.id === v.id);
             const transVector = state.translating.vectors.find((v: any) => movingVector.id === v.id);

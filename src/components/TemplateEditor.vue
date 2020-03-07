@@ -1,16 +1,18 @@
 <template>
     <div>
         <v-toolbar short flat dense>
-            <v-toolbar-title>Vue Template</v-toolbar-title>
+            <v-toolbar-title>Vector - Vue Template</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
-            <v-tooltip bottom>
+            <v-menu bottom :close-on-content-click="false">
                 <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin-right: 7px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
                 </template>
-                <pre>
+                <v-card>
+                    <v-card-text>
+                        <pre class="dont-propagate-copy">
 # Props
 
 vector: This vector
@@ -27,9 +29,10 @@ begin: When the scheduler starts to run
 end: When the scheduler is done running
 warning: When a warning occurs
 load: When a remote resourse is loaded
-
-                </pre>
-            </v-tooltip>
+                        </pre>
+                    </v-card-text>
+                </v-card>
+            </v-menu>
         </v-toolbar>
         <editor
             v-model="value"
@@ -81,7 +84,9 @@ export default {
             if (!this.vector) {
                 throw new Error("Template editor invoked with no selected vector.");
             }
-            this.value = this.vector.template.vue;
+            if (this.vector.template.vue) {
+                this.value = this.vector.template.vue;
+            }
         },
         editorInit() {
             require("brace/mode/html"); // eslint-disable-line
