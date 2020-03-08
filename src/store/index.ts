@@ -22,6 +22,7 @@ export default function () {
     return {
         strict: true,
         state: {
+            log: [],
             tags: [
                 "any",
                 "browser",
@@ -42,6 +43,8 @@ export default function () {
             showError: false,
             scheduler: {
                 state: {},
+                errors: {},
+                instance: null,
             },
             presentation: false,
             locked: false,
@@ -78,7 +81,7 @@ export default function () {
             selectedVectors: [],
             errorConnectors: [],
             watchConnectors: [],
-            activityConnectors: [],
+            activityConnectors: {},
             hoveredConnector: null,
             hoveredVector: null,
             hoveredPort: null,
@@ -100,6 +103,8 @@ export default function () {
             toc: null,
             events: [],
             preferences: {
+                showLabels: false,
+                debug: false,
                 newVectorOffset: {
                     x: 100,
                     y: 100,
@@ -134,6 +139,22 @@ export default function () {
             updateField,
         },
         getters: {
+            getLoadingStatus(context: any) {
+                return (type: string, id: string) => {
+                    const state = {
+                        events: {},
+                    };
+                    context.state.loading[type][id].forEach((status) => {
+                        state.count += 1;
+                        state.events.push({
+                            time: status.time,
+                            event: status.event,
+                            loading: status.loading,
+                        });
+                        state.loading = status.loading;
+                    });
+                };
+            },
             getField,
         },
     };

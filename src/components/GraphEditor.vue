@@ -1,7 +1,7 @@
 <template>
     <v-app class="graph-editor">
         <template  v-if="graph">
-            <v-system-bar ref="topBar" style="z-index: 2;white-space: nowrap;">
+            <v-system-bar ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
                 <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
                     <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
@@ -87,10 +87,12 @@
                     style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
         </template>
-        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph">
-            <v-alert prominent type="error">
-                <v-row align="center">
-                    <v-col class="grow">{{localErrorMessage}}</v-col>
+        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" multi-line>
+            <v-alert type="error" prominent>
+                <v-row>
+                    <v-col><pre>{{localErrorMessage}}</pre></v-col>
+                </v-row>
+                <v-row>
                     <v-col class="shrink" v-if="graph">
                         <v-btn @click="clearError">That Sucks</v-btn>
                     </v-col>
@@ -227,7 +229,8 @@ export default {
             });
         },
         isGraphTarget(e) {
-            return !((this.$refs.panel && this.$refs.panel.$el.contains(e.target))
+            return (!/^(no-graph-target|v-list|v-menu)/.test(e.target.className)) &&
+                !((this.$refs.panel && this.$refs.panel.$el.contains(e.target))
                     || (this.$refs.topBar && this.$refs.topBar.$el.contains(e.target))
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
@@ -352,6 +355,7 @@ export default {
             e.preventDefault();
         },
         evCopy(e) {
+            console.log("copy");
             if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
@@ -359,9 +363,10 @@ export default {
             e.preventDefault();
         },
         evPaste(e) {
-            if (!this.isGraphTarget(e)) {
+            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
+            console.log("paste");
             const data = e.clipboardData.getData(this.vectorMimeType);
             this.tryPasteVectorString(data);
             e.preventDefault();

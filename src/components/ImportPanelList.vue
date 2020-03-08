@@ -43,7 +43,7 @@
                 <template v-if="item.type !== 'newVector'">
                     <v-list-item v-for="(artifact, index) in artifacts(item.id)" :key="index">
                         <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart(artifact)">
-                            <v-icon>{{artifact.type === "publishedGraph" ? "mdi-lan" : "mdi-network"}}</v-icon>
+                            <v-icon>{{artifact.icon}}</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>
                             <v-list-item-title>v{{artifact.version}}</v-list-item-title>

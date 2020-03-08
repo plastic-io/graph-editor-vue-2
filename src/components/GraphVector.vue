@@ -4,6 +4,28 @@
         ref="vector"
         class="vector"
         :style="vectorStyle">
+        <template v-if="errors.length > 0">
+            <div v-for="(error, index) in errors" :key="index">
+                <v-alert type="error" class="vector-error" style="pointer-events: all; cursor: text;">
+                    <div style="text-align: right;">
+                        <i style="font-weight: bold;padding-left: 10px;" v-if="errors.length > 1">(+ {{errors.length - 1}} more errors)</i>
+                    </div>
+                    <div
+                        :style="errors.length > 1 ? 'margin-top: -24px;' : ''"
+                        @click="clearSchedulerErrorItem({key: localVector.id, item: error});">
+                        <v-btn class="ma-3">
+                            Dismiss
+                        </v-btn>
+                        <v-btn class="ma-3" @click="clearSchedulerError({key: localVector.id})">
+                            Dismiss All
+                        </v-btn>
+                    </div>
+                    <v-divider/>
+                    <pre class="no-graph-target">{{error.stack}}</pre>
+                    <v-divider/>
+                </v-alert>
+            </div>
+        </template>
         <div class="vector-inputs">
             <vector-field
                 v-for="field in inputs"
@@ -44,7 +66,7 @@
 <script>
 import {Vector} from "@plastic-io/plastic-io";
 import Vue from "vue";
-import {mapState} from "vuex";
+import {mapState, mapMutations} from "vuex";
 import {parseScript} from "meriyah";
 import {Parser} from "htmlparser2";
 import {DomHandler} from "domhandler";
@@ -98,8 +120,8 @@ export default {
         };
     },
     async mounted() {
-        if (this.vector.url) {
-            const v = await this.dataProviders.publish.get(this.vector.url);
+        if (this.vector.artifact) {
+            const v = await this.dataProviders.publish.get(this.vector.artifact);
             if (v.vectors) {
                 this.importGraph(v);
             } else {
@@ -116,6 +138,10 @@ export default {
         this.loaded = true;
     },
     methods: {
+        ...mapMutations([
+            "clearSchedulerErrorItem",
+            "clearSchedulerError",
+        ]),
         importGraph(v) {
             this.remoteGraph = v;
             this.localVector = this.vector;
@@ -136,8 +162,9 @@ export default {
             this.style = templates.map(t => t.style).join("\n");
         },
         importVector(v) {
+            v.artifact = this.vector.artifact;
             v.url = this.vector.url;
-            v.originalId = v.id;
+            v.artifactlId = v.id;
             v.id = this.vector.id;
             v.properties.x = this.vector.properties.x;
             v.properties.y = this.vector.properties.y;
@@ -235,6 +262,9 @@ export default {
             keys: state => state.keys,
             view: state => state.view,
         }),
+        errors: function () {
+            return this.scheduler.errors[this.localVector.id] || [];
+        },
         inputs: function () {
             return this.localVector.properties.inputs;
         },
@@ -254,13 +284,22 @@ export default {
                 borderColor = "var(--v-info-lighten2)";
             }
             if (this.presentation) {
-                return {};
+                if (this.localVector.properties.positionAbsolute) {
+                    return {
+                        position: "absolute",
+                        outline: "solid 1px " + borderColor,
+                        left: this.localVector.properties.presentation.x + "px",
+                        top: this.localVector.properties.presentation.y + "px",
+                        zIndex: this.localVector.properties.presentation.z,
+                    };
+                }
+                return {
+                    outline: "solid 1px " + borderColor,
+                };
             }
             return {
                 position: "absolute",
                 outline: "solid 1px " + borderColor,
-                width: this.localVector.properties.width + "px",
-                height: this.localVector.properties.height + "px",
                 left: this.localVector.properties.x + "px",
                 top: this.localVector.properties.y + "px",
                 zIndex: this.localVector.properties.z,
@@ -284,5 +323,10 @@ export default {
         right: -10px;
         top: 0;
         width: 10px;
+    }
+    .vector-error {
+        position: absolute;
+        left: 150%;
+        top: 150%;
     }
 </style>

@@ -1,8 +1,111 @@
 import {UIVector, ChangeEvent, newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
+import Scheduler from "@plastic-io/plastic-io";
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+    instantiateGraph(context: any) {
+        const logger = {
+            log: (e) => {
+                context.commit("addLogItem", {eventName: "log", event: e});
+            },
+            info: (e) => {
+                context.commit("addLogItem", {eventName: "info", event: e});
+            },
+            debug: (e) => {
+                if (context.state.preferences.debug) {
+                    context.commit("addLogItem", {eventName: "debug", event: e});
+                }
+            },
+            error: (e) => {
+                context.commit("addLogItem", {eventName: "logError", event: e});
+            },
+            warn: (e) => {
+                context.commit("addLogItem", {eventName: "warn", event: e});
+            },
+        };
+        const scheduler = new Scheduler(context.state.graph, context, context.state.scheduler.state, logger);
+        const instanceId = newId();
+        scheduler.addEventListener("beginedge", (e) => {
+            context.commit("connectorActivity", {
+                key: e.graphId + e.vectorId + e.field,
+                start: Date.now(),
+                event: e,
+            });
+            if (context.state.preferences.debug) {
+                context.commit("setLoadingStatus", {
+                    key: e.graphId + e.vectorId + e.field,
+                    type: "edge",
+                    loading: true,
+                    event: e,
+                });
+                context.commit("addLogItem", {eventName: "edge", event: e});
+            }
+        });
+        scheduler.addEventListener("endedge", (e) => {
+            const now = Date.now();
+            context.commit("connectorActivity", {
+                key: e.graphId + e.vectorId + e.field,
+                end: Date.now(),
+                duration: now - context.state.activityConnectors[e.graphId + e.vectorId + e.field].start,
+                event: e,
+            });
+            if (context.state.preferences.debug) {
+                context.commit("setLoadingStatus", {
+                    key: e.graphId + e.vectorId + e.field,
+                    type: "edge",
+                    loading: false,
+                });
+                context.commit("addLogItem", {eventName: "edge", event: e});
+            }
+        });
+        scheduler.addEventListener("set", (e) => {
+            if (context.state.preferences.debug) {
+                context.commit("addLogItem", {eventName: "set", event: e});
+            }
+        });
+        scheduler.addEventListener("error", (e) => {
+            context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
+            context.commit("addLogItem", {eventName: "error", event: e});
+            context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err.message));
+        });
+        scheduler.addEventListener("warning", (e) => {
+            context.commit("addLogItem", {eventName: "warning", event: e});
+            context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.err.message));
+        });
+        scheduler.addEventListener("load", async (e) => {
+            const pathParts = e.url.split("/");
+            const itemId = pathParts[2].split(".")[0];
+            const itemVersion = pathParts[2].split(".")[1];
+            const itemType = pathParts[1];
+            context.commit("addLogItem", {eventName: "load", event: e});
+            if (itemType === "graph" && itemId === context.state.graph.id) {
+                return e.setValue(context.state.graph);
+            }
+            const item = await context.state.dataProviders.publish.get(artifactPrefix + itemId + "." + itemVersion);
+            e.setValue(item);
+        });
+        scheduler.addEventListener("begin", (e) => {
+            context.commit("setLoadingStatus", {
+                key: context.state.graph.id + instanceId,
+                type: "graphUrl",
+                loading: true,
+            });
+            context.commit("addLogItem", {eventName: "begin", event: e});
+        });
+        scheduler.addEventListener("end", (e) => {
+            context.commit("setLoadingStatus", {
+                key: context.state.graph.id + instanceId,
+                type: "graphUrl",
+                loading: false,
+            });
+            context.commit("addLogItem", {eventName: "end", event: e});
+        });
+        context.commit("setScheduler", scheduler);
+    },
+    async graphUrl(context: any, url: string) {
+        context.state.scheduler.instance.url(url);
+    },
     async publishGraph(context: any) {
         const graph = context.state.graph;
         context.commit("setLoadingStatus", {
@@ -111,6 +214,7 @@ export default {
             properties: {
                 name: "",
                 description: "",
+                icon: "mdi-graph",
                 createdBy: "",
                 tags: [],
                 createdOn: Date.now(),
@@ -196,7 +300,7 @@ export default {
         });
         context.dispatch("getToc");
     },
-    async open(context: any, e: {graphId: string, vectorUrl: string}) {
+    async open(context: any, e: {graphId: string}) {
         let graph, er;
         context.commit("setLoadingStatus", {
             key: e.graphId,
@@ -217,6 +321,7 @@ export default {
             loading: false,
         });
         context.commit("open", graph);
+        context.dispatch("instantiateGraph");
     },
     async addItem(context: any, e: any) {
         let item, er;

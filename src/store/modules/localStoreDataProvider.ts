@@ -64,6 +64,7 @@ const provider = {
                 id: state.id,
                 lastUpdate: Date.now(),
                 type: "graph",
+                icon: state.properties.icon,
                 description: state.properties.description,
                 name: state.properties.name,
                 version: state.version,
@@ -76,6 +77,7 @@ const provider = {
                 lastUpdate: Date.now(),
                 type: "publishedVector",
                 description: value.vector.properties.description,
+                icon: value.vector.properties.icon,
                 name: value.vector.properties.name,
                 version: value.vector.version,
             });
@@ -87,6 +89,7 @@ const provider = {
                 id: value.graph.id,
                 lastUpdate: Date.now(),
                 type: "publishedGraph",
+                icon: value.graph.properties.icon,
                 description: value.graph.properties.description,
                 name: value.graph.properties.name,
                 version: value.graph.version,

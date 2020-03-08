@@ -1,6 +1,7 @@
 import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
+import Vue from "vue";
 export interface UIVector {
     id: string;
     edges: any[],
@@ -93,7 +94,12 @@ export function pasteVectors(state: any, vectors: UIVector[], name: string = "Pa
     vectors.forEach((v: UIVector) => {
         // vector.ids
         idMap[v.id] = idMap[v.id] || newId();
-        v.id = idMap[v.id];
+        if (v.id === v.url) {
+            v.id = idMap[v.id];
+            v.url = v.id;
+        } else {
+            v.id = idMap[v.id];
+        }
         for (let x = 0; x < v.properties.groups.length; x += 1) {
             const groupId = v.properties.groups[x];
             // group ids
@@ -193,12 +199,14 @@ export function addGraphItem(state: any, e: any) {
         });
     });
     // create IOs (inputs, outputs/edges) on outter vector to support IO of graphs's externals
+    const id = newId();
     const vector = {
-        id: newId(),
+        id,
         edges: [],
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        url: "artifacts/" + e.id + "." + e.version,
+        artifact: "artifacts/" + e.id + "." + e.version,
+        url: id,
         data: null,
         linkedGraph: {
             id: e.id,
@@ -217,6 +225,8 @@ export function addGraphItem(state: any, e: any) {
             name: e.name,
             description: e.description,
             tags: [],
+            icon: "mdi-lan",
+            positionAbsolute: false,
             appearsInPresentation: false,
             appearsInExport: false,
             x: pos.x,
@@ -261,12 +271,14 @@ export function addVectorItem(state: any, e: any) {
     };
     pos.x = Math.floor(pos.x / 10) * 10;
     pos.y = Math.floor(pos.y / 10) * 10;
+    const id = newId();
     const vector = {
-        id: newId(),
+        id: id,
         edges: e.item.edges,
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        url: "artifacts/" + e.id + "." + e.version,
+        artifact: "artifacts/" + e.id + "." + e.version,
+        url: id,
         data: null,
         properties: {
             inputs: e.item.properties.inputs,
@@ -275,6 +287,8 @@ export function addVectorItem(state: any, e: any) {
             name: e.name,
             description: e.description,
             tags: [],
+            icon: "mdi-timeline-outline",
+            positionAbsolute: false,
             appearsInPresentation: false,
             appearsInExport: false,
             x: pos.x,
@@ -542,20 +556,24 @@ export function createNewVector(state: any, e: any) {
     };
     pos.x = Math.floor(pos.x / 10) * 10;
     pos.y = Math.floor(pos.y / 10) * 10;
+    const id = newId();
     const vector = {
-        id: newId(),
+        id,
         edges: [],
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        url: null,
+        artifact: null,
+        url: id,
         data: null,
         properties: {
             inputs: [],
             outputs: [],
             groups: [],
-            name: "New Vector",
+            name: "",
             description: "",
             tags: [],
+            icon: "mdi-graph-outline",
+            positionAbsolute: false,
             appearsInPresentation: false,
             appearsInExport: false,
             x: pos.x,
@@ -649,12 +667,20 @@ function setDataProviders(state: any, e: {
         [key: string]: any;
     }) {
     Object.keys(e).forEach((type) => {
-        state.dataProviders[type] = e[type];
+        Vue.set(state.dataProviders, type, e[type]);
     });
 }
-function setLoadingStatus(state: any, e: {key: string, type: string, loading: boolean}) {
-    state.loading[e.type] = state.loading[e.type] || {};
-    state.loading[e.type][e.key] = e.loading;
+function setLoadingStatus(state: any, e: {key: string, type: string, loading: boolean, event: any}) {
+    Vue.set(state.loading, e.type, state.loading[e.type] || {});
+    Vue.set(state.loading[e.type], e.key, state.loading[e.type][e.key] || []);
+    state.loading[e.type][e.key].push({
+        loading: e.loading,
+        event: e.event,
+        time: Date.now(),
+    });
+}
+function addLogItem(state: any, e: any) {
+    state.log.push({_t: Date.now(), ...e});
 }
 function setRemoteSnapshot(state: any, e: any) {
     state.remoteSnapshot = e;
@@ -686,7 +712,43 @@ function setPresentation(state: any, e: any) {
 function setLock(state: any, e: any) {
     state.locked = e;
 }
+function updateVectorUrl(state: any, e: {vectorId: string, url: string}) {
+    const vector = state.graphSnapshot.vectors.find((v) => v.id === e.vectorId);
+    vector.url = e.url;
+    applyGraphChanges(state, "Change Vector URL");
+}
+function clearLog(state: any, e: any) {
+    state.log = state.log.filter((item) => {
+        return item.eventName !== e;
+    });
+}
+function connectorActivity(state: any, e: any) {
+    Vue.set(state.activityConnectors, e.key, e);
+}
+function clearSchedulerErrorItem(state: any, e: any) {
+    state.scheduler.errors[e.key] = state.scheduler.errors[e.key].filter((i) => {
+        return i !== e.item;
+    });
+}
+function clearSchedulerError(state: any, e: any) {
+    Vue.set(state.scheduler.errors, e.key, []);
+}
+function addSchedulerError(state: any, e: any) {
+    Vue.set(state.scheduler.errors, e.key, state.scheduler.errors[e.key] || []);
+    state.scheduler.errors[e.key].push(e.error);
+}
+function setScheduler(state: any, e: any) {
+    state.scheduler.instance = e;
+}
 export default {
+    addSchedulerError,
+    clearSchedulerErrorItem,
+    clearSchedulerError,
+    connectorActivity,
+    clearLog,
+    setScheduler,
+    addLogItem,
+    updateVectorUrl,
     setLock,
     setPresentation,
     addGraphItem,

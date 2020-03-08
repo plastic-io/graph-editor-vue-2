@@ -2,6 +2,7 @@
     <div>
         <v-card flat>
             <v-card-title>
+                <v-icon left>mdi-history</v-icon>
                 History
             </v-card-title>
             <v-list>

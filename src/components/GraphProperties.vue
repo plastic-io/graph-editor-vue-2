@@ -1,8 +1,12 @@
 <template>
     <v-card flat v-if="graph" class="pa-0">
         <v-card-title>
-            Graph
+            <v-icon left>{{graph.properties.icon}}</v-icon>
+            {{graph.properties.name || "Graph"}}
         </v-card-title>
+        <v-card-subtitle>
+            {{graph.properties.description}}
+        </v-card-subtitle>
         <v-card-text class="ma-0 pa-0">
             <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>
@@ -10,8 +14,6 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-text-field label="Name" v-model="name"></v-text-field>
-                                <v-textarea label="Description" v-model="description"></v-textarea>
                                 <v-text-field label="Graph Id" disabled :value="id"></v-text-field>
                                 <v-text-field label="Version" disabled :value="version"></v-text-field>
                             </v-card-text>
@@ -41,6 +43,28 @@
                                         mdi-share-variant
                                     </v-icon>
                                 </v-btn>
+                                <v-text-field label="Name" v-model="name"></v-text-field>
+                                <v-combobox
+                                    :prepend-icon="graph.properties.icon"
+                                    persistent-hint
+                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
+                                    :eager="true"
+                                    title="Icon"
+                                    :items="icons"
+                                    v-model="icon"/>
+                                <v-textarea label="Description" v-model="description"></v-textarea>
+                                <v-combobox
+                                    :items="domainTags"
+                                    persistent-hint
+                                    hint="Which domains this resource works in"
+                                    chips
+                                    deletable-chips
+                                    clearable
+                                    multiple
+                                    hide-selected
+                                    label="Tags"
+                                    prepend-icon="mdi-tag-multiple-outline"
+                                    v-model="tags"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -84,6 +108,7 @@
 <script>
 import {mapState, mapActions} from "vuex";
 import {mapFields} from "vuex-map-fields";
+import * as mdi from "@mdi/js";
 export default {
     name: "graph-properties",
     methods: {
@@ -91,6 +116,17 @@ export default {
             "publishGraph",
             "save",
         ]),
+        hyphenateProperty(prop) {
+            var p = "";
+            Array.prototype.forEach.call(prop, function (char) {
+                if (char === char.toUpperCase()) {
+                    p += "-" + char.toLowerCase();
+                    return;
+                }
+                p += char;
+            });
+            return p;
+        },
     },
     data: () => {
         return {
@@ -106,8 +142,12 @@ export default {
         },
     },
     computed: {
+        icons() {
+            return Object.keys(mdi).map(this.hyphenateProperty);
+        },
         ...mapFields([
             "graph.properties.name",
+            "graph.properties.icon",
             "graph.properties.description",
             "graph.properties.createdOn",
             "graph.properties.lastUpdate",
@@ -138,6 +178,7 @@ export default {
         },
         ...mapState({
             graph: state => state.graph,
+            domainTags: state => state.tags,
         }),
     }
 };

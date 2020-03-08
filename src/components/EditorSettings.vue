@@ -1,21 +1,33 @@
 <template>
     <v-card flat>
         <v-card-title>
+            <v-icon left>mdi-cogs</v-icon>
             Settings
         </v-card-title>
         <v-card-text class="ma-0 pa-0">
             <v-expansion-panels flat>
                 <v-expansion-panel>
-                    <v-expansion-panel-header>General Appearance</v-expansion-panel-header>
+                    <v-expansion-panel-header>General</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-text-field disabled label="Grid Size" persistent-hint hint="Cannot change for now" v-model.number="gridSize"/>
+                                <v-switch label="Snap To Grid" v-model="snapToGrid"></v-switch>
+                                <v-switch label="Show Grid" v-model="showGrid"></v-switch>
+                                <v-switch label="Input/Output Labels" v-model="showLabels"/>
+                                <v-switch persistent-hint hint="Captures debug logs and show edge values" label="Debug" v-model="debug"/>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Canvas Appearance</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
                                 <v-select label="Theme" :items="['dark', 'light']" v-model="theme"></v-select>
                                 <v-select :items="colorBaseKeys" label="Selection Rectange Color" v-model="selectionRectColor"/>
                                 <v-select :items="colorBaseKeys" label="Bounding Rectangle Color" v-model="boundingRectColor"/>
-                                <v-checkbox label="Snap To Grid" v-model="snapToGrid"></v-checkbox>
-                                <v-checkbox label="Show Grid" v-model="showGrid"></v-checkbox>
-                                <v-text-field disabled label="Grid Size" v-model.number="gridSize"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -70,6 +82,8 @@ export default {
             preferences: state => state.preferences,
         }),
         ...mapFields([
+            "preferences.showLabels",
+            "preferences.debug",
             "preferences.appearance.theme",
             "preferences.appearance.selectionRectColor",
             "preferences.appearance.boundingRectColor",

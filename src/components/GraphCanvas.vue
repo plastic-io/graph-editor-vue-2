@@ -23,7 +23,7 @@
 <script>
 import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
-import {mapState, mapActions} from "vuex";
+import {mapState, mapActions, mapGetters} from "vuex";
 import {diff} from "deep-diff";
 import colors from "vuetify/lib/util/colors";
 export default {
@@ -80,7 +80,11 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({
+            getLoadingStatus: "getLoadingStatus",
+        }),
         ...mapState({
+            loading: state => state.loading,
             presentation: state => state.presentation,
             vectorMimeType: state => state.vectorMimeType,
             historyPosition: state => state.historyPosition,

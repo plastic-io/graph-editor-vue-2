@@ -1,7 +1,8 @@
 <template>
     <v-card v-if="vector" flat>
         <v-card-title>
-            Vector
+            <v-icon left>{{vector.properties.icon}}</v-icon>
+            {{vector.properties.name || "Vector"}}
         </v-card-title>
         <v-card-subtitle>
             Inputs and Outputs
@@ -77,7 +78,7 @@
                                                             :title="`Field: ${connectorInfo.connector.field}\nVector Id: ${connectorInfo.connector.vectorId}\nConnector Id: ${connectorInfo.connector.id}\nGraph Id: ${connectorInfo.connector.graphId}\nVersion: ${connectorInfo.connector.version}`"
                                                             :key="index">
                                                             <v-list-item-avatar style="overflow: visible;">
-                                                                <v-icon>mdi-power-plug</v-icon>
+                                                                <v-icon>mdi-transit-connection</v-icon>
                                                             </v-list-item-avatar>
                                                             <v-list-item-content>
                                                                 {{connectorInfo.connector.field}}
@@ -210,7 +211,7 @@ export default {
                 this.graphSnapshot.vectors.forEach((v) => {
                     v.edges.forEach((edge) => {
                         connectors.push(...edge.connectors.filter((c) => {
-                            c.vectorId === this.vectorId && c.field === name;
+                            return c.vectorId === this.vector.id && c.field === name;
                         }).map((connector) => {
                             return {
                                 connector,
@@ -357,7 +358,7 @@ export default {
     },
     computed: {
         controlsDisabled() {
-            return !!this.vector.url;
+            return !!this.vector.artifact;
         },
         ...mapState({
             selectedVector: state => state.selectedVector,

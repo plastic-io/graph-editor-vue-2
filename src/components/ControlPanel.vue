@@ -40,6 +40,10 @@
                     v-if="panel === 'graph'"
                     :style="gutterStyle"
                     :width="this.navWidth - this.iconGutterSize"/>
+                <graph-log
+                    v-if="panel === 'log'"
+                    :style="gutterStyle"
+                    :width="this.navWidth - this.iconGutterSize"/>
                 <import-panel
                     v-if="panel === 'import'"
                     :style="gutterStyle"
@@ -67,11 +71,11 @@
                         :disabled="!selectedVector"
                         :color="panel === 'properties' ? 'info' : ''"
                         @click="selectPanel('properties')">
-                        mdi-network
+                        mdi-timeline-outline
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="Vector Set Code.  Code that runs when your vector is invoked at run time."
+                        title="Vector Set Code.  Code that runs when your vector is invoked at run time"
                         :disabled="!selectedVector"
                         :color="panel === 'set' ? 'info' : ''"
                         @click="selectPanel('set')">
@@ -79,7 +83,7 @@
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="Vector Template Code.  Code that runs when your vector appears in the graph IDE."
+                        title="Vector Template Code.  Code that runs when your vector appears in the graph IDE"
                         :disabled="!selectedVector"
                         :color="panel === 'template' ? 'info' : ''"
                         @click="selectPanel('template')">
@@ -91,7 +95,15 @@
                         :disabled="!selectedVector"
                         :color="panel === 'edge' ? 'info' : ''"
                         @click="selectPanel('edge')">
-                        mdi-video-input-component
+                        mdi-transit-connection-variant
+                    </v-icon>
+                    <v-icon
+                        class="control-panel-icon"
+                        title="Execute selected vector."
+                        :disabled="!selectedVector"
+                        :color="selectedVector ? 'green' : ''"
+                        @click="graphUrl(selectedVector.url)">
+                        mdi-play
                     </v-icon>
                 </div>
                 <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
@@ -100,32 +112,39 @@
                         title="Graph Properties"
                         :color="panel === 'graph' ? 'info' : ''"
                         @click="selectPanel('graph')">
-                        mdi-lan
+                        mdi-graph-outline
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="History of changes for this session."
+                        title="Graph Logs and State"
+                        :color="panel === 'log' ? 'info' : ''"
+                        @click="selectPanel('log')">
+                        mdi-format-list-text
+                    </v-icon>
+                    <v-icon
+                        class="control-panel-icon"
+                        title="History of changes for this session"
                         :color="panel === 'history' ? 'info' : ''"
                         @click="selectPanel('history')">
                         mdi-history
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="Import new vectors and graphs into this graph."
+                        title="Import new vectors and graphs into this graph"
                         :color="panel === 'import' ? 'info' : ''"
                         @click="selectPanel('import')">
-                        mdi-shape-rectangle-plus
+                        mdi-timeline-plus-outline
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="View and edit the settings of the graph IDE."
+                        title="View and edit the settings of the graph IDE"
                         :color="panel === 'settings' ? 'info' : ''"
                         @click="selectPanel('settings')">
                         mdi-cogs
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
-                        title="Use this slider to resize the control panel for some tabs."
+                        title="Use this slider to resize the control panel for some tabs"
                         style="cursor: ew-resize;"
                         color="secondary"
                         @mousedown="startPanelDrag">
@@ -137,10 +156,11 @@
     </v-navigation-drawer>
 </template>
 <script>
-import {mapState} from "vuex";
+import {mapState, mapActions} from "vuex";
 import HistoryPanel from "./HistoryPanel";
 import VectorProperties from "./VectorProperties";
 import GraphProperties from "./GraphProperties";
+import GraphLog from "./GraphLog";
 import EdgeProperties from "./EdgeProperties";
 import SetEditor from "./SetEditor";
 import TemplateEditor from "./TemplateEditor";
@@ -149,6 +169,7 @@ import ImportPanel from "./ImportPanel";
 export default {
     name: "control-panel",
     components: {
+        GraphLog,
         VectorProperties,
         GraphProperties,
         SetEditor,
@@ -205,6 +226,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions([
+            "graphUrl",
+        ]),
         mouseTranslate() {
             if (this.panelDragging) {
                 this.$refs.nav.$el.style.transition = "none";
@@ -251,6 +275,7 @@ export default {
             navWidths: {
                 properties: null,
                 history: null,
+                log: null,
                 graph: null,
                 set: null,
                 template: null,

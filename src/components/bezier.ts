@@ -9,11 +9,11 @@ export default function bezierDraw(connector: any): void {
     if (connector.watchConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
         strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
     }
-    if (connector.activityConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
+    if (connector.active) {
+        strokeStyle = getColor(connector.preferences.appearance.connectors.activityStrokeStyle) || "blue";
     }
     if (connector.errorConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
-        strokeStyle = getColor(connector.preferences.appearance.connectors.watchStrokeStyle) || "blue";
+        strokeStyle = getColor(connector.preferences.appearance.connectors.errorStrokeStyle) || "blue";
     }
     if (connector.selectedConnectors.map((i: {id: string}) => i.id).indexOf(connector.connector.id) !== -1) {
         strokeStyle = getColor(connector.preferences.appearance.connectors.selectedStrokeStyle) || "blue";

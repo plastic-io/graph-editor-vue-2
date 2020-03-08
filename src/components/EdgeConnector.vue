@@ -1,7 +1,7 @@
 <template>
     <canvas
         ref="canvas"
-        class="edge-connector"
+        :class="connectorClass"
         :style="connectorStyle"
         :height="height * ratio"
         :width="width * ratio"/>
@@ -20,6 +20,9 @@ export default {
     },
     data() {
         return {
+            durations: [],
+            duration: 0,
+            activeConnector: null,
             localGraph: null,
             connections: null,
             sourceRect: null,
@@ -78,6 +81,12 @@ export default {
                 field
             };
         },
+        connectorClass() {
+            if (this.activeConnector === null) {
+                return "edge-connector";
+            }
+            return this.activeConnector ? "edge-connector edge-active" : "edge-connector edge-inactive";
+        },
         connectorStyle() {
             return {
                 display: this.presentation ? "none" : "block",
@@ -89,6 +98,23 @@ export default {
         },
     },
     watch: {
+        activeConnector() {
+            this.redraw();
+        },
+        activityConnectors: {
+            handler: function () {
+                const key = this.graph.id + this.input.vector.id + this.input.field.name;
+                const activity = this.activityConnectors[key];
+                if (activity) {
+                    if (activity.start) {
+                        this.activeConnector = true;
+                    } else {
+                        this.activeConnector = false;
+                    }
+                }
+            },
+            deep: true,
+        },
         graphSnapshot: {
             handler: function () {
                 this.localGraph = this.graphSnapshot;
@@ -184,6 +210,14 @@ export default {
 };
 </script>
 <style>
+    .edge-inactive {
+        animation-duration: 0.5s;
+        animation-name: edge-deactivate;
+    }
+    .edge-active {
+        animation-duration: 0.5s;
+        animation-name: edge-activate;
+    }
     .edge-connector {
         pointer-events: none;
         position: absolute;
@@ -193,4 +227,21 @@ export default {
         width: 200px;
         z-index: -1597463006;
     }
+    @keyframes edge-deactivate {
+        from {
+            opacity: 0.5;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes edge-activate {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0.5;
+        }
+    }
+
 </style>

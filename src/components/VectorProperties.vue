@@ -1,28 +1,29 @@
 <template>
     <v-card flat v-if="vector">
         <v-card-title>
-            Vector
+            <v-icon left>{{vector.properties.icon}}</v-icon>
+            {{vector.properties.name || "Vector"}}
             <v-spacer/>
             <v-menu flat bottom color="secondary" open-on-hover>
                 <template v-slot:activator="{ on: tooltip }">
                     <v-icon v-on="{ ...tooltip }">
-                        {{vector.url ? 'mdi-link' : 'mdi-information-outline'}}
+                        {{vector.artifact ? 'mdi-link' : 'mdi-information-outline'}}
                     </v-icon>
                 </template>
-                <v-card v-if="!vector.url">
+                <v-card v-if="!vector.artifact">
                     <v-card-text>
                         <i>Vector Id: {{vector.id}}</i>
                     </v-card-text>
                 </v-card>
                 <v-alert
-                    v-if="vector.url"
+                    v-if="vector.artifact"
                     type="warning"
                     prominent
                     class="ma-0"
                     style="width: 35vw;"
                     border="left">
                     This vector did not originate on this graph.
-                    <i>Vector Url: {{vector.url}}</i>
+                    <i>Vector artifact: {{vector.artifact}}</i>
                 </v-alert>
             </v-menu>
         </v-card-title>
@@ -36,18 +37,8 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-text-field label="Name" v-model="vector.properties.name"></v-text-field>
-                                <v-textarea label="Description" v-model="vector.properties.description"></v-textarea>
-                                <v-text-field v-if="vector.url" disabled label="URL" v-model="vector.url"></v-text-field>
+                                <v-text-field label="URL" @change="updateVectorUrl($event)" :value="vector.url"></v-text-field>
                                 <v-checkbox label="Appears In Exported Graph" v-model="vector.properties.appearsInExportedGraph"></v-checkbox>
-                                <v-combobox
-                                    :items="tags"
-                                    small-chips
-                                    clearable
-                                    multiple
-                                    hide-selected
-                                    label="Tags"
-                                    v-model="vector.properties.tags"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -70,6 +61,7 @@
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
                                 <v-checkbox label="Appears In Presentation" v-model="vector.properties.appearsInPresentation"></v-checkbox>
+                                <v-checkbox label="Position Absolutely" v-model="vector.properties.positionAbsolute"></v-checkbox>
                                 <v-text-field label="x" v-model.number="vector.properties.presentation.x"></v-text-field>
                                 <v-text-field label="y" v-model.number="vector.properties.presentation.y"></v-text-field>
                                 <v-text-field label="z" v-model.number="vector.properties.presentation.z"></v-text-field>
@@ -87,17 +79,39 @@
                         </v-card>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
-                <v-expansion-panel>
+                <v-expansion-panel v-if="!vector.artifact">
                     <v-expansion-panel-header>Publishing</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
-                                <v-btn color="info" @click="publish" v-if="!vector.url">
+                            <v-card-text class="ma-0 pa-3">
+                                <v-btn color="info" @click="publish">
                                     Publish<br>Vector
                                     <v-icon right>
                                         mdi-share-variant
                                     </v-icon>
                                 </v-btn>
+                                <v-text-field label="Name" v-model="vector.properties.name"></v-text-field>
+                                <v-combobox
+                                    :prepend-icon="vector.properties.icon"
+                                    persistent-hint
+                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
+                                    :eager="true"
+                                    title="Icon"
+                                    :items="icons"
+                                    v-model="vector.properties.icon"/>
+                                <v-textarea label="Description" v-model="vector.properties.description"></v-textarea>
+                                <v-combobox
+                                    :items="tags"
+                                    chips
+                                    deletable-chips
+                                    clearable
+                                    multiple
+                                    hide-selected
+                                    label="Tags"
+                                    persistent-hint
+                                    hint="Which domains this resource works in"
+                                    prepend-icon="mdi-tag-multiple-outline"
+                                    v-model="vector.properties.tags"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -108,6 +122,7 @@
 </template>
 <script>
 import {mapState, mapActions} from "vuex";
+import * as mdi from "@mdi/js";
 export default {
     name: "vector-properties",
     methods: {
@@ -115,6 +130,20 @@ export default {
             "publishVector",
             "moveHistoryPosition",
         ]),
+        hyphenateProperty(prop) {
+            var p = "";
+            Array.prototype.forEach.call(prop, function (char) {
+                if (char === char.toUpperCase()) {
+                    p += "-" + char.toLowerCase();
+                    return;
+                }
+                p += char;
+            });
+            return p;
+        },
+        updateVectorUrl(e) {
+            this.vector.url = e;
+        },
         publish() {
             this.publishVector(this.vector.id);
         },
@@ -126,6 +155,15 @@ export default {
         };
     },
     watch: {
+        "vector.url": {
+            handler: function () {
+                this.$store.commit("updateVectorUrl", {
+                    vectorId: this.vector.id,
+                    url: this.vector.url,
+                });
+            },
+            deep: true,
+        },
         "vector.properties": {
             handler: function () {
                 this.$store.dispatch("updateVectorProperties", {
@@ -157,6 +195,9 @@ export default {
             historyPosition: state => state.historyPosition,
             events: state => state.events,
         }),
+        icons() {
+            return Object.keys(mdi).map(this.hyphenateProperty);
+        },
     }
 };
 </script>

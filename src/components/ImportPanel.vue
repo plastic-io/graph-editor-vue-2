@@ -1,19 +1,28 @@
 <template>
-    <div v-if="localToc">
-        <v-tabs grow icons-and-text hide-slider>
-            <v-tab>
-                Local
-                <v-icon>mdi-folder</v-icon>
-            </v-tab>
-            <v-tab>
-                Public
-                <v-icon>mdi-folder-network</v-icon>
-            </v-tab>
-            <v-tab-item>
-                <import-panel-list :list="Object.keys(localToc).map(i => localToc[i])"/>
-            </v-tab-item>
-        </v-tabs>
-    </div>
+    <v-card flat>
+        <v-card-title>
+            <v-icon left>mdi-timeline-plus-outline</v-icon>
+            Vectors
+        </v-card-title>
+        <v-card-subtitle>
+            Create and import vectors
+        </v-card-subtitle>
+        <v-card-text>
+            <v-tabs grow icons-and-text hide-slider>
+                <v-tab>
+                    Local
+                    <v-icon>mdi-folder</v-icon>
+                </v-tab>
+                <v-tab>
+                    Public
+                    <v-icon>mdi-folder-network</v-icon>
+                </v-tab>
+                <v-tab-item v-if="localToc">
+                    <import-panel-list :list="Object.keys(localToc).map(i => localToc[i])"/>
+                </v-tab-item>
+            </v-tabs>
+        </v-card-text>
+    </v-card>
 </template>
 <script>
 import ImportPanelList from "./ImportPanelList";
