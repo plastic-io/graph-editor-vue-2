@@ -1,7 +1,7 @@
 import {deleteSelected, groupSelected, ungroupSelected,
     undo, redo, duplicateSelection, bringForward, sendBackward,
     bringToFront, sendToBack, zoom, nudgeUp, nudgeDown,
-    nudgeLeft, nudgeRight} from "../mutations"; // eslint-disable-line
+    nudgeLeft, nudgeRight, togglePresentation} from "../mutations"; // eslint-disable-line
 const deleteKey = 46;
 const dKeyCode = 68;
 const gKeyCode = 71;
@@ -14,6 +14,7 @@ const arrowLeft = 37;
 const arrowRight = 39;
 const dashKeyCode = 189;
 const equalKeyCode = 187;
+const graveKeyCode = 192;
 // const shiftKeyCode = 16;
 // const metaKeyCode = 91;
 // const spaceKeyCode = 32;
@@ -34,6 +35,7 @@ function keys(state: any, keys: {
     }, e: UIEvent) {
     const ctrl = e.ctrlKey || e.metaKey;
     const shift = e.shiftKey;
+    const alt = e.altKey;
     // zoom
     // BUG in chrome?: in key interface. - and + do not "keyup" when command is held down
     if (keys[equalKeyCode] && ctrl) {
@@ -92,6 +94,9 @@ function keys(state: any, keys: {
     // duplicate
     if (keys[dKeyCode] && ctrl && shift) {
         duplicateSelection(state);
+    }
+    if (keys[graveKeyCode] && alt) {
+        togglePresentation(state);
     }
 }
 export function keyup(state: any, e: UIEvent) {

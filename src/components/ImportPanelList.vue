@@ -17,7 +17,7 @@
                 <template v-slot:activator>
                     <v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)">
                         <v-icon :title="item.type === 'publishedGraph' ? 'Graph' : 'Vector'">
-                            {{iconType(item.type)}}
+                            {{item.icon || iconType(item.type)}}
                         </v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
@@ -42,7 +42,7 @@
                 </template>
                 <template v-if="item.type !== 'newVector'">
                     <v-list-item v-for="(artifact, index) in artifacts(item.id)" :key="index">
-                        <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart(artifact)">
+                        <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)">
                             <v-icon>{{artifact.icon}}</v-icon>
                         </v-list-item-icon>
                         <v-list-item-content>

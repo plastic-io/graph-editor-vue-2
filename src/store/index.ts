@@ -4,7 +4,9 @@ import {getField, updateField} from "vuex-map-fields";
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
-        New Vector
+        <v-icon x-large>
+            {{vector.properties.icon}}
+        </v-icon>
     </div>
 </template>
 <script>
@@ -20,7 +22,7 @@ export default {
 `;
 export default function () {
     return {
-        strict: true,
+        strict: false,
         state: {
             log: [],
             tags: [
@@ -29,6 +31,7 @@ export default function () {
                 "lambda",
                 "cli",
             ],
+            artifacts: {},
             vectorMimeType: "application/json+plastic-io",
             remoteSnapshot: {},
             graphSnapshot: null,
@@ -139,20 +142,35 @@ export default function () {
             updateField,
         },
         getters: {
-            getLoadingStatus(context: any) {
+            getArtifactByUrl(state: any) {
+                return (url: string) => {
+                    if (!state.artifacts[url]) {
+                        console.warn("Cannot find artifact ", url);
+                    }
+                    return state.artifacts[url];
+                };
+            },
+            getVectorById(state: any) {
+                return (vectorId: string) => {
+                    return state.graph.vectors.find(v => v.id === vectorId);
+                };
+            },
+            getLoadingStatus(state: any) {
                 return (type: string, id: string) => {
-                    const state = {
+                    const projection = {
+                        count: 0,
                         events: {},
                     };
-                    context.state.loading[type][id].forEach((status) => {
-                        state.count += 1;
-                        state.events.push({
+                    state.loading[type][id].forEach((status) => {
+                        projection.count += 1;
+                        projection.events.push({
                             time: status.time,
                             event: status.event,
                             loading: status.loading,
                         });
-                        state.loading = status.loading;
+                        projection.loading = status.loading;
                     });
+                    return projection;
                 };
             },
             getField,

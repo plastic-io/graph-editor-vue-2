@@ -1,6 +1,6 @@
 <template>
     <div
-        v-if="loaded"
+        v-if="loaded[vectorComponentName] && visible"
         ref="vector"
         class="vector"
         :style="vectorStyle">
@@ -36,20 +36,22 @@
             />
         </div>
         <div
-            v-if="component"
             :id="'vector-' + localVector.id"
             @mouseover="hover"
             @mouseout="unhover"
             :class="translating && mouse.lmb ? 'no-select' : ''"
         >
             <component
-                :is="'vector-' + localVector.id"
+                v-if="loaded[vectorComponentName]"
+                :is="'vector-' + vectorComponentName"
                 :vector="localVector"
-                :state="scheduler.state"
+                :scheduler="scheduler"
             />
             <component
+                v-for="(style, index) in styles"
                 :is="'style'"
                 v-html="style"
+                :key="index"
             />
         </div>
         <div class="vector-outputs">
@@ -66,7 +68,7 @@
 <script>
 import {Vector} from "@plastic-io/plastic-io";
 import Vue from "vue";
-import {mapState, mapMutations} from "vuex";
+import {mapState, mapMutations, mapGetters} from "vuex";
 import {parseScript} from "meriyah";
 import {Parser} from "htmlparser2";
 import {DomHandler} from "domhandler";
@@ -106,62 +108,80 @@ export default {
     },
     data() {
         return {
-            loaded: null,
+            loaded: {},
             localHoveredVector: null,
             localSelectedVectors: [],
-            component: null,
             dragged: null,
             localVector: null,
             localVectorSnapshot: null,
             template: null,
             compileCount: 0,
-            remoteGraph: null,
-            style: "",
+            artifactVectors: {},
+            styles: [],
         };
     },
     async mounted() {
-        if (this.vector.artifact) {
-            const v = await this.dataProviders.publish.get(this.vector.artifact);
-            if (v.vectors) {
-                this.importGraph(v);
-            } else {
-                this.importVector(v);
-            }
-        } else {
-            this.localVector = this.vector;
-            const tmp = this.compileTemplate(this.localVector.id, this.localVector.template.vue);
-            this.component = tmp.component;
-            this.style = tmp.style;
-        }
+        // used by the compiler scripts
+        window.Vue = Vue;
+        this.localVector = this.vector;
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localSelectedVectors = this.selectedVectors;
-        this.loaded = true;
+        await this.importRoot(this.localVector);
     },
     methods: {
+        ...mapGetters([
+            "getVectorById",
+        ]),
         ...mapMutations([
             "clearSchedulerErrorItem",
             "clearSchedulerError",
+            "setArtifact",
         ]),
-        importGraph(v) {
-            this.remoteGraph = v;
-            this.localVector = this.vector;
+        artifactKey(key) {
+            if (!key) {
+                return;
+            }
+            return key.replace(/\/|\./g, "_");
+        },
+        async importRoot(vect) {
+            if (vect.artifact) {
+                const v = await this.dataProviders.publish.get(vect.artifact);
+                const l = {
+                    key: vect.artifact,
+                    value: v,
+                };
+                this.setArtifact(l);
+                if (v.vectors) {
+                    await this.importGraph(v, this.artifactKey(vect.artifact));
+                } else {
+                    await this.importVector(v, this.artifactKey(vect.artifact));
+                }
+            } else {
+                const l = {
+                    key: vect.id,
+                    value: vect,
+                };
+                this.setArtifact(l);
+                await this.compileTemplate(vect.id, vect.template.vue);
+            }
+        },
+        async importGraph(g, artifactKey) {
             // compile a template for every vector marked 
-            const templates = this.remoteGraph.vectors.map((v) => {
-                return this.compileTemplate(this.vector.id + "-" + v.id, v.template.vue);
-            });
+            for (let v of g.vectors) {
+                await this.importRoot(v);
+            }
             const temp = [];
             temp.push("<template><div>");
-            this.remoteGraph.vectors.forEach((v) => {
+            g.vectors.forEach((v) => {
                 if (v.properties.appearsInExportedGraph) {
-                    temp.push("<component is=\"vector-" + this.vector.id + "-" + v.id + "\" :state=\"$store.state.scheduler.state\"/>");
+                    const vectorKey = (this.artifactKey(v.artifact) || v.id);
+                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/>");
                 }
             });
             temp.push("</div></template>");
-            const tmp = this.compileTemplate(this.vector.id, temp.join(""));
-            this.component = tmp.component;
-            this.style = templates.map(t => t.style).join("\n");
+            await this.compileTemplate(artifactKey, temp.join(""));
         },
-        importVector(v) {
+        async importVector(v, artifactKey) {
             v.artifact = this.vector.artifact;
             v.url = this.vector.url;
             v.artifactlId = v.id;
@@ -172,10 +192,7 @@ export default {
             v.properties.presentation.x = this.vector.properties.presentation.x;
             v.properties.presentation.y = this.vector.properties.presentation.y;
             v.properties.presentation.z = this.vector.properties.presentation.z;
-            this.localVector = v;
-            const tmp = this.compileTemplate(this.localVector.id, this.localVector.template.vue);
-            this.component = tmp.component;
-            this.style = tmp.style;
+            await this.compileTemplate(artifactKey, v.template.vue);
         },
         hover() {
             this.$store.dispatch("hoveredVector", this.localVector);
@@ -184,10 +201,13 @@ export default {
             this.$store.dispatch("hoveredVector", null);
         },
         compileTemplate(id, tmp) {
+            // don't compile the same template twice
+            if (this.loaded[id] !== undefined) {
+                return;
+            }
             let script;
             let template;
             let style;
-            let component;
             const handler = new DomHandler(function(error, dom) {
                 if (error) {
                     // Handle error
@@ -227,26 +247,45 @@ export default {
             if (script === undefined) {
                 script = "export default {}";
             }
-            const ast = parseScript(script.replace("export default", "return "), {
+            // create a script that can use module imports and registers our vector's component
+            const scriptTemplate = script.replace("export default", "const c = {}; c.comp = ")
+                + ";c.comp.template = `" + template + "`;"
+                + "c.comp.name = 'vector-" + id + "';"
+                + "Vue.component(c.comp.name, c.comp);";
+            const ast = parseScript(scriptTemplate, {
                 globalReturn: true,
                 module: true,
                 next: true,
             });
             const astString = generate(ast);
-            const vueFn = new Function(astString);
+            const scr = document.createElement("script");
+            scr.type = "module";
+            document.body.appendChild(scr);
+            this.loaded[id] = false;
             try {
-                const obj = vueFn();
-                component = Vue.component("vector-" + id, {
-                    ...obj,
-                    template,
-                });
+                scr.innerHTML = astString;
             } catch (err) {
-                this.$store.dispatch("error", new Error(`Vector ${id} contains an error in the Vue script. ${err}.`));
+                this.$store.dispatch("raiseError", new Error(`Vector ${id} contains an error in the Vue script. ${err}.`));
             }
-            return {
-                style,
-                component,
+            const checkReg = () => {
+                if (Vue.options.components["vector-" + id]) {
+                    this.loaded[id] = true;
+                    let allLoaded = true;
+                    Object.keys(this.loaded).forEach((key) => {
+                        if (!this.loaded[key]) {
+                            allLoaded = false;
+                        }
+                    });
+                    if (allLoaded) {
+                        this.$forceUpdate();
+                    }
+                    return;
+                }
+                setTimeout(checkReg, 10);
             };
+            checkReg();
+            // add styles on this component to the style list
+            this.styles.push(style);
         },
     },
     computed: {
@@ -256,12 +295,21 @@ export default {
             scheduler: state => state.scheduler,
             hoveredVector: state => state.hoveredVector,
             selectedVectors: state => state.selectedVectors,
-            graph: state => state.graph,
             mouse: state => state.mouse,
             translating: state => state.translating,
             keys: state => state.keys,
             view: state => state.view,
         }),
+        vectorComponentName() {
+            const name = this.artifactKey(this.vector.artifact) || this.vector.id;
+            return name;
+        },
+        visible: function () {
+            if (this.presentation && !this.localVector.properties.appearsInPresentation) {
+                return false;
+            }
+            return true;
+        },
         errors: function () {
             return this.scheduler.errors[this.localVector.id] || [];
         },
@@ -276,7 +324,9 @@ export default {
             const selected = !!this.localSelectedVectors.find(v => v.id === this.localVector.id);
             const hoveredAndSelected = hovered && selected;
             let borderColor = "transparent";
-            if (hoveredAndSelected) {
+            if (this.presentation) {
+                borderColor = "transparent";
+            } else if (hoveredAndSelected) {
                 borderColor = "var(--v-info-lighten4)";
             } else if (selected) {
                 borderColor = "var(--v-info-lighten3)";

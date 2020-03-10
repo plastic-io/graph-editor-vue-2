@@ -1,10 +1,19 @@
 <template>
-    <canvas
-        ref="canvas"
+    <div
         :class="connectorClass"
-        :style="connectorStyle"
-        :height="height * ratio"
-        :width="width * ratio"/>
+        :style="connectorStyle">
+        <canvas
+            ref="canvas"
+            :height="height * ratio"
+            :width="width * ratio"/>
+        <div v-if="hovered" :style="connectorInfoStyle">
+            <v-card>
+                <v-card-text>
+                    {{this.activityConnectors[this.connector.graphId + this.connector.vectorId + this.connector.field]}}
+                </v-card-text>
+            </v-card>
+        </div>
+    </div>
 </template>
 <script>
 import {Connector, Vector, Edge} from "@plastic-io/plastic-io";
@@ -56,6 +65,18 @@ export default {
             activityConnectors: state => state.activityConnectors,
             movingConnector: state => state.movingConnector,
         }),
+        watched() {
+            return this.watchConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
+        },
+        selected() {
+            return this.selectedConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
+        },
+        errored() {
+            return this.errorConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
+        },
+        hovered() {
+            return this.hoveredConnector && this.hoveredConnector.connector.id === this.connector.id;
+        },
         output() {
             const field = this.vector.properties.outputs.find((output) => {
                 return this.edge.field === output.name;
@@ -86,6 +107,14 @@ export default {
                 return "edge-connector";
             }
             return this.activeConnector ? "edge-connector edge-active" : "edge-connector edge-inactive";
+        },
+        connectorInfoStyle() {
+            return {
+                position: "fixed",
+                width: "500px",
+                left: ((this.mouse.x - this.view.x) / this.view.k) + 10 + "px",
+                top: ((this.mouse.y - this.view.y) / this.view.k) + 10 + "px",
+            };
         },
         connectorStyle() {
             return {

@@ -21,6 +21,18 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
                 <v-expansion-panel>
+                    <v-expansion-panel-header>Presentation</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-switch label="Start In Presentation Mode" v-model="startInPresentationMode"></v-switch>
+                                <v-text-field label="Height" v-model.number="height"></v-text-field>
+                                <v-text-field label="Width" v-model.number="width"></v-text-field>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
                     <v-expansion-panel-header>Meta</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
@@ -28,6 +40,30 @@
                                 <v-text-field label="Created By" v-model="createdBy"></v-text-field>
                                 <v-text-field label="Created On" v-model="createdOn"></v-text-field>
                                 <v-text-field label="Last Update" v-model="lastUpdate"></v-text-field>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Vectors</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-list>
+                                    <v-list-item-group v-model="vectorList" color="primary">
+                                        <v-list-item
+                                            @click="selectVector(vector.id)"
+                                            v-for="vector in graph.vectors"
+                                            :key="'select_' + vector.id">
+                                            <v-list-item-icon>
+                                                <v-icon v-text="vector.properties.icon"></v-icon>
+                                            </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <v-list-item-title :title="vector.id" v-text="vector.name || 'Untitled Vector'"></v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
+                                </v-list>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -70,17 +106,6 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
                 <v-expansion-panel>
-                    <v-expansion-panel-header>Presentation</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
-                                <v-text-field label="Height" v-model.number="height"></v-text-field>
-                                <v-text-field label="Width" v-model.number="width"></v-text-field>
-                            </v-card-text>
-                        </v-card>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
                     <v-expansion-panel-header>External Graph IO</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
@@ -106,7 +131,7 @@
     </v-card>
 </template>
 <script>
-import {mapState, mapActions} from "vuex";
+import {mapState, mapActions, mapMutations} from "vuex";
 import {mapFields} from "vuex-map-fields";
 import * as mdi from "@mdi/js";
 export default {
@@ -115,6 +140,9 @@ export default {
         ...mapActions([
             "publishGraph",
             "save",
+        ]),
+        ...mapMutations([
+            "selectVector",
         ]),
         hyphenateProperty(prop) {
             var p = "";
@@ -131,6 +159,7 @@ export default {
     data: () => {
         return {
             panel: 0,
+            vectorList: null,
         };
     },
     watch: {
@@ -146,6 +175,7 @@ export default {
             return Object.keys(mdi).map(this.hyphenateProperty);
         },
         ...mapFields([
+            "graph.properties.startInPresentationMode",
             "graph.properties.name",
             "graph.properties.icon",
             "graph.properties.description",
@@ -154,6 +184,7 @@ export default {
             "graph.properties.height",
             "graph.properties.width",
             "graph.properties.createdBy",
+            "graph.properties.tags",
             "graph.version",
             "graph.id",
         ]),

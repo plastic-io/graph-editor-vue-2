@@ -11,6 +11,7 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
+                                <v-select label="Theme" :items="['dark', 'light']" v-model="theme"></v-select>
                                 <v-text-field disabled label="Grid Size" persistent-hint hint="Cannot change for now" v-model.number="gridSize"/>
                                 <v-switch label="Snap To Grid" v-model="snapToGrid"></v-switch>
                                 <v-switch label="Show Grid" v-model="showGrid"></v-switch>
@@ -25,7 +26,6 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-select label="Theme" :items="['dark', 'light']" v-model="theme"></v-select>
                                 <v-select :items="colorBaseKeys" label="Selection Rectange Color" v-model="selectionRectColor"/>
                                 <v-select :items="colorBaseKeys" label="Bounding Rectangle Color" v-model="boundingRectColor"/>
                             </v-card-text>

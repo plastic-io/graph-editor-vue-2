@@ -69,6 +69,9 @@
                                     >
                                         <v-card>
                                             <v-card-title class="subheading font-weight-bold">
+                                                <v-icon left x-large>
+                                                    {{item.icon || 'mdi-graph'}}
+                                                </v-icon>
                                                 {{item.name || "Untitled"}}
                                             </v-card-title>
                                             <v-card-title class="pa-00">
@@ -97,7 +100,7 @@
                                                         :class="{
                                                             'blue--text': sortBy === key
                                                         }"
-                                                        >{{ key }}:</v-list-item-content
+                                                        >{{key}}:</v-list-item-content
                                                     >
                                                     <v-list-item-content
                                                         class="align-end"
@@ -118,7 +121,7 @@
                                 <v-row class="mt-2" align="center" justify="center">
                                     <span class="grey--text">Items per page</span>
                                     <v-menu offset-y>
-                                        <template v-slot:activator="{ on }">
+                                        <template v-slot:activator="{on}">
                                             <v-btn
                                                 dark
                                                 text
@@ -144,7 +147,7 @@
                                     </v-menu>
                                     <v-spacer></v-spacer>
                                     <span class="mr-4 grey--text">
-                                        Page {{ page }} of {{ numberOfPages }}
+                                        Page {{page}} of {{numberOfPages}}
                                     </span>
                                     <v-btn
                                         fab
@@ -186,7 +189,7 @@
 <script>
 import {mapState, mapActions} from "vuex";
 export default {
-    name: "graph-ganager",
+    name: "graph-manager",
     methods: {
         ...mapActions([
             "removeArtifact",
@@ -232,7 +235,6 @@ export default {
         sortBy: "name",
         keys: [
             "name",
-            "type",
             "version",
             "description",
         ],
@@ -240,7 +242,6 @@ export default {
     watch: {
         toc: {
             handler: function () {
-                console.log(" >>>> TOC UPDATE");
                 this.localItems = this.toc;
             },
             deep: true,
@@ -268,6 +269,8 @@ export default {
         tocItems() {
             return Object.keys(this.localItems).map(key => {
                 return this.localItems[key];
+            }).filter((item) => {
+                return !/published/.test(item.type);
             });
         }
     },

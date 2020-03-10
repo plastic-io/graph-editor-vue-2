@@ -124,6 +124,10 @@ export function pasteVectors(state: any, vectors: UIVector[], name: string = "Pa
     state.selectedVectors = vectors;
     applyGraphChanges(state, name);
 }
+export function selectVector(state: any, vectorId: string) {
+    state.selectedVectors = [state.graph.vectors.find(v => v.id === vectorId)];
+    state.selectedVector = state.selectedVectors[0];
+}
 export function undo(state: any) {
     moveHistoryPosition(state, -1);
 }
@@ -572,7 +576,7 @@ export function createNewVector(state: any, e: any) {
             name: "",
             description: "",
             tags: [],
-            icon: "mdi-graph-outline",
+            icon: "mdi-vector-rectangle",
             positionAbsolute: false,
             appearsInPresentation: false,
             appearsInExport: false,
@@ -737,10 +741,19 @@ function addSchedulerError(state: any, e: any) {
     Vue.set(state.scheduler.errors, e.key, state.scheduler.errors[e.key] || []);
     state.scheduler.errors[e.key].push(e.error);
 }
+export function togglePresentation(state: any) {
+    state.presentation = !state.presentation;
+}
 function setScheduler(state: any, e: any) {
     state.scheduler.instance = e;
 }
+function setArtifact(state: any, e: any) {
+    state.artifacts[e.key] = e.value;
+}
 export default {
+    setArtifact,
+    togglePresentation,
+    selectVector,
     addSchedulerError,
     clearSchedulerErrorItem,
     clearSchedulerError,

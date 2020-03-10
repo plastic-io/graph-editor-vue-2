@@ -1,13 +1,24 @@
 <template>
     <div
-        ref="edge"
-        :style="vectorFieldStyle"
-        class="vector-field"
+        v-if="!presentation"
         @mouseout="unhoverPort"
         @mouseover="hoverPort"
-        :title="field.name"
-        :id="`vector-${type}-${vector.id}-${field.name}`"
-    ></div>
+    >
+        <div
+            ref="edge"
+            :style="vectorFieldStyle"
+            class="vector-field"
+            :title="field.name"
+            :key="preferences.showLabels"
+            :id="`vector-${type}-${vector.id}-${field.name}`"
+        ></div>
+        <div
+            v-if="preferences.showLabels"
+            :style="vectorNameStyle"
+            :class="(type === 'output' ? 'vector-field-output' : 'vector-field-input')">
+                {{field.name}}
+        </div>
+    </div>
 </template>
 <script>
 import {mapState} from "vuex";
@@ -16,15 +27,24 @@ export default {
     name: "vector-field",
     computed: {
         ...mapState({
+            presentation: state => state.presentation,
             hoveredPort: state => state.hoveredPort,
+            preferences: state => state.preferences,
         }),
-        vectorFieldStyle() {
-            const isHovered = this.hoveredPort && this.hoveredPort.vector.id === this.vector.id
+        isHovered() {
+            return this.hoveredPort && this.hoveredPort.vector.id === this.vector.id
                 && this.hoveredPort.field.name === this.field.name
                 && this.type === this.hoveredPort.type;
+        },
+        vectorFieldStyle() {
             return {
                 background: this.type === "output" ? "var(--v-info-lighten2)" : "var(--v-info-lighten2)",
-                outline: isHovered ? "solid 1px var(--v-info-lighten2)" : undefined,
+                outline: this.isHovered ? "solid 1px var(--v-info-lighten2)" : undefined,
+            };
+        },
+        vectorNameStyle() {
+            return {
+                outline: this.isHovered ? "solid 1px var(--v-info-lighten2)" : undefined,
             };
         },
         edge() {
@@ -57,5 +77,17 @@ export default {
 .vector-field {
     height: 10px;
     width: 10px;
+}
+.vector-field-output {
+    color: var(--v-primary-base);
+    position: absolute;
+    left: 200%;
+    top: -100%;
+}
+.vector-field-input {
+    color: var(--v-accent-darken1);
+    position: absolute;
+    right: 200%;
+    top: -100%;
 }
 </style>

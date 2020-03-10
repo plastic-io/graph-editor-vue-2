@@ -16,8 +16,8 @@
             :key="vector.id"
             :vector="vector"
         />
-        <div v-if="selectionRect.visible" class="selection-rect" :style="selectionRectStyle"></div>
-        <div :key="historyPosition" v-if="selectedVectors.length > 0" class="bounding-rect" :style="boundingRectStyle"></div>
+        <div v-if="selectionRect.visible && !presentation" class="selection-rect" :style="selectionRectStyle"></div>
+        <div :key="historyPosition" v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
 </template>
 <script>
@@ -139,9 +139,9 @@ export default {
             return connectors;
         },
         graphCanvasStyle: function () {
-            // if (this.presentation) {
-            //     return {};
-            // }
+            if (this.presentation) {
+                return {};
+            }
             return {
                 transform: `translate(${this.view.x}px, ${this.view.y}px) scale(${this.view.k})`,
             };

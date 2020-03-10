@@ -221,7 +221,11 @@ export default function mouse(state: any, mouse: {
     // when selectionRect is visible, add overlapping vectors to selection
     if (state.selectionRect.visible) {
         state.graph.vectors.forEach((v: UIVector) => {
-            const elRect = document.getElementById("vector-" + v.id)!.getBoundingClientRect();
+            const el = document.getElementById("vector-" + v.id);
+            if (!el) {
+                return;
+            }
+            const elRect = el.getBoundingClientRect();
             const rect = {
                 x: (elRect.x - state.view.x) / state.view.k,
                 y: (elRect.y - state.view.y) / state.view.k,
@@ -273,11 +277,23 @@ export default function mouse(state: any, mouse: {
         const minX = Math.min.apply(null, bound
             .map((v: UIVector) => v.properties.x));
         const maxX = Math.max.apply(null, bound
-            .map((v: UIVector) => v.properties.x + document.getElementById("vector-" + v.id)!.offsetWidth));
+            .map((v: UIVector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.x;
+                }
+                return v.properties.x + el.offsetWidth;
+            }));
         const minY = Math.min.apply(null, bound
             .map((v: UIVector) => v.properties.y));
         const maxY = Math.max.apply(null, bound
-            .map((v: UIVector) => v.properties.y + document.getElementById("vector-" + v.id)!.offsetHeight));
+            .map((v: UIVector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.y;
+                }
+                return v.properties.y + el.offsetHeight;
+            }));
         state.groupBounds = {
             minX,
             maxX,

@@ -1,7 +1,7 @@
 <template>
     <v-app class="graph-editor">
         <template  v-if="graph">
-            <v-system-bar ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
+            <v-system-bar v-if="!presentation" ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
                 <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
                     <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
@@ -30,14 +30,15 @@
                     <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
                 </span>
             </v-system-bar>
-            <control-panel ref="panel"/>
+            <control-panel v-if="!presentation" ref="panel"/>
             <div class="graph-container" :style="graphContainerStyle">
                 <graph-canvas
                     :class="translating && mouse.lmb ? 'no-select' : ''"
-                    :showGrid="preferences.appearance.showGrid"
+                    :showGrid="preferences.appearance.showGrid && !presentation"
                 ></graph-canvas>
             </div>
             <v-system-bar
+                v-if="!presentation"
                 ref="bottomBar"
                 style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
                 class="no-select bottom-system-bar"
@@ -81,12 +82,19 @@
                     :color="locked ? 'info' : ''"
                     style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
                 <v-icon
-                    title="Toggle Presentation"
+                    title="Toggle Presentation (Alt + `)"
                     @click="togglePresentation"
                     :color="presentation ? 'info' : ''"
                     style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
         </template>
+        <v-bottom-sheet hide-overlay inset :timeout="2000" v-model="presentationWarning" multi-line>
+            <v-alert>
+                <v-row>
+                    <v-col>Press Alt + ` to toggle Presentation Mode</v-col>
+                </v-row>
+            </v-alert>
+        </v-bottom-sheet>
         <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" multi-line>
             <v-alert type="error" prominent>
                 <v-row>
@@ -116,6 +124,27 @@ export default {
         ControlPanel,
     },
     watch: {
+        presentationWarning() {
+            this.hasSeenPresentationWarning = true;
+            setTimeout(() => {
+                this.presentationWarning = false;
+            }, 3000);
+        },
+        presentation() {
+            this.presentationWarning = !this.hasSeenPresentationWarning;
+        },
+        graph: {
+            handler: function () {
+                if (this.graph) {
+                    if (!this.graphLoaded && this.graph.properties.startInPresentationMode) {
+                        this.hasSeenPresentationWarning = true;
+                        this.togglePresentation();
+                    }
+                    this.graphLoaded = true;
+                }
+            },
+            deep: true,
+        },
         showError() {
             this.localShowError = this.showError;
             if (this.error) {
@@ -229,6 +258,15 @@ export default {
             });
         },
         isGraphTarget(e) {
+            let parentNode = e.target;
+            if (this.locked) {
+                while (parentNode) {
+                    if (parentNode.className === "vector") {
+                        return false;
+                    }
+                    parentNode = parentNode.parentNode;
+                }
+            }
             return (!/^(no-graph-target|v-list|v-menu)/.test(e.target.className)) &&
                 !((this.$refs.panel && this.$refs.panel.$el.contains(e.target))
                     || (this.$refs.topBar && this.$refs.topBar.$el.contains(e.target))
@@ -355,10 +393,10 @@ export default {
             e.preventDefault();
         },
         evCopy(e) {
-            console.log("copy");
             if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
+            console.log("copy");
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             e.preventDefault();
         },
@@ -458,6 +496,9 @@ export default {
             localErrorMessage: "",
             localShowError: false,
             localVersion: 0,
+            graphLoaded: false,
+            presentationWarning: false,
+            hasSeenPresentationWarning: false,
         };
     }
 };

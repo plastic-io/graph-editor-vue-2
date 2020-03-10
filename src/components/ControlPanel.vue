@@ -11,7 +11,7 @@
         <v-container
             class="flex-d align-stretch pa-0"
             fill-height
-            style="z-index: 1;">
+            style="z-index: 1; overflow: hidden;">
             <v-card
                 class="main-nav"
                 elevation="0"

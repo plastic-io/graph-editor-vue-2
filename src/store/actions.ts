@@ -220,7 +220,8 @@ export default {
                 createdOn: Date.now(),
                 lastUpdate: Date.now(),
                 height: 150,
-                width: 300
+                width: 300,
+                startInPresentationMode: false,
             }
         };
         context.dispatch("save", e);
