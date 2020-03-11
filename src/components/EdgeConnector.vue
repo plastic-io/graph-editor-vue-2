@@ -6,10 +6,43 @@
             ref="canvas"
             :height="height * ratio"
             :width="width * ratio"/>
-        <div v-if="hovered" :style="connectorInfoStyle">
+        <div v-if="hovered && activityInfo" :style="connectorInfoStyle">
             <v-card>
                 <v-card-text>
-                    {{this.activityConnectors[this.connector.graphId + this.connector.vectorId + this.connector.field]}}
+                    <v-simple-table>
+                        <template v-slot:default>
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Name</th>
+                                    <th class="text-left">Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Field</td>
+                                    <td>{{activityInfo.event.field}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Time</td>
+                                    <td>{{activityInfo.event.time}}</td>
+                                </tr>
+                                <tr v-if="activityInfo.end">
+                                    <td>End</td>
+                                    <td>{{activityInfo.end}}</td>
+                                </tr>
+                                <tr v-if="activityInfo.event.duration">
+                                    <td>Duration</td>
+                                    <td>{{activityInfo.event.duration}}</td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                        <pre>{{activityInfo.event.value}}</pre>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </template>
+                    </v-simple-table>
                 </v-card-text>
             </v-card>
         </div>
@@ -65,6 +98,9 @@ export default {
             activityConnectors: state => state.activityConnectors,
             movingConnector: state => state.movingConnector,
         }),
+        activityInfo() {
+            return this.activityConnectors[this.connector.graphId + this.connector.vectorId + this.connector.field];
+        },
         watched() {
             return this.watchConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
         },

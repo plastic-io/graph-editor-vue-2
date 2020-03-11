@@ -3,6 +3,7 @@
         v-if="!presentation"
         @mouseout="unhoverPort"
         @mouseover="hoverPort"
+        :style="connectorWarn ? 'cursor: not-allowed;' : ''"
     >
         <div
             ref="edge"
@@ -27,6 +28,7 @@ export default {
     name: "vector-field",
     computed: {
         ...mapState({
+            connectorWarn: state => state.connectorWarn,
             presentation: state => state.presentation,
             hoveredPort: state => state.hoveredPort,
             preferences: state => state.preferences,

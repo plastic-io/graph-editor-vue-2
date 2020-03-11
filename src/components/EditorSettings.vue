@@ -16,7 +16,7 @@
                                 <v-switch label="Snap To Grid" v-model="snapToGrid"></v-switch>
                                 <v-switch label="Show Grid" v-model="showGrid"></v-switch>
                                 <v-switch label="Input/Output Labels" v-model="showLabels"/>
-                                <v-switch persistent-hint hint="Captures debug logs and show edge values" label="Debug" v-model="debug"/>
+                                <v-switch persistent-hint hint="Captures debug logs and show edge values.  Performance penalty." label="Debug" v-model="debug"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>

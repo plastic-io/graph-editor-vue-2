@@ -6,7 +6,7 @@
                 :items="registryList"
             />
         </v-card-title>
-        <v-tabs>
+        <v-tabs :key="selectedRegistry">
             <v-tab v-for="(category, index) in selectedRegistryCollection" :key="index">
                 {{category.name}}
             </v-tab>
@@ -137,7 +137,7 @@ export default {
             };
         },
         registryList() {
-            return Object.keys(this.registry);
+            return this.publicGraphRegistries;
         },
         selectedRegistryCollection() {
             if (Object.keys(this.registry).length === 0) {

@@ -109,6 +109,7 @@ export default function mouse(state: any, mouse: {
         state.selectedConnectors = [];
         state.selectedVectors = [];
     }
+    state.connectorWarn = null;
     // check hits on the connector LUT to find connector selection and connection hovers
     state.hoveredConnector = null;
     for (let j = 0; j < luts.length; j += 1) {
@@ -141,27 +142,55 @@ export default function mouse(state: any, mouse: {
         }
     }
     // trying to move a connector to this port
-    if (!mouse.lmb && state.mouse.lmb && state.hoveredPort && state.movingConnector && !state.addingConnector) {
+    if (state.hoveredPort && state.movingConnector && !state.addingConnector) {
         const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.movingConnector.output.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.movingConnector.output.field.name);
         const connector = edge.connectors.find((e: {id: string}) => e.id === state.movingConnector.connector.id);
-        connector.vectorId = state.hoveredPort.vector.id;
-        connector.field = state.hoveredPort.field.name;
-        applyGraphChanges(state, "Move Connector");
-        state.movingConnector = null;
+        const typeA = state.movingConnector.field.type;
+        const typeB = state.hoveredPort.field.type;
+        const valid = typeA === typeB || (typeA === "Object" || typeB === "Object");
+        const msg = "Cannot connect " + typeA + " to " + typeB;
+        if (!valid) {
+            state.connectorWarn = msg;
+        }
+        if (!mouse.lmb && state.mouse.lmb) {
+            if (valid) {
+                connector.vectorId = state.hoveredPort.vector.id;
+                connector.field = state.hoveredPort.field.name;
+                applyGraphChanges(state, "Move Connector");
+                state.movingConnector = null;
+            } else {
+                state.showError = true;
+                state.error = msg;
+            }
+        }
     }
     // add a new connector to a port
-    if (!mouse.lmb && state.mouse.lmb && state.hoveredPort && state.addingConnector) {
+    if (state.hoveredPort && state.addingConnector) {
         const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.addingConnector.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.addingConnector.field.name);
         const connector = state.addingConnector.connector;
-        connector.field = state.hoveredPort.field.name;
-        connector.vectorId = state.hoveredPort.vector.id;
-        connector.graphId = state.hoveredPort.vector.graphId;
-        connector.version = state.hoveredPort.vector.version;
-        edge.connectors.push(connector);
-        applyGraphChanges(state, "Add Connector");
-        state.addingConnector = null;
+        const typeA = state.addingConnector.field.type;
+        const typeB = state.hoveredPort.field.type;
+        const valid = typeA === typeB || (typeA === "Object" || typeB === "Object");
+        const msg = "Cannot connect " + typeA + " to " + typeB;
+        if (!valid) {
+            state.connectorWarn = msg;
+        }
+        if (!mouse.lmb && state.mouse.lmb) {
+            if (valid) {
+                connector.field = state.hoveredPort.field.name;
+                connector.vectorId = state.hoveredPort.vector.id;
+                connector.graphId = state.hoveredPort.vector.graphId;
+                connector.version = state.hoveredPort.vector.version;
+                edge.connectors.push(connector);
+                applyGraphChanges(state, "Add Connector");
+                state.addingConnector = null;
+            } else {
+                state.showError = true;
+                state.error = "Cannot connect " + typeA + " to " + typeB;
+            }
+        }
     }
     // drop moving vectors and connectors
     if (!mouse.lmb && state.mouse.lmb) {

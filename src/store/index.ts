@@ -61,6 +61,7 @@ export default function () {
             },
             error: null,
             showError: false,
+            connectorWarn: null,
             scheduler: {
                 state: {},
                 errors: {},

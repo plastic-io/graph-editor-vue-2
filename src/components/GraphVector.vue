@@ -136,8 +136,6 @@ export default {
         };
     },
     async mounted() {
-        // used by the compiler scripts
-        window.Vue = Vue;
         this.localVector = this.vector;
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
@@ -268,10 +266,12 @@ export default {
                 script = "export default {}";
             }
             // create a script that can use module imports and registers our vector's component
-            const scriptTemplate = script.replace("export default", "const c = {}; c.comp = ")
-                + ";c.comp.template = `" + template + "`;"
+            // this seems jank, but it isn't.  There are other ways, but they lack features: es6 mport, ref leaking
+            const scriptTemplate = script.replace("export default", "const c = {}; c.comp = ") + ";"
+                + "c.comp.template = `" + template + "`;"
                 + "c.comp.name = 'vector-" + id + "';"
-                + "Vue.component(c.comp.name, c.comp);";
+                + "const scripts = window.document.getElementsByTagName('script');"
+                + "scripts[scripts.length - 1].vue.component(c.comp.name, c.comp);";
             const ast = parseScript(scriptTemplate, {
                 globalReturn: true,
                 module: true,
@@ -279,6 +279,7 @@ export default {
             });
             const astString = generate(ast);
             const scr = document.createElement("script");
+            scr.vue = Vue;
             scr.type = "module";
             document.body.appendChild(scr);
             this.loaded[id] = false;
@@ -290,6 +291,8 @@ export default {
             const checkReg = () => {
                 if (Vue.options.components["vector-" + id]) {
                     this.loaded[id] = true;
+                    // attempts were made to avoid memory leaks
+                    document.body.removeChild(scr);
                     let allLoaded = true;
                     Object.keys(this.loaded).forEach((key) => {
                         if (!this.loaded[key]) {
@@ -379,9 +382,6 @@ export default {
 };
 </script>
 <style>
-    .vector {
-        cursor: pointer;
-    }
     .vector-inputs {
         position: absolute;
         left: -10px;
