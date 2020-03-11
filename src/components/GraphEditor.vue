@@ -1,7 +1,7 @@
 <template>
     <v-app class="graph-editor">
         <template  v-if="graph">
-            <v-system-bar v-if="!presentation" ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
+            <v-system-bar v-if="!presentation && panelVisibility" ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
                 <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
                     <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
@@ -30,7 +30,7 @@
                     <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
                 </span>
             </v-system-bar>
-            <control-panel v-if="!presentation" ref="panel"/>
+            <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
             <div class="graph-container" :style="graphContainerStyle">
                 <graph-canvas
                     :class="translating && mouse.lmb ? 'no-select' : ''"
@@ -38,7 +38,7 @@
                 ></graph-canvas>
             </div>
             <v-system-bar
-                v-if="!presentation"
+                v-if="!presentation && panelVisibility"
                 ref="bottomBar"
                 style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
                 class="no-select bottom-system-bar"
@@ -157,6 +157,7 @@ export default {
     },
     computed: {
         ...mapState({
+            panelVisibility: state => state.panelVisibility,
             vectorMimeType: state => state.vectorMimeType,
             showError: state => state.showError,
             error: state => state.error,
@@ -396,7 +397,6 @@ export default {
             if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
-            console.log("copy");
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             e.preventDefault();
         },
@@ -404,7 +404,6 @@ export default {
             if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
-            console.log("paste");
             const data = e.clipboardData.getData(this.vectorMimeType);
             this.tryPasteVectorString(data);
             e.preventDefault();

@@ -1,7 +1,7 @@
 import {deleteSelected, groupSelected, ungroupSelected,
     undo, redo, duplicateSelection, bringForward, sendBackward,
     bringToFront, sendToBack, zoom, nudgeUp, nudgeDown,
-    nudgeLeft, nudgeRight, togglePresentation} from "../mutations"; // eslint-disable-line
+    nudgeLeft, nudgeRight, togglePresentation, togglePanelVisibility} from "../mutations"; // eslint-disable-line
 const deleteKey = 46;
 const dKeyCode = 68;
 const gKeyCode = 71;
@@ -15,6 +15,7 @@ const arrowRight = 39;
 const dashKeyCode = 189;
 const equalKeyCode = 187;
 const graveKeyCode = 192;
+const tabKeyCode = 9;
 // const shiftKeyCode = 16;
 // const metaKeyCode = 91;
 // const spaceKeyCode = 32;
@@ -97,6 +98,10 @@ function keys(state: any, keys: {
     }
     if (keys[graveKeyCode] && alt) {
         togglePresentation(state);
+    }
+    if (keys[tabKeyCode]) {
+        e.preventDefault();
+        togglePanelVisibility(state);
     }
 }
 export function keyup(state: any, e: UIEvent) {

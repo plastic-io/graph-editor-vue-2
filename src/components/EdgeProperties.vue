@@ -65,8 +65,9 @@
                                                 <v-icon>mdi-power-plug</v-icon>
                                             </v-tab>
                                             <v-tab-item>
-                                                <v-text-field :disabled="controlsDisabled" v-model.lazy="io.name"/>
-                                                <v-checkbox v-if="!controlsDisabled" v-model.lazy="io.external" label="External"/>
+                                                <v-text-field :disabled="controlsDisabled" v-model="io.name"/>
+                                                <v-combobox :items="ioTypes" :disabled="controlsDisabled" v-model="io.type"/>
+                                                <v-checkbox v-if="!controlsDisabled" v-model="io.external" label="External"/>
                                             </v-tab-item>
                                             <v-tab-item>
                                                 <v-card flat>
@@ -250,7 +251,6 @@ export default {
             });
         },
         add(ioKey) {
-            console.log("add", ioKey);
             // if a key with this name exists, don't do it
             const isInput = ioKey === "inputs";
             const newName = isInput ? "new input" : "new output";
@@ -312,7 +312,11 @@ export default {
             });
         },
         setLocalVector() {
-            this.vector = JSON.parse(JSON.stringify(this.getSelectedVector()));
+            const v = this.getSelectedVector();
+            if (!v) {
+                return;
+            }
+            this.vector = JSON.parse(JSON.stringify(v));
         },
         getSelectedVector() {
             return this.graphSnapshot.vectors.find((v) => v.id === this.vectorId);
@@ -361,6 +365,7 @@ export default {
             return !!this.vector.artifact;
         },
         ...mapState({
+            ioTypes: state => state.ioTypes,
             selectedVector: state => state.selectedVector,
             graphSnapshot: state => state.graphSnapshot,
         }),

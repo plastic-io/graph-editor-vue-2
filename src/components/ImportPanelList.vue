@@ -7,7 +7,7 @@
             <v-text-field placeholder="Search" v-model="search"></v-text-field>
         </v-subheader>
         <v-divider class="ma-3"/>
-        <v-list-item-group v-model="selectedItem">
+        <v-list-item-group v-model="selectedItem" style="overflow-y: auto; height: calc(100vh - 287px);">
             <v-list-group
             v-for="item in items"
             :key="item.title"
@@ -52,6 +52,13 @@
                                 <div v-else><i>No description</i></div>
                             </v-list-item-subtitle>
                         </v-list-item-content>
+                        <v-list-item-icon>
+                            <v-btn @click.stop="download(item)" title="Download">
+                                 <v-icon>
+                                    mdi-download
+                                </v-icon>
+                         </v-btn>
+                        </v-list-item-icon>
                     </v-list-item>
                 </template>
             </v-list-group>
@@ -59,6 +66,7 @@
     </v-list>
 </template>
 <script>
+import {mapActions} from "vuex";
 export default {
     name: "import-panel-list",
     props: {
@@ -71,6 +79,9 @@ export default {
         };
     },
     methods: {
+        ...mapActions([
+            "download",
+        ]),
         dragStart(e, item) {
             e.dataTransfer.setData("application/json+plastic-io", JSON.stringify(item));
             e.dataTransfer.dropEffect = "link";

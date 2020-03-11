@@ -67,28 +67,48 @@
                                         md="4"
                                         lg="3"
                                     >
-                                        <v-card>
+                                        <v-card style="padding-top: 30px;">
+                                            <v-icon left x-large style="margin-top: -30px;margin-left: 10px;">
+                                                {{item.icon || 'mdi-graph'}}
+                                            </v-icon>
+                                            <v-menu>
+                                                <template v-slot:activator="{ on: menu }">
+                                                    <v-btn absolute right class="ma-3" style="top: 0;right: 0;" color="primary" dark v-on="{...menu}">
+                                                        <v-icon>
+                                                            mdi-menu
+                                                        </v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <v-list>
+                                                    <v-list-item @click="download(item)">
+                                                        <v-list-item-title>
+                                                            <v-icon>
+                                                                mdi-download
+                                                            </v-icon>
+                                                            Download
+                                                        </v-list-item-title>
+                                                    </v-list-item>
+                                                    <v-list-item @click="confirmDelete(item);">
+                                                        <v-list-item-title>
+                                                            <v-icon>
+                                                                mdi-delete
+                                                            </v-icon>
+                                                            Delete
+                                                        </v-list-item-title>
+                                                    </v-list-item>
+                                                </v-list>
+                                            </v-menu>
                                             <v-card-title class="subheading font-weight-bold">
-                                                <v-icon left x-large>
-                                                    {{item.icon || 'mdi-graph'}}
-                                                </v-icon>
                                                 {{item.name || "Untitled"}}
                                             </v-card-title>
-                                            <v-card-title class="pa-00">
-                                                <v-spacer/>
-                                                <v-btn @click="openGraph(item.id);" v-if="item.type === 'graph'">
+                                            <v-card-title>
+                                                <v-btn block @click="openGraph(item.id);" v-if="item.type === 'graph'">
                                                     Open
                                                     <v-icon right>
                                                         mdi-folder-open
                                                     </v-icon>
                                                 </v-btn>
                                                 <v-spacer/>
-                                                <v-btn @click="deleteItem(item);">
-                                                    Delete
-                                                    <v-icon right>
-                                                        mdi-delete
-                                                    </v-icon>
-                                                </v-btn>
                                             </v-card-title>
                                             <v-divider></v-divider>
                                             <v-list dense>
@@ -184,6 +204,21 @@
                 </v-row>
             </v-alert>
         </v-snackbar>
+        <v-dialog v-model="deleteConfirm" width="500">
+            <v-card>
+                <v-card-title class="headline" primary-title>
+                    Confirm Resource Deletion
+                </v-card-title>
+                <v-card-text>
+                    This cannot be undone.
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn @click="deleteConfirm = false">Cancel</v-btn>
+                    <v-btn @click="deleteItem">Delete</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 <script>
@@ -192,17 +227,23 @@ export default {
     name: "graph-manager",
     methods: {
         ...mapActions([
+            "download",
             "removeArtifact",
             "remove",
             "create",
             "clearError",
             "getToc",
         ]),
-        deleteItem(item) {
-            if (item.type === "graph") {
-                this.remove(item.id);
+        confirmDelete(e) {
+            this.deleteConfirm = true;
+            this.deleteRef = e;
+        },
+        deleteItem() {
+            this.deleteConfirm = false;
+            if (this.deleteRef.type === "graph") {
+                this.remove(this.deleteRef.id);
             } else {
-                this.removeArtifact(item);
+                this.removeArtifact(this.deleteRef);
             }
         },
         openGraph(graphId) {
@@ -222,6 +263,8 @@ export default {
         },
     },
     data: () => ({
+        deleteConfirm: false,
+        deleteRef: null,
         localErrorMessage: "",
         localShowError: false,
         drawer: null,
@@ -240,6 +283,12 @@ export default {
         ],
     }),
     watch: {
+        preferences: {
+            handler: function () {
+                this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
+            },
+            deep: true,
+        },
         toc: {
             handler: function () {
                 this.localItems = this.toc;

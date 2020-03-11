@@ -9,7 +9,7 @@
             </v-btn>
             <v-menu bottom :close-on-content-click="false">
                 <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-help-circle-outline</v-icon>
                 </template>
                 <v-card>
                     <v-card-text>

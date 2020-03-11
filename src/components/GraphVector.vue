@@ -83,6 +83,19 @@ export default {
         vector: Vector,
     },
     watch: {
+        localVector: {
+            handler: function () {
+                const changes = diff(this.localVectorDataSnapshot, this.vector.data);
+                this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
+                if (changes) {
+                    this.updateVectorData({
+                        vectorId: this.vector.id,
+                        data: this.vector.data,
+                    });
+                }
+            },
+            deep: true,
+        },
         hoveredVector: {
             handler: function () {
                 this.localHoveredVector = this.hoveredVector;
@@ -100,7 +113,8 @@ export default {
                 this.localVector = this.vector;
                 this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
                 if (changes) {
-                    this.compileTemplate(this.localVector.id, this.localVector.template.vue);
+                    // recompile template after change
+                    this.compileTemplate(this.localVector.id, this.localVector.template.vue, true);
                 }
             },
             deep: true,
@@ -114,6 +128,7 @@ export default {
             dragged: null,
             localVector: null,
             localVectorSnapshot: null,
+            localVectorDataSnapshot: null,
             template: null,
             compileCount: 0,
             artifactVectors: {},
@@ -125,6 +140,7 @@ export default {
         window.Vue = Vue;
         this.localVector = this.vector;
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
+        this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
         this.localSelectedVectors = this.selectedVectors;
         await this.importRoot(this.localVector);
     },
@@ -136,6 +152,8 @@ export default {
             "clearSchedulerErrorItem",
             "clearSchedulerError",
             "setArtifact",
+            "updateVectorData",
+            "clearArtifact",
         ]),
         artifactKey(key) {
             if (!key) {
@@ -200,8 +218,10 @@ export default {
         unhover() {
             this.$store.dispatch("hoveredVector", null);
         },
-        compileTemplate(id, tmp) {
-            // don't compile the same template twice
+        compileTemplate(id, tmp, clearLoad) {
+            if (clearLoad) {
+                this.loaded[id] = undefined;
+            }
             if (this.loaded[id] !== undefined) {
                 return;
             }

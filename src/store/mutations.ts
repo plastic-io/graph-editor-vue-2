@@ -276,8 +276,10 @@ export function addVectorItem(state: any, e: any) {
     pos.x = Math.floor(pos.x / 10) * 10;
     pos.y = Math.floor(pos.y / 10) * 10;
     const id = newId();
+    e.item.loaded = true;
     const vector = {
         id: id,
+        linkedVector: e.item,
         edges: e.item.edges,
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
@@ -305,8 +307,8 @@ export function addVectorItem(state: any, e: any) {
             },
         },
         template: {
-            set: null,
-            vue: null,
+            set: e.item.template.set,
+            vue: e.item.template.vue,
         },
     };
     state.graphSnapshot.vectors.push(vector);
@@ -477,6 +479,7 @@ export function addInput(state: any, e: {
     }
     vector.properties.inputs.push({
         name: e.name,
+        type: "Object",
         external: false,
     });
     applyGraphChanges(state, "Add Input");
@@ -491,6 +494,7 @@ export function addOutput(state: any, e: {
     }
     vector.properties.outputs.push({
         name: e.name,
+        type: "Object",
         external: false,
     });
     vector.edges.push({
@@ -607,7 +611,7 @@ export function updateVectorFields(state: any, e: {
     observableDiff(vector, e.vector, (d: any) => {
         // output changes
         if (d.path[0] === "properties" && d.path[1] === "outputs"
-                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external")) {
+                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external" || d.path[3] === "type")) {
             applyChange(vector, e.vector, d);
             if (d.path[3] === "name") {
                 // also apply the change to local edge names
@@ -619,7 +623,7 @@ export function updateVectorFields(state: any, e: {
         }
         // input changes
         if (d.path[0] === "properties" && d.path[1] === "inputs"
-                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external")) {
+                && !isNaN(d.path[2]) && (d.path[3] === "name" || d.path[3] === "external" || d.path[3] === "type")) {
             applyChange(vector, e.vector, d);
             if (d.path[3] === "name") {
                 // also apply the change to the edge connectors that interact with it
@@ -750,7 +754,31 @@ function setScheduler(state: any, e: any) {
 function setArtifact(state: any, e: any) {
     state.artifacts[e.key] = e.value;
 }
+function updateVectorData(state: any, e: any) {
+    const vector = state.graphSnapshot.vectors.find((v) => v.id === e.vectorId);
+    vector.data = e.data;
+    applyGraphChanges(state, "Update Vector Data");
+}
+function setRegistryItem(state: any, e: any) {
+    const parent = e.parent;
+    delete e.parent;
+    Vue.set(parent, "_item", e);
+}
+function setRegistry(state: any, e: any) {
+    Vue.set(state.registry, e.url, e);
+}
+export function togglePanelVisibility(state: any) {
+    state.panelVisibility = !state.panelVisibility;
+}
+function setSchedulerState(state: any, e: any) {
+    state.scheduler.state = e;
+}
 export default {
+    togglePanelVisibility,
+    setRegistryItem,
+    setRegistry,
+    setSchedulerState,
+    updateVectorData,
     setArtifact,
     togglePresentation,
     selectVector,

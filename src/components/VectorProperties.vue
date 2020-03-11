@@ -37,8 +37,18 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
+                                <v-text-field label="Name" v-model="vector.properties.name"></v-text-field>
+                                <v-textarea label="Description" v-model="vector.properties.description"></v-textarea>
                                 <v-text-field label="URL" @change="updateVectorUrl($event)" :value="vector.url"></v-text-field>
-                                <v-checkbox label="Appears In Exported Graph" v-model="vector.properties.appearsInExportedGraph"></v-checkbox>
+                                <v-combobox
+                                    :prepend-icon="vector.properties.icon"
+                                    persistent-hint
+                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
+                                    :eager="true"
+                                    title="Icon"
+                                    :items="icons"
+                                    v-model="vector.properties.icon"/>
+                                <v-checkbox label="Appears In Exported Graph" v-model="vector.properties.appearsInExportedGraph"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -90,16 +100,6 @@
                                         mdi-share-variant
                                     </v-icon>
                                 </v-btn>
-                                <v-text-field label="Name" v-model="vector.properties.name"></v-text-field>
-                                <v-combobox
-                                    :prepend-icon="vector.properties.icon"
-                                    persistent-hint
-                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
-                                    :eager="true"
-                                    title="Icon"
-                                    :items="icons"
-                                    v-model="vector.properties.icon"/>
-                                <v-textarea label="Description" v-model="vector.properties.description"></v-textarea>
                                 <v-combobox
                                     :items="tags"
                                     chips

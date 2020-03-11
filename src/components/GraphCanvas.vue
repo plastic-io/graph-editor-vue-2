@@ -46,25 +46,35 @@ export default {
         ...mapActions([
             "createNewVector",
             "addItem",
+            "importItem",
         ]),
         dragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = "link";
         },
         drop(e) {
-            const data = JSON.parse(e.dataTransfer.getData(this.vectorMimeType));
-            if (data.type === "newVector") {
-                this.createNewVector({
+            const jsonData = e.dataTransfer.getData(this.jsonMimeType);
+            const plasticData = e.dataTransfer.getData(this.vectorMimeType);
+            if (plasticData) {
+                const data = JSON.parse(plasticData);
+                if (data.type === "newVector") {
+                    this.createNewVector({
+                        x: e.clientX,
+                        y: e.clientY,
+                    });
+                    return;
+                }
+                this.addItem({
                     x: e.clientX,
                     y: e.clientY,
+                    ...data,
                 });
-                return;
+            } else if (jsonData) {
+                const data = JSON.parse(jsonData);
+                this.importItem({
+                    item: data,
+                });
             }
-            this.addItem({
-                x: e.clientX,
-                y: e.clientY,
-                ...data,
-            });
         },
     },
     watch: {
@@ -86,6 +96,7 @@ export default {
         ...mapState({
             loading: state => state.loading,
             presentation: state => state.presentation,
+            jsonMimeType: state => state.jsonMimeType,
             vectorMimeType: state => state.vectorMimeType,
             historyPosition: state => state.historyPosition,
             addingConnector: state => state.addingConnector,

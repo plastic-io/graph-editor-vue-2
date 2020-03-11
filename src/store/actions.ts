@@ -4,6 +4,65 @@ import Scheduler from "@plastic-io/plastic-io";
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+    importItem(context: any, e: any) {
+        console.log("importItem", e);
+    },
+    async getPublicRegistry(context: any, e: any) {
+        const relPath = /^\.\//;
+        let url = e.url;
+        if (e.parent.url && relPath.test(e.url)) {
+            url = e.url.replace(relPath, e.parent.url + "/");
+        }
+        const data = await fetch(url);
+        const responseJson = await data.json();
+        if (responseJson.items) {
+            responseJson.url = url;
+            context.commit("setRegistry", {
+                parent: e.parent,
+                toc: responseJson,
+                url: e.url,
+            });
+            responseJson.items.forEach((item) => {
+                if (item.type === "toc") {
+                    item.url = url;
+                    context.dispatch("getPublicRegistry", {
+                        url: item.artifact,
+                        parent: item,
+                    });
+                }
+                if (item.items) {
+                    item.items.forEach((subItem) => {
+                        if (subItem.type === "publishedVector" || subItem.type === "publishedGraph") {
+                            if (url && relPath.test(subItem.artifact)) {
+                                subItem.url = subItem.artifact.replace(relPath, url.substring(0, url.lastIndexOf("/")) + "/");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    },
+    async download(context: any, e: any) {
+        let item;
+        try {
+            if (e.type === "graph") {
+                item = await context.state.dataProviders.graph.get(e.id);
+            } else {
+                item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
+            }
+        } catch (er) {
+            context.commit("raiseError", new Error("Cannot open item to download." + er));
+            return;
+        }
+        const a = document.createElement("a");
+        const name = e.name || "Untitled";
+        const dataPrefix = `data:${context.state.jsonMimeType};charset=utf-8,`;
+        a.setAttribute("href", dataPrefix + encodeURIComponent(JSON.stringify(item)));
+        a.setAttribute("download", `${name}_${e.id}_${e.version}_${e.type}.json`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    },
     instantiateGraph(context: any) {
         const logger = {
             log: (e) => {
@@ -71,7 +130,7 @@ export default {
         });
         scheduler.addEventListener("warning", (e) => {
             context.commit("addLogItem", {eventName: "warning", event: e});
-            context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.err.message));
+            context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
         });
         scheduler.addEventListener("load", async (e) => {
             const pathParts = e.url.split("/");
@@ -326,12 +385,21 @@ export default {
     },
     async addItem(context: any, e: any) {
         let item, er;
-        try {
-            item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
-        } catch (err) {
-            er = err;
+        if (e.url) {
+            try {
+                item = await fetch(e.url);
+                item = await item.json();
+            } catch (err) {
+                er = err;
+            }
+        } else {
+            try {
+                item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
+            } catch (err) {
+                er = err;
+            }
         }
-        if (!item) {
+        if (!item || er) {
             context.commit("raiseError", new Error("Cannot open item. " + er));
         } else {
             e.item = item;

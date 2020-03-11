@@ -20,16 +20,20 @@
                 <v-tab-item v-if="localToc">
                     <import-panel-list :list="Object.keys(localToc).map(i => localToc[i])"/>
                 </v-tab-item>
+                <v-tab-item>
+                    <import-panel-registry/>
+                </v-tab-item>
             </v-tabs>
         </v-card-text>
     </v-card>
 </template>
 <script>
 import ImportPanelList from "./ImportPanelList";
+import ImportPanelRegistry from "./ImportPanelRegistry";
 import {mapState} from "vuex";
 export default {
     name: "import-panel",
-    components: {ImportPanelList},
+    components: {ImportPanelList, ImportPanelRegistry},
     data: () => {
         return {
             localToc: null,

@@ -82,7 +82,6 @@ const provider = {
                 version: value.vector.version,
             });
         } else if (value.graph) {
-            console.log("set graph");
             const key = artifactsPrefix + url + "." + value.graph.version;
             localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
             updateToc(key, {
@@ -99,7 +98,6 @@ const provider = {
         }
     },
     async delete(url: string): Promise<void> {
-        console.log("delete", url);
         let toc = await localStorage.getItem(tocKey);
         if (!toc) {
             throw new Error("Cannot find TOC.");

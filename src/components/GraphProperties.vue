@@ -14,7 +14,17 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
+                                <v-text-field label="Name" v-model="name"></v-text-field>
+                                <v-textarea label="Description" v-model="description"></v-textarea>
                                 <v-text-field label="Graph Id" disabled :value="id"></v-text-field>
+                                <v-combobox
+                                    :prepend-icon="graph.properties.icon"
+                                    persistent-hint
+                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
+                                    :eager="true"
+                                    title="Icon"
+                                    :items="icons"
+                                    v-model="icon"/>
                                 <v-text-field label="Version" disabled :value="version"></v-text-field>
                             </v-card-text>
                         </v-card>
@@ -79,16 +89,6 @@
                                         mdi-share-variant
                                     </v-icon>
                                 </v-btn>
-                                <v-text-field label="Name" v-model="name"></v-text-field>
-                                <v-combobox
-                                    :prepend-icon="graph.properties.icon"
-                                    persistent-hint
-                                    hint="https://cdn.materialdesignicons.com/4.9.95/"
-                                    :eager="true"
-                                    title="Icon"
-                                    :items="icons"
-                                    v-model="icon"/>
-                                <v-textarea label="Description" v-model="description"></v-textarea>
                                 <v-combobox
                                     :items="domainTags"
                                     persistent-hint

@@ -66,7 +66,6 @@ export default {
         },
         "preferences": {
             handler: function () {
-                console.log("savePreferences");
                 this.savePreferences();
             },
             deep: true,
