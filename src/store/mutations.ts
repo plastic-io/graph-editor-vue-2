@@ -18,6 +18,9 @@ export interface ChangeEvent {
     changes: any[],
 }
 export function applyGraphChanges(state: any, name: string) {
+    if (state.events.length !== state.historyPosition) {
+        state.events.splice(state.historyPosition, state.events.length - state.historyPosition);
+    }
     const changes = diff(state.graph, state.graphSnapshot);
     if (changes) {
         state.events.push({
