@@ -1,13 +1,10 @@
 <template>
-    <v-card flat v-if="graph" class="pa-0">
+    <v-card flat v-if="graph" style="height: calc(100vh - 48px); overflow-y: auto;">
         <v-card-title>
-            <v-icon left>{{graph.properties.icon}}</v-icon>
-            {{graph.properties.name || "Graph"}}
+            <v-icon left>mdi-graph-outline</v-icon>
+            Graph Properties
         </v-card-title>
-        <v-card-subtitle>
-            {{graph.properties.description}}
-        </v-card-subtitle>
-        <v-card-text class="ma-0 pa-0">
+        <v-card-text class="ma-0">
             <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>
                     <v-expansion-panel-header>General</v-expansion-panel-header>

@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div @keydown="keydown($event)">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
             <v-toolbar-title>{{selectedVector.properties.name || "Vector"}} - Set Function</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn @click="save" title="Save">
+            <v-btn @click="save" :loading="saving" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
             <v-menu bottom :close-on-content-click="false">
@@ -58,6 +58,7 @@ export default {
     data: () => {
         return {
             value: "",
+            saving: false,
         };
     },
     watch: {
@@ -71,12 +72,22 @@ export default {
         this.setValue();
     },
     methods: {
+        keydown(e) {
+            if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                this.save();
+            }
+        },
         save() {
             this.$store.dispatch("updateTemplate", {
                 id: this.vector.id,
                 value: this.value,
                 key: "set",
             });
+            this.saving = true;
+            setTimeout(() => {
+                this.saving = false;
+            }, 250);
         },
         setValue() {
             if (!this.selectedVector) {

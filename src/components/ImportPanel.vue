@@ -1,11 +1,11 @@
 <template>
     <v-card flat>
         <v-card-title>
-            <v-icon left>mdi-timeline-plus-outline</v-icon>
-            Vectors
+            <v-icon left>mdi-library</v-icon>
+            Library
         </v-card-title>
         <v-card-subtitle>
-            Create and import vectors
+            Create, Import, and Export Vectors and Graphs
         </v-card-subtitle>
         <v-card-text>
             <v-tabs grow icons-and-text hide-slider>

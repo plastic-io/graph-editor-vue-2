@@ -1,5 +1,5 @@
 <template>
-    <v-card>
+    <v-card style="height: calc(100vh - 220px);">
         <v-card-title>
             <v-combobox
                 v-model="selectedRegistry"
@@ -16,7 +16,7 @@
                         {{subCategory.name}}
                     </v-tab>
                     <v-tab-item v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index">
-                        <v-list  style="overflow-y: auto; height: calc(100vh - 405px);">
+                        <v-list  style="overflow-y: auto; height: calc(100vh - 435px);">
                             <v-list-group v-for="(item, index) in groupItems(subCategory.items)" :key="index">
                                 <template v-slot:activator>
                                     <v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)">
@@ -146,7 +146,7 @@ export default {
             const selectedCollection = Object.keys(this.registry)
                 .filter(r => r === this.selectedRegistry).map(r => this.registry[r])
                 .filter(r => r.parent === "root");
-            if (!selectedCollection) {
+            if (!selectedCollection || !selectedCollection[0] || !selectedCollection[0].toc) {
                 return;
             }
             return selectedCollection[0].toc.items;

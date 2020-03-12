@@ -14,7 +14,7 @@
             :id="`vector-${type}-${vector.id}-${field.name}`"
         ></div>
         <div
-            v-if="preferences.showLabels"
+            v-if="preferences.showLabels || isHovered"
             :style="vectorNameStyle"
             :class="(type === 'output' ? 'vector-field-output' : 'vector-field-input')">
                 {{field.name}}
@@ -77,19 +77,22 @@ export default {
 </script>
 <style>
 .vector-field {
-    height: 10px;
-    width: 10px;
+    height: 15px;
+    width: 15px;
+    margin-bottom: 5px;
+}
+.vector-field-output, .vector-field-input {
+    position: absolute;
+    white-space: nowrap;
+    transform: translate(0, -23px);
+    text-shadow: 0 0 1px rgba(255,255,255,.1), 0 0 1px rgba(0,0,0,.5);
 }
 .vector-field-output {
     color: var(--v-primary-base);
-    position: absolute;
     left: 200%;
-    top: -100%;
 }
 .vector-field-input {
     color: var(--v-accent-darken1);
-    position: absolute;
     right: 200%;
-    top: -100%;
 }
 </style>

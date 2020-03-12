@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div @keydown="keydown($event)">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
             <v-toolbar-title>{{selectedVector.properties.name || "Vector"}} - Vue Template</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn @click="save" title="Save">
+            <v-btn :loading="saving" @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
             <v-menu bottom :close-on-content-click="false">
@@ -56,6 +56,7 @@ export default {
     },
     data: () => {
         return {
+            saving: false,
             value: "",
         };
     },
@@ -70,12 +71,22 @@ export default {
         this.setValue();
     },
     methods: {
+        keydown(e) {
+            if (e.keyCode === 83 && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                this.save();
+            }
+        },
         save() {
             this.$store.dispatch("updateTemplate", {
                 id: this.vector.id,
                 value: this.value,
                 key: "vue",
             });
+            this.saving = true;
+            setTimeout(() => {
+                this.saving = false;
+            }, 250);
         },
         setValue() {
             if (!this.selectedVector) {
@@ -90,6 +101,9 @@ export default {
             }
         },
         editorInit() {
+            require(["emmet/emmet"],function (data) { // eslint-disable-line
+                window.emmet = data.emmet;
+            });
             require("brace/mode/html"); // eslint-disable-line
             require("brace/ext/language_tools"); // eslint-disable-line
             require("brace/theme/twilight"); // eslint-disable-line

@@ -270,8 +270,7 @@ export default {
             const scriptTemplate = script.replace("export default", "const c = {}; c.comp = ") + ";"
                 + "c.comp.template = `" + template + "`;"
                 + "c.comp.name = 'vector-" + id + "';"
-                + "const scripts = window.document.getElementsByTagName('script');"
-                + "scripts[scripts.length - 1].vue.component(c.comp.name, c.comp);";
+                + "window.Vue.component(c.comp.name, c.comp);";
             const ast = parseScript(scriptTemplate, {
                 globalReturn: true,
                 module: true,
@@ -279,7 +278,7 @@ export default {
             });
             const astString = generate(ast);
             const scr = document.createElement("script");
-            scr.vue = Vue;
+            window.Vue = Vue;
             scr.type = "module";
             document.body.appendChild(scr);
             this.loaded[id] = false;

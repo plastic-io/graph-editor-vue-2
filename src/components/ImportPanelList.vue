@@ -7,7 +7,7 @@
             <v-text-field placeholder="Search" v-model="search"></v-text-field>
         </v-subheader>
         <v-divider class="ma-3"/>
-        <v-list-item-group v-model="selectedItem" style="overflow-y: auto; height: calc(100vh - 287px);">
+        <v-list-item-group v-model="selectedItem" style="overflow-y: auto; height: calc(100vh - 305px);margin-right: 3px;margin-bottom: -5px;">
             <v-list-group
             v-for="item in items"
             :key="item.title"

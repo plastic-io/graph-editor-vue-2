@@ -8,7 +8,10 @@
             State monitoring, execution and error logs.
         </v-card-subtitle>
         <v-card-text style="overflow-y: hidden;">
-            <v-tabs hide-slider style="transform: translate(-14px);">
+            <v-tabs hide-slider>
+                <v-tab>
+                    State
+                </v-tab>
                 <v-tab>
                     Errors <v-btn
                             v-if="getLogByType('error').length"
@@ -54,11 +57,19 @@
                                 color="info"
                                 style="margin-left: 5px;">{{getLogByType('edge').length}}</v-btn>
                 </v-tab>
-                <v-tab>
-                    State
-                </v-tab>
+                <v-tab-item style="height: calc(100vh - 195px); width: calc(100% - 4px);">
+                    <v-card flat>
+                        <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                            <v-spacer/>
+                            <v-icon title="Clear" style="cursor: pointer;" @click="$forceUpdate">mdi-refresh</v-icon>
+                        </v-system-bar>
+                        <v-card-text style="padding-top: 20px;">
+                            <pre>{{JSON.stringify(state, null, "\t")}}</pre>
+                        </v-card-text>
+                    </v-card>
+                </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
+                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
                         <v-icon title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
@@ -70,7 +81,7 @@
                     </div>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
+                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
                         <v-icon title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
@@ -82,7 +93,7 @@
                     </div>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
+                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
                         <v-icon title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
@@ -94,7 +105,7 @@
                     </div>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
+                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
                         <v-icon title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
@@ -106,7 +117,7 @@
                     </div>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
+                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
                         <v-icon title="Clear" @click="clearLog('edge')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
@@ -116,17 +127,6 @@
                         <pre>{{item.event}}</pre>
                         <v-divider/>
                     </div>
-                </v-tab-item>
-                <v-tab-item style="height: calc(100vh - 95px); width: calc(100% - 4px);">
-                    <v-card flat>
-                        <v-system-bar style="position: absolute; width: calc(100% - 19px);" color="primary">
-                            <v-spacer/>
-                            <v-icon title="Clear" style="cursor: pointer;" @click="$forceUpdate">mdi-refresh</v-icon>
-                        </v-system-bar>
-                        <v-card-text style="padding-top: 20px;">
-                            <pre>{{JSON.stringify(state, null, "\t")}}</pre>
-                        </v-card-text>
-                    </v-card>
                 </v-tab-item>
             </v-tabs>
         </v-card-text>
@@ -169,7 +169,7 @@ export default {
     font-size: 0.8rem;
 }
 .log-tab {
-    height: calc(100vh - 180px);
+    height: calc(100vh - 195px);
     width: calc(100% - 4px);
     overflow: auto;
 }

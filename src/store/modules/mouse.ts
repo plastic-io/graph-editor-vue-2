@@ -142,7 +142,7 @@ export default function mouse(state: any, mouse: {
         }
     }
     // trying to move a connector to this port
-    if (state.hoveredPort && state.movingConnector && !state.addingConnector) {
+    if (state.hoveredPort && state.movingConnector && !state.addingConnector && state.hoveredPort.type === "input") {
         const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.movingConnector.output.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.movingConnector.output.field.name);
         const connector = edge.connectors.find((e: {id: string}) => e.id === state.movingConnector.connector.id);
@@ -166,7 +166,7 @@ export default function mouse(state: any, mouse: {
         }
     }
     // add a new connector to a port
-    if (state.hoveredPort && state.addingConnector) {
+    if (state.hoveredPort && state.addingConnector && state.hoveredPort.type === "input") {
         const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.addingConnector.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.addingConnector.field.name);
         const connector = state.addingConnector.connector;

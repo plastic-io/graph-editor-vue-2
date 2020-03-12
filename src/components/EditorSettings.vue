@@ -1,10 +1,10 @@
 <template>
-    <v-card flat>
+    <v-card flat style="height: calc(100vh - 49px);overflow-y: auto;">
         <v-card-title>
             <v-icon left>mdi-cogs</v-icon>
             Settings
         </v-card-title>
-        <v-card-text class="ma-0 pa-0">
+        <v-card-text class="ma-0">
             <v-expansion-panels flat>
                 <v-expansion-panel>
                     <v-expansion-panel-header>General</v-expansion-panel-header>

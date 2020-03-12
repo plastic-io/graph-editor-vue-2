@@ -1,5 +1,5 @@
 <template>
-    <v-card v-if="vector" flat>
+    <v-card v-if="vector" flat style="height: calc(100vh - 49px);overflow-y: auto;">
         <v-card-title>
             <v-icon left>{{vector.properties.icon}}</v-icon>
             {{vector.properties.name || "Vector"}}
@@ -7,9 +7,9 @@
         <v-card-subtitle>
             Inputs and Outputs
         </v-card-subtitle>
-        <v-card-text class="pa-0 ma-0">
-            <v-expansion-panels accordion flat multiple :value="panels" style="margin-left: -25px;">
-                <v-expansion-panel v-for="ioKey in ['inputs', 'outputs']" :key="ioKey">
+        <v-card-text>
+            <v-expansion-panels flat multiple :value="panels">
+                <v-expansion-panel v-for="ioKey in ['outputs', 'inputs']" :key="ioKey">
                     <v-expansion-panel-header>
                         <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
                             <v-btn
@@ -31,10 +31,11 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card :key="'card_' + ioKey" style="margin-bottom: 5px;" flat>
+                            <v-card-text v-if="vector.properties[ioKey].length === 0">No {{ioKey}}</v-card-text>
                             <v-list two-line subheader :key="'list_' + ioKey">
                                 <v-list-item v-for="(io, index) in vector.properties[ioKey]" :key="index">
-                                    <v-list-item-avatar style="overflow: visible;">
-                                        <table>
+                                    <v-list-item-content style="overflow: visible;">
+                                        <table style="position: absolute;height: 0;left: -20px;top: 25px;">
                                             <tr>
                                                 <td>
                                                     <v-icon
@@ -55,14 +56,15 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content style="overflow: visible;">
                                         <v-tabs class="hide-arrows">
-                                            <v-tab>
-                                                <v-icon>mdi-rename-box</v-icon>
+                                            <v-tab title="Name, type, and external">
+                                                <v-icon>mdi-fingerprint</v-icon>
                                             </v-tab>
-                                            <v-tab>
+                                            <v-tab title="Connection list">
                                                 <v-icon>mdi-power-plug</v-icon>
+                                            </v-tab>
+                                            <v-tab title="Tests" v-if="ioKey === 'inputs'">
+                                                <v-icon>mdi-flask</v-icon>
                                             </v-tab>
                                             <v-tab-item>
                                                 <v-text-field :disabled="controlsDisabled" v-model="io.name"/>
@@ -115,6 +117,9 @@
                                                         </v-card>
                                                     </v-list>
                                                 </v-card>
+                                            </v-tab-item>
+                                            <v-tab-item>
+                                                <i>No Tests</i>
                                             </v-tab-item>
                                         </v-tabs>
                                     </v-list-item-content>

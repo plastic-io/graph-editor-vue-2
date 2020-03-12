@@ -14,6 +14,7 @@
             style="z-index: 1; overflow: hidden;">
             <v-card
                 class="main-nav"
+                style="overflow: hidden;"
                 elevation="0"
                 v-if="panel">
                 <vector-properties
@@ -63,7 +64,8 @@
             <v-card
                 class="icon-nav"
                 tile
-                elevation="0">
+                elevation="0"
+                style="border-left: solid 1px hsla(0,0%,100%,.12);">
                 <div style="margin-top: 5px;">
                     <v-icon
                         class="control-panel-icon"
@@ -101,12 +103,13 @@
                         class="control-panel-icon"
                         title="Execute selected vector."
                         :disabled="!selectedVector"
-                        :color="selectedVector ? 'green' : ''"
                         @click="graphUrl(selectedVector.url)">
-                        mdi-play
+                        mdi-play-network
                     </v-icon>
+                    <v-divider/>
                 </div>
                 <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
+                    <v-divider style="margin-bottom: 15px;margin-right: 5px;"/>
                     <v-icon
                         class="control-panel-icon"
                         title="Graph Properties"
@@ -133,7 +136,7 @@
                         title="Import new vectors and graphs into this graph"
                         :color="panel === 'import' ? 'info' : ''"
                         @click="selectPanel('import')">
-                        mdi-timeline-plus-outline
+                        mdi-library
                     </v-icon>
                     <v-icon
                         class="control-panel-icon"
@@ -221,7 +224,7 @@ export default {
                 navWidth = this.navWidth + "px";
             }
             return {
-                width: this.panel ? navWidth : "38px"
+                width: this.panel ? navWidth : "43px"
             };
         }
     },
@@ -266,7 +269,7 @@ export default {
     },
     data: () => {
         return {
-            iconGutterSize: 35,
+            iconGutterSize: 43,
             graphVue: null,
             graphSet: null,
             graphJSON: null,
@@ -294,6 +297,17 @@ export default {
 .main-nav {
     padding-right: 18px;
     width: 100%;
+}
+.nav-drawer {
+    margin-top: 24px;
+}
+.icon-nav {
+    border: solid 1px black;
+    width: 43px;
+    right: 0;
+    position: absolute;
+    height: calc(100vh - 48px);
+    padding: 8px;
 }
 .control-panel-icon {
     margin-bottom: 10px;

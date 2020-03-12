@@ -18,8 +18,6 @@
                     <v-divider vertical style="margin: 5px;"/>
                     <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
                         title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
-                    <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
-                        @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
                     <v-icon :disabled="selectedVectors.length < 2" title="Group (^ + G)" @click="groupSelected">mdi-group</v-icon>
                     <v-icon :disabled="primaryGroup === null" title="Ungroup (^ + Shift + G)" @click="ungroupSelected">mdi-ungroup</v-icon>
@@ -28,6 +26,9 @@
                     <v-icon @click="bringToFront" title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
                     <v-icon @click="sendBackward" title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
                     <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
+                        @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
                 </span>
             </v-system-bar>
             <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
@@ -49,11 +50,11 @@
                 <div
                 title="Selection Coordinates"
                 style="width: 240px;cursor: crosshair;">
-                    <v-icon>mdi-select</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
+                    <v-icon>mdi-selection</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
                 </div>
                 <v-spacer/>
                 <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
-                    <v-icon>mdi-selection</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
+                    <v-icon>mdi-network</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
                 </div>
                 <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
                     <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
@@ -70,12 +71,17 @@
                     style="padding-right: 10px;cursor: pointer;"
                     @click="zoomIn">mdi-magnify-plus-outline</v-icon>
                 <v-icon
+                    title="Toggle Input/Output Labels"
+                    @click="toggleLabels"
+                    style="padding-right: 10px;cursor: pointer;"
+                    :color="preferences.showLabels ? 'info' : ''"
+                    >{{preferences.showLabels ? 'mdi-label' : 'mdi-label-off'}}</v-icon>
+                <v-icon
                     title="Toggle Grid Visibility"
                     @click="toggleGrid"
                     style="padding-right: 10px;cursor: pointer;"
                     :color="preferences.appearance.showGrid ? 'info' : ''"
-                    >mdi-grid</v-icon
-                >
+                    >mdi-grid</v-icon>
                 <v-icon
                     title="Toggle Lock"
                     @click="toggleLock"
@@ -112,7 +118,7 @@
 </template>
 <script>
 import GraphCanvas from "./GraphCanvas";
-import {mapState, mapActions} from "vuex";
+import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
 export default {
     name: "GraphEditor",
@@ -197,6 +203,9 @@ export default {
         },
     },
     methods: {
+        ...mapMutations([
+            "toggleLabels",
+        ]),
         ...mapActions([
             "save",
             "raiseError",
@@ -510,17 +519,6 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-}
-.nav-drawer {
-    margin-top: 24px;
-}
-.icon-nav {
-    border: solid 1px black;
-    width: 38px;
-    right: 0;
-    position: absolute;
-    height: calc(100vh - 48px);
-    padding: 5px;
 }
 .no-pointer-events {
     pointer-events: none;

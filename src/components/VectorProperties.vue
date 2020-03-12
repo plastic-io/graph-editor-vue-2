@@ -1,8 +1,8 @@
 <template>
-    <v-card flat v-if="vector">
+    <v-card flat v-if="vector" style="height: calc(100vh - 48px); overflow-y: auto;">
         <v-card-title>
-            <v-icon left>{{vector.properties.icon}}</v-icon>
-            {{vector.properties.name || "Vector"}}
+            <v-icon left>mdi-timeline-outline</v-icon>
+            Vector Properties
             <v-spacer/>
             <v-menu flat bottom color="secondary" open-on-hover>
                 <template v-slot:activator="{ on: tooltip }">
@@ -27,10 +27,7 @@
                 </v-alert>
             </v-menu>
         </v-card-title>
-        <v-card-subtitle>
-            Properties
-        </v-card-subtitle>
-        <v-card-text class="ma-0 pa-0">
+        <v-card-text class="ma-0">
             <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>
                     <v-expansion-panel-header>General</v-expansion-panel-header>
@@ -112,6 +109,22 @@
                                     hint="Which domains this resource works in"
                                     prepend-icon="mdi-tag-multiple-outline"
                                     v-model="vector.properties.tags"/>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel v-if="!vector.artifact">
+                    <v-expansion-panel-header>Testing</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-3">
+                                <v-btn disabled color="info" block>
+                                    Run Tests
+                                    <v-icon right>
+                                        mdi-flask
+                                    </v-icon>
+                                </v-btn>
+                                <i>No tests.  Add tests in input connectors.</i>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>

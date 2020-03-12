@@ -1,5 +1,5 @@
 <template>
-    <div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)">
+    <div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)" :key="historyPosition">
         <div
             :style="preferences.appearance.theme === 'dark' ? '' : 'filter: invert(1);'"
             :class="graphCanvasClasses"
@@ -17,7 +17,7 @@
             :vector="vector"
         />
         <div v-if="selectionRect.visible && !presentation" class="selection-rect" :style="selectionRectStyle"></div>
-        <div :key="historyPosition" v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
+        <div v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
 </template>
 <script>

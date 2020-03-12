@@ -1,26 +1,28 @@
 <template>
-    <div>
-        <v-card flat>
-            <v-card-title>
-                <v-icon left>mdi-history</v-icon>
-                History
-            </v-card-title>
-            <v-list>
-                <v-list-item
-                    v-for="(event, index) in localEvents"
-                    :key="index"
-                    :style="historyPosition === index ? 'background: var(--v-info-base);' : ''"
-                    @click="moveHistoryPosition(-(historyPosition - index))">
-                    <v-list-item-icon>
-                        <v-icon>{{getIcon(event.name)}}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content style="font-size: 14px;">
-                        {{event.name}}
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
+    <v-card flat style="height: calc(100vh - 51px);" class="pa-2">
+        <v-card-title>
+            <v-icon left>mdi-history</v-icon>
+            History
+        </v-card-title>
+        <v-card>
+            <v-card-text>
+                <v-list style="height: calc(100vh - 171px);overflow-y: auto;">
+                    <v-list-item
+                        v-for="(event, index) in localEvents"
+                        :key="index"
+                        :style="historyPosition === index ? 'background: var(--v-info-base);' : ''"
+                        @click="moveHistoryPosition(-(historyPosition - index))">
+                        <v-list-item-icon>
+                            <v-icon>{{getIcon(event.name)}}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content style="font-size: 14px;">
+                            {{event.name}}
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+            </v-card-text>
         </v-card>
-    </div>
+    </v-card>
 </template>
 <script>
 import {mapState, mapActions} from "vuex";

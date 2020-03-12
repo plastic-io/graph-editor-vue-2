@@ -277,6 +277,8 @@ export function addVectorItem(state: any, e: any) {
     pos.y = Math.floor(pos.y / 10) * 10;
     const id = newId();
     e.item.loaded = true;
+    // ensure connectors are not imported
+    e.edges.connectors = [];
     const vector = {
         id: id,
         linkedVector: e.item,
@@ -285,15 +287,15 @@ export function addVectorItem(state: any, e: any) {
         graphId: state.graphSnapshot.id,
         artifact: "artifacts/" + e.id + "." + e.version,
         url: id,
-        data: null,
+        data: e.item.data,
         properties: {
             inputs: e.item.properties.inputs,
             outputs: e.item.properties.outputs,
             groups: [],
             name: e.name,
             description: e.description,
-            tags: [],
-            icon: "mdi-timeline-outline",
+            tags: e.item.properties.tags,
+            icon: e.item.properties.icon,
             positionAbsolute: false,
             appearsInPresentation: false,
             appearsInExport: false,
@@ -773,7 +775,12 @@ export function togglePanelVisibility(state: any) {
 function setSchedulerState(state: any, e: any) {
     state.scheduler.state = e;
 }
+function toggleLabels(state: any) {
+    state.preferences.showLabels = !state.preferences.showLabels;
+    setPreferences(state, state.preferences);
+}
 export default {
+    toggleLabels,
     togglePanelVisibility,
     setRegistryItem,
     setRegistry,
