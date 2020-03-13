@@ -11,12 +11,33 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
+                                <v-text-field
+                                    help-topic="settingsGridSize"
+                                    disabled
+                                    label="Grid Size"
+                                    persistent-hint
+                                    hint="Disabled for now"
+                                    v-model.number="gridSize"/>
+                                <v-switch
+                                    help-topic="settingsSnapToGrid"
+                                    disabled
+                                    label="Snap To Grid"
+                                    persistent-hint hint="Disabled for now"
+                                    v-model="snapToGrid"></v-switch>
+                                <v-switch help-topic="settingsShowGrid" label="Show Grid" v-model="showGrid"></v-switch>
+                                <v-switch help-topic="settingsShowLabels" label="Input/Output Labels" v-model="showLabels"/>
+                                <v-switch help-topic="settingsDebug" persistent-hint hint="Captures debug logs and show edge values.  Performance penalty." label="Debug" v-model="debug"/>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>General Appearance</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
                                 <v-select label="Theme" :items="['dark', 'light']" v-model="theme"></v-select>
-                                <v-text-field disabled label="Grid Size" persistent-hint hint="Cannot change for now" v-model.number="gridSize"/>
-                                <v-switch label="Snap To Grid" v-model="snapToGrid"></v-switch>
-                                <v-switch label="Show Grid" v-model="showGrid"></v-switch>
-                                <v-switch label="Input/Output Labels" v-model="showLabels"/>
-                                <v-switch persistent-hint hint="Captures debug logs and show edge values.  Performance penalty." label="Debug" v-model="debug"/>
+                                <v-select :items="colorBaseKeys" label="Help Dialog Background" v-model="helpColor"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -84,6 +105,7 @@ export default {
             "preferences.showLabels",
             "preferences.debug",
             "preferences.appearance.theme",
+            "preferences.appearance.helpColor",
             "preferences.appearance.selectionRectColor",
             "preferences.appearance.boundingRectColor",
             "preferences.snapToGrid",

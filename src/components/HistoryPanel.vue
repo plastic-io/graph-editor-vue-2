@@ -1,7 +1,7 @@
 <template>
     <v-card flat style="height: calc(100vh - 51px);" class="pa-2">
         <v-card-title>
-            <v-icon left>mdi-history</v-icon>
+            <v-icon left help-topic="historyPanel">mdi-history</v-icon>
             History
         </v-card-title>
         <v-card>

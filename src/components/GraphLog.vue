@@ -1,7 +1,7 @@
 <template>
     <v-card flat style="overflow-y: hidden;">
         <v-card-title>
-            <v-icon left>mdi-format-list-text</v-icon>
+            <v-icon left help-topic="logs">mdi-format-list-text</v-icon>
             Logs and State
         </v-card-title>
         <v-card-subtitle>
@@ -9,10 +9,10 @@
         </v-card-subtitle>
         <v-card-text style="overflow-y: hidden;">
             <v-tabs hide-slider>
-                <v-tab>
+                <v-tab help-topic="logState">
                     State
                 </v-tab>
-                <v-tab>
+                <v-tab help-topic="logErrors">
                     Errors <v-btn
                             v-if="getLogByType('error').length"
                             fab
@@ -21,7 +21,7 @@
                             color="error"
                             style="margin-left: 5px;">{{getLogByType('error').length}}</v-btn>
                 </v-tab>
-                <v-tab>
+                <v-tab help-topic="logWarnings">
                     Warnings <v-btn
                                 v-if="getLogByType('warn').length"
                                 fab
@@ -30,7 +30,7 @@
                                 color="warning"
                                 style="margin-left: 5px;">{{getLogByType('warn').length}}</v-btn>
                 </v-tab>
-                <v-tab>
+                <v-tab help-topic="logInfo">
                     Info <v-btn
                                 v-if="getLogByType('info').length"
                                 fab
@@ -39,7 +39,7 @@
                                 color="info"
                                 style="margin-left: 5px;">{{getLogByType('info').length}}</v-btn>
                 </v-tab>
-                <v-tab v-if="preferences.debug">
+                <v-tab v-if="preferences.debug" help-topic="logDebug">
                     Debug <v-btn
                                 v-if="getLogByType('debug').length"
                                 fab
@@ -48,7 +48,7 @@
                                 color="info"
                                 style="margin-left: 5px;">{{getLogByType('debug').length}}</v-btn>
                 </v-tab>
-                <v-tab v-if="preferences.debug">
+                <v-tab v-if="preferences.debug" help-topic="logEdges">
                     Edges <v-btn
                                 v-if="getLogByType('edge').length"
                                 fab
@@ -61,7 +61,7 @@
                     <v-card flat>
                         <v-system-bar style="position: absolute; width: 100%;" color="primary">
                             <v-spacer/>
-                            <v-icon title="Clear" style="cursor: pointer;" @click="$forceUpdate">mdi-refresh</v-icon>
+                            <v-icon help-topic="logStateRefresh" title="Clear" style="cursor: pointer;" @click="$forceUpdate">mdi-refresh</v-icon>
                         </v-system-bar>
                         <v-card-text style="padding-top: 20px;">
                             <pre>{{JSON.stringify(state, null, "\t")}}</pre>
@@ -71,7 +71,7 @@
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
-                        <v-icon title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <br>
                     <div v-for="(item, index) in getLogByType('error')" :key="index">
@@ -83,7 +83,7 @@
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
-                        <v-icon title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <br>
                     <div v-for="(item, index) in getLogByType('warn')" :key="index">
@@ -95,7 +95,7 @@
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
-                        <v-icon title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <br>
                     <div v-for="(item, index) in getLogByType('info')" :key="index">
@@ -107,7 +107,7 @@
                 <v-tab-item class="log-tab" v-if="preferences.debug">
                     <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
-                        <v-icon title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <br>
                     <div v-for="(item, index) in getLogByType('debug')" :key="index">
@@ -119,7 +119,7 @@
                 <v-tab-item class="log-tab" v-if="preferences.debug">
                     <v-system-bar style="position: absolute; width: 100%;" color="primary">
                         <v-spacer/>
-                        <v-icon title="Clear" @click="clearLog('edge')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('edge')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <br>
                     <div v-for="(item, index) in getLogByType('edge')" :key="index">

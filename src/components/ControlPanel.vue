@@ -68,14 +68,16 @@
                 style="border-left: solid 1px hsla(0,0%,100%,.12);">
                 <div style="margin-top: 5px;">
                     <v-icon
+                        help-topic="vectorProperties"
                         class="control-panel-icon"
                         title="Vector Properties"
                         :disabled="!selectedVector"
                         :color="panel === 'properties' ? 'info' : ''"
                         @click="selectPanel('properties')">
-                        mdi-timeline-outline
+                        mdi-network-outline
                     </v-icon>
                     <v-icon
+                        help-topic="set"
                         class="control-panel-icon"
                         title="Vector Set Code.  Code that runs when your vector is invoked at run time"
                         :disabled="!selectedVector"
@@ -84,6 +86,7 @@
                         mdi-lambda
                     </v-icon>
                     <v-icon
+                        help-topic="template"
                         class="control-panel-icon"
                         title="Vector Template Code.  Code that runs when your vector appears in the graph IDE"
                         :disabled="!selectedVector"
@@ -92,6 +95,7 @@
                         mdi-vuejs
                     </v-icon>
                     <v-icon
+                        help-topic="edge"
                         class="control-panel-icon"
                         title="Vector edges."
                         :disabled="!selectedVector"
@@ -100,6 +104,7 @@
                         mdi-transit-connection-variant
                     </v-icon>
                     <v-icon
+                        help-topic="executeSelectedVector"
                         class="control-panel-icon"
                         title="Execute selected vector."
                         :disabled="!selectedVector"
@@ -111,6 +116,7 @@
                 <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
                     <v-divider style="margin-bottom: 15px;margin-right: 5px;"/>
                     <v-icon
+                        help-topic="graphProperties"
                         class="control-panel-icon"
                         title="Graph Properties"
                         :color="panel === 'graph' ? 'info' : ''"
@@ -118,6 +124,7 @@
                         mdi-graph-outline
                     </v-icon>
                     <v-icon
+                        help-topic="log"
                         class="control-panel-icon"
                         title="Graph Logs and State"
                         :color="panel === 'log' ? 'info' : ''"
@@ -125,6 +132,7 @@
                         mdi-format-list-text
                     </v-icon>
                     <v-icon
+                        help-topic="history"
                         class="control-panel-icon"
                         title="History of changes for this session"
                         :color="panel === 'history' ? 'info' : ''"
@@ -132,6 +140,7 @@
                         mdi-history
                     </v-icon>
                     <v-icon
+                        help-topic="import"
                         class="control-panel-icon"
                         title="Import new vectors and graphs into this graph"
                         :color="panel === 'import' ? 'info' : ''"
@@ -139,6 +148,7 @@
                         mdi-library
                     </v-icon>
                     <v-icon
+                        help-topic="settings"
                         class="control-panel-icon"
                         title="View and edit the settings of the graph IDE"
                         :color="panel === 'settings' ? 'info' : ''"
@@ -146,6 +156,7 @@
                         mdi-cogs
                     </v-icon>
                     <v-icon
+                        help-topic="dragResizePanel"
                         class="control-panel-icon"
                         title="Use this slider to resize the control panel for some tabs"
                         style="cursor: ew-resize;"
@@ -198,6 +209,7 @@ export default {
     },
     computed: {
         ...mapState({
+            showHelp: state => state.showHelp,
             historyPosition: state => state.historyPosition,
             events: state => state.events,
             selectRect: state => state.selectRect,
@@ -224,6 +236,7 @@ export default {
                 navWidth = this.navWidth + "px";
             }
             return {
+                zIndex: this.showHelp ? 5 : undefined,
                 width: this.panel ? navWidth : "43px"
             };
         }

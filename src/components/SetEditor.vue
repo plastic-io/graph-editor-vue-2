@@ -2,7 +2,7 @@
     <div @keydown="keydown($event)">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
-            <v-toolbar-title>{{selectedVector.properties.name || "Vector"}} - Set Function</v-toolbar-title>
+            <v-toolbar-title help-topic="setTemplate">{{selectedVector.properties.name || "Vector"}} - Set Function</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="save" :loading="saving" title="Save">
                 <v-icon>mdi-content-save</v-icon>

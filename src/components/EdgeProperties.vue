@@ -1,8 +1,8 @@
 <template>
     <v-card v-if="vector" flat style="height: calc(100vh - 49px);overflow-y: auto;">
-        <v-card-title>
-            <v-icon left>{{vector.properties.icon}}</v-icon>
-            {{vector.properties.name || "Vector"}}
+        <v-card-title help-topic="edge">
+            <v-icon left>mdi-transit-connection-variant</v-icon>
+            Vector Edge
         </v-card-title>
         <v-card-subtitle>
             Inputs and Outputs
@@ -10,7 +10,7 @@
         <v-card-text>
             <v-expansion-panels flat multiple :value="panels">
                 <v-expansion-panel v-for="ioKey in ['outputs', 'inputs']" :key="ioKey">
-                    <v-expansion-panel-header>
+                    <v-expansion-panel-header :help-topic="ioKey">
                         <v-toolbar color="transparent" flat dense :key="'toolbar_' + ioKey">
                             <v-btn
                                 @click.stop="add(ioKey)"
@@ -35,7 +35,7 @@
                             <v-list two-line subheader :key="'list_' + ioKey">
                                 <v-list-item v-for="(io, index) in vector.properties[ioKey]" :key="index">
                                     <v-list-item-content style="overflow: visible;">
-                                        <table style="position: absolute;height: 0;left: -20px;top: 25px;">
+                                        <table style="position: absolute;height: 0;left: -20px;top: 25px;" help-topic="ioOrder">
                                             <tr>
                                                 <td>
                                                     <v-icon
@@ -57,19 +57,30 @@
                                             </tr>
                                         </table>
                                         <v-tabs class="hide-arrows">
-                                            <v-tab title="Name, type, and external">
+                                            <v-tab title="Name, type, and external" help-topic="ioIdentity">
                                                 <v-icon>mdi-fingerprint</v-icon>
                                             </v-tab>
-                                            <v-tab title="Connection list">
+                                            <v-tab title="Connection list" help-topic="ioConnections">
                                                 <v-icon>mdi-power-plug</v-icon>
                                             </v-tab>
-                                            <v-tab title="Tests" v-if="ioKey === 'inputs'">
+                                            <v-tab title="Tests" v-if="ioKey === 'inputs'" help-topic="ioTests">
                                                 <v-icon>mdi-flask</v-icon>
                                             </v-tab>
                                             <v-tab-item>
-                                                <v-text-field :disabled="controlsDisabled" v-model="io.name"/>
-                                                <v-combobox :items="ioTypes" :disabled="controlsDisabled" v-model="io.type"/>
-                                                <v-checkbox v-if="!controlsDisabled" v-model="io.external" label="External"/>
+                                                <v-text-field
+                                                    :disabled="controlsDisabled"
+                                                    v-model="io.name"
+                                                    :help-topic="ioKey + '-name'"/>
+                                                <v-combobox
+                                                    :items="ioTypes"
+                                                    :disabled="controlsDisabled"
+                                                    v-model="io.type"
+                                                    :help-topic="ioKey + '-type'"/>
+                                                <v-checkbox
+                                                    v-if="!controlsDisabled"
+                                                    v-model="io.external"
+                                                    label="External"
+                                                    :help-topic="ioKey + '-external'"/>
                                             </v-tab-item>
                                             <v-tab-item>
                                                 <v-card flat>
@@ -87,7 +98,7 @@
                                                                 {{connectorInfo.connector.field}}
                                                             </v-list-item-content>
                                                             <v-list-item-avatar style="overflow: visible;">
-                                                                <table style="transform: scale(0.70) translate(5px, -20%); padding-top: 50px;">
+                                                                <table style="transform: scale(0.70) translate(5px, -20%); padding-top: 50px;"  help-topic="connectorOrder">
                                                                     <tr>
                                                                         <td>
                                                                             <v-icon
@@ -119,7 +130,11 @@
                                                 </v-card>
                                             </v-tab-item>
                                             <v-tab-item>
-                                                <i>No Tests</i>
+                                                <v-card flat>
+                                                    <v-card-text style="margin-top: 10px;">
+                                                        <i>No Tests</i>
+                                                    </v-card-text>
+                                                </v-card>
                                             </v-tab-item>
                                         </v-tabs>
                                     </v-list-item-content>

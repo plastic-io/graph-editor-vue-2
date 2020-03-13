@@ -1,37 +1,81 @@
 <template>
     <v-app class="graph-editor">
-        <template  v-if="graph">
-            <v-system-bar v-if="!presentation && panelVisibility" ref="topBar" style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
-                <div title="Graph ID" style="padding-right: 10px;cursor: pointer;">
-                    <v-icon @click="openGraph" title="Show open graph dialog (^ + O)">
+        <template v-if="graph">
+            <v-system-bar
+                v-if="!presentation && panelVisibility"
+                ref="topBar"
+                style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
+                <div
+                    title="Graph ID"
+                    style="padding-right: 10px;cursor: pointer;">
+                    <v-icon help-topic="openGraph" @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
-                    {{ graph.properties.name || "Untitled" }}
+                    <span help-topic="documentName">
+                        {{ graph.properties.name || "Untitled" }}
+                    </span>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-                <span>Plastic-IO</span>
+                <span help-topic="plastic">Plastic-IO</span>
                 <v-spacer/>
                 <span>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon :disabled="historyPosition === 0 || events.length === 0" @click="undo" title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
-                    <v-icon :disabled="historyPosition === events.length" @click="redo" title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
+                    <v-icon :disabled="historyPosition === 0 || events.length === 0"
+                        @click="undo"
+                        help-topic="undo"
+                        title="Undo last action (^ + Z)">mdi-undo-variant</v-icon>
+                    <v-icon :disabled="historyPosition === events.length"
+                        @click="redo"
+                        help-topic="redo"
+                        title="Redo last undone action (^ + Shift + Z)">mdi-redo-variant</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon :disabled="selectedVectors.length === 0"  @click="duplicateSelection"
+                    <v-icon :disabled="selectedVectors.length === 0"
+                        @click="duplicateSelection"
+                        help-topic="duplicate"
                         title="Duplicate selected vectors (^ + Shift + D)">mdi-content-duplicate</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon :disabled="selectedVectors.length < 2" title="Group (^ + G)" @click="groupSelected">mdi-group</v-icon>
-                    <v-icon :disabled="primaryGroup === null" title="Ungroup (^ + Shift + G)" @click="ungroupSelected">mdi-ungroup</v-icon>
+                    <v-icon :disabled="selectedVectors.length < 2"
+                        @click="groupSelected"
+                        help-topic="group"
+                        title="Group (^ + G)">mdi-group</v-icon>
+                    <v-icon :disabled="primaryGroup === null"
+                        @click="ungroupSelected"
+                        help-topic="ungroup"
+                        title="Ungroup (^ + Shift + G)" >mdi-ungroup</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon @click="bringForward" title="Bring forward (^ + ])">mdi-arrange-bring-forward</v-icon>
-                    <v-icon @click="bringToFront" title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
-                    <v-icon @click="sendBackward" title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
-                    <v-icon @click="sendToBack" title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
+                    <v-icon
+                        @click="bringForward"
+                        help-topic="bringForward"
+                        title="Bring forward (^ + ])">mdi-arrange-bring-forward</v-icon>
+                    <v-icon
+                        @click="bringToFront"
+                        help-topic="bringToFront"
+                        title="Bring to front (^ + Shift + ])">mdi-arrange-bring-to-front</v-icon>
+                    <v-icon
+                        @click="sendBackward"
+                        help-topic="sendBackward"
+                        title="Send backward (^ + [)">mdi-arrange-send-backward</v-icon>
+                    <v-icon
+                        @click="sendToBack"
+                        help-topic="sendToBack"
+                        title="Send to back (^ + Shift + [)">mdi-arrange-send-to-back</v-icon>
                     <v-divider vertical style="margin: 5px;"/>
-                    <v-icon :disabled="selectedVectors.length === 0 && selectedConnectors === 0"
-                        @click="deleteSelected" title="Delete selected (delete)">mdi-delete</v-icon>
+                    <v-icon
+                        help-topic="deleteSelected"
+                        @click="deleteSelected"
+                        title="Delete selected (delete)"
+                        :disabled="selectedVectors.length === 0 && selectedConnectors === 0">mdi-delete</v-icon>
+                    <v-divider vertical style="margin: 5px;"/>
+                    <v-icon
+                        @click="toggleHelp"
+                        help-topic="toggleHelp"
+                        :color="showHelp ? 'info' : ''"
+                        title="Help">mdi-help-circle-outline</v-icon>
                 </span>
             </v-system-bar>
-            <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
+            <div :style="showHelp ? 'pointer-events: none;' : ''">
+                <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
+            </div>
             <div class="graph-container" :style="graphContainerStyle">
                 <graph-canvas
                     :class="translating && mouse.lmb ? 'no-select' : ''"
@@ -44,33 +88,44 @@
                 style="position: absolute; z-index: 2; bottom: 0; width: 100vw;"
                 class="no-select bottom-system-bar"
             >
-                <div title="Mouse Coordinates" style="width: 110px;cursor: crosshair;">
+                <div
+                    help-topic="mouseCoordinates"
+                    title="Mouse Coordinates"
+                    style="width: 110px;cursor: crosshair;">
                     <v-icon>mdi-crosshairs-gps</v-icon>{{ Math.floor((mouse.x - view.x) / view.k) }} : {{ Math.floor((mouse.y - view.y) / view.k) }}
                 </div>
                 <div
+                help-topic="selectionCoordinates"
                 title="Selection Coordinates"
                 style="width: 240px;cursor: crosshair;">
-                    <v-icon>mdi-selection</v-icon> x: {{Math.floor(selectionRect.x)}} y: {{Math.floor(selectionRect.x)}} h: {{Math.floor(selectionRect.height)}} w: {{Math.floor(selectionRect.width)}}
+                    <v-icon>mdi-selection</v-icon>
+                        x: {{Math.floor(selectionRect.x)}}
+                        y: {{Math.floor(selectionRect.x)}}
+                        h: {{Math.floor(selectionRect.height)}}
+                        w: {{Math.floor(selectionRect.width)}}
                 </div>
                 <v-spacer/>
-                <div title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
+                <div help-topic="selectedVectors" title="Selected Vectors / Total Vectors" style="padding-right: 10px;cursor: pointer;">
                     <v-icon>mdi-network</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
                 </div>
-                <div title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
+                <div help-topic="viewportLocation" title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
                     <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
                 </div>
                 <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
                 <div
+                    help-topic="viewportZoom"
+                    @click="resetZoom"
                     title="Zoom Level"
-                    style="padding-right: 5px;cursor: crosshair;"
-                    @click="resetZoom">
+                    style="padding-right: 5px;cursor: crosshair;">
                     {{ (view.k * 100).toFixed(2) }}%
                 </div>
                 <v-icon
+                    @click="zoomIn"
                     title="Zoom In (^ + +)"
                     style="padding-right: 10px;cursor: pointer;"
-                    @click="zoomIn">mdi-magnify-plus-outline</v-icon>
+                    >mdi-magnify-plus-outline</v-icon>
                 <v-icon
+                    help-topic="toggleLabels"
                     title="Toggle Input/Output Labels"
                     @click="toggleLabels"
                     style="padding-right: 10px;cursor: pointer;"
@@ -79,19 +134,24 @@
                 <v-icon
                     title="Toggle Grid Visibility"
                     @click="toggleGrid"
+                    help-topic="toggleGrid"
                     style="padding-right: 10px;cursor: pointer;"
                     :color="preferences.appearance.showGrid ? 'info' : ''"
                     >mdi-grid</v-icon>
                 <v-icon
                     title="Toggle Lock"
                     @click="toggleLock"
+                    help-topic="toggleLock"
                     :color="locked ? 'info' : ''"
-                    style="padding-right: 10px;cursor: pointer;">{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
+                    style="padding-right: 10px;cursor: pointer;"
+                    >{{locked ? 'mdi-lock' : 'mdi-lock-open'}}</v-icon>
                 <v-icon
                     title="Toggle Presentation (Alt + `)"
                     @click="togglePresentation"
+                    help-topic="togglePresentation"
                     :color="presentation ? 'info' : ''"
-                    style="padding-right: 10px;cursor: pointer;">{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
+                    style="padding-right: 10px;cursor: pointer;"
+                    >{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
         </template>
         <v-bottom-sheet hide-overlay inset :timeout="2000" v-model="presentationWarning" multi-line>
@@ -114,12 +174,14 @@
             </v-alert>
         </v-snackbar>
         <v-progress-linear v-if="!graph && !localShowError" indeterminate></v-progress-linear>
+        <help-overlay v-if="showHelp" @close="toggleHelp" style="z-index: 14;"/>
     </v-app>
 </template>
 <script>
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
+import HelpOverlay from "./HelpOverlay";
 export default {
     name: "GraphEditor",
     props: {
@@ -128,6 +190,7 @@ export default {
     components: {
         GraphCanvas,
         ControlPanel,
+        HelpOverlay,
     },
     watch: {
         presentationWarning() {
@@ -163,6 +226,7 @@ export default {
     },
     computed: {
         ...mapState({
+            showHelp: state => state.showHelp,
             panelVisibility: state => state.panelVisibility,
             vectorMimeType: state => state.vectorMimeType,
             showError: state => state.showError,
@@ -198,6 +262,7 @@ export default {
                 cursor = "move";
             }
             return {
+                pointerEvents: this.showHelp ? "none" : undefined,
                 cursor
             };
         },
@@ -205,6 +270,7 @@ export default {
     methods: {
         ...mapMutations([
             "toggleLabels",
+            "toggleHelp",
         ]),
         ...mapActions([
             "save",
@@ -283,6 +349,9 @@ export default {
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
         mousemove(e) {
+            if (this.showHelp) {
+                return;
+            }
             const mouse = this.getMousePosFromEvent(e);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
@@ -291,7 +360,7 @@ export default {
             });
         },
         mousedown(e) {
-            if (!this.graph) {
+            if (!this.graph || this.showHelp) {
                 return;
             }
             // do not track control panel inputs
@@ -350,7 +419,7 @@ export default {
         },
         scale(e) {
             // do not track control panel inputs
-            if (!this.isGraphTarget(e)) {
+            if (!this.isGraphTarget(e) || this.showHelp) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);

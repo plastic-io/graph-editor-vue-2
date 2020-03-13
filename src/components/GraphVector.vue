@@ -36,6 +36,7 @@
             />
         </div>
         <div
+            help-topic="vectorInstance"
             :id="'vector-' + localVector.id"
             @mouseover="hover"
             @mouseout="unhover"

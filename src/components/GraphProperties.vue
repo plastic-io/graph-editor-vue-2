@@ -1,7 +1,7 @@
 <template>
     <v-card flat v-if="graph" style="height: calc(100vh - 48px); overflow-y: auto;">
         <v-card-title>
-            <v-icon left>mdi-graph-outline</v-icon>
+            <v-icon left help-topic="graph">mdi-graph-outline</v-icon>
             Graph Properties
         </v-card-title>
         <v-card-text class="ma-0">
@@ -11,10 +11,11 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-text-field label="Name" v-model="name"></v-text-field>
-                                <v-textarea label="Description" v-model="description"></v-textarea>
-                                <v-text-field label="Graph Id" disabled :value="id"></v-text-field>
+                                <v-text-field help-topic="graphName" label="Name" v-model="name"></v-text-field>
+                                <v-textarea help-topic="graphDescription" label="Description" v-model="description"></v-textarea>
+                                <v-text-field help-topic="graphId" label="Graph Id" disabled :value="id"></v-text-field>
                                 <v-combobox
+                                    help-topic="graphIcon"
                                     :prepend-icon="graph.properties.icon"
                                     persistent-hint
                                     hint="https://cdn.materialdesignicons.com/4.9.95/"
@@ -22,7 +23,7 @@
                                     title="Icon"
                                     :items="icons"
                                     v-model="icon"/>
-                                <v-text-field label="Version" disabled :value="version"></v-text-field>
+                                <v-text-field help-topic="graphVersion" label="Version" disabled :value="version"></v-text-field>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -31,7 +32,7 @@
                     <v-expansion-panel-header>Presentation</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
+                            <v-card-text class="ma-0 pa-0" help-topic="graphPresentation">
                                 <v-switch label="Start In Presentation Mode" v-model="startInPresentationMode"></v-switch>
                                 <v-text-field label="Height" v-model.number="height"></v-text-field>
                                 <v-text-field label="Width" v-model.number="width"></v-text-field>
@@ -43,7 +44,7 @@
                     <v-expansion-panel-header>Meta</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
+                            <v-card-text class="ma-0 pa-0" help-topic="graphMeta">
                                 <v-text-field label="Created By" v-model="createdBy"></v-text-field>
                                 <v-text-field label="Created On" v-model="createdOn"></v-text-field>
                                 <v-text-field label="Last Update" v-model="lastUpdate"></v-text-field>
@@ -56,7 +57,7 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-list>
+                                <v-list help-topic="graphVectorList">
                                     <v-list-item-group v-model="vectorList" color="primary">
                                         <v-list-item
                                             @click="selectVector(vector.id)"
@@ -80,13 +81,14 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-btn color="info" style="margin-top: 10px;" @click="publishGraph">
+                                <v-btn color="info" style="margin-top: 10px;" @click="publishGraph" help-topic="graphPublishButton">
                                     Publish<br>Graph
                                     <v-icon right>
                                         mdi-share-variant
                                     </v-icon>
                                 </v-btn>
                                 <v-combobox
+                                    help-topic="graphTags"
                                     :items="domainTags"
                                     persistent-hint
                                     hint="Which domains this resource works in"
@@ -105,7 +107,7 @@
                 <v-expansion-panel>
                     <v-expansion-panel-header>External Graph IO</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <v-card class="ma-0 pa-0" flat>
+                        <v-card class="ma-0 pa-0" flat help-topic="graphIOList">
                             <v-card-text class="ma-0 pa-0">
                                 <v-list style="width: 110%;">
                                     <template v-for="io in ['inputs', 'outputs']">

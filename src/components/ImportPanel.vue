@@ -1,6 +1,6 @@
 <template>
     <v-card flat>
-        <v-card-title>
+        <v-card-title help-topic="importPanel">
             <v-icon left>mdi-library</v-icon>
             Library
         </v-card-title>
@@ -9,11 +9,11 @@
         </v-card-subtitle>
         <v-card-text>
             <v-tabs grow icons-and-text hide-slider>
-                <v-tab>
+                <v-tab help-topic="importLocal">
                     Local
                     <v-icon>mdi-folder</v-icon>
                 </v-tab>
-                <v-tab>
+                <v-tab help-topic="importPublic">
                     Public
                     <v-icon>mdi-folder-network</v-icon>
                 </v-tab>

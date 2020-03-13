@@ -1,5 +1,6 @@
 import actions from "./actions";
 import mutations from "./mutations";
+import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
@@ -24,6 +25,7 @@ export default function () {
     return {
         strict: false,
         state: {
+            helpTopics,
             log: [],
             ioTypes: [
                 "Object",
@@ -50,6 +52,7 @@ export default function () {
             vectorMimeType: "application/json+plastic-io",
             jsonMimeType: "application/json",
             remoteSnapshot: {},
+            showHelp: false,
             panelVisibility: true,
             graphSnapshot: null,
             graph: null,
@@ -137,6 +140,7 @@ export default function () {
                 gridSize: 10, // cannot be changed for now
                 appearance: {
                     theme: "dark",
+                    helpColor: "blue",
                     showGrid: true,
                     selectionRectColor: "lightBlue",
                     boundingRectColor: "shades",

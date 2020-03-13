@@ -6,6 +6,7 @@
         :style="connectorWarn ? 'cursor: not-allowed;' : ''"
     >
         <div
+            help-topic="vector-edge"
             ref="edge"
             :style="vectorFieldStyle"
             class="vector-field"

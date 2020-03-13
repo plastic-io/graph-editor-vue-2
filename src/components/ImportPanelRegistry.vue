@@ -2,21 +2,22 @@
     <v-card style="height: calc(100vh - 220px);">
         <v-card-title>
             <v-combobox
+                help-topic="importPublicRegistryList"
                 v-model="selectedRegistry"
                 :items="registryList"
             />
         </v-card-title>
         <v-tabs :key="selectedRegistry">
-            <v-tab v-for="(category, index) in selectedRegistryCollection" :key="index">
+            <v-tab v-for="(category, index) in selectedRegistryCollection" :key="index" help-topic="importPublicTopLevel">
                 {{category.name}}
             </v-tab>
             <v-tab-item v-for="(category, index) in selectedRegistryCollection" :key="index">
                 <v-tabs v-if="registry[category.artifact] !== undefined">
-                    <v-tab v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index">
+                    <v-tab v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index" help-topic="importPublicSecondLevel">
                         {{subCategory.name}}
                     </v-tab>
                     <v-tab-item v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index">
-                        <v-list  style="overflow-y: auto; height: calc(100vh - 435px);">
+                        <v-list  style="overflow-y: auto; height: calc(100vh - 435px);" help-topic="importPublicList">
                             <v-list-group v-for="(item, index) in groupItems(subCategory.items)" :key="index">
                                 <template v-slot:activator>
                                     <v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)">

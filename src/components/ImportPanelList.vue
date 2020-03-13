@@ -1,13 +1,15 @@
 <template>
     <v-list v-if="list">
-        <v-subheader>
+        <v-subheader help-topic="importLocalSearch">
             <v-list-item-icon>
                 <v-icon>mdi-magnify</v-icon>
             </v-list-item-icon>
             <v-text-field placeholder="Search" v-model="search"></v-text-field>
         </v-subheader>
-        <v-divider class="ma-3"/>
-        <v-list-item-group v-model="selectedItem" style="overflow-y: auto; height: calc(100vh - 305px);margin-right: 3px;margin-bottom: -5px;">
+        <v-divider class="ma-3" help-topic="importLocalList"/>
+        <v-list-item-group
+            v-model="selectedItem"
+            style="overflow-y: auto; height: calc(100vh - 305px);margin-right: 3px;margin-bottom: -5px;">
             <v-list-group
             v-for="item in items"
             :key="item.title"

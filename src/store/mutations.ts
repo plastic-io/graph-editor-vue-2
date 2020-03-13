@@ -782,7 +782,15 @@ function toggleLabels(state: any) {
     state.preferences.showLabels = !state.preferences.showLabels;
     setPreferences(state, state.preferences);
 }
+function toggleHelp(state: any) {
+    state.showHelp = !state.showHelp;
+}
+function addHelpTopic(state: any, e: any) {
+    state.helpTopics[e.topic] = e;
+}
 export default {
+    addHelpTopic,
+    toggleHelp,
     toggleLabels,
     togglePanelVisibility,
     setRegistryItem,

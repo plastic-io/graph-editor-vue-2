@@ -2,7 +2,7 @@
     <div @keydown="keydown($event)">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
-            <v-toolbar-title>{{selectedVector.properties.name || "Vector"}} - Vue Template</v-toolbar-title>
+            <v-toolbar-title help-topic="vueTemplate">{{selectedVector.properties.name || "Vector"}} - Vue Template</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn :loading="saving" @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
