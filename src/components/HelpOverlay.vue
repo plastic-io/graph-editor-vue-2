@@ -107,6 +107,14 @@ export default {
         open() {
             this.$emit("close");
         },
+        topic() {
+            if (this.topic === "vueTemplate") {
+                this.topic = "template";
+            }
+            if (this.topic === "setTemplate") {
+                this.topic = "set";
+            }
+        },
         view: {
             handler() {
                 this.localVersion += 1;

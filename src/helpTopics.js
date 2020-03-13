@@ -19,7 +19,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
             <div style="text-align: center;">
                 <img style="width: 75px;" src="https://avatars1.githubusercontent.com/u/60668496?s=200&v=4"/>
                 <br>
-                <a href="https://github.com/plastic-io">Plastic-io</a>
+                <a style="color: white;" href="https://github.com/plastic-io">Plastic-io</a>
                 <br>
                 Visual Programming Language
             </div>
@@ -232,7 +232,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         "html": "Here you can see information gathered at runtime as well as see the state of your application."
     },
     "history": {
-        "title": "history",
+        "title": "History",
         "html": "Undo/Redo history"
     },
     "import": {
@@ -259,7 +259,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         "title": "Mouse Coordinates",
         "html": "The current location of the mouse on the graph"
     },
-    "SelectionCoordinates": {
+    "selectionCoordinates": {
         "title": "Selection Coordinates",
         "html": "The location and size of the selection box."
     },
@@ -277,7 +277,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
     },
     "toggleLabels": {
         "title": "Toggle Labels",
-        "html": "Toggle input/ouput labels on and off"
+        "html": "Toggle input/output labels on and off"
     },
     "toggleGrid": {
         "title": "Toggle Grid",
