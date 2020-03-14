@@ -28,6 +28,7 @@ interface UIEvent {
     ctrlKey: boolean;
     shiftKey: boolean;
     metaKey: boolean;
+    altKey: boolean;
     keyCode: number;
     preventDefault: Function;
 }

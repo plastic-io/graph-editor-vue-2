@@ -7,6 +7,7 @@
         ref="nav"
         app
         flat
+        :key="localVersion"
         height="calc(100vh - 48px)">
         <v-container
             class="flex-d align-stretch pa-0"
@@ -46,7 +47,7 @@
                     :style="gutterStyle"
                     :width="this.navWidth - this.iconGutterSize"/>
                 <import-panel
-                    v-if="panel === 'import'"
+                    v-if="panel === 'library'"
                     :style="gutterStyle"
                     :width="this.navWidth - this.iconGutterSize"/>
                 <editor-settings
@@ -140,11 +141,11 @@
                         mdi-history
                     </v-icon>
                     <v-icon
-                        help-topic="import"
+                        help-topic="library"
                         class="control-panel-icon"
                         title="Import new vectors and graphs into this graph"
-                        :color="panel === 'import' ? 'info' : ''"
-                        @click="selectPanel('import')">
+                        :color="panel === 'library' ? 'info' : ''"
+                        @click="selectPanel('library')">
                         mdi-library
                     </v-icon>
                     <v-icon
@@ -275,6 +276,7 @@ export default {
                 return;
             }
             this.panel = panel;
+            this.localVersion += 1;
         }
     },
     mounted() {
@@ -282,6 +284,7 @@ export default {
     },
     data: () => {
         return {
+            localVersion: 0,
             iconGutterSize: 43,
             graphVue: null,
             graphSet: null,
@@ -296,7 +299,7 @@ export default {
                 set: null,
                 template: null,
                 edge: null,
-                import: null,
+                library: null,
                 settings: null
             },
             panel: "",
@@ -313,6 +316,7 @@ export default {
 }
 .nav-drawer {
     margin-top: 24px;
+    transition: width 0.25s;
 }
 .icon-nav {
     border: solid 1px black;

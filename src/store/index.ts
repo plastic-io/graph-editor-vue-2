@@ -2,6 +2,7 @@ import actions from "./actions";
 import mutations from "./mutations";
 import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
+import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -174,16 +175,17 @@ export default function () {
             },
             getVectorById(state: any) {
                 return (vectorId: string) => {
-                    return state.graph.vectors.find(v => v.id === vectorId);
+                    return state.graph.vectors.find((v: Vector) => v.id === vectorId);
                 };
             },
             getLoadingStatus(state: any) {
                 return (type: string, id: string) => {
                     const projection = {
                         count: 0,
-                        events: {},
+                        events: [] as {time: number, event: any, loading: boolean}[],
+                        loading: false as boolean,
                     };
-                    state.loading[type][id].forEach((status) => {
+                    state.loading[type][id].forEach((status: any) => {
                         projection.count += 1;
                         projection.events.push({
                             time: status.time,

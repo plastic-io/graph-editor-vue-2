@@ -1,6 +1,6 @@
-import {UIVector, ChangeEvent, newId} from "./mutations"; // eslint-disable-line
+import {ChangeEvent, newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
-import Scheduler from "@plastic-io/plastic-io";
+import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
@@ -22,7 +22,7 @@ export default {
                 toc: responseJson,
                 url: e.url,
             });
-            responseJson.items.forEach((item) => {
+            responseJson.items.forEach((item: any) => {
                 if (item.type === "toc") {
                     item.url = url;
                     context.dispatch("getPublicRegistry", {
@@ -31,7 +31,7 @@ export default {
                     });
                 }
                 if (item.items) {
-                    item.items.forEach((subItem) => {
+                    item.items.forEach((subItem: any) => {
                         if (subItem.type === "publishedVector" || subItem.type === "publishedGraph") {
                             if (url && relPath.test(subItem.artifact)) {
                                 subItem.url = subItem.artifact.replace(relPath, url.substring(0, url.lastIndexOf("/")) + "/");
@@ -65,57 +65,61 @@ export default {
     },
     instantiateGraph(context: any) {
         const logger = {
-            log: (e) => {
+            log: (e: any) => {
                 context.commit("addLogItem", {eventName: "log", event: e});
             },
-            info: (e) => {
+            info: (e: any) => {
                 context.commit("addLogItem", {eventName: "info", event: e});
             },
-            debug: (e) => {
+            debug: (e: any) => {
                 if (context.state.preferences.debug) {
                     context.commit("addLogItem", {eventName: "debug", event: e});
                 }
             },
-            error: (e) => {
+            error: (e: any) => {
                 context.commit("addLogItem", {eventName: "logError", event: e});
             },
-            warn: (e) => {
+            warn: (e: any) => {
                 context.commit("addLogItem", {eventName: "warn", event: e});
             },
         };
         const scheduler = new Scheduler(context.state.graph, context, context.state.scheduler.state, logger);
         const instanceId = newId();
         scheduler.addEventListener("beginedge", (e) => {
-            context.commit("connectorActivity", {
-                key: e.graphId + e.vectorId + e.field,
-                start: Date.now(),
-                event: e,
-            });
-            if (context.state.preferences.debug) {
-                context.commit("setLoadingStatus", {
+            if ("field" in e) {
+                context.commit("connectorActivity", {
                     key: e.graphId + e.vectorId + e.field,
-                    type: "edge",
-                    loading: true,
+                    start: Date.now(),
                     event: e,
                 });
-                context.commit("addLogItem", {eventName: "edge", event: e});
+                if (context.state.preferences.debug) {
+                    context.commit("setLoadingStatus", {
+                        key: e.graphId + e.vectorId + e.field,
+                        type: "edge",
+                        loading: true,
+                        event: e,
+                    });
+                    context.commit("addLogItem", {eventName: "edge", event: e});
+                }
             }
         });
         scheduler.addEventListener("endedge", (e) => {
-            const now = Date.now();
-            context.commit("connectorActivity", {
-                key: e.graphId + e.vectorId + e.field,
-                end: Date.now(),
-                duration: now - context.state.activityConnectors[e.graphId + e.vectorId + e.field].start,
-                event: e,
-            });
-            if (context.state.preferences.debug) {
-                context.commit("setLoadingStatus", {
+            if ("field" in e) {
+                const now = Date.now();
+                context.commit("connectorActivity", {
                     key: e.graphId + e.vectorId + e.field,
-                    type: "edge",
-                    loading: false,
+                    end: Date.now(),
+                    duration: now - context.state.activityConnectors[e.graphId + e.vectorId + e.field].start,
+                    event: e,
                 });
-                context.commit("addLogItem", {eventName: "edge", event: e});
+                if (context.state.preferences.debug) {
+                    context.commit("setLoadingStatus", {
+                        key: e.graphId + e.vectorId + e.field,
+                        type: "edge",
+                        loading: false,
+                    });
+                    context.commit("addLogItem", {eventName: "edge", event: e});
+                }
             }
         });
         scheduler.addEventListener("set", (e) => {
@@ -124,25 +128,31 @@ export default {
             }
         });
         scheduler.addEventListener("error", (e) => {
-            context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
-            context.commit("addLogItem", {eventName: "error", event: e});
-            context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err.message));
+            if ("err" in e && e.err) {
+                context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
+                context.commit("addLogItem", {eventName: "error", event: e});
+                context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
+            }
         });
         scheduler.addEventListener("warning", (e) => {
-            context.commit("addLogItem", {eventName: "warning", event: e});
-            context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
-        });
-        scheduler.addEventListener("load", async (e) => {
-            const pathParts = e.url.split("/");
-            const itemId = pathParts[2].split(".")[0];
-            const itemVersion = pathParts[2].split(".")[1];
-            const itemType = pathParts[1];
-            context.commit("addLogItem", {eventName: "load", event: e});
-            if (itemType === "graph" && itemId === context.state.graph.id) {
-                return e.setValue(context.state.graph);
+            if ("message" in e) {
+                context.commit("addLogItem", {eventName: "warning", event: e});
+                context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
             }
-            const item = await context.state.dataProviders.publish.get(artifactPrefix + itemId + "." + itemVersion);
-            e.setValue(item);
+        });
+        scheduler.addEventListener("load", async (e): Promise<any> => {
+            if ("setValue" in e) {
+                const pathParts = e.url.split("/");
+                const itemId = pathParts[2].split(".")[0];
+                const itemVersion = pathParts[2].split(".")[1];
+                const itemType = pathParts[1];
+                context.commit("addLogItem", {eventName: "load", event: e});
+                if (itemType === "graph" && itemId === context.state.graph.id) {
+                    return e.setValue(context.state.graph);
+                }
+                const item = await context.state.dataProviders.publish.get(artifactPrefix + itemId + "." + itemVersion);
+                e.setValue(item);
+            }
         });
         scheduler.addEventListener("begin", (e) => {
             context.commit("setLoadingStatus", {
@@ -184,7 +194,7 @@ export default {
         context.dispatch("getToc");
     },
     async publishVector(context: any, vectorId: string) {
-        const vector = context.state.graph.vectors.find((v: UIVector) => v.id === vectorId);
+        const vector = context.state.graph.vectors.find((v: Vector) => v.id === vectorId);
         context.commit("setLoadingStatus", {
             key: vector.id,
             type: "publishVector",
@@ -415,7 +425,7 @@ export default {
         context.commit("deleteConnector", e);
         context.dispatch("save");
     },
-    updateVectorFields(context: any, e: UIVector) {
+    updateVectorFields(context: any, e: Vector) {
         context.commit("updateVectorFields", e);
         context.dispatch("save");
     },
@@ -475,7 +485,7 @@ export default {
         context.commit("duplicateSelection");
         context.dispatch("save");
     },
-    pasteVectors(context: any, e: UIVector[]) {
+    pasteVectors(context: any, e: Vector[]) {
         context.commit("pasteVectors", e);
         context.dispatch("save");
     },

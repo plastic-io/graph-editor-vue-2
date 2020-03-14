@@ -2,14 +2,41 @@ import {applyChange} from "deep-diff";
 const tocKey = "toc.json";
 const eventsPrefix = "events/";
 const artifactsPrefix = "artifacts/";
-async function updateToc(key, value) {
+import {Vector, Graph} from "@plastic-io/plastic-io"; // eslint-disable-line
+interface Toc {
+    [key: string]: TocItem;
+}
+interface TocItem {
+    id: string;
+    lastUpdate: number;
+    type: string;
+    description: string;
+    icon: string;
+    name: string;
+    version: number;
+}
+interface GraphDiff {
+    time: number
+    changes: object[]
+}
+interface VectorArtifact {
+    vector: Vector;
+}
+interface GraphArtifact {
+    graph: Graph;
+}
+interface PreferencesArtifact {
+    preferences: any;
+}
+async function updateToc(key: string, value: TocItem) {
     // write new data to TOC
-    let toc: object = await localStorage.getItem(tocKey);
-    if (!toc) {
+    let sToc: string | null = await localStorage.getItem(tocKey);
+    let toc: Toc;
+    if (!sToc) {
         toc = {};
-    } else if (toc) {
+    } else {
         try {
-            toc = JSON.parse(toc);
+            toc = JSON.parse(sToc);
         } catch (err) {
             throw new Error("Cannot parse toc");
         }
@@ -32,13 +59,13 @@ const provider = {
         }
         return obj;
     },
-    async set(url: string, value: {time: number, changes: object[]}): Promise<void> {
-        let events: {time: number, changes: object[]}[] = [];
+    async set(url: string, value: GraphDiff | VectorArtifact | GraphArtifact | PreferencesArtifact): Promise<void> {
+        let events: GraphDiff[] = [];
         const state: any = {};
-        if (value.preferences) {
+        if ("preferences" in value) {
             // set preferences
             await localStorage.setItem(url, JSON.stringify(value.preferences));
-        } else if (value.changes) {
+        } else if ("changes" in value) {
             // load the events
             const eventStr = await localStorage.getItem(eventsPrefix + url);
             if (!eventStr) {
@@ -68,8 +95,8 @@ const provider = {
                 description: state.properties.description,
                 name: state.properties.name,
                 version: state.version,
-            });
-        } else if (value.vector) {
+            } as TocItem);
+        } else if ("vector" in value) {
             const key = artifactsPrefix + url + "." + value.vector.version;
             localStorage.setItem(key, JSON.stringify(value.vector));
             updateToc(key, {
@@ -80,8 +107,8 @@ const provider = {
                 icon: value.vector.properties.icon,
                 name: value.vector.properties.name,
                 version: value.vector.version,
-            });
-        } else if (value.graph) {
+            } as TocItem);
+        } else if ("graph" in value) {
             const key = artifactsPrefix + url + "." + value.graph.version;
             localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
             updateToc(key, {
@@ -92,18 +119,19 @@ const provider = {
                 description: value.graph.properties.description,
                 name: value.graph.properties.name,
                 version: value.graph.version,
-            });
+            } as TocItem);
         } else {
             throw new Error("Set called without a recognized type");
         }
     },
     async delete(url: string): Promise<void> {
-        let toc = await localStorage.getItem(tocKey);
-        if (!toc) {
+        const sToc = await localStorage.getItem(tocKey);
+        let toc: Toc;
+        if (!sToc) {
             throw new Error("Cannot find TOC.");
-        } else if (toc) {
+        } else {
             try {
-                toc = JSON.parse(toc);
+                toc = JSON.parse(sToc);
             } catch (err) {
                 throw new Error("Cannot parse toc");
             }

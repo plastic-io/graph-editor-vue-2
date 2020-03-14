@@ -62,7 +62,7 @@ export default function bezierDraw(connector: any): void {
             return setTimeout(draw, 100);
         }
         const elOutPortRect = elOutPort.getBoundingClientRect();
-        const elInPortRect = !isMoving ? elInPort.getBoundingClientRect() : {x: 0, y: 0,};
+        const elInPortRect = !isMoving ? elInPort!.getBoundingClientRect() : {x: 0, y: 0,};
         const inRect = {
             x: elInPortRect.x,
             y: elInPortRect.y,

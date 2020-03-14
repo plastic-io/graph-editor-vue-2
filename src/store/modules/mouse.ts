@@ -2,7 +2,8 @@ const shiftKeyCode = 16;
 const metaKeyCode = 91;
 const ctrlKeyCode = 17;
 const spaceKeyCode = 32;
-import {UIVector, applyGraphChanges, newId} from "../mutations"; // eslint-disable-line
+import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import {applyGraphChanges, newId} from "../mutations"; // eslint-disable-line
 export default function mouse(state: any, mouse: {
         lmb: boolean,
         rmb: boolean,
@@ -22,10 +23,10 @@ export default function mouse(state: any, mouse: {
         // gather items in related groups
         const groupIds: string[] = [];
         // HACK: sometimes this array is populated with an empty member, not sure why, needs a fix
-        arr.filter(v => !!v).forEach((v: UIVector) => {
+        arr.filter(v => !!v).forEach((v: Vector) => {
             groupIds.push(...v.properties.groups);
         });
-        state.graph.vectors.forEach((v: UIVector) => {
+        state.graph.vectors.forEach((v: Vector) => {
             if (v.properties.groups.find((value: string) => groupIds.includes(value)) && arr.indexOf(v) === -1) {
                 addCount += 1;
                 arr.push(v);
@@ -39,12 +40,12 @@ export default function mouse(state: any, mouse: {
     // vectors that were stored in various selection arrays this can probably be
     // improved by makign the selection arrays ID based
     function remapVectors(arr: any) {
-        return state.graph.vectors.filter((v: UIVector) => {
+        return state.graph.vectors.filter((v: Vector) => {
             return arr.find((vi: any) => v.id === vi.id);
         });
     }
     function remapHovered() {
-        return state.graph.vectors.find((v: UIVector) => {
+        return state.graph.vectors.find((v: Vector) => {
             return state.hoveredVector.id === v.id;
         });
     }
@@ -143,7 +144,7 @@ export default function mouse(state: any, mouse: {
     }
     // trying to move a connector to this port
     if (state.hoveredPort && state.movingConnector && !state.addingConnector && state.hoveredPort.type === "input") {
-        const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.movingConnector.output.vector.id);
+        const vector = state.graphSnapshot.vectors.find((v: Vector) => v.id === state.movingConnector.output.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.movingConnector.output.field.name);
         const connector = edge.connectors.find((e: {id: string}) => e.id === state.movingConnector.connector.id);
         const typeA = state.movingConnector.field.type;
@@ -167,7 +168,7 @@ export default function mouse(state: any, mouse: {
     }
     // add a new connector to a port
     if (state.hoveredPort && state.addingConnector && state.hoveredPort.type === "input") {
-        const vector = state.graphSnapshot.vectors.find((v: UIVector) => v.id === state.addingConnector.vector.id);
+        const vector = state.graphSnapshot.vectors.find((v: Vector) => v.id === state.addingConnector.vector.id);
         const edge = vector.edges.find((e: {field: string}) => e.field === state.addingConnector.field.name);
         const connector = state.addingConnector.connector;
         const typeA = state.addingConnector.field.type;
@@ -211,7 +212,7 @@ export default function mouse(state: any, mouse: {
     // start moving vectors
     if (!state.mouse.lmb && mouse.lmb && state.hoveredVector && state.movingVectors.length === 0 && !state.locked) {
         const selected = remapVectors(state.selectedVectors);
-        if (selected.find((v: UIVector) => v.id === state.hoveredVector.id)) {
+        if (selected.find((v: Vector) => v.id === state.hoveredVector.id)) {
             state.movingVectors = [
                 ...selected,
             ];
@@ -233,8 +234,8 @@ export default function mouse(state: any, mouse: {
                 state.selectedGroups = [];
             }
             if (state.hoveredVector) {
-                const v = state.graph.vectors.find((v: UIVector) => v.id === state.hoveredVector.id);
-                if (state.selectedVectors.map((v) => v.id).indexOf(v.id) === -1) {
+                const v = state.graph.vectors.find((v: Vector) => v.id === state.hoveredVector.id);
+                if (state.selectedVectors.map((v: Vector) => v.id).indexOf(v.id) === -1) {
                     state.selectedVectors.push(v);
                 }
                 state.selectedVector = v;
@@ -249,7 +250,7 @@ export default function mouse(state: any, mouse: {
     }
     // when selectionRect is visible, add overlapping vectors to selection
     if (state.selectionRect.visible) {
-        state.graph.vectors.forEach((v: UIVector) => {
+        state.graph.vectors.forEach((v: Vector) => {
             const el = document.getElementById("vector-" + v.id);
             if (!el) {
                 return;
@@ -266,7 +267,7 @@ export default function mouse(state: any, mouse: {
                 && rect.right > sel.x
                 && rect.y < sel.bottom
                 && rect.bottom > sel.y) {
-                if (state.selectedVectors.map((v) => v.id).indexOf(v.id) === -1) {
+                if (state.selectedVectors.map((v: Vector) => v.id).indexOf(v.id) === -1) {
                     state.selectedVectors.push(v);
                 }
                 state.selectedVector = v;
@@ -290,7 +291,7 @@ export default function mouse(state: any, mouse: {
     // move vectors
     if (state.movingVectors.length > 0 && !state.locked) {
         state.movingVectors.forEach((movingVector: any) => {
-            const vector = state.graphSnapshot.vectors.find((v: UIVector) => movingVector.id === v.id);
+            const vector = state.graphSnapshot.vectors.find((v: Vector) => movingVector.id === v.id);
             const transVector = state.translating.vectors.find((v: any) => movingVector.id === v.id);
             const x = transVector.properties.x + ((mouse.x - state.translating.mouse.x) / state.view.k);
             const y = transVector.properties.y + ((mouse.y - state.translating.mouse.y) / state.view.k);
@@ -304,9 +305,9 @@ export default function mouse(state: any, mouse: {
         /// map to updated graph, but filter for bound vectors
         const bound = remapVectors(state.selectedVectors);
         const minX = Math.min.apply(null, bound
-            .map((v: UIVector) => v.properties.x));
+            .map((v: Vector) => v.properties.x));
         const maxX = Math.max.apply(null, bound
-            .map((v: UIVector) => {
+            .map((v: Vector) => {
                 const el = document.getElementById("vector-" + v.id);
                 if (!el) {
                     return v.properties.x;
@@ -314,9 +315,9 @@ export default function mouse(state: any, mouse: {
                 return v.properties.x + el.offsetWidth;
             }));
         const minY = Math.min.apply(null, bound
-            .map((v: UIVector) => v.properties.y));
+            .map((v: Vector) => v.properties.y));
         const maxY = Math.max.apply(null, bound
-            .map((v: UIVector) => {
+            .map((v: Vector) => {
                 const el = document.getElementById("vector-" + v.id);
                 if (!el) {
                     return v.properties.y;

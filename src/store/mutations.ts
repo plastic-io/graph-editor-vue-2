@@ -2,16 +2,7 @@ import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
 import Vue from "vue";
-export interface UIVector {
-    id: string;
-    edges: any[],
-    properties: {
-        groups: string[];
-        x: number;
-        y: number;
-        z: number;
-    };
-}
+import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
 export interface ChangeEvent {
     id: string,
     date: number,
@@ -45,7 +36,7 @@ export function newId(): string {
 }
 function nudge(state: any, x: number, y: number) {
     state.selectedVectors.forEach((selectedVector: any) => {
-        const vector = state.graphSnapshot.vectors.find((v: UIVector) => selectedVector.id === v.id);
+        const vector = state.graphSnapshot.vectors.find((v: Vector) => selectedVector.id === v.id);
         vector.properties.x += x;
         vector.properties.y += y;
     });
@@ -89,12 +80,12 @@ export function moveHistoryPosition(state: any, move: number) {
     state.graph = state.graphSnapshot;
     state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
-export function pasteVectors(state: any, vectors: UIVector[], name: string = "Paste") {
+export function pasteVectors(state: any, vectors: Vector[], name: string = "Paste") {
     const idMap:{
         [key: string]: string;
     } = {};
     // gather IDs for vectors, groups, and connectors
-    vectors.forEach((v: UIVector) => {
+    vectors.forEach((v: Vector) => {
         // vector.ids
         idMap[v.id] = idMap[v.id] || newId();
         if (v.id === v.url) {
@@ -128,7 +119,7 @@ export function pasteVectors(state: any, vectors: UIVector[], name: string = "Pa
     applyGraphChanges(state, name);
 }
 export function selectVector(state: any, vectorId: string) {
-    state.selectedVectors = [state.graph.vectors.find(v => v.id === vectorId)];
+    state.selectedVectors = [state.graph.vectors.find((v: Vector) => v.id === vectorId)];
     state.selectedVector = state.selectedVectors[0];
 }
 export function undo(state: any) {
@@ -143,8 +134,8 @@ export function duplicateSelection(state: any) {
     }
 }
 function setSelRelPropZ(num: number, state: any, name: string) {
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             v.properties.z += num;
         }
@@ -158,9 +149,9 @@ export function sendBackward(state: any) {
     setSelRelPropZ(-1, state, "Send Backward");
 }
 export function bringToFront(state: any) {
-    const maxVectorZ = Math.max.apply(null, state.graph.vectors.map((v: UIVector) => v.properties.z));
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    const maxVectorZ = Math.max.apply(null, state.graph.vectors.map((v: Vector) => v.properties.z));
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             v.properties.z = maxVectorZ + 1;
         }
@@ -168,9 +159,9 @@ export function bringToFront(state: any) {
     applyGraphChanges(state, "Bring to Front");
 }
 export function sendToBack(state: any) {
-    const minVectorZ = Math.min.apply(null, state.graph.vectors.map((v: UIVector) => v.properties.z));
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    const minVectorZ = Math.min.apply(null, state.graph.vectors.map((v: Vector) => v.properties.z));
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             v.properties.z = minVectorZ - 1;
         }
@@ -184,24 +175,28 @@ export function addGraphItem(state: any, e: any) {
     };
     pos.x = Math.floor(pos.x / 10) * 10;
     pos.y = Math.floor(pos.y / 10) * 10;
-    const linkedGraphInputs = {};
-    const linkedGraphOutputs = {};
+    const linkedGraphInputs: {[key: string]: any} = {};
+    const linkedGraphOutputs: {[key: string]: any} = {};
     const graph = e.item;
-    graph.vectors.forEach((v) => {
-        v.properties.inputs.forEach((i) => {
+    graph.vectors.forEach((v: Vector) => {
+        v.properties.inputs.forEach((i: any) => {
             if (i.external) {
                 linkedGraphInputs[i.name] = {
                     id: v.id,
-                    field: i.name,
-                };
+                    name: i.name,
+                    type: i.type,
+                    external: false,
+                } as any;
             }
         });
-        v.properties.outputs.forEach((i) => {
+        v.properties.outputs.forEach((i: any) => {
             if (i.external) {
                 linkedGraphOutputs[i.name] = {
                     id: v.id,
-                    field: i.name,
-                };
+                    name: i.name,
+                    type: i.type,
+                    external: false,
+                } as any;
             }
         });
     });
@@ -219,6 +214,8 @@ export function addGraphItem(state: any, e: any) {
             id: e.id,
             version: e.version,
             data: {},
+            loaded: true,
+            graph: e,
             properties: {},
             fields: {
                 inputs: linkedGraphInputs,
@@ -246,27 +243,29 @@ export function addGraphItem(state: any, e: any) {
             },
         },
         template: {
-            set: null,
-            vue: null,
+            set: "",
+            vue: "",
         },
-    };
+    } as Vector;
     Object.keys(linkedGraphInputs).forEach((ioKey) => {
-        const io = linkedGraphInputs[ioKey];
+        const io: any = linkedGraphInputs[ioKey];
         vector.properties.inputs.push({
-            name: io.field,
-            external: false
+            name: io.name,
+            external: false,
+            type: io.type,
         });
     });
     Object.keys(linkedGraphOutputs).forEach((ioKey) => {
-        const io = linkedGraphOutputs[ioKey];
+        const io: any = linkedGraphOutputs[ioKey];
         vector.properties.outputs.push({
-            name: io.field,
+            name: io.name,
             external: false
         });
         vector.edges.push({
-            field: io.field,
+            field: io.name,
             connectors: [],
-        });
+            type: io.type,
+        } as Edge);
     });
     state.graphSnapshot.vectors.push(vector);
     applyGraphChanges(state, "Import New Graph");
@@ -321,8 +320,8 @@ export function addVectorItem(state: any, e: any) {
 }
 export function groupSelected(state: any) {
     const newGroupID = newId();
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             if (v.properties.groups.indexOf(newGroupID) === -1) {
                 v.properties.groups.push(newGroupID);
@@ -332,8 +331,8 @@ export function groupSelected(state: any) {
     applyGraphChanges(state, "Group");
 }
 export function ungroupSelected(state: any) {
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         if (selectedVectorIds.indexOf(v.id) !== -1) {
             v.properties.groups.splice(v.properties.groups.indexOf(state.primaryGroup), 1);
         }
@@ -341,10 +340,10 @@ export function ungroupSelected(state: any) {
     applyGraphChanges(state, "Ungroup");
 }
 export function deleteSelected(state: any) {
-    const selectedVectorIds = state.selectedVectors.map((v: UIVector) => v.id);
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
     const selectedConnectorIds = state.selectedConnectors.map((v: {id: string}) => v.id);
     function deleteVectorById(id: string): void {
-        state.graphSnapshot.vectors.forEach((v: UIVector) => {
+        state.graphSnapshot.vectors.forEach((v: Vector) => {
             // surely if you delete a vector, you must delete any connectors that are going to it as well
             v.edges.forEach((edge: {connectors: any[]}) => {
                 edge.connectors.forEach((connector: {vectorId: string}, index) => {
@@ -355,14 +354,14 @@ export function deleteSelected(state: any) {
             });
         });
         // trying to do this in the previous loop causes things to go wrong.  Getter/setters?
-        state.graphSnapshot.vectors.forEach((v: UIVector, index: number) => {
+        state.graphSnapshot.vectors.forEach((v: Vector, index: number) => {
             if (id === v.id) {
                 state.graphSnapshot.vectors.splice(index, 1);
             }
         });
     }
     function deleteConnectorById(id: string): void {
-        state.graphSnapshot.vectors.forEach((v: UIVector) => {
+        state.graphSnapshot.vectors.forEach((v: Vector) => {
             v.edges.forEach((edge: {connectors: any[]}) => {
                 edge.connectors.forEach((connector: {id: string}, index) => {
                     if (id === connector.id) {
@@ -431,7 +430,7 @@ export function raiseError(state: any, e: Error) {
     state.showError = true;
 }
 export function updateTemplate(state: any, e: {id: string, key: string, value: string}) {
-    const vector = state.graphSnapshot.vectors.find((v: UIVector) => {
+    const vector = state.graphSnapshot.vectors.find((v: Vector) => {
         return v.id === e.id;
     });
     if (!vector) {
@@ -445,7 +444,7 @@ export function changeInputOrder(state: any, e: {
     name: string,
     direction: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -460,7 +459,7 @@ export function changeOutputOrder(state: any, e: {
     name: string,
     direction: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -478,7 +477,7 @@ export function addInput(state: any, e: {
     vectorId: string,
     name: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -493,7 +492,7 @@ export function addOutput(state: any, e: {
     vectorId: string,
     name: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -512,14 +511,14 @@ export function removeInput(state: any, e: {
     vectorId: string,
     name: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     vector.properties.inputs.splice(vector.properties.inputs.indexOf(prop), 1);
     // remove any connectors that refrenced this input
-    state.graphSnapshot.vectors.forEach((v:UIVector) => {
+    state.graphSnapshot.vectors.forEach((v:Vector) => {
         v.edges.forEach((edge: {field: string, connectors: any[]}) => {
             const rmConnectors = edge.connectors.filter((connector) => {
                 return connector.vectorId === e.vectorId && connector.field === e.name;
@@ -537,7 +536,7 @@ export function removeOutput(state: any, e: {
     vectorId: string,
     name: string,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -551,7 +550,7 @@ export function updateVectorProperties(state: any, e: {
     vectorId: string,
     properties: any,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -607,9 +606,9 @@ export function createNewVector(state: any, e: any) {
     applyGraphChanges(state, "Create New Vector");
 }
 export function updateVectorFields(state: any, e: {
-    vector: UIVector,
+    vector: Vector,
 }) {
-    const vector = state.graphSnapshot.vectors.find((v:UIVector) => v.id === e.vector.id);
+    const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vector.id);
     if (!vector) {
         raiseError(state, new Error("Cannot find vector to update."));
     }
@@ -632,8 +631,8 @@ export function updateVectorFields(state: any, e: {
             applyChange(vector, e.vector, d);
             if (d.path[3] === "name") {
                 // also apply the change to the edge connectors that interact with it
-                state.graphSnapshot.vectors.forEach((v: UIVector) => {
-                    v.edges.forEach((edge) => {
+                state.graphSnapshot.vectors.forEach((v: Vector) => {
+                    v.edges.forEach((edge: Edge) => {
                         edge.connectors.forEach((con: {vectorId: string, field: string}) => {
                             if (con.field === d.lhs && con.vectorId === e.vector.id) {
                                 con.field = d.rhs;
@@ -647,7 +646,7 @@ export function updateVectorFields(state: any, e: {
     applyGraphChanges(state, "Rename IO");
 }
 function deleteConnector(state: any, e: {id: string}): void {
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         v.edges.forEach((edge: {connectors: any[]}) => {
             edge.connectors.forEach((connector: {id: string}, index) => {
                 if (e.id === connector.id) {
@@ -659,7 +658,7 @@ function deleteConnector(state: any, e: {id: string}): void {
     applyGraphChanges(state, "Delete Connector");
 }
 function changeConnectorOrder(state: any, e: {vectorId: string, connectorId: string, direction: string}) {
-    state.graphSnapshot.vectors.forEach((v: UIVector) => {
+    state.graphSnapshot.vectors.forEach((v: Vector) => {
         v.edges.forEach((edge: {connectors: any[]}) => {
             edge.connectors.forEach((connector: {id: string}, index) => {
                 if (e.connectorId === connector.id && v.id === e.vectorId) {
@@ -703,10 +702,10 @@ function setPreferences(state: any, e: any) {
 }
 function setGraphVersion(state: any, e: number) {
     state.graph.version = e;
-    state.graph.vectors.forEach((v) => {
+    state.graph.vectors.forEach((v: Vector) => {
         v.version = e;
-        v.edges.forEach((edge) => {
-            edge.connectors.forEach((connector) => {
+        v.edges.forEach((edge: Edge) => {
+            edge.connectors.forEach((connector: Connector) => {
                 if (connector.graphId === state.graph.id) {
                     connector.version = e;
                 }
@@ -726,12 +725,12 @@ function setLock(state: any, e: any) {
     state.locked = e;
 }
 function updateVectorUrl(state: any, e: {vectorId: string, url: string}) {
-    const vector = state.graphSnapshot.vectors.find((v) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v: Vector) => v.id === e.vectorId);
     vector.url = e.url;
     applyGraphChanges(state, "Change Vector URL");
 }
 function clearLog(state: any, e: any) {
-    state.log = state.log.filter((item) => {
+    state.log = state.log.filter((item: any) => {
         return item.eventName !== e;
     });
 }
@@ -739,7 +738,7 @@ function connectorActivity(state: any, e: any) {
     Vue.set(state.activityConnectors, e.key, e);
 }
 function clearSchedulerErrorItem(state: any, e: any) {
-    state.scheduler.errors[e.key] = state.scheduler.errors[e.key].filter((i) => {
+    state.scheduler.errors[e.key] = state.scheduler.errors[e.key].filter((i: any) => {
         return i !== e.item;
     });
 }
@@ -760,7 +759,7 @@ function setArtifact(state: any, e: any) {
     state.artifacts[e.key] = e.value;
 }
 function updateVectorData(state: any, e: any) {
-    const vector = state.graphSnapshot.vectors.find((v) => v.id === e.vectorId);
+    const vector = state.graphSnapshot.vectors.find((v: Vector) => v.id === e.vectorId);
     vector.data = e.data;
     applyGraphChanges(state, "Update Vector Data");
 }
