@@ -1,6 +1,5 @@
 <template>
-  <v-app>
-  </v-app>
+    <router-view class="view"></router-view>
 </template>
 
 <script lang="ts">
@@ -16,3 +15,8 @@ export default Vue.extend({
     }),
 });
 </script>
+<style>
+html, body {
+    overflow: hidden;
+}
+</style>

@@ -1,0 +1,628 @@
+{
+    "vectors": [
+        {
+            "id": "v1",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": [
+                        {
+                            "id": "v1c0",
+                            "vectorId": "v2",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        }
+                    ]
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "index",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "groups": [
+                    "g1",
+                    "g4"
+                ],
+                "x": 1000,
+                "y": 100,
+                "z": 0,
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "edges.proxy = value;",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v2",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 900,
+                "y": 400,
+                "z": 0,
+                "groups": [
+                    "g1",
+                    "g4"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v3",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": [
+                        {
+                            "id": "v3c0",
+                            "vectorId": "v2",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c1",
+                            "vectorId": "v4",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c2",
+                            "vectorId": "v1",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c3",
+                            "vectorId": "v5",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c5",
+                            "vectorId": "v6",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c6",
+                            "vectorId": "v5",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c7",
+                            "vectorId": "v7",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c8",
+                            "vectorId": "v8",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c9",
+                            "vectorId": "v9",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        },
+                        {
+                            "id": "v3c10",
+                            "vectorId": "v10",
+                            "field": "proxy",
+                            "graphId": "0",
+                            "version": 0
+                        }
+                    ]
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 100,
+                "y": 200,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g4"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "edges.proxy = value;",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v4",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 400,
+                "y": 600,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g4"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v5",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 30,
+                "y": 800,
+                "z": 0,
+                "groups": [
+                    "g2",
+                    "g1"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v6",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": -100,
+                "y": 600,
+                "z": 0,
+                "groups": [
+                    "g1"
+                ],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v7",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": -240,
+                "y": 300,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v8",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": -250,
+                "y": 100,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v9",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 10,
+                "y": -200,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        },
+        {
+            "id": "v10",
+            "edges": [
+                {
+                    "field": "proxy",
+                    "connectors": []
+                },
+                {
+                    "field": "bar",
+                    "connectors": []
+                }
+            ],
+            "version": 0,
+            "graphId": "0",
+            "url": "",
+            "data": "",
+            "properties": {
+                "appearsInPresentation": false,
+                "appearsInExportedGraph": false,
+                "x": 160,
+                "y": -150,
+                "z": 0,
+                "groups": [],
+                "presentation": {
+                    "x": 400,
+                    "y": 100,
+                    "z": 0
+                },
+                "inputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "foo",
+                        "external": false
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "proxy",
+                        "external": false
+                    },
+                    {
+                        "name": "bar",
+                        "external": false
+                    }
+                ]
+            },
+            "template": {
+                "set": "console.info(value);\n",
+                "vue": "<template>\n    <div class=\"acid\">\n        <h1>{{vector.id}}</h1>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n<style>\n.acid {\n    width: 300px;\n    background: navy;\n    height: 150px;\n    \n}\n</style>\n"
+            }
+        }
+    ],
+    "id": "0",
+    "version": 0,
+    "properties": {
+        "name": "Acid Test Graph",
+        "description": "Acid test of the graph editing IDE.",
+        "createdBy": "Tony.Germaneri@gmail.com",
+        "createdOn": 1582834575578,
+        "lastUpdate": 1582834575578,
+        "exportable": false,
+        "height": 150,
+        "width": 300
+    }
+}
