@@ -49,6 +49,8 @@ describe("GraphEditor.vue", () => {
                 view: jest.fn(),
                 mouse: jest.fn(),
                 translating: jest.fn(),
+                keyup: jest.fn(),
+                keydown: jest.fn(),
             },
             mutations: {},
             getters: {},
@@ -69,7 +71,7 @@ describe("GraphEditor.vue", () => {
         state = storeConfig.state;
         acid = JSON.parse(JSON.stringify(acidJson));
     });
-    describe("Load Graph Edtior", () => {
+    describe("Graph Edtior Methods", () => {
         it("Should attempt to open the current document and fetch the local TOC", (done) => {
             expect(actions.getToc).toHaveBeenCalled();
             expect(actions.open.mock.calls[0][1].graphId).toEqual("1234");
@@ -186,7 +188,23 @@ describe("GraphEditor.vue", () => {
         });
         it("Should return a set of copied vectors with truncated connector list ready for copy.", (done) => {
             const vectors = wrapper.vm.copyVectors(acid.vectors.filter(v => v.id === "v1"));
-            expect(vectors.eges[0].connectors.length).toEqual(0);
+            expect(vectors[0].edges[0].connectors.length).toEqual(0);
+            done();
+        });
+        it("Should dispatch a keyup message.", (done) => {
+            wrapper.vm.keyup({
+                keyCode: 34,
+                target: document.body,
+            });
+            expect(actions.keyup.mock.calls[0][1]).toEqual({keyCode: 34, target: document.body});
+            done();
+        });
+        it("Should dispatch a keydown message.", (done) => {
+            wrapper.vm.keydown({
+                keyCode: 34,
+                target: document.body,
+            });
+            expect(actions.keydown.mock.calls[0][1]).toEqual({keyCode: 34, target: document.body});
             done();
         });
     });

@@ -1,14 +1,15 @@
-import mutations from "@/store/mutations.ts";
+import mutations, {applyGraphChanges} from "@/store/mutations.ts";
 let state;
 beforeEach(() => {
     state = {
-        foo: "bar"
+        historyPosition: 0,
+        graph: {},
+        events: [],
     };
 });
 
 it("should change foo state to john", () => {
-    mutations.applyGraphChanges(state);
-    expect(state).toEqual({
-        foo: "john",
-    });
+    state.graphSnapshot = {foo: "bar"};
+    applyGraphChanges(state);
+    expect(state.graph).toEqual({foo: "bar"});
 });
