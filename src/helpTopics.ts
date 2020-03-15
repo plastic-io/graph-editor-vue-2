@@ -235,7 +235,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         title: "History",
         html: "Undo/Redo history"
     },
-    import: {
+    library: {
         title: "Library",
         html: "Browse local and public vector libraries."
     },
