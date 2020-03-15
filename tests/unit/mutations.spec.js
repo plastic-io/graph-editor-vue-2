@@ -1,4 +1,3 @@
-/* global describe it expect jest beforeEach require global setTimeout */
 import mutations from "@/store/mutations.ts";
 let state;
 beforeEach(() => {

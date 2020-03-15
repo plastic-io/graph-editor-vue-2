@@ -1,4 +1,3 @@
-/* global describe it expect jest beforeEach require global setTimeout */
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
 import GraphEditor from "../../src/components/GraphEditor.vue";

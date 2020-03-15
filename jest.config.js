@@ -1,7 +1,7 @@
 module.exports = { // eslint-disable-line
-    preset: "ts-jest",
+    preset: "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
     collectCoverage: true,
-    moduleFileExtensions: ['js', 'json', 'vue'],
+    moduleFileExtensions: ["js", "json", "vue", "ts"],
     coverageDirectory: "<rootDir>/docs/coverage",
     collectCoverageFrom: [
         "src/**/*.{js,ts}",
@@ -11,11 +11,6 @@ module.exports = { // eslint-disable-line
         "^vue$": "vue/dist/vue.common.js",
         "^@/(.*)$": "<rootDir>/src/$1"
     },
-    moduleFileExtensions: [
-        "js",
-        "ts",
-        "vue"
-    ],
     transform: {
         "^.+\\.ts$": "<rootDir>/node_modules/ts-jest",
         "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
