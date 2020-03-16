@@ -1,0 +1,17 @@
+{
+  "id": "a48bb15a-d34c-40e9-88f7-4a0471937465",
+  "properties": {
+    "createdBy": "",
+    "createdOn": 1584254129974,
+    "description": "",
+    "height": 150,
+    "icon": "mdi-graph",
+    "lastUpdate": 1584254129974,
+    "name": "Empty Graph",
+    "startInPresentationMode": false,
+    "tags": [],
+    "width": 300
+  },
+  "vectors": [],
+  "version": 0
+}

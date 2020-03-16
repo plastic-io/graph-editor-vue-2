@@ -377,8 +377,10 @@ export default {
         },
     },
     mounted() {
-        this.vectorId = this.selectedVector.id;
-        this.setLocalVector();
+        if (this.selectedVector) {
+            this.vectorId = this.selectedVector.id;
+            this.setLocalVector();
+        }
     },
     computed: {
         controlsDisabled() {

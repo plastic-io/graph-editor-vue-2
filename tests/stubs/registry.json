@@ -1,0 +1,115 @@
+{
+  "./standard/index.json": {
+    "parent": {
+      "artifact": "./standard/index.json",
+      "description": "Standard vectors for creating basic graphs.",
+      "name": "Standard",
+      "type": "toc",
+      "url": "https://unpkg.com/@plastic-io/registry@1.0.3"
+    },
+    "toc": {
+      "items": [
+        {
+          "description": "Basic controls for manipuating the graph",
+          "items": [
+            {
+              "artifact": "./Bang_101b6ec2-7177-417b-a870-cba5f4b1c0b8_493_publishedVector.json",
+              "description": "Sends the string BANG out of its output when clicked.  Runs on the client side.",
+              "icon": "mdi-play",
+              "id": "101b6ec2-7177-417b-a870-cba5f4b1c0b8",
+              "name": "Bang",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Bang_101b6ec2-7177-417b-a870-cba5f4b1c0b8_493_publishedVector.json",
+              "version": 493
+            }
+          ],
+          "name": "Basic Graph Controls"
+        },
+        {
+          "description": "Primitive types",
+          "items": [
+            {
+              "artifact": "./String_67f24682-0eef-4e78-b454-35e462226eca_486_publishedVector.json",
+              "description": "A primitive string",
+              "icon": "mdi-code-string",
+              "id": "67f24682-0eef-4e78-b454-35e462226eca",
+              "name": "String",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/String_67f24682-0eef-4e78-b454-35e462226eca_486_publishedVector.json",
+              "version": 486
+            },
+            {
+              "artifact": "./Boolean_7873a1b2-8d42-439d-ba45-57b5a514990e_488_publishedVector",
+              "description": "A primitive boolean",
+              "icon": "mdi-yin-yang",
+              "id": "7873a1b2-8d42-439d-ba45-57b5a514990e",
+              "name": "Boolean",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Boolean_7873a1b2-8d42-439d-ba45-57b5a514990e_488_publishedVector",
+              "version": 488
+            },
+            {
+              "artifact": "./Number_09835674-9558-4d3c-a18b-d5f63ee3e35e_490_publishedVector.json",
+              "description": "A primitive number",
+              "icon": "mdi-numeric-0-box",
+              "id": "09835674-9558-4d3c-a18b-d5f63ee3e35e",
+              "name": "Number",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Number_09835674-9558-4d3c-a18b-d5f63ee3e35e_490_publishedVector.json",
+              "version": 490
+            },
+            {
+              "artifact": "./Number_09835674-9558-4d3c-a18b-d5f63ee3e35e_502_publishedVector",
+              "description": "A primitive number",
+              "icon": "mdi-numeric-0-box",
+              "id": "09835674-9558-4d3c-a18b-d5f63ee3e35e",
+              "name": "Number",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Number_09835674-9558-4d3c-a18b-d5f63ee3e35e_502_publishedVector",
+              "version": 502
+            },
+            {
+              "artifact": "./Null_665d4b45-a919-4f14-aac2-b8dd970385e8_487_publishedVector.json",
+              "description": "A primitive null",
+              "icon": "mdi-null",
+              "id": "665d4b45-a919-4f14-aac2-b8dd970385e8",
+              "name": "null",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Null_665d4b45-a919-4f14-aac2-b8dd970385e8_487_publishedVector.json",
+              "version": 487
+            },
+            {
+              "artifact": "./Undefined_4debd8ef-9874-4378-99bd-273047a4714e_489_publishedVector.json",
+              "description": "A primitive number",
+              "icon": "mdi-rhombus-outline",
+              "id": "4debd8ef-9874-4378-99bd-273047a4714e",
+              "name": "undefined",
+              "type": "publishedVector",
+              "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/Undefined_4debd8ef-9874-4378-99bd-273047a4714e_489_publishedVector.json",
+              "version": 489
+            }
+          ],
+          "name": "JavaScript Primitives"
+        }
+      ],
+      "url": "https://unpkg.com/@plastic-io/registry@1.0.3/standard/index.json"
+    },
+    "url": "./standard/index.json"
+  },
+  "https://unpkg.com/@plastic-io/registry@1.0.3": {
+    "parent": "root",
+    "toc": {
+      "items": [
+        {
+          "artifact": "./standard/index.json",
+          "description": "Standard vectors for creating basic graphs.",
+          "name": "Standard",
+          "type": "toc",
+          "url": "https://unpkg.com/@plastic-io/registry@1.0.3"
+        }
+      ],
+      "url": "https://unpkg.com/@plastic-io/registry@1.0.3"
+    },
+    "url": "https://unpkg.com/@plastic-io/registry@1.0.3"
+  }
+}

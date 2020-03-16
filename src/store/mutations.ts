@@ -280,7 +280,7 @@ export function addVectorItem(state: any, e: any) {
     const id = newId();
     e.item.loaded = true;
     // ensure connectors are not imported
-    e.edges.connectors = [];
+    e.item.edges.connectors = [];
     const vector = {
         id: id,
         linkedVector: e.item,
