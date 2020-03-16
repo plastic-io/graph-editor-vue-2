@@ -1,5 +1,5 @@
 <template>
-    <v-overlay>
+    <v-overlay v-if="showHelp">
         <div
             v-for="(topic, index) in topics"
             :key="index + '_canvas'"
@@ -56,6 +56,7 @@ export default {
     computed: {
         ...mapState({
             view: state => state.view,
+            showHelp: state => state.showHelp,
             helpTopics: state => state.helpTopics,
             preferences: state => state.preferences,
         }),

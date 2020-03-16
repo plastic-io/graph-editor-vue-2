@@ -1,6 +1,6 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import TemplateEditor from "../../src/components/TemplateEditor.vue";
+import SetEditor from "../../src/components/SetEditor.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
@@ -14,7 +14,7 @@ let state;
 let acid;
 localVue.use(Vuex);
 Vue.use(Vuetify);
-describe("TemplateEditor.vue", () => {
+describe("SetEditor.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
@@ -51,7 +51,7 @@ describe("TemplateEditor.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();
-        wrapper = mount(TemplateEditor, {
+        wrapper = mount(SetEditor, {
             localVue,
             store,
             vuetify,
@@ -70,25 +70,27 @@ describe("TemplateEditor.vue", () => {
         });
         it("Should set a value if there is a selected vector.", (done) => {
             state.selectedVector = acid.vectors[0];
-            global.console.error = jest.fn();
+            global.console.warn = jest.fn();
             wrapper.vm.setValue();
-            expect(wrapper.vm.value).toEqual(acid.vectors[0].template.vue);
+            expect(wrapper.vm.value).toEqual(acid.vectors[0].template.set);
             done();
         });
         it("Should send action updateTemplate a new template object when save is clicked.", (done) => {
-            acid.vectors[0].template.vue = "foo";
-            global.console.error = jest.fn();
+            acid.vectors[0].template.set = "foo";
             state.selectedVector = acid.vectors[0];
+            global.console.error = jest.fn();
+            global.console.warn = jest.fn();
             wrapper.vm.$nextTick(() => {
                 wrapper.vm.save();
-                expect(actions.updateTemplate.mock.calls[0][1]).toEqual({id: "v1", key: "vue", value: "foo"});
+                expect(actions.updateTemplate.mock.calls[0][1]).toEqual({id: "v1", key: "set", value: "foo"});
                 done();
             });
         });
         it("Should send action updateTemplate a new template object when CTRL/CMD S is clicked, preventDefault should be called too.", (done) => {
-            acid.vectors[0].template.vue = "foo";
-            global.console.error = jest.fn();
+            acid.vectors[0].template.set = "foo";
             state.selectedVector = acid.vectors[0];
+            global.console.error = jest.fn();
+            global.console.warn = jest.fn();
             wrapper.vm.$nextTick(() => {
                 const e = {
                     keyCode: 83,
@@ -96,7 +98,7 @@ describe("TemplateEditor.vue", () => {
                     preventDefault: jest.fn(),
                 };
                 wrapper.vm.keydown(e);
-                expect(actions.updateTemplate.mock.calls[0][1]).toEqual({id: "v1", key: "vue", value: "foo"});
+                expect(actions.updateTemplate.mock.calls[0][1]).toEqual({id: "v1", key: "set", value: "foo"});
                 expect(e.preventDefault).toHaveBeenCalled();
                 done();
             });

@@ -5,7 +5,7 @@
             Settings
         </v-card-title>
         <v-card-text class="ma-0">
-            <v-expansion-panels flat>
+            <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>
                     <v-expansion-panel-header>General</v-expansion-panel-header>
                     <v-expansion-panel-content>
@@ -96,6 +96,11 @@ export default {
         ...mapActions([
             "savePreferences",
         ]),
+    },
+    data() {
+        return {
+            panel: 0,
+        };
     },
     computed: {
         ...mapState({

@@ -617,6 +617,9 @@
     "version": 0,
     "properties": {
         "name": "Acid Test Graph",
+        "tags": [],
+        "startInPresentationMode": false,
+        "icon": "mdi-network",
         "description": "Acid test of the graph editing IDE.",
         "createdBy": "Tony.Germaneri@gmail.com",
         "createdOn": 1582834575578,

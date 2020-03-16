@@ -1,5 +1,5 @@
 <template>
-    <div @keydown="keydown($event)">
+    <div @keydown="keydown($event)" v-if="selectedVector">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
             <v-toolbar-title help-topic="setTemplate">{{selectedVector.properties.name || "Vector"}} - Set Function</v-toolbar-title>

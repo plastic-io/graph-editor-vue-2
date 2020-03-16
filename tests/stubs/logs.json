@@ -1,0 +1,26 @@
+[
+  {
+    "_t": 1584339714579,
+    "event": {
+      "id": "7846359b-e0ce-4b5e-9774-ac5a324e65d7",
+      "time": 1584339714578,
+      "url": "c2ffb1a9-ab51-4bba-b0bf-e624cf84b025"
+    },
+    "eventName": "begin"
+  },
+  {
+    "_t": 1584339714582,
+    "event": "Executing vector at URL c2ffb1a9-ab51-4bba-b0bf-e624cf84b025",
+    "eventName": "info"
+  },
+  {
+    "_t": 1584339714595,
+    "event": {
+      "duration": 17,
+      "id": "92b06898-f59d-478c-bf41-2a596ad77708",
+      "time": 1584339714595,
+      "url": "c2ffb1a9-ab51-4bba-b0bf-e624cf84b025"
+    },
+    "eventName": "end"
+  }
+]

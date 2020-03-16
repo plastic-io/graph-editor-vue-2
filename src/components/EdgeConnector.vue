@@ -250,26 +250,18 @@ export default {
                 bezier(this);
             });
         },
-        getCanvasRatio() {
-            return (1 /
-                (this.ctx.webkitBackingStorePixelRatio ||
-                    this.ctx.mozBackingStorePixelRatio ||
-                    this.ctx.msBackingStorePixelRatio ||
-                    this.ctx.oBackingStorePixelRatio ||
-                    this.ctx.backingStorePixelRatio || 1));
-        },
     },
     updated() {
         this.redraw();
     },
     mounted() {
         this.localGraph = this.graph;
-        this.ctx = this.$refs.canvas.getContext("2d");
-        this.ctx.scale(this.ratio, this.ratio);
         this.connections = JSON.parse(JSON.stringify({
             input: this.input,
             output: this.output,
         }));
+        this.ctx = this.$refs.canvas.getContext("2d");
+        this.ctx.scale(this.ratio, this.ratio);
         this.redraw();
     }
 };

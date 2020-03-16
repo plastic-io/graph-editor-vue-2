@@ -69,9 +69,6 @@
 import {mapActions, mapState} from "vuex";
 export default {
     name: "import-panel-registry",
-    props: {
-        list: Array,
-    },
     data: () => {
         return {
             search: "",

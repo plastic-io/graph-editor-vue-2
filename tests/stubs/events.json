@@ -1,0 +1,135 @@
+[
+  {
+    "changes": [
+      {
+        "index": 0,
+        "item": {
+          "kind": "N",
+          "rhs": {
+            "artifact": null,
+            "data": null,
+            "edges": [],
+            "graphId": "3003c7d4-d89e-42c3-a653-ea9f5433a460",
+            "id": "c2ffb1a9-ab51-4bba-b0bf-e624cf84b025",
+            "properties": {
+              "appearsInExport": false,
+              "appearsInPresentation": false,
+              "description": "",
+              "groups": [],
+              "icon": "mdi-vector-rectangle",
+              "inputs": [],
+              "name": "",
+              "outputs": [],
+              "positionAbsolute": false,
+              "presentation": {
+                "x": 730,
+                "y": 320,
+                "z": 0
+              },
+              "tags": [],
+              "x": 920,
+              "y": 260,
+              "z": 0
+            },
+            "template": {
+              "set": "console.info(value)",
+              "vue": "<template>\n    <div>\n        <v-icon x-large>\n            {{vector.properties.icon}}\n        </v-icon>\n    </div>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    }\n}\n</script>\n<style>\n</style>\n"
+            },
+            "url": "c2ffb1a9-ab51-4bba-b0bf-e624cf84b025",
+            "version": 109
+          }
+        },
+        "kind": "A",
+        "path": [
+          "vectors"
+        ]
+      }
+    ],
+    "name": "Create New Vector",
+    "time": 1584326607480
+  },
+  {
+    "changes": [
+      {
+        "kind": "E",
+        "lhs": 730,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "x"
+        ],
+        "rhs": 810
+      },
+      {
+        "kind": "E",
+        "lhs": 320,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "y"
+        ],
+        "rhs": 390
+      }
+    ],
+    "name": "Move Vectors",
+    "time": 1584326608526
+  },
+  {
+    "changes": [
+      {
+        "kind": "E",
+        "lhs": 810,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "x"
+        ],
+        "rhs": 870
+      },
+      {
+        "kind": "E",
+        "lhs": 390,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "y"
+        ],
+        "rhs": 420
+      }
+    ],
+    "name": "Move Vectors",
+    "time": 1584326609115
+  },
+  {
+    "changes": [
+      {
+        "kind": "E",
+        "lhs": 870,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "x"
+        ],
+        "rhs": 920
+      },
+      {
+        "kind": "E",
+        "lhs": 420,
+        "path": [
+          "vectors",
+          0,
+          "properties",
+          "y"
+        ],
+        "rhs": 260
+      }
+    ],
+    "name": "Move Vectors",
+    "time": 1584326609600
+  }
+]

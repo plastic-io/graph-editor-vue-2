@@ -10,7 +10,7 @@
                     <v-list-item
                         v-for="(event, index) in localEvents"
                         :key="index"
-                        :style="historyPosition === index ? 'background: var(--v-info-base);' : ''"
+                        :style="historyColor(index)"
                         @click="moveHistoryPosition(-(historyPosition - index))">
                         <v-list-item-icon>
                             <v-icon>{{getIcon(event.name)}}</v-icon>
@@ -27,8 +27,17 @@
 <script>
 import {mapState, mapActions} from "vuex";
 export default {
-    name: "property-fields",
+    name: "history-panel",
     methods: {
+        historyColor(index) {
+            let color = "";
+            if (this.historyPosition === index) {
+                color = "background: var(--v-info-base);";
+            } else if (index > this.historyPosition) {
+                color = "opacity: 0.45;";
+            }
+            return color;
+        },
         ...mapActions([
             "moveHistoryPosition",
         ]),

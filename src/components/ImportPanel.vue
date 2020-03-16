@@ -60,27 +60,6 @@ export default {
         ...mapState({
             toc: state => state.toc,
         }),
-        artifacts() {
-            return (id) => {
-                return Object.keys(this.toc).map((id) => {
-                    return this.toc[id];
-                }).filter((item) => {
-                    return /published|newVector/.test(item.type) && item.id === id;
-                });
-            };
-        },
-        items() {
-            const items = {};
-            Object.keys(this.toc).forEach((id) => {
-                const item = this.toc[id];
-                if (/published|newVector/.test(item.type)) {
-                    if (!items[item.id] || items[item.id].version < item.version) {
-                        items[item.id] = item;
-                    }
-                }
-            });
-            return Object.keys(items).map(key => items[key]);
-        }
     },
     mounted() {
         this.updateLocalToc();
