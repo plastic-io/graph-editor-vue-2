@@ -1,68 +1,70 @@
 <template>
-    <div
-        v-if="loaded[vectorComponentName] && visible"
-        ref="vector"
-        class="vector"
-        :style="vectorStyle">
-        <template v-if="errors.length > 0">
-            <div v-for="(error, index) in errors" :key="index">
-                <v-alert type="error" class="vector-error" style="pointer-events: all; cursor: text;">
-                    <div style="text-align: right;">
-                        <i style="font-weight: bold;padding-left: 10px;" v-if="errors.length > 1">(+ {{errors.length - 1}} more errors)</i>
-                    </div>
-                    <div
-                        :style="errors.length > 1 ? 'margin-top: -24px;' : ''"
-                        @click="clearSchedulerErrorItem({key: localVector.id, item: error});">
-                        <v-btn class="ma-3">
-                            Dismiss
-                        </v-btn>
-                        <v-btn class="ma-3" @click="clearSchedulerError({key: localVector.id})">
-                            Dismiss All
-                        </v-btn>
-                    </div>
-                    <v-divider/>
-                    <pre class="no-graph-target">{{error.stack}}</pre>
-                    <v-divider/>
-                </v-alert>
-            </div>
-        </template>
-        <div class="vector-inputs">
-            <vector-field
-                v-for="field in inputs"
-                :key="'input_' + field.name"
-                :field="field"
-                :vector="localVector"
-                type="input"
-            />
-        </div>
+    <div ref="vector-root">
         <div
-            help-topic="vectorInstance"
-            :id="'vector-' + localVector.id"
-            @mouseover="hover"
-            @mouseout="unhover"
-            :class="translating && mouse.lmb ? 'no-select' : ''"
-        >
-            <component
-                v-if="loaded[vectorComponentName]"
-                :is="'vector-' + vectorComponentName"
-                :vector="localVector"
-                :scheduler="scheduler"
-            />
-            <component
-                v-for="(style, index) in styles"
-                :is="'style'"
-                v-html="style"
-                :key="index"
-            />
-        </div>
-        <div class="vector-outputs">
-            <vector-field
-                v-for="field in outputs"
-                :key="'output_' + field.name"
-                :field="field"
-                :vector="localVector"
-                type="output"
-            />
+            v-if="loaded[vectorComponentName] && visible"
+            ref="vector"
+            class="vector"
+            :style="vectorStyle">
+            <template v-if="errors.length > 0">
+                <div v-for="(error, index) in errors" :key="index">
+                    <v-alert type="error" class="vector-error" style="pointer-events: all; cursor: text;">
+                        <div style="text-align: right;">
+                            <i style="font-weight: bold;padding-left: 10px;" v-if="errors.length > 1">(+ {{errors.length - 1}} more errors)</i>
+                        </div>
+                        <div
+                            :style="errors.length > 1 ? 'margin-top: -24px;' : ''"
+                            @click="clearSchedulerErrorItem({key: localVector.id, item: error});">
+                            <v-btn class="ma-3">
+                                Dismiss
+                            </v-btn>
+                            <v-btn class="ma-3" @click="clearSchedulerError({key: localVector.id})">
+                                Dismiss All
+                            </v-btn>
+                        </div>
+                        <v-divider/>
+                        <pre class="no-graph-target">{{error.stack}}</pre>
+                        <v-divider/>
+                    </v-alert>
+                </div>
+            </template>
+            <div class="vector-inputs">
+                <vector-field
+                    v-for="field in inputs"
+                    :key="'input_' + field.name"
+                    :field="field"
+                    :vector="localVector"
+                    type="input"
+                />
+            </div>
+            <div
+                help-topic="vectorInstance"
+                :id="'vector-' + localVector.id"
+                @mouseover="hover"
+                @mouseout="unhover"
+                :class="translating && mouse.lmb ? 'no-select' : ''"
+            >
+                <component
+                    v-if="loaded[vectorComponentName]"
+                    :is="'vector-' + vectorComponentName"
+                    :vector="localVector"
+                    :scheduler="scheduler"
+                />
+                <component
+                    v-for="(style, index) in styles"
+                    :is="'style'"
+                    v-html="style"
+                    :key="index"
+                />
+            </div>
+            <div class="vector-outputs">
+                <vector-field
+                    v-for="field in outputs"
+                    :key="'output_' + field.name"
+                    :field="field"
+                    :vector="localVector"
+                    type="output"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -73,7 +75,7 @@ import {mapState, mapMutations, mapGetters} from "vuex";
 import {parseScript} from "meriyah";
 import {Parser} from "htmlparser2";
 import {DomHandler} from "domhandler";
-import domutils from "domutils";
+import {getInnerHTML} from "domutils";
 import {generate} from "escodegen";
 import VectorField from "./VectorField";
 import {diff} from "deep-diff";
@@ -238,21 +240,21 @@ export default {
                                 this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one script tag.`));
                                 return;
                             }
-                            script = domutils.getInnerHTML(el);
+                            script = getInnerHTML(el);
                         }
                         if (el.tagName === "template") {
                             if (template !== undefined) {
                                 this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one template tag.`));
                                 return;
                             }
-                            template = domutils.getInnerHTML(el);
+                            template = getInnerHTML(el);
                         }
                         if (el.tagName === "style") {
                             if (style !== undefined) {
                                 this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one style tag.`));
                                 return;
                             }
-                            style = domutils.getInnerHTML(el);
+                            style = getInnerHTML(el);
                         }
                     });
                 }
@@ -281,7 +283,7 @@ export default {
             const scr = document.createElement("script");
             window.Vue = Vue;
             scr.type = "module";
-            document.body.appendChild(scr);
+            this.$el.appendChild(scr);
             this.loaded[id] = false;
             try {
                 scr.innerHTML = astString;
@@ -292,7 +294,9 @@ export default {
                 if (Vue.options.components["vector-" + id]) {
                     this.loaded[id] = true;
                     // attempts were made to avoid memory leaks
-                    document.body.removeChild(scr);
+                    if (scr.parentNode) {
+                        scr.parentNode.removeChild(scr);
+                    }
                     let allLoaded = true;
                     Object.keys(this.loaded).forEach((key) => {
                         if (!this.loaded[key]) {
@@ -320,7 +324,6 @@ export default {
             selectedVectors: state => state.selectedVectors,
             mouse: state => state.mouse,
             translating: state => state.translating,
-            keys: state => state.keys,
             view: state => state.view,
         }),
         vectorComponentName() {
