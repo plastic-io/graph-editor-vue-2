@@ -65,6 +65,7 @@ describe("ImportPanel.vue", () => {
         let vuetify = new Vuetify();
         wrapper = mount(ImportPanel, {
             localVue,
+            sync: false,
             store,
             vuetify,
             propsData: {
@@ -80,7 +81,16 @@ describe("ImportPanel.vue", () => {
             done();
         });
         it("Should update the local toc when state toc has changed.", (done) => {
-            state.toc = {};
+            let vuetify = new Vuetify();
+            wrapper = mount(ImportPanel, {
+                sync: false,
+                localVue,
+                store,
+                vuetify,
+                propsData: {
+                    list: {},
+                },
+            });
             wrapper.vm.$nextTick(() => {
                 expect(wrapper.html()).not.toMatch("Sends the string BANG");
                 done();

@@ -89,7 +89,7 @@ describe("HelpOverlay.vue", () => {
     });
     describe("HelpOverlay Methods", () => {
         it("Should not draw the help overlay", (done) => {
-            expect(wrapper.html()).toMatch("");
+            expect(wrapper.html()).toEqual(undefined);
             done();
         });
         it("Should draw the help overlay", (done) => {

@@ -133,7 +133,7 @@ describe("EdgeConnector.vue", () => {
         it("Should increment calls when redraw is called", (done) => {
             wrapper.vm.redraw();
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.vm.calls).toEqual(1);
+                expect(wrapper.vm.calls).toEqual(2);
             });
             done();
         });
