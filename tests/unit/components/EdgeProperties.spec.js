@@ -1,11 +1,11 @@
 // import Vue from "vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import EdgeProperties from "../../src/components/EdgeProperties.vue";
+import EdgeProperties from "@/components/EdgeProperties.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import logsJson from "../stubs/logs.json";
-import acidJson from "../stubs/acid.json";
+import logsJson from "../../stubs/logs.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;

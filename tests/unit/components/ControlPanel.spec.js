@@ -1,11 +1,11 @@
 // import Vue from "vue";
-import { mount, createLocalVue } from "@vue/test-utils";
-import EdgeConnector from "../../src/components/EdgeConnector.vue";
+import { shallowMount, createLocalVue } from "@vue/test-utils";
+import ControlPanel from "@/components/ControlPanel.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import logsJson from "../stubs/logs.json";
-import acidJson from "../stubs/acid.json";
+import logsJson from "../../stubs/logs.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
@@ -17,7 +17,7 @@ let logs;
 let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
-describe("EdgeConnector.vue", () => {
+describe("ControlPanel.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
@@ -25,7 +25,7 @@ describe("EdgeConnector.vue", () => {
         storeConfig = {
             state: {
                 selectedConnectors: [],
-                hoveredConnector: null,
+                hoveredConnector: [],
                 errorConnectors: [],
                 watchConnectors: [],
                 activityConnectors: [],
@@ -38,17 +38,7 @@ describe("EdgeConnector.vue", () => {
                 addingConnector: null,
                 selectionRect: {visible: false},
                 boundingRect: {visible: false},
-                selectedVectors: [
-                    acid.vectors[0],
-                ],
-                ioTypes: [
-                    "Object",
-                    "String",
-                    "Boolean",
-                    "Number",
-                    "null",
-                    "undefined",
-                ],
+                selectedVectors: [],
                 graphSnapshot: acid,
                 log: logs,
                 domainTags: [],
@@ -81,21 +71,9 @@ describe("EdgeConnector.vue", () => {
                     y: 0,
                     k: 1,
                 },
-                selectedVector: acid.vectors[0],
+                selectedVector: null,
             },
             actions: {
-                deleteConnector: jest.fn(),
-                selectConnector: jest.fn(),
-                hoveredConnector: jest.fn(),
-                moveHistoryPosition: jest.fn(),
-                changeConnectorOrder: jest.fn(),
-                changeOutputOrder: jest.fn(),
-                changeInputOrder: jest.fn(),
-                addOutput: jest.fn(),
-                addInput: jest.fn(),
-                removeInput: jest.fn(),
-                removeOutput: jest.fn(),
-                updateVectorFields: jest.fn(),
                 createNewVector: jest.fn(),
                 addItem: jest.fn(),
                 importItem: jest.fn(),
@@ -112,30 +90,45 @@ describe("EdgeConnector.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();
-        wrapper = mount(EdgeConnector, {
+        wrapper = shallowMount(ControlPanel, {
             localVue,
             store,
             vuetify,
-            propsData: {
-                connector: acid.vectors[0].edges[0].connectors[0],
-                vector: acid.vectors[0],
-                edge: acid.vectors[0].edges[0],
-            },
+            propsData: {},
         });
         actions = storeConfig.actions;
         mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
-    describe("EdgeConnector Methods", () => {
-        it("Should edge properties", (done) => {
+    describe("ControlPanel Methods", () => {
+        it("Should render control panel", (done) => {
+            expect(wrapper.html()).toMatch("Vector Set Code");
+            expect(wrapper.html()).toMatch("Graph Logs and State");
+            expect(wrapper.html()).toMatch("help-topic=\"dragResizePanel\"");
             done();
         });
-        it("Should increment calls when redraw is called", (done) => {
-            wrapper.vm.redraw();
+        it("Should open a panel when selectPanel is called with a panel name", (done) => {
+            wrapper.vm.selectPanel("set");
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.vm.calls).toEqual(2);
+                expect(wrapper.html()).toMatch("No Vectors Selected");
+                done();
             });
-            done();
+        });
+        it("Should open a panel when selectPanel is called with a panel name", (done) => {
+            wrapper.vm.startPanelDrag();
+            wrapper.vm.$nextTick(() => {
+                expect(wrapper.vm.panelDragging).not.toEqual(undefined);
+                done();
+            });
+        });
+        it("Should move a panel when the mouse moves", (done) => {
+            wrapper.vm.startPanelDrag();
+            state.mouse.x = 100;
+            wrapper.vm.mouseTranslate();
+            wrapper.vm.$nextTick(() => {
+                expect(wrapper.vm.navWidth).toEqual(540);
+                done();
+            });
         });
     });
 });

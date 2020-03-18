@@ -1,11 +1,11 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import ImportPanelRegistry from "../../src/components/ImportPanelRegistry.vue";
+import ImportPanelRegistry from "@/src/components/ImportPanelRegistry.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
-import registryJson from "../stubs/registry.json";
+import acidJson from "../../stubs/acid.json";
+import registryJson from "../../stubs/registry.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;

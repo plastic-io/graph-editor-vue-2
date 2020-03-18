@@ -1,11 +1,11 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import HelpOverlay from "../../src/components/HelpOverlay.vue";
+import HelpOverlay from "@/components/HelpOverlay.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
-import eventsJson from "../stubs/events.json";
+import acidJson from "../../stubs/acid.json";
+import eventsJson from "../../stubs/events.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;

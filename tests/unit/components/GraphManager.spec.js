@@ -1,12 +1,12 @@
 // import Vue from "vue";
 import { shallowMount, createLocalVue } from "@vue/test-utils";
-import GraphManager from "../../src/components/GraphManager.vue";
+import GraphManager from "@/components/GraphManager.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
-import registryJson from "../stubs/registry.json";
-import localTocJson from "../stubs/localToc.json";
+import acidJson from "../../stubs/acid.json";
+import registryJson from "../../stubs/registry.json";
+import localTocJson from "../../stubs/localToc.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;

@@ -1,10 +1,10 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import VectorProperties from "../../src/components/VectorProperties.vue";
+import VectorProperties from "@/components/VectorProperties.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acid from "../stubs/acid.json";
+import acid from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
