@@ -1,6 +1,6 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import SetEditor from "@/src/components/SetEditor.vue";
+import SetEditor from "@/components/SetEditor.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";

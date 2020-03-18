@@ -1,6 +1,6 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import ImportPanelRegistry from "@/src/components/ImportPanelRegistry.vue";
+import ImportPanelRegistry from "@/components/ImportPanelRegistry.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";

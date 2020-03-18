@@ -1,6 +1,6 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import HistoryPanel from "@/src/components/HistoryPanel.vue";
+import HistoryPanel from "@/components/HistoryPanel.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
