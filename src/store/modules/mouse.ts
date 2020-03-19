@@ -330,16 +330,18 @@ export default function mouse(state: any, mouse: {
             minY,
             maxY,
         };
+        // update bounding box
+        state.boundingRect = {
+            x: state.groupBounds.minX,
+            y: state.groupBounds.minY,
+            width: state.groupBounds.maxX - state.groupBounds.minX,
+            height: state.groupBounds.maxY - state.groupBounds.minY,
+            right: state.groupBounds.minX + state.groupBounds.maxX - state.groupBounds.minX,
+            bottom: state.groupBounds.minY + state.groupBounds.maxY - state.groupBounds.minY,
+        };
+    } else {
+        state.boundingRect = {x: 0, y: 0, height: 0, width: 0, bottom: 0, right: 0, visible: false};
     }
-    // update bounding box
-    state.boundingRect = {
-        x: state.groupBounds.minX,
-        y: state.groupBounds.minY,
-        width: state.groupBounds.maxX - state.groupBounds.minX,
-        height: state.groupBounds.maxY - state.groupBounds.minY,
-        right: state.groupBounds.minX + state.groupBounds.maxX - state.groupBounds.minX,
-        bottom: state.groupBounds.minY + state.groupBounds.maxY - state.groupBounds.minY,
-    };
     // set state last so we can check state.mouse/mouse diff
     state.mouse = mouse;
 }
