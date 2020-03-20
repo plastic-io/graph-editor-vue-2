@@ -8,8 +8,6 @@ import VueRouter from "vue-router";
 import {sync} from "vuex-router-sync";
 import Vuex from "vuex";
 import "@babel/polyfill";
-import "roboto-fontface/css/roboto/roboto-fontface.css";
-import "@mdi/font/css/materialdesignicons.css";
 import localStoreDataProvider from "./store/modules/localStoreDataProvider";
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -44,7 +42,7 @@ const router = new VueRouter({
     ],
 });
 sync(store, router);
-new Vue({
+export default new Vue({
     router,
     vuetify,
     store,

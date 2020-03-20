@@ -41,7 +41,9 @@ export default {
                 missing.push(topic);
             }
         });
-        console.warn("missing topics", missing);
+        if (missing.length > 0) {
+            console.warn("missing topics", missing);
+        }
     },
     data() {
         return {

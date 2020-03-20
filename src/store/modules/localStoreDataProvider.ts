@@ -43,7 +43,7 @@ async function updateToc(key: string, value: TocItem) {
     }
     toc[key] = value;
     // write TOC
-    localStorage.setItem(tocKey, JSON.stringify(toc));
+    await localStorage.setItem(tocKey, JSON.stringify(toc));
 }
 const provider = {
     async get(url: string): Promise<object> {
@@ -87,7 +87,7 @@ const provider = {
                 });
             });
             localStorage.setItem(url, JSON.stringify(state));
-            updateToc(url, {
+            await updateToc(url, {
                 id: state.id,
                 lastUpdate: Date.now(),
                 type: "graph",
@@ -99,7 +99,7 @@ const provider = {
         } else if ("vector" in value) {
             const key = artifactsPrefix + url + "." + value.vector.version;
             localStorage.setItem(key, JSON.stringify(value.vector));
-            updateToc(key, {
+            await updateToc(key, {
                 id: value.vector.id,
                 lastUpdate: Date.now(),
                 type: "publishedVector",
@@ -111,7 +111,7 @@ const provider = {
         } else if ("graph" in value) {
             const key = artifactsPrefix + url + "." + value.graph.version;
             localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
-            updateToc(key, {
+            await updateToc(key, {
                 id: value.graph.id,
                 lastUpdate: Date.now(),
                 type: "publishedGraph",
@@ -137,7 +137,7 @@ const provider = {
             }
         }
         delete toc[url];
-        localStorage.setItem(tocKey, JSON.stringify(toc));
+        await localStorage.setItem(tocKey, JSON.stringify(toc));
         return await localStorage.removeItem(url);
     },
 };

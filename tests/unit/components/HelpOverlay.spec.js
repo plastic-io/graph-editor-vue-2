@@ -6,6 +6,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import acidJson from "../../stubs/acid.json";
 import eventsJson from "../../stubs/events.json";
+import helpTopics from "@/helpTopics";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
@@ -17,7 +18,49 @@ let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("HelpOverlay.vue", () => {
+    let ctx;
     beforeEach(() => {
+        ctx = {
+            arc: jest.fn(),
+            beginPath: jest.fn(),
+            fill: jest.fn(),
+            closePath: jest.fn(),
+            stroke: jest.fn(),
+            lineTo: jest.fn(),
+            moveTo: jest.fn(),
+            bezierCurveTo: jest.fn(),
+            clearRect: jest.fn(),
+            translate: jest.fn(),
+            scale: jest.fn(),
+            setTransform: jest.fn(),
+        };
+        global.document.querySelector = () => {
+            return global.document.getElementById();
+        };
+        global.document.querySelectorAll = () => {
+            return [
+                global.document.getElementById(),
+            ];
+        };
+        global.document.getElementById = () => {
+            return {
+                offsetHeight: 100,
+                offsetWidth: 100,
+                getAttribute() {
+                    return "foo";
+                },
+                getBoundingClientRect() {
+                    return {
+                        x: 10,
+                        y: 10,
+                        height: 100,
+                        width: 100,
+                        bottom: 110,
+                        right: 110,
+                    };
+                },
+            };
+        };
         events = JSON.parse(JSON.stringify(eventsJson));
         document.body.setAttribute("data-app", true);
         storeConfig = {
@@ -83,6 +126,16 @@ describe("HelpOverlay.vue", () => {
             vuetify,
             propsData: {},
         });
+        wrapper.vm.$refs.card = {
+            $el: global.document.getElementById(),
+        };
+        wrapper.vm.$refs.canvas = {
+            height: 500,
+            width: 500,
+            getContext() {
+                return ctx;
+            }
+        };
         actions = storeConfig.actions;
         mutations = storeConfig.mutations;
         state = storeConfig.state;
@@ -107,6 +160,9 @@ describe("HelpOverlay.vue", () => {
                 expect(wrapper.html()).toMatch("bar");
                 done();
             });
+        });
+        it("Should contain a bunch of help topics", () => {
+            expect(Object.keys(helpTopics).length > 50).toEqual(true);
         });
     });
 });
