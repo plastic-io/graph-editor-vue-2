@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1584733551143" clover="3.2.0">
-  <project timestamp="1584733551143" name="All files">
-    <metrics statements="1868" coveredstatements="1517" conditionals="888" coveredconditionals="586" methods="674" coveredmethods="531" elements="3430" coveredelements="2634" complexity="0" loc="1868" ncloc="1868" packages="5" files="29" classes="29"/>
+<coverage generated="1584738702028" clover="3.2.0">
+  <project timestamp="1584738702028" name="All files">
+    <metrics statements="1868" coveredstatements="1509" conditionals="888" coveredconditionals="581" methods="674" coveredmethods="527" elements="3430" coveredelements="2617" complexity="0" loc="1868" ncloc="1868" packages="5" files="29" classes="29"/>
     <package name="src">
-      <metrics statements="25" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="3"/>
+      <metrics statements="25" coveredstatements="22" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
       <file name="helpTopics.ts" path="/home/runner/work/graph-editor/graph-editor/src/helpTopics.ts">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
       </file>
       <file name="main.ts" path="/home/runner/work/graph-editor/graph-editor/src/main.ts">
-        <metrics statements="24" coveredstatements="22" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="3"/>
+        <metrics statements="24" coveredstatements="21" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -30,14 +30,14 @@
         <line num="23" count="0" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.components">
-      <metrics statements="932" coveredstatements="679" conditionals="410" coveredconditionals="206" methods="395" coveredmethods="278"/>
+      <metrics statements="932" coveredstatements="674" conditionals="410" coveredconditionals="203" methods="395" coveredmethods="275"/>
       <file name="ControlPanel.vue" path="/home/runner/work/graph-editor/graph-editor/src/components/ControlPanel.vue">
         <metrics statements="51" coveredstatements="31" conditionals="12" coveredconditionals="7" methods="26" coveredmethods="10"/>
         <line num="174" count="3" type="stmt"/>
@@ -321,7 +321,7 @@
         <line num="161" count="5" type="cond" truecount="1" falsecount="1"/>
       </file>
       <file name="GraphEditor.vue" path="/home/runner/work/graph-editor/graph-editor/src/components/GraphEditor.vue">
-        <metrics statements="159" coveredstatements="91" conditionals="85" coveredconditionals="32" methods="62" coveredmethods="36"/>
+        <metrics statements="159" coveredstatements="86" conditionals="85" coveredconditionals="29" methods="62" coveredmethods="33"/>
         <line num="181" count="2" type="stmt"/>
         <line num="182" count="2" type="stmt"/>
         <line num="183" count="2" type="stmt"/>
@@ -330,21 +330,21 @@
         <line num="198" count="0" type="stmt"/>
         <line num="199" count="0" type="stmt"/>
         <line num="203" count="0" type="stmt"/>
-        <line num="207" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="207" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="208" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="209" count="0" type="stmt"/>
         <line num="210" count="0" type="stmt"/>
         <line num="212" count="0" type="stmt"/>
-        <line num="218" count="1" type="stmt"/>
-        <line num="219" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="220" count="1" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="219" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="220" count="0" type="stmt"/>
         <line num="224" count="0" type="stmt"/>
-        <line num="229" count="19" type="stmt"/>
+        <line num="229" count="18" type="stmt"/>
         <line num="230" count="18" type="stmt"/>
         <line num="231" count="0" type="stmt"/>
-        <line num="232" count="20" type="stmt"/>
-        <line num="233" count="1" type="stmt"/>
-        <line num="234" count="19" type="stmt"/>
+        <line num="232" count="18" type="stmt"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="234" count="18" type="stmt"/>
         <line num="235" count="8" type="stmt"/>
         <line num="236" count="0" type="stmt"/>
         <line num="237" count="0" type="stmt"/>
@@ -358,10 +358,10 @@
         <line num="245" count="0" type="stmt"/>
         <line num="246" count="0" type="stmt"/>
         <line num="247" count="0" type="stmt"/>
-        <line num="248" count="20" type="stmt"/>
+        <line num="248" count="18" type="stmt"/>
         <line num="249" count="18" type="stmt"/>
         <line num="250" count="18" type="stmt"/>
-        <line num="251" count="19" type="stmt"/>
+        <line num="251" count="18" type="stmt"/>
         <line num="252" count="5" type="stmt"/>
         <line num="253" count="18" type="stmt"/>
         <line num="256" count="18" type="stmt"/>
@@ -465,22 +465,22 @@
         <line num="536" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="537" count="0" type="stmt"/>
         <line num="539" count="1" type="stmt"/>
-        <line num="543" count="19" type="stmt"/>
+        <line num="543" count="18" type="stmt"/>
         <line num="544" count="0" type="stmt"/>
-        <line num="546" count="19" type="stmt"/>
-        <line num="547" count="19" type="stmt"/>
-        <line num="548" count="19" type="stmt"/>
-        <line num="549" count="19" type="stmt"/>
-        <line num="550" count="19" type="stmt"/>
-        <line num="551" count="19" type="stmt"/>
-        <line num="552" count="19" type="stmt"/>
-        <line num="553" count="19" type="stmt"/>
-        <line num="554" count="19" type="stmt"/>
-        <line num="555" count="19" type="stmt"/>
-        <line num="556" count="19" type="cond" truecount="2" falsecount="0"/>
+        <line num="546" count="18" type="stmt"/>
+        <line num="547" count="18" type="stmt"/>
+        <line num="548" count="18" type="stmt"/>
+        <line num="549" count="18" type="stmt"/>
+        <line num="550" count="18" type="stmt"/>
+        <line num="551" count="18" type="stmt"/>
+        <line num="552" count="18" type="stmt"/>
+        <line num="553" count="18" type="stmt"/>
+        <line num="554" count="18" type="stmt"/>
+        <line num="555" count="18" type="stmt"/>
+        <line num="556" count="18" type="cond" truecount="1" falsecount="1"/>
         <line num="557" count="18" type="stmt"/>
-        <line num="559" count="19" type="stmt"/>
-        <line num="564" count="19" type="stmt"/>
+        <line num="559" count="18" type="stmt"/>
+        <line num="564" count="18" type="stmt"/>
       </file>
       <file name="GraphLog.vue" path="/home/runner/work/graph-editor/graph-editor/src/components/GraphLog.vue">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="7"/>
@@ -655,7 +655,7 @@
         <line num="289" count="18" type="stmt"/>
         <line num="291" count="0" type="stmt"/>
         <line num="293" count="18" type="stmt"/>
-        <line num="294" count="323" type="cond" truecount="1" falsecount="1"/>
+        <line num="294" count="310" type="cond" truecount="1" falsecount="1"/>
         <line num="295" count="0" type="stmt"/>
         <line num="297" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="298" count="0" type="stmt"/>
@@ -666,7 +666,7 @@
         <line num="306" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="307" count="0" type="stmt"/>
         <line num="309" count="0" type="stmt"/>
-        <line num="311" count="323" type="stmt"/>
+        <line num="311" count="310" type="stmt"/>
         <line num="313" count="18" type="stmt"/>
         <line num="315" count="18" type="stmt"/>
         <line num="320" count="0" type="stmt"/>
@@ -1045,9 +1045,9 @@
       </file>
     </package>
     <package name="src.store">
-      <metrics statements="595" coveredstatements="509" conditionals="203" coveredconditionals="131" methods="236" coveredmethods="212"/>
+      <metrics statements="595" coveredstatements="507" conditionals="203" coveredconditionals="129" methods="236" coveredmethods="212"/>
       <file name="actions.ts" path="/home/runner/work/graph-editor/graph-editor/src/store/actions.ts">
-        <metrics statements="239" coveredstatements="185" conditionals="70" coveredconditionals="29" methods="75" coveredmethods="61"/>
+        <metrics statements="239" coveredstatements="183" conditionals="70" coveredconditionals="27" methods="75" coveredmethods="61"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -1087,14 +1087,14 @@
         <line num="62" count="1" type="stmt"/>
         <line num="63" count="1" type="stmt"/>
         <line num="64" count="1" type="stmt"/>
-        <line num="67" count="2" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
-        <line num="75" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="75" count="10" type="cond" truecount="1" falsecount="1"/>
         <line num="76" count="10" type="stmt"/>
         <line num="80" count="0" type="stmt"/>
         <line num="83" count="0" type="stmt"/>
-        <line num="86" count="2" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
         <line num="87" count="1" type="stmt"/>
         <line num="88" count="1" type="stmt"/>
         <line num="89" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -1157,18 +1157,18 @@
         <line num="224" count="2" type="stmt"/>
         <line num="227" count="2" type="stmt"/>
         <line num="230" count="1" type="stmt"/>
-        <line num="234" count="3" type="stmt"/>
-        <line num="239" count="3" type="stmt"/>
-        <line num="240" count="3" type="stmt"/>
-        <line num="242" count="2" type="stmt"/>
-        <line num="243" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="244" count="2" type="stmt"/>
-        <line num="245" count="2" type="stmt"/>
-        <line num="246" count="2" type="stmt"/>
-        <line num="249" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="234" count="2" type="stmt"/>
+        <line num="239" count="2" type="stmt"/>
+        <line num="240" count="2" type="stmt"/>
+        <line num="242" count="1" type="stmt"/>
+        <line num="243" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="244" count="1" type="stmt"/>
+        <line num="245" count="1" type="stmt"/>
+        <line num="246" count="1" type="stmt"/>
+        <line num="249" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="250" count="0" type="stmt"/>
-        <line num="252" count="3" type="stmt"/>
-        <line num="257" count="3" type="stmt"/>
+        <line num="252" count="2" type="stmt"/>
+        <line num="257" count="2" type="stmt"/>
         <line num="260" count="1" type="stmt"/>
         <line num="277" count="1" type="stmt"/>
         <line num="280" count="1" type="stmt"/>
@@ -1195,15 +1195,15 @@
         <line num="343" count="3" type="stmt"/>
         <line num="347" count="3" type="stmt"/>
         <line num="352" count="3" type="stmt"/>
-        <line num="356" count="2" type="stmt"/>
-        <line num="361" count="2" type="stmt"/>
-        <line num="362" count="2" type="stmt"/>
-        <line num="364" count="1" type="stmt"/>
-        <line num="366" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="367" count="1" type="stmt"/>
-        <line num="369" count="2" type="stmt"/>
-        <line num="374" count="2" type="stmt"/>
-        <line num="375" count="2" type="stmt"/>
+        <line num="356" count="1" type="stmt"/>
+        <line num="361" count="1" type="stmt"/>
+        <line num="362" count="1" type="stmt"/>
+        <line num="364" count="0" type="stmt"/>
+        <line num="366" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="367" count="0" type="stmt"/>
+        <line num="369" count="1" type="stmt"/>
+        <line num="374" count="1" type="stmt"/>
+        <line num="375" count="1" type="stmt"/>
         <line num="379" count="2" type="cond" truecount="1" falsecount="1"/>
         <line num="380" count="2" type="stmt"/>
         <line num="381" count="2" type="stmt"/>
@@ -1487,9 +1487,9 @@
         <line num="420" count="1" type="stmt"/>
         <line num="423" count="1" type="stmt"/>
         <line num="424" count="1" type="stmt"/>
-        <line num="427" count="3" type="stmt"/>
-        <line num="428" count="3" type="stmt"/>
-        <line num="429" count="3" type="stmt"/>
+        <line num="427" count="2" type="stmt"/>
+        <line num="428" count="2" type="stmt"/>
+        <line num="429" count="2" type="stmt"/>
         <line num="432" count="2" type="stmt"/>
         <line num="433" count="9" type="stmt"/>
         <line num="435" count="2" type="cond" truecount="2" falsecount="0"/>
@@ -1598,14 +1598,14 @@
         <line num="670" count="3" type="stmt"/>
         <line num="671" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="676" count="2" type="stmt"/>
-        <line num="679" count="2" type="stmt"/>
-        <line num="680" count="2" type="stmt"/>
+        <line num="679" count="1" type="stmt"/>
+        <line num="680" count="1" type="stmt"/>
         <line num="681" count="1" type="stmt"/>
         <line num="686" count="2" type="stmt"/>
         <line num="687" count="4" type="stmt"/>
-        <line num="691" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="692" count="5" type="cond" truecount="2" falsecount="0"/>
-        <line num="693" count="5" type="stmt"/>
+        <line num="691" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="692" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="693" count="1" type="stmt"/>
         <line num="700" count="2" type="stmt"/>
         <line num="703" count="1" type="stmt"/>
         <line num="706" count="3" type="stmt"/>
@@ -1618,7 +1618,7 @@
         <line num="715" count="13" type="stmt"/>
         <line num="720" count="1" type="stmt"/>
         <line num="721" count="1" type="stmt"/>
-        <line num="724" count="2" type="stmt"/>
+        <line num="724" count="1" type="stmt"/>
         <line num="727" count="1" type="stmt"/>
         <line num="730" count="1" type="stmt"/>
         <line num="733" count="1" type="stmt"/>
@@ -1736,9 +1736,9 @@
         <line num="44" count="4" type="stmt"/>
         <line num="46" count="4" type="stmt"/>
         <line num="48" count="2" type="stmt"/>
-        <line num="50" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="52" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="53" count="4" type="stmt"/>
+        <line num="50" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="52" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="2" type="stmt"/>
         <line num="55" count="2" type="stmt"/>
         <line num="56" count="2" type="stmt"/>
         <line num="58" count="1" type="stmt"/>
