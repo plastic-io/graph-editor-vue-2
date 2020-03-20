@@ -66,6 +66,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
     "jest-css-modules-transform": "^4.0.0",
+    "minimist": "^1.2.5",
     "prettier": "^1.19.1",
     "ts-jest": "^25.2.1",
     "typedoc": "^0.16.11",
