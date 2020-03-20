@@ -24,7 +24,6 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
                 Visual Programming Language
             </div>
             <div style="text-align: center;">
-                Written by Tony Germaneri<br>
                 Copyright &copy; 2020, plastic-io<br>
                 All rights reserved<br>
             </div>

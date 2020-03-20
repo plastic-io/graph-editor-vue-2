@@ -250,7 +250,7 @@ export default {
         },
         openGraph(graphId) {
             window.open(
-                "/" + graphId,
+                "/graph-editor/" + graphId,
                 "_" + graphId,
             );
         },

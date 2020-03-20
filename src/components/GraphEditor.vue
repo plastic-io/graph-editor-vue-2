@@ -553,8 +553,8 @@ export default {
         window.onkeydown = this.keydown;
         this.$store.dispatch("getToc");
         let graphId = "index";
-        if (this.route.path.split("/")[1]) {
-            graphId = this.route.path.split("/")[1];
+        if (this.route.path.split("/")[2]) {
+            graphId = this.route.path.split("/")[2];
         }
         this.$store.dispatch("open", {
             graphId,
