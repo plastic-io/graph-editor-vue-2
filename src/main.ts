@@ -26,14 +26,14 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/graphs",
+            path: "/graph-editor/graphs",
             component: GraphManager,
             props: function (route) {
                 return {route};
             },
         },
         {
-            path: "/*",
+            path: "/graph-editor/*",
             component: GraphEditor,
             props: function (route) {
                 return {route};

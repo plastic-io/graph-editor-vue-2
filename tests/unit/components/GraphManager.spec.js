@@ -117,12 +117,12 @@ describe("GraphManager.vue", () => {
                 done();
             });
         });
-        it("Calling openGraph should navigate to /graph/<graphId>.", (done) => {
+        it("Calling openGraph should navigate to /graph-editor/<graphId>.", (done) => {
             state.toc = localToc;
             wrapper.vm.$nextTick(() => {
                 global.window.open = jest.fn();
                 wrapper.vm.openGraph("1234");
-                expect(global.window.open).toHaveBeenCalledWith("/1234", "_1234");
+                expect(global.window.open).toHaveBeenCalledWith("/graph-editor/1234", "_1234");
                 done();
             });
         });
