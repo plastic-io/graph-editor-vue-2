@@ -4,16 +4,13 @@ import HelpOverlay from "@/components/HelpOverlay.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../../stubs/acid.json";
 import eventsJson from "../../stubs/events.json";
 import helpTopics from "@/helpTopics";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let state;
-let mutations;
 let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
@@ -136,8 +133,6 @@ describe("HelpOverlay.vue", () => {
                 return ctx;
             }
         };
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
     describe("HelpOverlay Methods", () => {

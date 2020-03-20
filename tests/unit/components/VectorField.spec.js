@@ -11,7 +11,6 @@ let storeConfig;
 let wrapper;
 let actions;
 let acid;
-let state;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("VectorField.vue", () => {
@@ -63,7 +62,6 @@ describe("VectorField.vue", () => {
             },
         });
         actions = storeConfig.actions;
-        state = storeConfig.state;
     });
     describe("Vector Field Methods", () => {
         it("Should unhover a hovered port by calling hoveredPort with null", (done) => {

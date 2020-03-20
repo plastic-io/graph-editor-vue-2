@@ -10,11 +10,8 @@ const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
-let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("EdgeConnector.vue", () => {
@@ -122,9 +119,6 @@ describe("EdgeConnector.vue", () => {
                 edge: acid.vectors[0].edges[0],
             },
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("EdgeConnector Methods", () => {
         it("Should edge properties", (done) => {

@@ -2,11 +2,7 @@ import mouse from "@/store/modules/mouse.ts";
 import graph from "../../stubs/graph.json";
 import luts from "../../stubs/luts.json";
 const shiftKeyCode = 16;
-const metaKeyCode = 91;
-const ctrlKeyCode = 17;
-const spaceKeyCode = 32;
 describe("Mouse mutations", () => {
-    let time;
     let state;
     beforeEach(() => {
         global.document.getElementById = () => {
@@ -25,7 +21,6 @@ describe("Mouse mutations", () => {
                 },
             };
         };
-        time = 0;
         state = {
             mouse: {
                 lmb: false,

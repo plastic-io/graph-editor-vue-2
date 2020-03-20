@@ -10,11 +10,9 @@ const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("ControlPanel.vue", () => {
@@ -96,8 +94,6 @@ describe("ControlPanel.vue", () => {
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
     describe("ControlPanel Methods", () => {

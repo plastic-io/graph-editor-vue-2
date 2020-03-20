@@ -11,10 +11,8 @@ let store;
 let storeConfig;
 let wrapper;
 let actions;
-let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("EdgeProperties.vue", () => {
@@ -119,8 +117,6 @@ describe("EdgeProperties.vue", () => {
             propsData: {},
         });
         actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("EdgeProperties Methods", () => {
         it("Should edge properties", (done) => {

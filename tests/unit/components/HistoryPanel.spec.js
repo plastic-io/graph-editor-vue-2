@@ -4,15 +4,12 @@ import HistoryPanel from "@/components/HistoryPanel.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../../stubs/acid.json";
 import eventsJson from "../../stubs/events.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let state;
-let mutations;
 let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
@@ -76,8 +73,6 @@ describe("HistoryPanel.vue", () => {
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
     describe("HistoryPanel Methods", () => {

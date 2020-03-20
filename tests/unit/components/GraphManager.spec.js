@@ -5,7 +5,6 @@ import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
 import acidJson from "../../stubs/acid.json";
-import registryJson from "../../stubs/registry.json";
 import localTocJson from "../../stubs/localToc.json";
 const localVue = createLocalVue();
 let store;
@@ -13,7 +12,6 @@ let storeConfig;
 let wrapper;
 let actions;
 let acid;
-let registry;
 let state;
 let localToc;
 localVue.use(Vuex);
@@ -22,7 +20,6 @@ describe("GraphManager.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
-        registry = JSON.parse(JSON.stringify(registryJson));
         localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {

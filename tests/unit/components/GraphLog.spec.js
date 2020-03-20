@@ -10,11 +10,8 @@ const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
-let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("GraphLog.vue", () => {
@@ -76,9 +73,6 @@ describe("GraphLog.vue", () => {
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("GraphLog Methods", () => {
         it("Should render graph logs", (done) => {

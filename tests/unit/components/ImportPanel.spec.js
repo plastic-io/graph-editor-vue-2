@@ -5,16 +5,12 @@ import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
 import acidJson from "../../stubs/acid.json";
-import registryJson from "../../stubs/registry.json";
 import localTocJson from "../../stubs/localToc.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let acid;
-let registry;
-let state;
 let localToc;
 localVue.use(Vuex);
 Vue.use(Vuetify);
@@ -22,7 +18,6 @@ describe("ImportPanel.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
-        registry = JSON.parse(JSON.stringify(registryJson));
         localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {
@@ -72,8 +67,6 @@ describe("ImportPanel.vue", () => {
                 list: localToc,
             },
         });
-        actions = storeConfig.actions;
-        state = storeConfig.state;
     });
     describe("Vector Field Methods", () => {
         it("Should render the local toc.", (done) => {

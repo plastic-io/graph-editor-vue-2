@@ -14,7 +14,6 @@ let actions;
 let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("GraphCanvas.vue", () => {
@@ -97,7 +96,6 @@ describe("GraphCanvas.vue", () => {
             propsData: {},
         });
         actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
     describe("GraphCanvas Methods", () => {
