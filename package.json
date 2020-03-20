@@ -1,7 +1,16 @@
 {
-  "name": "graph-editor",
+  "name": "@plastic-io/graph-editor",
+  "license": "BSD-3-Clause",
+  "author": "TonyGermaneri@gmail.com",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "IDE for Plastic-IO JavaScript graph programming lanague.",
+  "main": "./dist/index.html",
+  "files": [
+    "dist/*",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "serve": "./node_modules/.bin/vue-cli-service serve",
     "build": "./node_modules/.bin/vue-cli-service build",
