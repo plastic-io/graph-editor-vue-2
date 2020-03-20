@@ -1,10 +1,10 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import VectorProperties from "../../src/components/VectorProperties.vue";
+import VectorProperties from "@/components/VectorProperties.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
+import acid from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
@@ -17,25 +17,12 @@ Vue.use(Vuetify);
 describe("VectorProperties.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
+        const graph = acid;
         storeConfig = {
             state: {
                 translating: {},
                 keys: {},
-                graph: {
-                    id: "321",
-                    version: 0,
-                    vectors: [{
-                        id: "123",
-                        properties: {
-                            x: 0,
-                            y: 0,
-                            presentation: {
-                                x: 0,
-                                y: 0,
-                            },
-                        },
-                    }],
-                },
+                graph: graph,
                 locked: false,
                 preferences: {
                     appearance: {
@@ -82,8 +69,8 @@ describe("VectorProperties.vue", () => {
             wrapper.vm.updateVectorUrl("foo");
             wrapper.vm.$nextTick(() => {
                 expect(mutations.updateVectorUrl.mock.calls[0][1]).toEqual({
-                    vectorId: "123",
-                    url: "foo"
+                    vectorId: "v1",
+                    url: "index"
                 });
                 done();
             });
@@ -91,7 +78,7 @@ describe("VectorProperties.vue", () => {
         it("Should set the URL of the vector", (done) => {
             state.selectedVector = JSON.parse(JSON.stringify(state.graph.vectors[0]));
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.vm.vector.id).toEqual("123");
+                expect(wrapper.vm.vector.id).toEqual("v1");
                 done();
             });
         });
@@ -99,18 +86,15 @@ describe("VectorProperties.vue", () => {
             state.selectedVector = JSON.parse(JSON.stringify(state.graph.vectors[0]));
             wrapper.vm.vector = JSON.parse(JSON.stringify(state.graph.vectors[0]));
             wrapper.vm.vector.properties = {
-                foo: "bar",
+                x: 0,
+                y: 0,
+                presentation: {
+                    x: 0,
+                    y: 0,
+                }
             };
-            wrapper.vm.$nextTick(() => {
-                expect(actions.updateVectorProperties.mock.calls[0][1]).toEqual({
-                    vectorId: "123",
-                    properties: {
-                        foo: "bar",
-                    },
-                    version: 0,
-                });
-                done();
-            });
+            expect(actions.updateVectorProperties).toHaveBeenCalled();
+            done();
         });
     });
 });

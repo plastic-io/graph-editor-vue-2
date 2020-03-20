@@ -1,0 +1,52 @@
+{
+  "artifact": null,
+  "data": "",
+  "edges": [
+    {
+      "connectors": [],
+      "field": "value"
+    }
+  ],
+  "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+  "id": "67f24682-0eef-4e78-b454-35e462226eca",
+  "properties": {
+    "appearsInExport": false,
+    "appearsInPresentation": false,
+    "description": "A primitive string.",
+    "groups": [],
+    "icon": "mdi-code-string",
+    "inputs": [
+      {
+        "external": false,
+        "name": "bang",
+        "type": "Object"
+      }
+    ],
+    "name": "String",
+    "outputs": [
+      {
+        "external": false,
+        "name": "value",
+        "type": "String"
+      }
+    ],
+    "positionAbsolute": false,
+    "presentation": {
+      "x": 680,
+      "y": 210,
+      "z": 0
+    },
+    "tags": [
+      "any"
+    ],
+    "x": -370,
+    "y": -320,
+    "z": 0
+  },
+  "template": {
+    "set": "edges.value = vector.data;",
+    "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-code-string\n            </v-icon>\n            String\n            <v-spacer/>\n            <v-switch label=\"Multiline\" v-model=\"multiline\"/>\n        </v-card-title>\n        <v-card-text>\n            <component :is=\"stringComp\" v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    },\n    data() {\n        return {\n            multiline: false,\n        };\n    },\n    computed: {\n        stringComp() {\n            return this.multiline ? \"v-textarea\" : \"v-text-field\";\n        }\n    },\n    mounted() {\n        this.multiline = this.vector.data.indexOf(\"\\n\") !== -1;\n    }\n}\n</script>\n"
+  },
+  "url": "67f24682-0eef-4e78-b454-35e462226eca",
+  "version": 486
+}

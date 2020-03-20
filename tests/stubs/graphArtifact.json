@@ -1,0 +1,679 @@
+{
+  "id": "8a70164d-8ecd-4fd6-b363-200db305e751",
+  "properties": {
+    "createdBy": "",
+    "createdOn": 1583969628022,
+    "description": "",
+    "height": 150,
+    "icon": "mdi-graph",
+    "lastUpdate": 1583969628022,
+    "name": "Lava Graph",
+    "startInPresentationMode": false,
+    "tags": [],
+    "width": 300
+  },
+  "vectors": [
+    {
+      "artifact": "artifacts/67f24682-0eef-4e78-b454-35e462226eca.486",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "value"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "6a68dbb6-f193-4343-a8fd-ec19d62177db",
+      "linkedVector": {
+        "artifact": null,
+        "data": "",
+        "edges": [
+          {
+            "connectors": [],
+            "field": "value"
+          }
+        ],
+        "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+        "id": "67f24682-0eef-4e78-b454-35e462226eca",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": false,
+          "description": "A primitive string.",
+          "groups": [],
+          "icon": "mdi-code-string",
+          "inputs": [
+            {
+              "external": false,
+              "name": "bang",
+              "type": "Object"
+            }
+          ],
+          "name": "String",
+          "outputs": [
+            {
+              "external": false,
+              "name": "value",
+              "type": "String"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 680,
+            "y": 210,
+            "z": 0
+          },
+          "tags": [
+            "any"
+          ],
+          "x": -370,
+          "y": -320,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.value = vector.data;",
+          "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-code-string\n            </v-icon>\n            String\n            <v-spacer/>\n            <v-switch label=\"Multiline\" v-model=\"multiline\"/>\n        </v-card-title>\n        <v-card-text>\n            <component :is=\"stringComp\" v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    },\n    data() {\n        return {\n            multiline: false,\n        };\n    },\n    computed: {\n        stringComp() {\n            return this.multiline ? \"v-textarea\" : \"v-text-field\";\n        }\n    },\n    mounted() {\n        this.multiline = this.vector.data.indexOf(\"\\n\") !== -1;\n    }\n}\n</script>\n"
+        },
+        "url": "67f24682-0eef-4e78-b454-35e462226eca",
+        "version": 486
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "A primitive string",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [
+          {
+            "external": false,
+            "name": "bang",
+            "type": "Object"
+          }
+        ],
+        "name": "String",
+        "outputs": [
+          {
+            "external": false,
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 860,
+          "y": 270,
+          "z": 0
+        },
+        "tags": [],
+        "x": 860,
+        "y": 270,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.value = vector.data;",
+        "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-code-string\n            </v-icon>\n            String\n            <v-spacer/>\n            <v-switch label=\"Multiline\" v-model=\"multiline\"/>\n        </v-card-title>\n        <v-card-text>\n            <component :is=\"stringComp\" v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    },\n    data() {\n        return {\n            multiline: false,\n        };\n    },\n    computed: {\n        stringComp() {\n            return this.multiline ? \"v-textarea\" : \"v-text-field\";\n        }\n    },\n    mounted() {\n        this.multiline = this.vector.data.indexOf(\"\\n\") !== -1;\n    }\n}\n</script>\n"
+      },
+      "url": "6a68dbb6-f193-4343-a8fd-ec19d62177db",
+      "version": 1
+    },
+    {
+      "artifact": "artifacts/67f24682-0eef-4e78-b454-35e462226eca.486",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "value"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "f8b36303-981b-446f-8f08-e414b128c671",
+      "linkedVector": {
+        "artifact": null,
+        "data": "",
+        "edges": [
+          {
+            "connectors": [],
+            "field": "value"
+          }
+        ],
+        "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+        "id": "67f24682-0eef-4e78-b454-35e462226eca",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": false,
+          "description": "A primitive string.",
+          "groups": [],
+          "icon": "mdi-code-string",
+          "inputs": [
+            {
+              "external": false,
+              "name": "bang",
+              "type": "Object"
+            }
+          ],
+          "name": "String",
+          "outputs": [
+            {
+              "external": false,
+              "name": "value",
+              "type": "String"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 680,
+            "y": 210,
+            "z": 0
+          },
+          "tags": [
+            "any"
+          ],
+          "x": -370,
+          "y": -320,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.value = vector.data;",
+          "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-code-string\n            </v-icon>\n            String\n            <v-spacer/>\n            <v-switch label=\"Multiline\" v-model=\"multiline\"/>\n        </v-card-title>\n        <v-card-text>\n            <component :is=\"stringComp\" v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    },\n    data() {\n        return {\n            multiline: false,\n        };\n    },\n    computed: {\n        stringComp() {\n            return this.multiline ? \"v-textarea\" : \"v-text-field\";\n        }\n    },\n    mounted() {\n        this.multiline = this.vector.data.indexOf(\"\\n\") !== -1;\n    }\n}\n</script>\n"
+        },
+        "url": "67f24682-0eef-4e78-b454-35e462226eca",
+        "version": 486
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "A primitive string",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [
+          {
+            "external": false,
+            "name": "bang",
+            "type": "Object"
+          }
+        ],
+        "name": "String",
+        "outputs": [
+          {
+            "external": false,
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 880,
+          "y": 560,
+          "z": 0
+        },
+        "tags": [],
+        "x": 1080,
+        "y": 610,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.value = vector.data;",
+        "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-code-string\n            </v-icon>\n            String\n            <v-spacer/>\n            <v-switch label=\"Multiline\" v-model=\"multiline\"/>\n        </v-card-title>\n        <v-card-text>\n            <component :is=\"stringComp\" v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n        state: Object,\n    },\n    data() {\n        return {\n            multiline: false,\n        };\n    },\n    computed: {\n        stringComp() {\n            return this.multiline ? \"v-textarea\" : \"v-text-field\";\n        }\n    },\n    mounted() {\n        this.multiline = this.vector.data.indexOf(\"\\n\") !== -1;\n    }\n}\n</script>\n"
+      },
+      "url": "f8b36303-981b-446f-8f08-e414b128c671",
+      "version": 2
+    },
+    {
+      "artifact": "artifacts/7873a1b2-8d42-439d-ba45-57b5a514990e.488",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "value"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "df43b36b-4d91-4d1a-93e8-c1d4c545ab57",
+      "linkedVector": {
+        "artifact": null,
+        "data": false,
+        "edges": [
+          {
+            "connectors": [],
+            "field": "value"
+          }
+        ],
+        "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+        "id": "7873a1b2-8d42-439d-ba45-57b5a514990e",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": false,
+          "description": "A primitive boolean.",
+          "groups": [],
+          "icon": "mdi-yin-yang",
+          "inputs": [
+            {
+              "external": false,
+              "name": "bang",
+              "type": "Object"
+            }
+          ],
+          "name": "Boolean",
+          "outputs": [
+            {
+              "external": false,
+              "name": "value",
+              "type": "Boolean"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 680,
+            "y": 210,
+            "z": 0
+          },
+          "tags": [
+            "any"
+          ],
+          "x": 70,
+          "y": -550,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.value = vector.data;",
+          "vue": "<template>\n    <v-card style=\"width: 150px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-yin-yang\n            </v-icon>\n            Boolean\n        </v-card-title>\n        <v-card-text>\n            <v-switch v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n"
+        },
+        "url": "7873a1b2-8d42-439d-ba45-57b5a514990e",
+        "version": 488
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "A primitive boolean",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [
+          {
+            "external": false,
+            "name": "bang",
+            "type": "Object"
+          }
+        ],
+        "name": "Boolean",
+        "outputs": [
+          {
+            "external": false,
+            "name": "value",
+            "type": "Boolean"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 580,
+          "y": 290,
+          "z": 0
+        },
+        "tags": [],
+        "x": 580,
+        "y": 290,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.value = vector.data;",
+        "vue": "<template>\n    <v-card style=\"width: 150px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-yin-yang\n            </v-icon>\n            Boolean\n        </v-card-title>\n        <v-card-text>\n            <v-switch v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object\n    }\n}\n</script>\n"
+      },
+      "url": "df43b36b-4d91-4d1a-93e8-c1d4c545ab57",
+      "version": 3
+    },
+    {
+      "artifact": "artifacts/09835674-9558-4d3c-a18b-d5f63ee3e35e.502",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "value"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "84da66ae-65e4-4847-9174-28f0c13f47e7",
+      "linkedVector": {
+        "artifact": null,
+        "data": "0",
+        "edges": [
+          {
+            "connectors": [],
+            "field": "value"
+          }
+        ],
+        "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+        "id": "09835674-9558-4d3c-a18b-d5f63ee3e35e",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": false,
+          "description": "A primitive number.",
+          "groups": [],
+          "icon": "mdi-numeric-0-box",
+          "inputs": [
+            {
+              "external": false,
+              "name": "bang",
+              "type": "Object"
+            }
+          ],
+          "name": "Number",
+          "outputs": [
+            {
+              "external": false,
+              "name": "value",
+              "type": "Number"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 680,
+            "y": 210,
+            "z": 0
+          },
+          "tags": [
+            "any"
+          ],
+          "x": 430,
+          "y": -420,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.value = vector.data;",
+          "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-numeric-0-box\n            </v-icon>\n            Number\n            <v-spacer/>\n        </v-card-title>\n        <v-card-text>\n            <v-text-field v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n    },\n}\n</script>\n"
+        },
+        "url": "09835674-9558-4d3c-a18b-d5f63ee3e35e",
+        "version": 502
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "A primitive number",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [
+          {
+            "external": false,
+            "name": "bang",
+            "type": "Object"
+          }
+        ],
+        "name": "Number",
+        "outputs": [
+          {
+            "external": false,
+            "name": "value",
+            "type": "Number"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 470,
+          "y": 580,
+          "z": 0
+        },
+        "tags": [],
+        "x": 470,
+        "y": 580,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.value = vector.data;",
+        "vue": "<template>\n    <v-card style=\"width: 350px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-numeric-0-box\n            </v-icon>\n            Number\n            <v-spacer/>\n        </v-card-title>\n        <v-card-text>\n            <v-text-field v-model=\"vector.data\"/>\n        </v-card-text>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        vector: Object,\n    },\n}\n</script>\n"
+      },
+      "url": "84da66ae-65e4-4847-9174-28f0c13f47e7",
+      "version": 4
+    },
+    {
+      "artifact": "artifacts/665d4b45-a919-4f14-aac2-b8dd970385e8.487",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "value"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "49a17236-1adb-4f0b-bbf4-e812d42526be",
+      "linkedVector": {
+        "artifact": null,
+        "data": "",
+        "edges": [
+          {
+            "connectors": [],
+            "field": "value"
+          }
+        ],
+        "graphId": "7ba47581-fb4e-4ee3-a200-80fcb6d83fe6",
+        "id": "665d4b45-a919-4f14-aac2-b8dd970385e8",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": false,
+          "description": "A primitive null value.",
+          "groups": [],
+          "icon": "mdi-null",
+          "inputs": [
+            {
+              "external": false,
+              "name": "bang",
+              "type": "Object"
+            }
+          ],
+          "name": "Null",
+          "outputs": [
+            {
+              "external": false,
+              "name": "value",
+              "type": "null"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 680,
+            "y": 210,
+            "z": 0
+          },
+          "tags": [
+            "any"
+          ],
+          "x": -260,
+          "y": -550,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.value = null;",
+          "vue": "<template>\n    <v-card style=\"width: 140px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-null\n            </v-icon>\n            Null\n            <v-spacer/>\n        </v-card-title>\n    </v-card>\n</template>\n"
+        },
+        "url": "665d4b45-a919-4f14-aac2-b8dd970385e8",
+        "version": 487
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "A primitive null",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [
+          {
+            "external": false,
+            "name": "bang",
+            "type": "Object"
+          }
+        ],
+        "name": "null",
+        "outputs": [
+          {
+            "external": false,
+            "name": "value",
+            "type": "null"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 710,
+          "y": 80,
+          "z": 0
+        },
+        "tags": [],
+        "x": 710,
+        "y": 80,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.value = null;",
+        "vue": "<template>\n    <v-card style=\"width: 140px;\">\n        <v-card-title>\n            <v-icon left>\n                mdi-null\n            </v-icon>\n            Null\n            <v-spacer/>\n        </v-card-title>\n    </v-card>\n</template>\n"
+      },
+      "url": "49a17236-1adb-4f0b-bbf4-e812d42526be",
+      "version": 5
+    },
+    {
+      "artifact": null,
+      "data": "",
+      "edges": [
+        {
+          "connectors": [
+            {
+              "field": "bang",
+              "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+              "id": "e5a75edb-6e8d-4e8b-bf4f-25bb974f5b0e",
+              "vectorId": "49a17236-1adb-4f0b-bbf4-e812d42526be",
+              "version": 101
+            }
+          ],
+          "field": "output"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "c187d1ed-0c85-4303-97d9-8348511c01c9",
+      "properties": {
+        "appearsInExport": false,
+        "appearsInExportedGraph": true,
+        "appearsInPresentation": true,
+        "description": "Silly lava lamp, this does nothing.",
+        "groups": [],
+        "icon": "mdi-lava-lamp",
+        "inputs": [],
+        "name": "Lava",
+        "outputs": [
+          {
+            "external": true,
+            "name": "output",
+            "type": "Object"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 150,
+          "y": -410,
+          "z": 0
+        },
+        "tags": [
+          "browser"
+        ],
+        "x": 240,
+        "y": -200,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.output = vector.data;\nstate.blah = Date.now();",
+        "vue": "<template>\n    <v-card>\n        <v-card-title>\n            <v-icon x-large>\n                 {{vector.properties.icon}}\n            </v-icon>\n        </v-card-title>\n        <v-card-text>\n            <v-text-field v-model=\"vector.data\"></v-text-field>\n        </v-card-text>\n        <v-btn @click=\"scheduler.instance.url(vector.url)\">\n            Click Me\n        </v-btn>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        scheduler: Object,\n        vector: Object,\n        state: Object,\n    }\n}\n</script>\n<style>\n</style>\n"
+      },
+      "url": "c187d1ed-0c85-4303-97d9-8348511c01c9",
+      "version": 6
+    },
+    {
+      "artifact": "artifacts/c187d1ed-0c85-4303-97d9-8348511c01c9.98",
+      "data": null,
+      "edges": [
+        {
+          "connectors": [],
+          "field": "output"
+        }
+      ],
+      "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+      "id": "20b5754f-a6f8-453f-b281-435ebda21f18",
+      "linkedVector": {
+        "artifact": null,
+        "data": "",
+        "edges": [
+          {
+            "connectors": [],
+            "field": "output"
+          }
+        ],
+        "graphId": "8a70164d-8ecd-4fd6-b363-200db305e751",
+        "id": "c187d1ed-0c85-4303-97d9-8348511c01c9",
+        "loaded": true,
+        "properties": {
+          "appearsInExport": false,
+          "appearsInPresentation": true,
+          "description": "Silly lava lamp, this does nothing.",
+          "groups": [],
+          "icon": "mdi-lava-lamp",
+          "inputs": [],
+          "name": "Lava",
+          "outputs": [
+            {
+              "external": false,
+              "name": "output",
+              "type": "Object"
+            }
+          ],
+          "positionAbsolute": false,
+          "presentation": {
+            "x": 150,
+            "y": -410,
+            "z": 0
+          },
+          "tags": [
+            "browser"
+          ],
+          "x": 240,
+          "y": -200,
+          "z": 0
+        },
+        "template": {
+          "set": "edges.output = vector.data;",
+          "vue": "<template>\n    <v-card>\n        <v-card-title>\n            <v-icon x-large>\n                 {{vector.properties.icon}}\n            </v-icon>\n        </v-card-title>\n        <v-card-text>\n            <v-text-field v-model=\"vector.data\"></v-text-field>\n        </v-card-text>\n        <v-btn @click=\"scheduler.instance.url(vector.url)\">\n            Click Me\n        </v-btn>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        scheduler: Object,\n        vector: Object,\n        state: Object,\n    }\n}\n</script>\n<style>\n</style>\n"
+        },
+        "url": "c187d1ed-0c85-4303-97d9-8348511c01c9",
+        "version": 98
+      },
+      "properties": {
+        "appearsInExport": false,
+        "appearsInPresentation": false,
+        "description": "Silly lava lamp, this does nothing.",
+        "groups": [],
+        "icon": "mdi-timeline-outline",
+        "inputs": [],
+        "name": "Lava",
+        "outputs": [
+          {
+            "external": false,
+            "name": "output",
+            "type": "Object"
+          }
+        ],
+        "positionAbsolute": false,
+        "presentation": {
+          "x": 2420,
+          "y": 1040,
+          "z": 0
+        },
+        "tags": [],
+        "x": 2420,
+        "y": 1040,
+        "z": 0
+      },
+      "template": {
+        "set": "edges.output = vector.data;",
+        "vue": "<template>\n    <v-card>\n        <v-card-title>\n            <v-icon x-large>\n                 {{vector.properties.icon}}\n            </v-icon>\n        </v-card-title>\n        <v-card-text>\n            <v-text-field v-model=\"vector.data\"></v-text-field>\n        </v-card-text>\n        <v-btn @click=\"scheduler.instance.url(vector.url)\">\n            Click Me\n        </v-btn>\n    </v-card>\n</template>\n<script>\nexport default {\n    props: {\n        scheduler: Object,\n        vector: Object,\n        state: Object,\n    }\n}\n</script>\n<style>\n</style>\n"
+      },
+      "url": "20b5754f-a6f8-453f-b281-435ebda21f18",
+      "version": 99
+    }
+  ],
+  "version": 114
+}

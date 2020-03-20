@@ -9,10 +9,11 @@ module.exports = { // eslint-disable-line
     ],
     moduleNameMapper: {
         "^vue$": "vue/dist/vue.common.js",
-        "^@/(.*)$": "<rootDir>/src/$1"
+        "^@/(.*)$": "<rootDir>/src/$1",
+        "\\.(css)$": "<rootDir>/tests/mocks/styleMock.js"
     },
     transform: {
-        "^.+\\.ts$": "<rootDir>/node_modules/ts-jest",
+        "^.+\\.(ts|js)$": "<rootDir>/node_modules/ts-jest",
         "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
         "^.+\\.vue$": "<rootDir>/node_modules/vue-jest"
     },

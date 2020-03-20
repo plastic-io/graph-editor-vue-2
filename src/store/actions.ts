@@ -1,4 +1,4 @@
-import {ChangeEvent, newId} from "./mutations"; // eslint-disable-line
+import {newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
@@ -219,9 +219,9 @@ export default {
         try {
             preferences = await context.state.dataProviders.preferences.get("preferences");
         } catch (err) {
-            if (/Resource not found/.test(err.toString())) {
+            if (/not found/.test(err.toString())) {
                 console.warn("No preferences found, writing defaults.");
-                await context.state.dataProviders.publish.set("preferences", {
+                await context.state.dataProviders.preferences.set("preferences", {
                     preferences: context.state.preferences,
                 });
                 return;
@@ -256,25 +256,6 @@ export default {
         });
         context.commit("setToc", toc);
     },
-    setLoadingStatus(context: any, e: {
-        [key: string]: boolean;
-    }) {
-        context.commit("setLoadingStatus", e);
-    },
-    setDataProviders(context: any, e: {
-        [key: string]: any;
-    }) {
-        context.commit("setDataProviders", e);
-    },
-    clearError(context: any, e: Error) {
-        context.commit("clearError", e);
-    },
-    raiseError(context: any, e: Error) {
-        context.commit("raiseError", e);
-    },
-    async remoteEvent(context: any, e: any) {
-        console.log("remoteEvent", context, e);
-    },
     create(context: any) {
         const e = {
             id: newId(),
@@ -301,7 +282,7 @@ export default {
             type: "removeItem",
             loading: true,
         });
-        await context.state.dataProviders.graph.delete(artifactPrefix + item.id + "." + item.version);
+        await context.state.dataProviders.publish.delete(artifactPrefix + item.id + "." + item.version);
         context.commit("setLoadingStatus", {
             key: item.id,
             type: "removeItem",
@@ -348,7 +329,7 @@ export default {
             type: "saveGraph",
             loading: true,
         });
-        if (!context.state.dataProviders.asyncUpdate) {
+        if (!context.state.dataProviders.graph.asyncUpdate) {
             if (context.state.graph) {
                 changes.push({
                     kind: "E",
@@ -416,6 +397,27 @@ export default {
             context.commit(e.type === "publishedVector" ? "addVectorItem" : "addGraphItem", e);
             context.dispatch("save");
         }
+    },
+    // simple actions with multiple commits or dispatches (or plans for such)
+    setLoadingStatus(context: any, e: {
+        [key: string]: boolean;
+    }) {
+        context.commit("setLoadingStatus", e);
+        // dispatch loading status remotely
+    },
+    setDataProviders(context: any, e: {
+        [key: string]: any;
+    }) {
+        context.commit("setDataProviders", e);
+        // allow global data provider hook
+    },
+    clearError(context: any, e: Error) {
+        context.commit("clearError", e);
+        // dispatch clear error status remotely
+    },
+    raiseError(context: any, e: Error) {
+        context.commit("raiseError", e);
+        // dispatch raise error remotely
     },
     changeConnectorOrder(context: any, e: {vectorId: string, connectorId: string, direction: string}) {
         context.commit("changeConnectorOrder", e);

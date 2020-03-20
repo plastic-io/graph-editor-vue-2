@@ -1,20 +1,17 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import GraphLog from "../../src/components/GraphLog.vue";
+import GraphLog from "@/components/GraphLog.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import logsJson from "../stubs/logs.json";
-import acidJson from "../stubs/acid.json";
+import logsJson from "../../stubs/logs.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
-let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("GraphLog.vue", () => {
@@ -76,9 +73,6 @@ describe("GraphLog.vue", () => {
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("GraphLog Methods", () => {
         it("Should render graph logs", (done) => {

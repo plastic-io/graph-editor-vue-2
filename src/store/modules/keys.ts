@@ -20,10 +20,6 @@ const tabKeyCode = 9;
 // const metaKeyCode = 91;
 // const spaceKeyCode = 32;
 // const ctrlKeyCode = 17;
-// const arrowUpCode = 38;
-// const arrowDownCode = 40;
-// const arrowLeftCode = 37;
-// const arrowRightCode = 39;
 interface UIEvent {
     ctrlKey: boolean;
     shiftKey: boolean;

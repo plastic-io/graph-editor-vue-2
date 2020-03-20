@@ -1,20 +1,17 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import EdgeConnector from "../../src/components/EdgeConnector.vue";
+import EdgeConnector from "@/components/EdgeConnector.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import logsJson from "../stubs/logs.json";
-import acidJson from "../stubs/acid.json";
+import logsJson from "../../stubs/logs.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
-let state;
 let acid;
 let logs;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("EdgeConnector.vue", () => {
@@ -122,9 +119,6 @@ describe("EdgeConnector.vue", () => {
                 edge: acid.vectors[0].edges[0],
             },
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("EdgeConnector Methods", () => {
         it("Should edge properties", (done) => {
@@ -133,7 +127,7 @@ describe("EdgeConnector.vue", () => {
         it("Should increment calls when redraw is called", (done) => {
             wrapper.vm.redraw();
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.vm.calls).toEqual(1);
+                expect(wrapper.vm.calls).toEqual(2);
             });
             done();
         });

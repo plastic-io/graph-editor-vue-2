@@ -1,28 +1,24 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import HelpOverlay from "../../src/components/HelpOverlay.vue";
+import HistoryPanel from "@/components/HistoryPanel.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
-import eventsJson from "../stubs/events.json";
+import eventsJson from "../../stubs/events.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let state;
-let mutations;
 let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
-describe("HelpOverlay.vue", () => {
+describe("HistoryPanel.vue", () => {
     beforeEach(() => {
         events = JSON.parse(JSON.stringify(eventsJson));
         document.body.setAttribute("data-app", true);
         storeConfig = {
             state: {
-                showHelp: false,
                 translating: {},
                 keys: {},
                 events: events,
@@ -42,12 +38,6 @@ describe("HelpOverlay.vue", () => {
                     }],
                 },
                 locked: false,
-                helpTopics: {
-                    foo: {
-                        title: "bar",
-                        html: "bar",
-                    },
-                },
                 preferences: {
                     appearance: {
                         showGrid: false,
@@ -68,7 +58,7 @@ describe("HelpOverlay.vue", () => {
                 selectedVector: null,
             },
             actions: {
-                updateHelpOverlay: jest.fn(),
+                updateHistoryPanel: jest.fn(),
             },
             mutations: {
                 updateVectorUrl: jest.fn(),
@@ -77,34 +67,23 @@ describe("HelpOverlay.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();
-        wrapper = mount(HelpOverlay, {
+        wrapper = mount(HistoryPanel, {
             localVue,
             store,
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
         state = storeConfig.state;
     });
-    describe("HelpOverlay Methods", () => {
-        it("Should not draw the help overlay", (done) => {
-            expect(wrapper.html()).toMatch("");
+    describe("HistoryPanel Methods", () => {
+        it("Should display a list of events", (done) => {
+            expect(wrapper.html()).toMatch("Move Vectors");
             done();
         });
-        it("Should draw the help overlay", (done) => {
-            state.showHelp = true;
+        it("Should not display a list of events by reacting to event change", (done) => {
+            state.events = [];
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.html()).toMatch("No help topic currently exists for this item.");
-                done();
-            });
-        });
-        it("Should draw the help overlay with the given topic", (done) => {
-            state.showHelp = true;
-            wrapper.vm.setTopic("foo");
-            wrapper.vm.drawHelp();
-            wrapper.vm.$nextTick(() => {
-                expect(wrapper.html()).toMatch("bar");
+                expect(wrapper.html()).not.toMatch("Move Vectors");
                 done();
             });
         });

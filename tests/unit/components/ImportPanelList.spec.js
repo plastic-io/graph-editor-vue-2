@@ -1,32 +1,26 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import ImportPanel from "../../src/components/ImportPanel.vue";
+import ImportPanelList from "@/components/ImportPanelList.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
-import registryJson from "../stubs/registry.json";
-import localTocJson from "../stubs/localToc.json";
+import acidJson from "../../stubs/acid.json";
+import localTocJson from "../../stubs/localToc.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let acid;
-let registry;
-let state;
 let localToc;
 localVue.use(Vuex);
 Vue.use(Vuetify);
-describe("ImportPanel.vue", () => {
+describe("ImportPanelList.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
-        registry = JSON.parse(JSON.stringify(registryJson));
         localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {
-                toc: localToc,
                 translating: {},
                 keys: {},
                 registry: {},
@@ -63,7 +57,7 @@ describe("ImportPanel.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();
-        wrapper = mount(ImportPanel, {
+        wrapper = mount(ImportPanelList, {
             localVue,
             store,
             vuetify,
@@ -71,20 +65,29 @@ describe("ImportPanel.vue", () => {
                 list: localToc,
             },
         });
-        actions = storeConfig.actions;
-        state = storeConfig.state;
     });
     describe("Vector Field Methods", () => {
-        it("Should render the local toc.", (done) => {
-            expect(wrapper.html()).toMatch("Sends the string BANG");
-            done();
-        });
-        it("Should update the local toc when state toc has changed.", (done) => {
-            state.toc = {};
+        it("Should show a transformed list of the items passed in.", (done) => {
+            wrapper.vm.selectedItem = 
             wrapper.vm.$nextTick(() => {
-                expect(wrapper.html()).not.toMatch("Sends the string BANG");
+                expect(wrapper.html()).toMatch("Sends the string BANG");
                 done();
             });
+        });
+        it("Should drag start with item data", (done) => {
+            const item = {
+                foo: "bar",
+            };
+            const e = {
+                dataTransfer: {
+                    setData: jest.fn(),
+                    dropEffect: null,
+                },
+            };
+            wrapper.vm.dragStart(e, item);
+            expect(e.dataTransfer.setData).toHaveBeenCalledWith("application/json+plastic-io", JSON.stringify(item));
+            expect(e.dataTransfer.dropEffect).toEqual("link");
+            done();
         });
     });
 });

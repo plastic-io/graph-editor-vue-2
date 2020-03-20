@@ -1,10 +1,10 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import GraphEditor from "../../src/components/GraphEditor.vue";
+import GraphEditor from "@/components/GraphEditor.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;

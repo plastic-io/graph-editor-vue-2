@@ -27,9 +27,8 @@ export function applyGraphChanges(state: any, name: string) {
     }
 }
 /** Creates a new v4 UUID */
-export function newId(): string {
+export function newId() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-        // tslint:disable-next-line
         var r = Math.random() * 16 | 0, v = c == "x" ? r : (r & 0x3 | 0x8); // eslint-disable-line 
         return v.toString(16);
     });
@@ -434,7 +433,7 @@ export function updateTemplate(state: any, e: {id: string, key: string, value: s
         return v.id === e.id;
     });
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to write to."));
+        return raiseError(state, new Error("Cannot find vector to write to."));
     }
     vector.template[e.key] = e.value;
     applyGraphChanges(state, "Update Template");
@@ -446,9 +445,12 @@ export function changeInputOrder(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
+    if (!prop) {
+        return raiseError(state, new Error("Cannot find a property to update."));
+    }
     const propIndex = vector.properties.inputs.indexOf(prop);
     vector.properties.inputs.splice(propIndex, 1);
     vector.properties.inputs.splice(propIndex + (e.direction === "down" ? 1 : -1), 0, prop);
@@ -461,9 +463,12 @@ export function changeOutputOrder(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
+    if (!prop) {
+        return raiseError(state, new Error("Cannot find a property to update."));
+    }
     const propIndex = vector.properties.outputs.indexOf(prop);
     const edge = vector.edges.find((o: {field: string}) => o.field === e.name);
     const edgeIndex = vector.edges.indexOf(edge);
@@ -479,7 +484,7 @@ export function addInput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties.inputs.push({
         name: e.name,
@@ -494,7 +499,7 @@ export function addOutput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties.outputs.push({
         name: e.name,
@@ -513,7 +518,7 @@ export function removeInput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.inputs.find((o: {name: string}) => o.name === e.name);
     vector.properties.inputs.splice(vector.properties.inputs.indexOf(prop), 1);
@@ -538,7 +543,7 @@ export function removeOutput(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     const prop = vector.properties.outputs.find((o: {name: string}) => o.name === e.name);
     const edge = vector.edges.find((o: {field: string}) => o.field === e.name);
@@ -552,7 +557,7 @@ export function updateVectorProperties(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     vector.properties = e.properties;
     applyGraphChanges(state, "Update Vector Properties");
@@ -610,7 +615,7 @@ export function updateVectorFields(state: any, e: {
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vector.id);
     if (!vector) {
-        raiseError(state, new Error("Cannot find vector to update."));
+        return raiseError(state, new Error("Cannot find vector to update."));
     }
     observableDiff(vector, e.vector, (d: any) => {
         // output changes

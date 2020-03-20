@@ -1,18 +1,15 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import EditorSettings from "../../src/components/EditorSettings.vue";
+import EditorSettings from "../../../src/components/EditorSettings.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
+import acidJson from "../../stubs/acid.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
-let state;
 let acid;
-let mutations;
 localVue.use(Vuex);
 Vue.use(Vuetify);
 describe("EditorSettings.vue", () => {
@@ -67,9 +64,6 @@ describe("EditorSettings.vue", () => {
             vuetify,
             propsData: {},
         });
-        actions = storeConfig.actions;
-        mutations = storeConfig.mutations;
-        state = storeConfig.state;
     });
     describe("EditorSettings Methods", () => {
         it("Should render a properties form bound using vuex-map-fields.mapFields/getField", (done) => {

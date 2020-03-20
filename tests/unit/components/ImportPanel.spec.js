@@ -1,27 +1,35 @@
 // import Vue from "vue";
 import { mount, createLocalVue } from "@vue/test-utils";
-import VectorField from "../../src/components/VectorField.vue";
+import ImportPanel from "@/components/ImportPanel.vue";
 import Vuetify from "vuetify";
 import Vue from "vue";
 import Vuex from "vuex";
-import acidJson from "../stubs/acid.json";
+import acidJson from "../../stubs/acid.json";
+import localTocJson from "../../stubs/localToc.json";
 const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let actions;
 let acid;
-let state;
+let localToc;
 localVue.use(Vuex);
 Vue.use(Vuetify);
-describe("VectorField.vue", () => {
+describe("ImportPanel.vue", () => {
     beforeEach(() => {
         document.body.setAttribute("data-app", true);
         acid = JSON.parse(JSON.stringify(acidJson));
+        localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {
+                toc: localToc,
                 translating: {},
                 keys: {},
+                registry: {},
+                publicGraphRegistries: [
+                    "https://unpkg.com/@plastic-io/registry@1.0.1",
+                    "https://unpkg.com/@plastic-io/registry@1.0.2",
+                    "https://unpkg.com/@plastic-io/registry@1.0.3",
+                ],
                 graph: acid,
                 locked: false,
                 preferences: {
@@ -43,43 +51,43 @@ describe("VectorField.vue", () => {
                 },
             },
             actions: {
-                hoveredPort: jest.fn(),
+                getPublicRegistry: jest.fn(),
             },
             mutations: {},
             getters: {},
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();
-        wrapper = mount(VectorField, {
+        wrapper = mount(ImportPanel, {
             localVue,
+            sync: false,
             store,
             vuetify,
             propsData: {
-                field: {
-                    name: "proxy",
-                },
-                vector: acid.vectors[0],
-                type: "output",
+                list: localToc,
             },
         });
-        actions = storeConfig.actions;
-        state = storeConfig.state;
     });
     describe("Vector Field Methods", () => {
-        it("Should unhover a hovered port by calling hoveredPort with null", (done) => {
-            wrapper.vm.unhoverPort();
-            expect(actions.hoveredPort.mock.calls[0][1]).toEqual(null);
+        it("Should render the local toc.", (done) => {
+            expect(wrapper.html()).toMatch("Sends the string BANG");
             done();
         });
-        it("Should hover a hovered port by calling hoveredPort with null", (done) => {
-            wrapper.vm.hoverPort();
-            expect(actions.hoveredPort.mock.calls[0][1].type).toEqual("output");
-            expect(actions.hoveredPort.mock.calls[0][1].vector).toEqual(acid.vectors[0]);
-            expect(actions.hoveredPort.mock.calls[0][1].edge).toEqual(acid.vectors[0].edges[0]);
-            expect(actions.hoveredPort.mock.calls[0][1].field).toEqual({
-                name: "proxy",
+        it("Should update the local toc when state toc has changed.", (done) => {
+            let vuetify = new Vuetify();
+            wrapper = mount(ImportPanel, {
+                sync: false,
+                localVue,
+                store,
+                vuetify,
+                propsData: {
+                    list: {},
+                },
             });
-            done();
+            wrapper.vm.$nextTick(() => {
+                expect(wrapper.html()).not.toMatch("Sends the string BANG");
+                done();
+            });
         });
     });
 });
