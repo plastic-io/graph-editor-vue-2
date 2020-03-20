@@ -31,6 +31,7 @@ jobs:
           mkdir ./site
           cp -r ./docs ./site/docs
           cp -r ./dist/* ./site
+          cp ./site/index.html ./site/404.html
       - name: Publish Documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
