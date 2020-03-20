@@ -63,7 +63,7 @@ describe("GraphEditor.vue", () => {
             vuetify,
             propsData: {
                 route: {
-                    path: "/1234"
+                    path: "/graph-editor/1234"
                 },
             },
         });
