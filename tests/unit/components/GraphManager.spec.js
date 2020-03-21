@@ -23,6 +23,7 @@ describe("GraphManager.vue", () => {
         localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {
+                pathPrefix: "/graph-editor/",
                 showError: null,
                 translating: {},
                 keys: {},

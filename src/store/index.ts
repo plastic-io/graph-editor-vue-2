@@ -6,9 +6,7 @@ import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
-        <v-icon x-large>
-            {{vector.properties.icon}}
-        </v-icon>
+        New Vector
     </div>
 </template>
 <script>
@@ -28,6 +26,7 @@ export default function () {
         state: {
             helpTopics,
             log: [],
+            pathPrefix: "/graph-editor/",
             ioTypes: [
                 "Object",
                 "String",
