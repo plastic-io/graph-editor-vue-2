@@ -160,11 +160,21 @@ export default {
             if (!key) {
                 return;
             }
-            return key.replace(/\/|\./g, "_");
+            return key.replace(/\/|\./g, "_").replace(/@/g, "_at_").replace(/:/g, "_col_");
         },
         async importRoot(vect) {
             if (vect.artifact) {
-                const v = await this.dataProviders.publish.get(vect.artifact);
+                let v;
+                if (/^https?:\/\//.test(vect.artifact)) {
+                    try {
+                        const seralizedV = await fetch(vect.artifact);
+                        v = await seralizedV.json();
+                    } catch (err) {
+                        this.$store.dispatch("raiseError", new Error(`Cannot load remote resource. ${err}.`));
+                    }
+                } else {
+                    v = await this.dataProviders.publish.get(vect.artifact);
+                }
                 const l = {
                     key: vect.artifact,
                     value: v,

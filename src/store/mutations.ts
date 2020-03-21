@@ -206,7 +206,7 @@ export function addGraphItem(state: any, e: any) {
         edges: [],
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        artifact: "artifacts/" + e.id + "." + e.version,
+        artifact: e.url || ("artifacts/" + e.id + "." + e.version),
         url: id,
         data: null,
         linkedGraph: {
@@ -286,7 +286,7 @@ export function addVectorItem(state: any, e: any) {
         edges: e.item.edges,
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
-        artifact: "artifacts/" + e.id + "." + e.version,
+        artifact: e.url || ("artifacts/" + e.id + "." + e.version),
         url: id,
         data: e.item.data,
         properties: {
