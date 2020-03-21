@@ -250,7 +250,7 @@ export default {
         },
         openGraph(graphId) {
             window.open(
-                "/graph-editor/" + graphId,
+                this.pathPrefix + graphId,
                 "_" + graphId,
             );
         },
@@ -306,6 +306,7 @@ export default {
     },
     computed: {
         ...mapState({
+            pathPrefix: state => state.pathPrefix,
             toc: state => state.toc,
             preferences: state => state.preferences,
             showError: state => state.showError,

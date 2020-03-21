@@ -226,6 +226,7 @@ export default {
     },
     computed: {
         ...mapState({
+            pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
             panelVisibility: state => state.panelVisibility,
             vectorMimeType: state => state.vectorMimeType,
@@ -293,7 +294,7 @@ export default {
         ]),
         openGraph() {
             window.open(
-                "/graphs",
+                this.pathPrefix + "graphs",
                 "_graphs",
             );
         },

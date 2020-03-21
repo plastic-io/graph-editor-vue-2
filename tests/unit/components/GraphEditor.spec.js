@@ -18,6 +18,7 @@ describe("GraphEditor.vue", () => {
     beforeEach(() => {
         storeConfig = {
             state: {
+                pathPrefix: "/graph-editor/",
                 translating: {},
                 keys: {},
                 graph: {
@@ -80,7 +81,7 @@ describe("GraphEditor.vue", () => {
         it("Calling openGraph should invoke window.open /graphs target _graphs", (done) => {
             window.open = jest.fn();
             wrapper.vm.openGraph();
-            expect(window.open).toHaveBeenCalledWith("/graphs", "_graphs");
+            expect(window.open).toHaveBeenCalledWith("/graph-editor/graphs", "_graphs");
             done();
         });
         it("Calling toggleGrid should invert the showGrid boolean on the state as an argument to prefrences action", (done) => {
