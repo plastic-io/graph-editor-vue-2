@@ -20,6 +20,38 @@ export default {
 <style>
 </style>
 `;
+const preferences = {
+    newVectorHelp: true,
+    showLabels: true,
+    debug: false,
+    newVectorOffset: {
+        x: 100,
+        y: 100,
+        z: 0,
+    },
+    defaultNewSetTemplate,
+    defaultNewVueTemplate,
+    snapToGrid: true,
+    gridSize: 10, // cannot be changed for now
+    appearance: {
+        theme: "dark",
+        helpColor: "blue",
+        showGrid: true,
+        selectionRectColor: "lightBlue",
+        boundingRectColor: "shades",
+        connectors: {
+            dragDeadZone: 10,
+            controlFillStyle: "blue",
+            strokeStyle: "pink",
+            selectedStrokeStyle: "amber",
+            hoverStrokeStyle: "deepPurple",
+            watchStrokeStyle: "orange",
+            activityStrokeStyle: "indigo",
+            errorStrokeStyle: "red",
+            lineWidth: 1,
+        }
+    }
+};
 export default function () {
     return {
         strict: false,
@@ -126,37 +158,8 @@ export default function () {
             },
             toc: null,
             events: [],
-            preferences: {
-                showLabels: false,
-                debug: false,
-                newVectorOffset: {
-                    x: 100,
-                    y: 100,
-                    z: 0,
-                },
-                defaultNewSetTemplate,
-                defaultNewVueTemplate,
-                snapToGrid: true,
-                gridSize: 10, // cannot be changed for now
-                appearance: {
-                    theme: "dark",
-                    helpColor: "blue",
-                    showGrid: true,
-                    selectionRectColor: "lightBlue",
-                    boundingRectColor: "shades",
-                    connectors: {
-                        dragDeadZone: 10,
-                        controlFillStyle: "blue",
-                        strokeStyle: "pink",
-                        selectedStrokeStyle: "amber",
-                        hoverStrokeStyle: "deepPurple",
-                        watchStrokeStyle: "orange",
-                        activityStrokeStyle: "indigo",
-                        errorStrokeStyle: "red",
-                        lineWidth: 1,
-                    }
-                }
-            }
+            preferences,
+            originalPreferences: JSON.parse(JSON.stringify(preferences)),
         },
         actions,
         mutations: {

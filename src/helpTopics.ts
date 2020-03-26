@@ -1,4 +1,8 @@
 export default {
+    settingsNewVectorHelp: {
+        title: "New Vector Help",
+        html: "When this is switched on, creating a new vector will use the help template which contains helpful information about vectors for new users.  When off, new vectors are bare bones."
+    },
     openGraph: {
         title: "Graph Manager",
         html: `Opens the Graph Manager in another window.

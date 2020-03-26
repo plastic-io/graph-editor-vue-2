@@ -1,5 +1,15 @@
 <template>
     <div ref="vector-root">
+        <div v-if="broken">
+            <v-icon>
+                mdi-image-broken-variant
+            </v-icon>
+        </div>
+        <div v-if="longLoading">
+            <v-icon>
+                mdi-image-broken-variant
+            </v-icon>
+        </div>
         <div
             v-if="loaded[vectorComponentName] && visible"
             ref="vector"
@@ -44,10 +54,12 @@
                 :class="translating && mouse.lmb ? 'no-select' : ''"
             >
                 <component
-                    v-if="loaded[vectorComponentName]"
                     :is="'vector-' + vectorComponentName"
                     :vector="localVector"
                     :scheduler="scheduler"
+                    :state="state"
+                    @dataChange="dataChange"
+                    @set="set"
                 />
                 <component
                     v-for="(style, index) in styles"
@@ -125,6 +137,9 @@ export default {
     },
     data() {
         return {
+            broken: false,
+            longLoadingTimer: null,
+            longLoading: false,
             loaded: {},
             localHoveredVector: null,
             localSelectedVectors: [],
@@ -133,6 +148,7 @@ export default {
             localVectorSnapshot: null,
             localVectorDataSnapshot: null,
             template: null,
+            stateVersion: 0,
             compileCount: 0,
             artifactVectors: {},
             styles: [],
@@ -143,6 +159,9 @@ export default {
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
         this.localSelectedVectors = this.selectedVectors;
+        this.longLoadingTimer = setTimeout(() => {
+            this.longLoading = true;
+        }, 500);
         await this.importRoot(this.localVector);
     },
     methods: {
@@ -156,6 +175,15 @@ export default {
             "updateVectorData",
             "clearArtifact",
         ]),
+        dataChange(e) {
+            this.updateVectorData({
+                vectorId: this.vector.id,
+                data: e,
+            });
+        },
+        set(e) {
+            this.scheduler.instance.url(this.vector.url, e);
+        },
         artifactKey(key) {
             if (!key) {
                 return;
@@ -204,7 +232,7 @@ export default {
             g.vectors.forEach((v) => {
                 if (v.properties.appearsInExportedGraph) {
                     const vectorKey = (this.artifactKey(v.artifact) || v.id);
-                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/>");
+                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/ :state=\"state\">");
                 }
             });
             temp.push("</div></template>");
@@ -247,21 +275,24 @@ export default {
                     dom.forEach((el) => {
                         if (el.tagName === "script") {
                             if (script !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one script tag.`));
+                                this.$store.dispatch("error",
+                                    new Error(`Vector ${id} contains a Vue template with more than one script tag.`));
                                 return;
                             }
                             script = getInnerHTML(el);
                         }
                         if (el.tagName === "template") {
                             if (template !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one template tag.`));
+                                this.$store.dispatch("error",
+                                    new Error(`Vector ${id} contains a Vue template with more than one template tag.`));
                                 return;
                             }
                             template = getInnerHTML(el);
                         }
                         if (el.tagName === "style") {
                             if (style !== undefined) {
-                                this.$store.dispatch("error", new Error(`Vector ${id} contains a Vue template with more than one style tag.`));
+                                this.$store.dispatch("error",
+                                    new Error(`Vector ${id} contains a Vue template with more than one style tag.`));
                                 return;
                             }
                             style = getInnerHTML(el);
@@ -314,6 +345,7 @@ export default {
                         }
                     });
                     if (allLoaded) {
+                        clearTimeout(this.longLoadingTimer);
                         this.$forceUpdate();
                     }
                     return;
@@ -329,6 +361,7 @@ export default {
         ...mapState({
             presentation: state => state.presentation,
             dataProviders: state => state.dataProviders,
+            state: state => state.scheduler.state,
             scheduler: state => state.scheduler,
             hoveredVector: state => state.hoveredVector,
             selectedVectors: state => state.selectedVectors,

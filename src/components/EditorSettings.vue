@@ -27,6 +27,7 @@
                                 <v-switch help-topic="settingsShowGrid" label="Show Grid" v-model="showGrid"></v-switch>
                                 <v-switch help-topic="settingsShowLabels" label="Input/Output Labels" v-model="showLabels"/>
                                 <v-switch help-topic="settingsDebug" persistent-hint hint="Captures debug logs and show edge values.  Performance penalty." label="Debug" v-model="debug"/>
+                                <v-switch help-topic="settingsNewVectorHelp" label="Use tutorial vector" persistent-hint hint="When on, new vectors contain a help message." v-model="newVectorHelp"></v-switch>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -71,6 +72,18 @@
                         </v-card>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Danger Zone</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-btn @click="clearEditorSettings">
+                                    Clear editor settings
+                                </v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
             </v-expansion-panels>
         </v-card-text>
     </v-card>
@@ -93,7 +106,12 @@ export default {
         },
     },
     methods: {
+        clearEditorSettings() {
+            localStorage.removeItem("preferences");
+            this.getPreferences();
+        },
         ...mapActions([
+            "getPreferences",
             "savePreferences",
         ]),
     },
@@ -116,6 +134,7 @@ export default {
             "preferences.snapToGrid",
             "preferences.appearance.showGrid",
             "preferences.gridSize",
+            "preferences.newVectorHelp",
             "preferences.appearance.connectors.dragDeadZone",
             "preferences.appearance.connectors.controlFillStyle",
             "preferences.appearance.connectors.strokeStyle",

@@ -360,6 +360,15 @@ export default {
                 y: mouse.y,
             });
         },
+        dblclick(e) {
+            if (!/graph-canvas-container/.test(e.target.className)) {
+                return;
+            }
+            this.createNewVector({
+                x: e.clientX,
+                y: e.clientY,
+            });
+        },
         mousedown(e) {
             if (!this.graph || this.showHelp) {
                 return;
@@ -548,6 +557,7 @@ export default {
         document.onpaste = this.evPaste;
         document.oncopy = this.evCopy;
         document.onmousedown = this.mousedown;
+        document.ondblclick = this.dblclick;
         document.onmouseup = this.mouseup;
         document.onmousemove = this.mousemove;
         window.onkeyup = this.keyup;
