@@ -172,7 +172,7 @@ describe("Bummer in the summer", () => {
             throw new Error("Resource not found");
         };
         await actions.getPreferences(context);
-        expect(context.state.dataProviders.preferences.set).toHaveBeenCalledWith("preferences", {"preferences": {"debug": true}});
+        expect(context.state.dataProviders.preferences.set).toHaveBeenCalledWith("preferences", {"preferences": undefined});
     });
     it("Should fetch toc from the data provider.", async () => {
         context.dataProvidersResponse.graph.get = "foo";

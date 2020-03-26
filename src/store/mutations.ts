@@ -1,6 +1,7 @@
 import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
+import helpTemplate from "./newVectorHelpTemplate";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
 export interface ChangeEvent {
@@ -603,8 +604,8 @@ export function createNewVector(state: any, e: any) {
             },
         },
         template: {
-            set: state.preferences.defaultNewSetTemplate,
-            vue: state.preferences.defaultNewVueTemplate,
+            set: state.preferences.newVectorHelp ? helpTemplate.set : state.preferences.defaultNewSetTemplate,
+            vue: state.preferences.newVectorHelp ? helpTemplate.template : state.preferences.defaultNewVueTemplate,
         },
     };
     state.graphSnapshot.vectors.push(vector);

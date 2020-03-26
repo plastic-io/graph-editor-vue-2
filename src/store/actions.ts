@@ -222,8 +222,9 @@ export default {
             if (/not found/.test(err.toString())) {
                 console.warn("No preferences found, writing defaults.");
                 await context.state.dataProviders.preferences.set("preferences", {
-                    preferences: context.state.preferences,
+                    preferences: context.state.originalPreferences,
                 });
+                context.commit("setPreferences", context.state.originalPreferences);
                 return;
             }
         }
