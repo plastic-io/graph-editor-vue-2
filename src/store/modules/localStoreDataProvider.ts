@@ -1,4 +1,4 @@
-import {applyChange, diff} from "deep-diff";
+import {applyChange} from "deep-diff";
 import Hashes from "jshashes";
 const preferencesKey = "preferences";
 const tocKey = "toc.json";
@@ -19,6 +19,7 @@ interface TocItem {
 }
 interface GraphDiff {
     time: number
+    crc: number,
     changes: object[]
 }
 interface VectorArtifact {
@@ -50,12 +51,12 @@ async function updateToc(key: string, value: TocItem) {
 }
 const provider = {
     events: {},
-    async subscribe(url: string, callback: function): Promise<void> {
+    async subscribe(url: string | null, callback: Function): Promise<void> {
         let lastLength = -1;
         const updateState = async () => {
             if (url === "toc.json") {
-                const strToc = await localStorage.getItem(tocKey);
-                let toc;
+                const strToc: string = (await localStorage.getItem(tocKey) || "");
+                let toc: object;
                 try {
                     toc = JSON.parse(strToc);
                 } catch (err) {
@@ -66,8 +67,8 @@ const provider = {
                     toc,
                 });
             } else if (url === "preferences") {
-                const strPreferences = await localStorage.getItem(preferencesKey);
-                let preferences;
+                const strPreferences: string = (await localStorage.getItem(preferencesKey) || "");
+                let preferences: object;
                 try {
                     preferences = JSON.parse(strPreferences);
                 } catch (err) {
@@ -78,7 +79,7 @@ const provider = {
                     preferences,
                 });
             } else {
-                const eventStr = await localStorage.getItem(eventsPrefix + url);
+                const eventStr = (await localStorage.getItem(eventsPrefix + url) || "");
                 let events;
                 if (!eventStr) {
                     events = [];
@@ -146,7 +147,6 @@ const provider = {
             });
             const crc = Hashes.CRC32(JSON.stringify(state));
             if (crc !== value.crc) {
-                console.error("CRC Mismatch.  Diff", diff(value.graph, state));
                 throw new Error("CRC Mismatch");
             }
             await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));

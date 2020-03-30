@@ -366,14 +366,14 @@ export default {
             if (context.state.graph) {
                 const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
                 context.commit("setGraphVersion", context.state.graph.version + 1);
-                changes.push(...diff(preVersionSnapshot, context.state.graph));
+                const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
+                changes.push(...versionChanges);
             }
         }
         // calculate CRC
         const crc = Hashes.CRC32(JSON.stringify(context.state.graph));
         await context.state.dataProviders.graph.set(context.state.graph.id, {
             crc,
-            graph: context.state.graph,
             changes,
             id: newId(),
         });

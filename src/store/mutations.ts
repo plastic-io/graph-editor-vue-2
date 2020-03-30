@@ -10,9 +10,9 @@ export interface ChangeEvent {
     changes: any[],
 }
 function remoteChangeEvents(state: any, events: any[]) {
-    const eventKeys = state.events.map(e => e.id);
-    const remoteEventKeys = state.remoteEvents.map(e => e.id);
-    const preApplySnapshot = JSON.parse(JSON.stringify(state.graph));
+    const eventKeys: string[] = state.events.map((e: {id: string}) => e.id);
+    const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
+    const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
     events.forEach((event: any) => {
         // don't apply events we created, don't apply events we've already recieved
         if (eventKeys.indexOf(event.id) === -1 && remoteEventKeys.indexOf(event.id) === -1) {
@@ -358,7 +358,7 @@ export function ungroupSelected(state: any) {
     });
     applyGraphChanges(state, "Ungroup");
 }
-function deleteVectorById(state: any): void {
+function deleteVectorById(state: any): (id: string) => void {
     return (id: string): void => {
         state.graphSnapshot.vectors.forEach((v: Vector) => {
             // surely if you delete a vector, you must delete any connectors that are going to it as well
@@ -378,7 +378,7 @@ function deleteVectorById(state: any): void {
         });
     };
 }
-function deleteConnectorById(state: any): void {
+function deleteConnectorById(state: any): (id: string) => void {
     return (id: string): void => {
         state.graphSnapshot.vectors.forEach((v: Vector) => {
             v.edges.forEach((edge: {connectors: any[]}) => {
