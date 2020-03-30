@@ -570,6 +570,9 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
+        this.$store.dispatch("subscribe", graphId);
+        this.$store.dispatch("subscribeToc");
+        this.$store.dispatch("subscribePreferences");
     },
     data: () => {
         return {

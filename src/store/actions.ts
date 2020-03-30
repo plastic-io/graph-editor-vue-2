@@ -1,9 +1,32 @@
 import {newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
+import Hashes from "jshashes";
 import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+    async subscribePreferences(context: any) {
+        await context.state.dataProviders.graph.subscribe("preferences", (e: any) => {
+            if (e.type === "preferences") {
+                context.commit("setPreferences", e.preferences);
+            }
+        });
+    },
+    async subscribeToc(context: any) {
+        await context.state.dataProviders.graph.subscribe("toc.json", (e: any) => {
+            if (e.type === "toc") {
+                context.commit("setToc", e.toc);
+            }
+        });
+    },
+    async subscribe(context: any, url: string) {
+        await context.state.dataProviders.graph.subscribe(url, (e: any) => {
+            if (e.type === "events") {
+                context.commit("remoteChangeEvents", e.events);
+            }
+        });
+        
+    },
     importItem(context: any, e: any) {
         console.log("importItem", e);
     },
@@ -320,33 +343,42 @@ export default {
         });
     },
     async save(context: any, e?: any) {
-        const graph = e || context.state.graph;
-        const changes = diff(context.state.remoteSnapshot, graph);
+        if (e !== undefined) {
+            context.state.graph = e;
+        }
+        const changes = diff(context.state.remoteSnapshot, context.state.graph);
         if (!changes) {
             return;
         }
         context.commit("setLoadingStatus", {
-            key: graph.id,
+            key: context.state.graph.id,
             type: "saveGraph",
             loading: true,
         });
+        // in a server data provider, the server would increment the version
+        // and transmit that result back to us via subscribe callback
+        // but on local host (!asyncUpdate) the localStore will not emit
+        // the localStore observer if you are the writer, unlike a server
+        // so to simulate a server, this block is here incrementing the version
+        // on the client as if it was the server to get around the lack of a
+        // round trip with a new version number.
         if (!context.state.dataProviders.graph.asyncUpdate) {
             if (context.state.graph) {
-                changes.push({
-                    kind: "E",
-                    path: ["version"],
-                    lhs: graph.version,
-                    rhs: graph.version + 1,
-                });
-                context.commit("setGraphVersion", graph.version + 1);
+                const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
+                context.commit("setGraphVersion", context.state.graph.version + 1);
+                changes.push(...diff(preVersionSnapshot, context.state.graph));
             }
         }
-        await context.state.dataProviders.graph.set(graph.id, {
+        // calculate CRC
+        const crc = Hashes.CRC32(JSON.stringify(context.state.graph));
+        await context.state.dataProviders.graph.set(context.state.graph.id, {
+            crc,
+            graph: context.state.graph,
             changes,
             id: newId(),
         });
         context.commit("setLoadingStatus", {
-            key: graph.id,
+            key: context.state.graph.id,
             type: "saveGraph",
             loading: false,
         });

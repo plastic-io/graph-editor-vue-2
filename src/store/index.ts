@@ -83,6 +83,7 @@ export default function () {
             ],
             vectorMimeType: "application/json+plastic-io",
             jsonMimeType: "application/json",
+            remoteEvents: [],
             remoteSnapshot: {},
             showHelp: false,
             panelVisibility: true,

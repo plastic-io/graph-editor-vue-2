@@ -9,6 +9,25 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function remoteChangeEvents(state: any, events: any[]) {
+    const eventKeys = state.events.map(e => e.id);
+    const remoteEventKeys = state.remoteEvents.map(e => e.id);
+    const preApplySnapshot = JSON.parse(JSON.stringify(state.graph));
+    events.forEach((event: any) => {
+        // don't apply events we created, don't apply events we've already recieved
+        if (eventKeys.indexOf(event.id) === -1 && remoteEventKeys.indexOf(event.id) === -1) {
+            event.changes.forEach((change: any) => {
+                applyChange(preApplySnapshot, true, change);
+            });
+        }
+    });
+    const changes = diff(state.graph, preApplySnapshot);
+    if (changes) {
+        state.remoteEvents.push(...events);
+        state.graph = preApplySnapshot;
+        setGraphVersion(state, preApplySnapshot.version);
+    }
+}
 export function applyGraphChanges(state: any, name: string) {
     if (state.events.length !== state.historyPosition) {
         state.events.splice(state.historyPosition, state.events.length - state.historyPosition);
@@ -339,10 +358,8 @@ export function ungroupSelected(state: any) {
     });
     applyGraphChanges(state, "Ungroup");
 }
-export function deleteSelected(state: any) {
-    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
-    const selectedConnectorIds = state.selectedConnectors.map((v: {id: string}) => v.id);
-    function deleteVectorById(id: string): void {
+function deleteVectorById(state: any): void {
+    return (id: string): void => {
         state.graphSnapshot.vectors.forEach((v: Vector) => {
             // surely if you delete a vector, you must delete any connectors that are going to it as well
             v.edges.forEach((edge: {connectors: any[]}) => {
@@ -359,8 +376,10 @@ export function deleteSelected(state: any) {
                 state.graphSnapshot.vectors.splice(index, 1);
             }
         });
-    }
-    function deleteConnectorById(id: string): void {
+    };
+}
+function deleteConnectorById(state: any): void {
+    return (id: string): void => {
         state.graphSnapshot.vectors.forEach((v: Vector) => {
             v.edges.forEach((edge: {connectors: any[]}) => {
                 edge.connectors.forEach((connector: {id: string}, index) => {
@@ -370,15 +389,19 @@ export function deleteSelected(state: any) {
                 });
             });
         });
-    }
+    };
+}
+export function deleteSelected(state: any) {
+    const selectedVectorIds = state.selectedVectors.map((v: Vector) => v.id);
+    const selectedConnectorIds = state.selectedConnectors.map((v: {id: string}) => v.id);
     state.selectedVectors = [];
     state.selectedConnectors = [];
     state.selectedGroups = [];
     state.groupVectors = [];
     state.hoveredConnector = null;
     state.hoveredVector = null;
-    selectedVectorIds.forEach(deleteVectorById);
-    selectedConnectorIds.forEach(deleteConnectorById);
+    selectedVectorIds.forEach(deleteVectorById(state));
+    selectedConnectorIds.forEach(deleteConnectorById(state));
     applyGraphChanges(state, "Delete");
 }
 export function preferences(state: any, e: object) {
@@ -712,9 +735,7 @@ function setGraphVersion(state: any, e: number) {
         v.version = e;
         v.edges.forEach((edge: Edge) => {
             edge.connectors.forEach((connector: Connector) => {
-                if (connector.graphId === state.graph.id) {
-                    connector.version = e;
-                }
+                connector.version = e;
             });
         });
     });
@@ -794,6 +815,7 @@ function addHelpTopic(state: any, e: any) {
     state.helpTopics[e.topic] = e;
 }
 export default {
+    remoteChangeEvents,
     addHelpTopic,
     toggleHelp,
     toggleLabels,
