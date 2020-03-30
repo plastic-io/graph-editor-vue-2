@@ -367,7 +367,7 @@ export default {
                 const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
                 context.commit("setGraphVersion", context.state.graph.version + 1);
                 const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
-                changes.push(...versionChanges);
+                Array.prototype.push.apply(changes, versionChanges);
             }
         }
         // calculate CRC
