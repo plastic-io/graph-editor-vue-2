@@ -1386,7 +1386,7 @@ FNDA:1,(anonymous_16)
 FNDA:19,(anonymous_17)
 FNDA:18,(anonymous_18)
 FNDA:83,(anonymous_19)
-FNDA:318,(anonymous_20)
+FNDA:330,(anonymous_20)
 FNDA:0,(anonymous_21)
 FNDA:0,(anonymous_22)
 FNDA:2,(anonymous_23)
@@ -1515,7 +1515,7 @@ DA:319,18
 DA:320,18
 DA:322,0
 DA:324,18
-DA:325,318
+DA:325,330
 DA:326,0
 DA:328,0
 DA:329,0
@@ -1527,7 +1527,7 @@ DA:337,0
 DA:338,0
 DA:339,0
 DA:341,0
-DA:343,318
+DA:343,330
 DA:345,18
 DA:347,18
 DA:352,0
@@ -1605,7 +1605,7 @@ BRDA:283,17,1,9
 BRDA:299,18,0,2
 BRDA:299,18,1,16
 BRDA:325,19,0,0
-BRDA:325,19,1,318
+BRDA:325,19,1,330
 BRDA:328,20,0,0
 BRDA:328,20,1,0
 BRDA:333,21,0,0
@@ -3796,8 +3796,8 @@ SF:/home/runner/work/graph-editor/graph-editor/src/store/newVectorHelpTemplate.t
 FNF:0
 FNH:0
 DA:1,6
-DA:120,6
-DA:123,6
+DA:88,6
+DA:91,6
 LF:3
 LH:3
 BRF:0
