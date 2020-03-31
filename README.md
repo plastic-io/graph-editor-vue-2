@@ -1,5 +1,9 @@
 # graph-editor
 
+Demo: https://plastic-io.github.io/graph-editor/graphs
+
+Uses local storage
+
 ## Project setup
 ```
 npm install

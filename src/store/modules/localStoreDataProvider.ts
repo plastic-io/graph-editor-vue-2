@@ -1,4 +1,6 @@
 import {applyChange} from "deep-diff";
+import Hashes from "jshashes";
+const preferencesKey = "preferences";
 const tocKey = "toc.json";
 const eventsPrefix = "events/";
 const artifactsPrefix = "artifacts/";
@@ -17,6 +19,7 @@ interface TocItem {
 }
 interface GraphDiff {
     time: number
+    crc: number,
     changes: object[]
 }
 interface VectorArtifact {
@@ -28,8 +31,10 @@ interface GraphArtifact {
 interface PreferencesArtifact {
     preferences: any;
 }
+// Note: localStorage methods are not async.  Async  methods are used to show
+// what it would look like to implement an async data provider which are far
+// more typical than sync providers like local store.
 async function updateToc(key: string, value: TocItem) {
-    // write new data to TOC
     let sToc: string | null = await localStorage.getItem(tocKey);
     let toc: Toc;
     if (!sToc) {
@@ -42,10 +47,66 @@ async function updateToc(key: string, value: TocItem) {
         }
     }
     toc[key] = value;
-    // write TOC
     await localStorage.setItem(tocKey, JSON.stringify(toc));
 }
 const provider = {
+    events: {},
+    async subscribe(url: string | null, callback: Function): Promise<void> {
+        let lastLength = -1;
+        const updateState = async () => {
+            if (url === "toc.json") {
+                const strToc: string = (await localStorage.getItem(tocKey) || "");
+                let toc: object;
+                try {
+                    toc = JSON.parse(strToc);
+                } catch (err) {
+                    throw new Error("Cannot parse TOC. Error: " + err.toString());
+                }
+                callback({
+                    type: "toc",
+                    toc,
+                });
+            } else if (url === "preferences") {
+                const strPreferences: string = (await localStorage.getItem(preferencesKey) || "");
+                let preferences: object;
+                try {
+                    preferences = JSON.parse(strPreferences);
+                } catch (err) {
+                    throw new Error("Cannot parse preferences. Error: " + err.toString());
+                }
+                callback({
+                    type: "preferences",
+                    preferences,
+                });
+            } else {
+                const eventStr = (await localStorage.getItem(eventsPrefix + url) || "");
+                let events;
+                if (!eventStr) {
+                    events = [];
+                } else if (eventStr) {
+                    try {
+                        events = JSON.parse(eventStr);
+                    } catch (err) {
+                        throw new Error("Cannot parse events. Error: " + err.toString());
+                    }
+                }
+                if (lastLength !== events.length) {
+                    if (lastLength !== -1) {
+                        callback({
+                            type: "events",
+                            events: events.slice(lastLength),
+                        });
+                    }
+                    lastLength = events.length;
+                }
+            }
+        };
+        window.addEventListener("storage", updateState);
+        if (!(url === tocKey || url === preferencesKey)) {
+            // if this is not a document, do not try and fetch an initial state
+            updateState();
+        }
+    },
     async get(url: string): Promise<object> {
         let item: string = (await localStorage.getItem(url) || "");
         let obj: object;
@@ -74,19 +135,22 @@ const provider = {
                 try {
                     events = JSON.parse(eventStr);
                 } catch (err) {
-                    throw new Error("Cannot parse events");
+                    throw new Error("Cannot parse events. Error: " + err.toString());
                 }
             }
             value.time = Date.now();
             events.push(value);
-            // roll up events into a projection then save it
-            await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));
             events.forEach((event) => {
                 event.changes.forEach((change: any) => {
                     applyChange(state, true, change);
                 });
             });
-            localStorage.setItem(url, JSON.stringify(state));
+            const crc = Hashes.CRC32(JSON.stringify(state));
+            if (crc !== value.crc) {
+                throw new Error(`CRC Mismatch.  Expected ${crc} got ${value.crc}`);
+            }
+            await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));
+            await localStorage.setItem(url, JSON.stringify(state));
             await updateToc(url, {
                 id: state.id,
                 lastUpdate: Date.now(),

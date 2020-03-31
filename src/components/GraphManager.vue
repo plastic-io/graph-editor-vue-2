@@ -328,6 +328,8 @@ export default {
     },
     created() {
         this.getToc();
+        this.$store.dispatch("subscribeToc");
+        this.$store.dispatch("subscribePreferences");
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
     }
 };

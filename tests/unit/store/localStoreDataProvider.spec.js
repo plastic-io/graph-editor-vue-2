@@ -124,7 +124,10 @@ describe("Local storage data provider tests", () => {
         localStorage.setItem = (key, value) => {
             setvalue.value = {key, value};
         };
+        // TODO: Stub jshashes
+        // to recalculate this CRC, just watch the error message.
         provider.set("graph", {
+            crc: 3534553175,
             changes: [
                 {kind: "N", path: ["version"], rhs: 0},
                 {kind: "N", path: ["properties"], rhs: {description: "foo", icon: "bar", name: "baz"}},
@@ -145,6 +148,7 @@ describe("Local storage data provider tests", () => {
             setItems.push({key, value});
         };
         provider.set("graph", {
+            crc: 3534553175,
             changes: [
                 {kind: "N", path: ["properties"], rhs: {description: "foo", icon: "bar", name: "baz"}},
             ],
@@ -159,6 +163,28 @@ describe("Local storage data provider tests", () => {
         }).catch((err) => {
             expect(err.toString()).toMatch(/Set called without a recognized type/);
             done();
+        });
+    });
+    it("Should subscribe to the document, toc, and preferences and emit changes when the store changes", (done) => {
+        ["mydocument", "toc.json", "preferences"].forEach((key) => {
+            let watcher;
+            let asyncDidRun = false;
+            returns.getItem = JSON.stringify([1]);
+            window.addEventListener = (eventName, fn) => {
+                watcher = fn;
+            };
+            provider.subscribe(key, (e) => {
+                asyncDidRun = true;
+                expect(e).toBeTruthy();
+            });
+            returns.getItem = JSON.stringify([1, 2]);
+            watcher();
+            returns.getItem = JSON.stringify([1, 2, 3]);
+            watcher();
+            setTimeout(() => {
+                expect(asyncDidRun).toEqual(true);
+                done();
+            }, 10);
         });
     });
 });

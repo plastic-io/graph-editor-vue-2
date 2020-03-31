@@ -18,22 +18,48 @@
                 style="overflow: hidden;"
                 elevation="0"
                 v-if="panel">
-                <vector-properties
-                    v-if="selectedVector && panel === 'properties'"
-                    :style="gutterStyle"
-                    :width="this.navWidth - this.iconGutterSize"/>
-                <set-editor
-                    v-if="selectedVector && panel === 'set'"
-                    :style="gutterStyle"
-                    :width="this.navWidth - this.iconGutterSize"/>
-                <template-editor
-                    v-if="selectedVector && panel === 'template'"
-                    :style="gutterStyle"
-                    :width="this.navWidth - this.iconGutterSize"/>
-                <edge-properties
-                    v-if="selectedVector && panel === 'edge'"
-                    :style="gutterStyle"
-                    :width="this.navWidth - this.iconGutterSize"/>
+                <v-tabs v-if="selectedVector && panel === 'properties'" :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
+                    <v-tab>
+                        <v-icon>
+                            mdi-vector-point
+                        </v-icon>
+                    </v-tab>
+                    <v-tab>
+                        <v-icon help-topic="edge">
+                            mdi-video-input-component
+                        </v-icon>
+                    </v-tab>
+                    <v-tab>
+                        <v-icon help-topic="template">
+                            mdi-vuejs
+                        </v-icon>
+                    </v-tab>
+                    <v-tab>
+                        <v-icon help-topic="set">
+                            mdi-lambda
+                        </v-icon>
+                    </v-tab>
+                    <v-tab-item>
+                        <vector-properties
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <edge-properties
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <template-editor
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item>
+                        <set-editor
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                </v-tabs>
                 <history-panel
                     v-if="panel === 'history'"
                     :style="gutterStyle"
@@ -75,47 +101,8 @@
                         :disabled="!selectedVector"
                         :color="panel === 'properties' ? 'info' : ''"
                         @click="selectPanel('properties')">
-                        mdi-network-outline
+                        mdi-vector-point
                     </v-icon>
-                    <v-icon
-                        help-topic="set"
-                        class="control-panel-icon"
-                        title="Vector Set Code.  Code that runs when your vector is invoked at run time"
-                        :disabled="!selectedVector"
-                        :color="panel === 'set' ? 'info' : ''"
-                        @click="selectPanel('set')">
-                        mdi-lambda
-                    </v-icon>
-                    <v-icon
-                        help-topic="template"
-                        class="control-panel-icon"
-                        title="Vector Template Code.  Code that runs when your vector appears in the graph IDE"
-                        :disabled="!selectedVector"
-                        :color="panel === 'template' ? 'info' : ''"
-                        @click="selectPanel('template')">
-                        mdi-vuejs
-                    </v-icon>
-                    <v-icon
-                        help-topic="edge"
-                        class="control-panel-icon"
-                        title="Vector edges."
-                        :disabled="!selectedVector"
-                        :color="panel === 'edge' ? 'info' : ''"
-                        @click="selectPanel('edge')">
-                        mdi-transit-connection-variant
-                    </v-icon>
-                    <v-icon
-                        help-topic="executeSelectedVector"
-                        class="control-panel-icon"
-                        title="Execute selected vector."
-                        :disabled="!selectedVector"
-                        @click="graphUrl(selectedVector.url)">
-                        mdi-play-network
-                    </v-icon>
-                    <v-divider/>
-                </div>
-                <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
-                    <v-divider style="margin-bottom: 15px;margin-right: 5px;"/>
                     <v-icon
                         help-topic="graphProperties"
                         class="control-panel-icon"
@@ -124,6 +111,10 @@
                         @click="selectPanel('graph')">
                         mdi-graph-outline
                     </v-icon>
+                    <v-divider/>
+                </div>
+                <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
+                    <v-divider style="margin-bottom: 15px;margin-right: 5px;"/>
                     <v-icon
                         help-topic="log"
                         class="control-panel-icon"

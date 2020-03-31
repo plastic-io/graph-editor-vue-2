@@ -1,15 +1,5 @@
 <template>
     <div ref="vector-root">
-        <div v-if="broken">
-            <v-icon>
-                mdi-image-broken-variant
-            </v-icon>
-        </div>
-        <div v-if="longLoading">
-            <v-icon>
-                mdi-image-broken-variant
-            </v-icon>
-        </div>
         <div
             v-if="loaded[vectorComponentName] && visible"
             ref="vector"
