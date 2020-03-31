@@ -1,7 +1,8 @@
 import {deleteSelected, groupSelected, ungroupSelected,
     undo, redo, duplicateSelection, bringForward, sendBackward,
     bringToFront, sendToBack, zoom, nudgeUp, nudgeDown,
-    nudgeLeft, nudgeRight, togglePresentation, togglePanelVisibility} from "../mutations"; // eslint-disable-line
+    nudgeLeft, nudgeRight, togglePresentation, togglePanelVisibility,
+    toggleSelectedVectorPresentationMode} from "../mutations"; // eslint-disable-line
 const deleteKey = 46;
 const dKeyCode = 68;
 const gKeyCode = 71;
@@ -14,6 +15,7 @@ const arrowLeft = 37;
 const arrowRight = 39;
 const dashKeyCode = 189;
 const equalKeyCode = 187;
+const backslashKeyCode = 220;
 const graveKeyCode = 192;
 const tabKeyCode = 9;
 // const shiftKeyCode = 16;
@@ -45,6 +47,9 @@ function keys(state: any, keys: {
         e.preventDefault();
         zoom(state, -0.10);
         keys[dashKeyCode] = false;
+    }
+    if (keys[backslashKeyCode]) {
+        toggleSelectedVectorPresentationMode(state);
     }
     // nudges
     if (keys[arrowUp]) {

@@ -70,6 +70,7 @@ export default {
                 "Delete Connector": "mdi-delete",
                 "Rename IO": "mdi-pencil",
                 "Update Template": "mdi-pencil",
+                "Toggle Vector Presentation": "mdi-presentation",
             }[name] || "mdi-pencil";
         },
     },
