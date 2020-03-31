@@ -98,7 +98,7 @@ describe("ControlPanel.vue", () => {
     });
     describe("ControlPanel Methods", () => {
         it("Should render control panel", (done) => {
-            expect(wrapper.html()).toMatch("Vector Set Code");
+            expect(wrapper.html()).toMatch("Graph Properties");
             expect(wrapper.html()).toMatch("Graph Logs and State");
             expect(wrapper.html()).toMatch("help-topic=\"dragResizePanel\"");
             done();

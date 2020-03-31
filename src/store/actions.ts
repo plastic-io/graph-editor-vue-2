@@ -6,14 +6,14 @@ const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
     async subscribePreferences(context: any) {
-        await context.state.dataProviders.graph.subscribe("preferences", (e: any) => {
+        await context.state.dataProviders.preferences.subscribe("preferences", (e: any) => {
             if (e.type === "preferences") {
                 context.commit("setPreferences", e.preferences);
             }
         });
     },
     async subscribeToc(context: any) {
-        await context.state.dataProviders.graph.subscribe("toc.json", (e: any) => {
+        await context.state.dataProviders.publish.subscribe("toc.json", (e: any) => {
             if (e.type === "toc") {
                 context.commit("setToc", e.toc);
             }
@@ -363,12 +363,10 @@ export default {
         // on the client as if it was the server to get around the lack of a
         // round trip with a new version number.
         if (!context.state.dataProviders.graph.asyncUpdate) {
-            if (context.state.graph) {
-                const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
-                context.commit("setGraphVersion", context.state.graph.version + 1);
-                const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
-                Array.prototype.push.apply(changes, versionChanges);
-            }
+            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
+            context.commit("setGraphVersion", context.state.graph.version + 1);
+            const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
+            Array.prototype.push.apply(changes, versionChanges);
         }
         // calculate CRC
         const crc = Hashes.CRC32(JSON.stringify(context.state.graph));

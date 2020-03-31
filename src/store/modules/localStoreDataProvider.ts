@@ -147,7 +147,7 @@ const provider = {
             });
             const crc = Hashes.CRC32(JSON.stringify(state));
             if (crc !== value.crc) {
-                throw new Error("CRC Mismatch");
+                throw new Error(`CRC Mismatch.  Expected ${crc} got ${value.crc}`);
             }
             await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));
             await localStorage.setItem(url, JSON.stringify(state));

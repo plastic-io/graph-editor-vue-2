@@ -26,6 +26,10 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
+            path: "/graph-editor/",
+            redirect: "/graph-editor/graphs",
+        },
+        {
             path: "/graph-editor/graphs",
             component: GraphManager,
             props: function (route) {

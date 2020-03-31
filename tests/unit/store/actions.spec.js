@@ -13,6 +13,7 @@ describe("Bummer in the summer", () => {
                             return context.dataProvidersResponse.preferences.get;
                         },
                         set: jest.fn(),
+                        subscribe: jest.fn(),
                     },
                     graph: {
                         get() {
@@ -20,6 +21,7 @@ describe("Bummer in the summer", () => {
                         },
                         set: jest.fn(),
                         delete: jest.fn(),
+                        subscribe: jest.fn(),
                     },
                     publish: {
                         get() {
@@ -27,6 +29,7 @@ describe("Bummer in the summer", () => {
                         },
                         set: jest.fn(),
                         delete: jest.fn(),
+                        subscribe: jest.fn(),
                     },
                 },
                 scheduler: {
@@ -216,7 +219,7 @@ describe("Bummer in the summer", () => {
         await actions.save(context);
         expect(context.state.dataProviders.graph.set).toHaveBeenCalled();
         expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[0]).toEqual({"kind": "E", "lhs": "baz", "path": ["foo"], "rhs": "bar"});
-        expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[1]).toEqual({"kind": "E", "lhs": 0, "path": ["version"], "rhs": 1});
+        expect(context.commit).toHaveBeenCalledWith("setGraphVersion", 1);
     });
     it("Should save diff to the graph to the event store, expect async response. (context.state.dataProviders.graph.asyncUpdate)", async () => {
         context.state.graph = {id: "123", foo: "bar", version: 0};
@@ -341,5 +344,17 @@ describe("Bummer in the summer", () => {
                 expect(context.dispatch).toHaveBeenCalledWith("save");
             }
         });
+    });
+    it("Should subscibe to dataProviders when calling subscribePreferences action.", async () => {
+        actions.subscribePreferences(context);
+        expect(context.state.dataProviders.preferences.subscribe).toHaveBeenCalled();
+    });
+    it("Should subscibe to dataProviders when calling subscribeToc action.", async () => {
+        actions.subscribeToc(context);
+        expect(context.state.dataProviders.publish.subscribe).toHaveBeenCalled();
+    });
+    it("Should subscibe to dataProviders when calling subscribe action.", async () => {
+        actions.subscribe(context, "foo");
+        expect(context.state.dataProviders.graph.subscribe).toHaveBeenCalled();
     });
 });
