@@ -147,7 +147,71 @@
 <a name='L89'></a><a href='#L89'>89</a>
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
-<a name='L92'></a><a href='#L92'>92</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -247,41 +311,72 @@
             There are many like it, but this one is yours
         &lt;/v-card-subtitle&gt;
         &lt;v-card-subtitle&gt;
-            After selecting your vector, you can click the following icons on the left hand edge of the screen.
+            &lt;ul&gt;
+                &lt;li&gt;
+                    After selecting your vector, click
+                    &lt;v-icon&gt;
+                        mdi-vector-point
+                    &lt;/v-icon&gt;
+                    on the left to show vector properties.  From
+                    there you can change this message.
+                &lt;/li&gt;
+                &lt;li&gt;
+                    Click
+                    &lt;v-icon&gt;
+                        mdi-help-circle-outline
+                    &lt;/v-icon&gt;
+                    in the upper right corner to show contextual help
+                &lt;/li&gt;
+            &lt;/ul&gt;
         &lt;/v-card-subtitle&gt;
         &lt;v-card-text class="pa-2"&gt;
-            &lt;v-icon&gt;
-                mdi-network-outline
+            &lt;v-icon class="ma-2"&gt;
+                mdi-vector-point
             &lt;/v-icon&gt;
-            to see properties for this vector
+            Properties for this vector
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            &lt;v-icon&gt;
-                mdi-transit-connection-variant
+            &lt;v-icon class="ma-2"&gt;
+                mdi-video-input-component
             &lt;/v-icon&gt;
-            to add connectors to this vector.
+            Connectors for this vector
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            &lt;v-icon&gt;
+            &lt;v-icon class="ma-2"&gt;
                 mdi-vuejs
             &lt;/v-icon&gt;
-            To edit this vector's appearnce (change this message)
+            This vector's appearnce (change this message)
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            &lt;v-icon&gt;
+            &lt;v-icon class="ma-2"&gt;
                 mdi-lambda
             &lt;/v-icon&gt;
-            Set what happens when invoked
+            Set what happens when this vector is invoked
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            &lt;v-icon&gt;
-                mdi-vue mdi-play-network
+            &lt;v-icon class="ma-2"&gt;
+                mdi-graph-outline
             &lt;/v-icon&gt;
-            To invoke this vector
+            to see properties for the whole graph
+            &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
+            &lt;v-icon class="ma-2"&gt;
+                mdi-history
+            &lt;/v-icon&gt;
+            Undo history
+            &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
+            &lt;v-icon class="ma-2"&gt;
+                mdi-library
+            &lt;/v-icon&gt;
+            Local and public library of vectors you can import here
+            &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
+            &lt;v-icon class="ma-2"&gt;
+                mdi-cogs
+            &lt;/v-icon&gt;
+            Graph editor properties
+            &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
+            Check out this source of this button to see how to invoke the vector
             &lt;v-btn class="ma-2" @click="buttonClick"&gt;
-                Or click here
+                &lt;v-icon&gt;
+                    mdi-play
+                &lt;/v-icon&gt;
+                Example invocation
             &lt;/v-btn&gt;
-            &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            &lt;v-icon&gt;
-                mdi-help-circle-outline
-            &lt;/v-icon&gt;
-            Contextual help overlay
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
             &lt;v-alert 
                 border="left"
@@ -301,11 +396,12 @@ APIs your server has access to.  When on a server your graph is a living API.
 The same graph can be run on the server and on the browser at the same time.
 When on the server, the graph can emit runtime telemetry just like when on the browser.
 &lt;v-spacer class="ma-4"&gt;&lt;/v-spacer&gt;
-This runtime telelmetry data can be picked up by the graph IDE (this program) to show execution
+This runtime telelmetry data can be picked up by the Graph Editor (this program) to show execution
 information in real time.
             &lt;/v-alert&gt;
             &lt;v-spacer class="pa-2"&gt;&lt;/v-spacer&gt;
-            Vector Id: {{vector.id}}
+            To stop this tutorial vector from appearing each time you create a new blank vector
+            click on &lt;v-icon&gt;mdi-cogs&lt;/v-icon&gt; and under "General" select: turn off "Use tutorial vector".
         &lt;/v-card-text&gt;
     &lt;/v-card&gt;
 &lt;/template&gt;
@@ -336,7 +432,7 @@ export default {template, set};
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 31 2020 07:30:28 GMT+0000 (Coordinated Universal Time)
+                at Tue Mar 31 2020 08:11:15 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
