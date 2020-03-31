@@ -814,6 +814,13 @@ function toggleHelp(state: any) {
 function addHelpTopic(state: any, e: any) {
     state.helpTopics[e.topic] = e;
 }
+export function toggleSelectedVectorPresentationMode(state: any) {
+    state.selectedVectors.forEach((selectedVector: any) => {
+        const vector = state.graphSnapshot.vectors.find((v: Vector) => selectedVector.id === v.id);
+        vector.properties.appearsInPresentation = !vector.properties.appearsInPresentation;
+    });
+    applyGraphChanges(state, "Toggle Vector Presentation");
+}
 export default {
     remoteChangeEvents,
     addHelpTopic,

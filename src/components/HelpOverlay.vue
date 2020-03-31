@@ -21,6 +21,39 @@
             <h3 class="headline" v-html="topicTitle"></h3>
             <div v-html="topicText"></div>
         </v-alert>
+        <v-card style="position: fixed; bottom: 40px; right: 10px;">
+            <v-card-title>
+                Keyboard Shortcuts
+            </v-card-title>
+            <v-card-text>
+                <table style="width: 380px;">
+                    <tr>
+                        <th style="width: 150px;">Key</th>
+                        <th>Action</th>
+                    </tr>
+                </table>
+                <div style="max-height: 65vh;overflow: auto;">
+                    <table style="width: 380px;">
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + =</td><td>Zoom in</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + -</td><td>Zoom out</td></tr>
+                        <tr><td>Delete</td><td>Delete selected vectors and connectors</td></tr>
+                        <tr><td>Arrow Keys</td><td>Nudge seelcted vectors</td></tr>
+                        <tr><td>\</td><td>Toggle selected vector presentation visibility</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + ]</td><td>Bring forward</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + <v-icon>mdi-apple-keyboard-shift</v-icon> + ]</td><td>Bring to front</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + [</td><td>Send back</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + <v-icon>mdi-apple-keyboard-shift</v-icon> + [</td><td>Send to back</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + Z</td><td>Undo</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + <v-icon>mdi-apple-keyboard-shift</v-icon> + Z</td><td>Redo</td></tr>
+                        <tr><td><v-icon>mdi-apple-keyboard-control</v-icon> + <v-icon>mdi-apple-keyboard-shift</v-icon> + D</td><td>Duplicate selected</td></tr>
+                        <tr><td>Tab</td><td>Toggle control panel visibility</td></tr>
+                        <tr><td>ALT + `</td><td>Toggle presentation mode</td></tr>
+                        <tr><td>Space + Left Mouse Button</td><td>Hold to move graph view</td></tr>
+                        <tr><td>Middle Mouse Button</td><td>Hold to move graph view</td></tr>
+                    </table>
+                </div>
+            </v-card-text>
+        </v-card>
     </v-overlay>
 </template>
 <script>
