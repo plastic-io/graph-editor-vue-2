@@ -9,7 +9,8 @@ export default function mouse(state: any, mouse: {
         rmb: boolean,
         mmb: boolean,
         x: number,
-        y: number
+        y: number,
+        event: any
     }) {
     const shift = state.keys[ctrlKeyCode];
     const ctrl = state.keys[shiftKeyCode] || state.keys[metaKeyCode];
@@ -285,6 +286,7 @@ export default function mouse(state: any, mouse: {
     }
     // translate view
     if ((state.keys[spaceKeyCode] && mouse.lmb) || mouse.mmb) {
+        mouse.event.preventDefault();
         state.view.x = state.translating.view.x + (mouse.x - state.translating.mouse.x);
         state.view.y = state.translating.view.y + (mouse.y - state.translating.mouse.y);
     }

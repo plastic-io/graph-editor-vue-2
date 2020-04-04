@@ -158,7 +158,14 @@ export default {
             };
         },
         graphCanvasClasses: function () {
-            return "graph-canvas-container " + (this.showGrid ? "grid" : "");
+            const classes = [];
+            if (!this.presentation) {
+                classes.push("graph-canvas-container");
+                if (this.showGrid) {
+                    classes.push("grid");
+                }
+            }
+            return classes.join(" ");
         },
     },
 };

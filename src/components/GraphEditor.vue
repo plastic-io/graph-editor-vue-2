@@ -175,6 +175,11 @@
         </v-snackbar>
         <v-progress-linear v-if="!graph && !localShowError" indeterminate></v-progress-linear>
         <help-overlay v-if="showHelp" @close="toggleHelp" style="z-index: 14;"/>
+        <component :is="'style'" v-if="!presentation">
+            html, body {
+                overflow: hidden;
+            }
+        </component>
     </v-app>
 </template>
 <script>
@@ -356,6 +361,7 @@ export default {
             const mouse = this.getMousePosFromEvent(e);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 x: mouse.x,
                 y: mouse.y,
             });
@@ -381,6 +387,7 @@ export default {
                 mouse: {
                     x: this.mouse.x,
                     y: this.mouse.y,
+                    event: e,
                 },
                 view: {
                     y: this.view.y,
@@ -405,12 +412,14 @@ export default {
             this.$store.dispatch("translating", translating);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 [this.buttonMap[e.button]]: true,
             });
         },
         mouseup(e) {
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 [this.buttonMap[e.button]]: false,
             });
         },
@@ -595,13 +604,13 @@ export default {
 };
 </script>
 <style>
-.bottom-system-bar {
-    white-space: nowrap;
-}
 .graph-container {
     position: fixed;
     top: 0;
     left: 0;
+}
+.bottom-system-bar {
+    white-space: nowrap;
 }
 .no-pointer-events {
     pointer-events: none;

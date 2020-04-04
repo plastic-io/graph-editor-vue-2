@@ -278,10 +278,6 @@ export default {
     .edge-connector {
         pointer-events: none;
         position: absolute;
-        top: 0;
-        left: 0;
-        height: 200px;
-        width: 200px;
         z-index: -1597463006;
     }
     @keyframes edge-deactivate {
