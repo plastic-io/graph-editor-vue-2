@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.59% </span>
+                <span class="strong">74.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>192/254</span>
+                <span class='fraction'>192/257</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.01% </span>
+                <span class="strong">78.05% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>64/81</span>
+                <span class='fraction'>64/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75.49% </span>
+                <span class="strong">74.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>191/253</span>
+                <span class='fraction'>191/256</span>
             </div>
         
             
@@ -653,7 +653,12 @@
 <a name='L595'></a><a href='#L595'>595</a>
 <a name='L596'></a><a href='#L596'>596</a>
 <a name='L597'></a><a href='#L597'>597</a>
-<a name='L598'></a><a href='#L598'>598</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L598'></a><a href='#L598'>598</a>
+<a name='L599'></a><a href='#L599'>599</a>
+<a name='L600'></a><a href='#L600'>600</a>
+<a name='L601'></a><a href='#L601'>601</a>
+<a name='L602'></a><a href='#L602'>602</a>
+<a name='L603'></a><a href='#L603'>603</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -741,6 +746,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -766,6 +774,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -782,6 +791,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1339,6 +1349,9 @@ export default {
         document.body.removeChild(a);
     },
     instantiateGraph(context: any) {
+        function <span class="fstat-no" title="function not covered" >connectorKey(e</span>: any) {
+<span class="cstat-no" title="statement not covered" >            return e</span>.graphId + e.currentVectorId + e.vectorId + e.field;
+        }
         const logger = {
             log: (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "log", event: e});
@@ -1362,14 +1375,15 @@ export default {
         const instanceId = newId();
         scheduler.addEventListener("beginedge", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if ("field" in e) {</span>
+                const key = <span class="cstat-no" title="statement not covered" >connectorKey(e</span>);
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("connectorActivity", {
-                    key: e.graphId + e.vectorId + e.field,
+                    key,
                     start: Date.now(),
                     event: e,
                 });
 <span class="cstat-no" title="statement not covered" >                if (context.state.preferences.debug) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.</span>commit("setLoadingStatus", {
-                        key: e.graphId + e.vectorId + e.field,
+                        key,
                         type: "edge",
                         loading: true,
                         event: e,
@@ -1381,15 +1395,16 @@ export default {
         scheduler.addEventListener("endedge", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if ("field" in e) {</span>
                 const now = <span class="cstat-no" title="statement not covered" >Date.</span>now();
+                const key = <span class="cstat-no" title="statement not covered" >connectorKey(e</span>);
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("connectorActivity", {
-                    key: e.graphId + e.vectorId + e.field,
+                    key,
                     end: Date.now(),
-                    duration: now - context.state.activityConnectors[e.graphId + e.vectorId + e.field].start,
+                    duration: now - context.state.activityConnectors[key].start,
                     event: e,
                 });
 <span class="cstat-no" title="statement not covered" >                if (context.state.preferences.debug) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.</span>commit("setLoadingStatus", {
-                        key: e.graphId + e.vectorId + e.field,
+                        key,
                         type: "edge",
                         loading: false,
                     });
@@ -1854,7 +1869,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 31 2020 20:36:12 GMT+0000 (Coordinated Universal Time)
+                at Sun Apr 05 2020 23:26:50 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

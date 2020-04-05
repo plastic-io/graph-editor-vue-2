@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>41/50</span>
+                <span class='fraction'>44/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">56.25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/14</span>
+                <span class='fraction'>9/16</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">76% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>19/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">80% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>20/25</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>41/50</span>
+                <span class='fraction'>44/55</span>
             </div>
         
             
@@ -266,7 +266,11 @@
 <a name='L208'></a><a href='#L208'>208</a>
 <a name='L209'></a><a href='#L209'>209</a>
 <a name='L210'></a><a href='#L210'>210</a>
-<a name='L211'></a><a href='#L211'>211</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -302,6 +306,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -366,7 +371,7 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -427,10 +432,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -477,7 +485,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-    &lt;div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)" :key="historyPosition"&gt;
+    &lt;div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)" :key="localVersion"&gt;
         &lt;div
             :style="preferences.appearance.theme === 'dark' ? '' : 'filter: invert(1);'"
             :class="graphCanvasClasses"
@@ -512,6 +520,7 @@ export default {
     },
     data() {
         return {
+            localVersion: 0,
             dragged: null,
             localGraph: null,
         };
@@ -576,7 +585,7 @@ export default {
             presentation: state =&gt; state.presentation,
             jsonMimeType: state =&gt; state.jsonMimeType,
             vectorMimeType: state =&gt; state.vectorMimeType,
-            historyPosition: state =&gt; state.historyPosition,
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            historyPosition: state =&gt; state.historyPosition,</span></span>
             addingConnector: state =&gt; state.addingConnector,
             selectionRect: state =&gt; state.selectionRect,
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            boundingRect: state =&gt; state.boundingRect,</span></span>
@@ -636,15 +645,19 @@ export default {
             };
         },
         graphCanvasClasses: function () {
-<span class="branch-0 cbranch-no" title="branch not covered" >            return "graph-canvas-container " + (this.showGrid ? "grid" : "");</span>
+            const classes = [];
+<span class="missing-if-branch" title="else path not taken" >E</span>            if (!this.presentation) {
+                classes.push("graph-canvas-container");
+<span class="missing-if-branch" title="if path not taken" >I</span>                if (this.showGrid) {
+<span class="cstat-no" title="statement not covered" >                    classes.push("grid");</span>
+                }
+            }
+            return classes.join(" ");
         },
     },
 };
 &lt;/script&gt;
 &lt;style&gt;
-body {
-    border: solid 1px black;
-}
 .bounding-rect {
     pointer-events: none;
     position: absolute;
@@ -655,7 +668,6 @@ body {
     border-style: dotted;
 }
 .graph-canvas-container {
-    background: #000;
     position: absolute;
     width: 10000vw;
     height: 10000vh;
@@ -693,7 +705,7 @@ body {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Mar 31 2020 20:36:12 GMT+0000 (Coordinated Universal Time)
+                at Sun Apr 05 2020 23:26:50 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
