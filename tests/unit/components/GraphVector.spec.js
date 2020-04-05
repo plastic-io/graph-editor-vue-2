@@ -16,7 +16,6 @@ let vectorArtifactGraph;
 let vectorArtifact;
 let graphArtifactGraph;
 let graphArtifact;
-let actions;
 let state;
 const remoteArtifacts = {};
 localVue.use(Vuex);
@@ -98,7 +97,6 @@ describe("GraphVector.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         state = storeConfig.state;
-        actions = storeConfig.actions;
         let vuetify = new Vuetify();
         wrapper = mount(GraphVector, {
             localVue,
