@@ -13,16 +13,14 @@
                             <v-card-text class="ma-0 pa-0">
                                 <v-text-field
                                     help-topic="settingsGridSize"
-                                    disabled
                                     label="Grid Size"
                                     persistent-hint
-                                    hint="Disabled for now"
+                                    type="number"
+                                    :disabled="!snapToGrid"
                                     v-model.number="gridSize"/>
                                 <v-switch
                                     help-topic="settingsSnapToGrid"
-                                    disabled
                                     label="Snap To Grid"
-                                    persistent-hint hint="Disabled for now"
                                     v-model="snapToGrid"></v-switch>
                                 <v-switch help-topic="settingsShowGrid" label="Show Grid" v-model="showGrid"></v-switch>
                                 <v-switch help-topic="settingsShowLabels" label="Input/Output Labels" v-model="showLabels"/>
@@ -59,7 +57,7 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
-                                <v-text-field label="Connector Drag Dead Zone" v-model.number="dragDeadZone"/>
+                                <v-text-field label="Connector Drag Dead Zone" v-model.number="dragDeadZone" type="number"/>
                                 <v-select :items="colorBaseKeys" label="Control Fill Style" v-model="controlFillStyle"/>
                                 <v-select :items="colorBaseKeys" label="Stroke Style" v-model="strokeStyle"/>
                                 <v-select :items="colorBaseKeys" label="Selected Stroke Style" v-model="selectedStrokeStyle"/>
@@ -67,7 +65,7 @@
                                 <v-select :items="colorBaseKeys" label="Watch Stroke Style" v-model="watchStrokeStyle"/>
                                 <v-select :items="colorBaseKeys" label="Activity Stroke Style" v-model="activityStrokeStyle"/>
                                 <v-select :items="colorBaseKeys" label="Error Stroke Style" v-model="errorStrokeStyle"/>
-                                <v-text-field label="Line Width" v-model.number="lineWidth"/>
+                                <v-text-field label="Line Width" v-model.number="lineWidth" type="number"/>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>

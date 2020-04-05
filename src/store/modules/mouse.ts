@@ -14,6 +14,7 @@ export default function mouse(state: any, mouse: {
     }) {
     const ctrl = mouse.event.ctrlKey || mouse.event.metaKey;
     const shift = mouse.event.shiftKey;
+    const gridSize = state.preferences.snapToGrid && !shift ? state.preferences.gridSize : 1;
     const addKey = shift || ctrl;
     const pastDeadZone = state.translating.mouse ? (Math.abs(mouse.x - state.translating.mouse.x) > 2
         || Math.abs(mouse.y - state.translating.mouse.y) > 2) : false;
@@ -297,8 +298,8 @@ export default function mouse(state: any, mouse: {
             const transVector = state.translating.vectors.find((v: any) => movingVector.id === v.id);
             const x = transVector.properties.x + ((mouse.x - state.translating.mouse.x) / state.view.k);
             const y = transVector.properties.y + ((mouse.y - state.translating.mouse.y) / state.view.k);
-            vector.properties.x = Math.floor(x / 10) * 10;
-            vector.properties.y = Math.floor(y / 10) * 10;
+            vector.properties.x = Math.floor(x / gridSize) * gridSize;
+            vector.properties.y = Math.floor(y / gridSize) * gridSize;
         });
     }
     // calculate bounding box
