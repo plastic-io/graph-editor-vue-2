@@ -96,6 +96,7 @@ function keys(state: any, keys: {
     }
     // duplicate
     if (keys[dKeyCode] && ctrl && shift) {
+        e.preventDefault();
         duplicateSelection(state);
     }
     if (keys[graveKeyCode] && alt) {

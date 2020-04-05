@@ -1,7 +1,6 @@
 import mouse from "@/store/modules/mouse.ts";
 import graph from "../../stubs/graph.json";
 import luts from "../../stubs/luts.json";
-const shiftKeyCode = 16;
 describe("Mouse mutations", () => {
     let state;
     beforeEach(() => {
@@ -28,6 +27,9 @@ describe("Mouse mutations", () => {
                 mmb: false,
                 x: 0,
                 y: 0,
+                event: {
+                    preventDefault: jest.fn(),
+                },
             },
             selectedGroups: [],
             groupVectors: [],
@@ -364,10 +366,12 @@ describe("Mouse mutations", () => {
                 vectors: state.graph.vectors,
             };
             state.mouse.lmb = true;
-            state.keys[shiftKeyCode] = true;
             mouse(state, {
                 ...state.mouse,
                 lmb: false,
+                event: {
+                    shiftKey: true,
+                }
             });
             expect(JSON.stringify(state.selectedVectors)).toMatch(/93782913-4009-4a1d-a088-ace304f5dcbc/);
             expect(JSON.stringify(state.selectedVectors)).toMatch(/4a477b3e-2ff6-411b-abb2-b7055b0b769b/);

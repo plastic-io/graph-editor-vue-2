@@ -16,7 +16,6 @@ let vectorArtifactGraph;
 let vectorArtifact;
 let graphArtifactGraph;
 let graphArtifact;
-let actions;
 let state;
 const remoteArtifacts = {};
 localVue.use(Vuex);
@@ -98,7 +97,6 @@ describe("GraphVector.vue", () => {
         };
         store = new Vuex.Store(storeConfig);
         state = storeConfig.state;
-        actions = storeConfig.actions;
         let vuetify = new Vuetify();
         wrapper = mount(GraphVector, {
             localVue,
@@ -177,18 +175,6 @@ describe("GraphVector.vue", () => {
                 expect(wrapper.html()).toMatch("mdi-code-string");
                 done();
             }, 100);
-        });
-        it("Should dispatch hoveredVector actions when hover is called.", (done) => {
-            state.graph = graphArtifactGraph;
-            wrapper.vm.hover();
-            expect(actions.hoveredVector.mock.calls[0][1].id).toEqual("8a50a102-c5ac-4b27-bec9-d70b79b80cff");
-            done();
-        });
-        it("Should dispatch hoveredVector actions when unhover is called.", (done) => {
-            state.graph = graphArtifactGraph;
-            wrapper.vm.unhover();
-            expect(actions.hoveredVector.mock.calls[0][1]).toEqual(null);
-            done();
         });
     });
 });

@@ -76,7 +76,7 @@
             <div :style="showHelp ? 'pointer-events: none;' : ''">
                 <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
             </div>
-            <div class="graph-container" :style="graphContainerStyle">
+            <div :class="presentation ? '' : 'graph-container'" :style="graphContainerStyle">
                 <graph-canvas
                     :class="translating && mouse.lmb ? 'no-select' : ''"
                     :showGrid="preferences.appearance.showGrid && !presentation"
@@ -153,6 +153,17 @@
                     style="padding-right: 10px;cursor: pointer;"
                     >{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
+            <v-card style="position: fixed; bottom: 30px; right: 10px; width: 300px;" v-if="hoveredActivity">
+                <v-card-text>
+                    Field: {{hoveredActivity.event.field}}
+                    <v-spacer/>
+                    Duration: {{hoveredActivity.duration}}ms
+                    <v-spacer/>
+                    Value:
+                    <v-divider/>
+                    <pre>{{hoveredActivity.event.value}}</pre>
+                </v-card-text>
+            </v-card>
         </template>
         <v-bottom-sheet hide-overlay inset :timeout="2000" v-model="presentationWarning" multi-line>
             <v-alert>
@@ -175,6 +186,11 @@
         </v-snackbar>
         <v-progress-linear v-if="!graph && !localShowError" indeterminate></v-progress-linear>
         <help-overlay v-if="showHelp" @close="toggleHelp" style="z-index: 14;"/>
+        <component :is="'style'" v-if="!presentation">
+            html, body {
+                overflow: hidden;
+            }
+        </component>
     </v-app>
 </template>
 <script>
@@ -226,6 +242,7 @@ export default {
     },
     computed: {
         ...mapState({
+            activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
             panelVisibility: state => state.panelVisibility,
@@ -253,6 +270,14 @@ export default {
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        hoveredActivity: function() {
+            if (!this.hoveredConnector) {
+                return null;
+            }
+            const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id
+                + this.hoveredConnector.input.vector.id + this.hoveredConnector.input.field.name;
+            return this.activityConnectors[key];
+        },
         graphContainerStyle: function() {
             let cursor = "";
             if ((this.mouse.lmb && this.translate) || this.mouse.mmb) {
@@ -349,13 +374,40 @@ export default {
                     || (this.$refs.topBar && this.$refs.topBar.$el.contains(e.target))
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
+        getItemAt(e) {
+            while (e.parentNode) {
+                if (e.className === "vector-inputs" || e.className === "vector-outputs") {
+                    return {port: true};
+                }
+                if (e.className === "vector") {
+                    const vectorId = e.getAttribute("x-vector-id");
+                    return {
+                        vector: this.graph.vectors.find((v) => {
+                            return v.id === vectorId;
+                        }),
+                    };
+                }
+                e = e.parentNode;
+            }
+            return {};
+        },
         mousemove(e) {
             if (this.showHelp) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);
+            const item = this.getItemAt(e.target);
+            if (item.vector) {
+                this.$store.dispatch("hoveredVector", item.vector);
+            } else {
+                this.$store.dispatch("hoveredVector", null);
+            }
+            if (!item.port) {
+                this.$store.dispatch("hoveredPort", null);
+            }
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 x: mouse.x,
                 y: mouse.y,
             });
@@ -381,6 +433,7 @@ export default {
                 mouse: {
                     x: this.mouse.x,
                     y: this.mouse.y,
+                    event: e,
                 },
                 view: {
                     y: this.view.y,
@@ -405,12 +458,14 @@ export default {
             this.$store.dispatch("translating", translating);
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 [this.buttonMap[e.button]]: true,
             });
         },
         mouseup(e) {
             this.$store.dispatch("mouse", {
                 ...this.mouse,
+                event: e,
                 [this.buttonMap[e.button]]: false,
             });
         },
@@ -595,13 +650,13 @@ export default {
 };
 </script>
 <style>
-.bottom-system-bar {
-    white-space: nowrap;
-}
 .graph-container {
     position: fixed;
     top: 0;
     left: 0;
+}
+.bottom-system-bar {
+    white-space: nowrap;
 }
 .no-pointer-events {
     pointer-events: none;

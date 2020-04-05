@@ -1,5 +1,5 @@
 <template>
-    <div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)" :key="historyPosition">
+    <div :style="graphCanvasStyle" v-if="localGraph" @drop="drop($event)" @dragover="dragOver($event)" :key="localVersion">
         <div
             :style="preferences.appearance.theme === 'dark' ? '' : 'filter: invert(1);'"
             :class="graphCanvasClasses"
@@ -34,6 +34,7 @@ export default {
     },
     data() {
         return {
+            localVersion: 0,
             dragged: null,
             localGraph: null,
         };
@@ -158,15 +159,19 @@ export default {
             };
         },
         graphCanvasClasses: function () {
-            return "graph-canvas-container " + (this.showGrid ? "grid" : "");
+            const classes = [];
+            if (!this.presentation) {
+                classes.push("graph-canvas-container");
+                if (this.showGrid) {
+                    classes.push("grid");
+                }
+            }
+            return classes.join(" ");
         },
     },
 };
 </script>
 <style>
-body {
-    border: solid 1px black;
-}
 .bounding-rect {
     pointer-events: none;
     position: absolute;
@@ -177,7 +182,6 @@ body {
     border-style: dotted;
 }
 .graph-canvas-container {
-    background: #000;
     position: absolute;
     width: 10000vw;
     height: 10000vh;
