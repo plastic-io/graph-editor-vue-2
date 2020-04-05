@@ -12,8 +12,8 @@ export default function mouse(state: any, mouse: {
         y: number,
         event: any
     }) {
-    const shift = state.keys[ctrlKeyCode];
-    const ctrl = state.keys[shiftKeyCode] || state.keys[metaKeyCode];
+    const ctrl = mouse.event.ctrlKey || mouse.event.metaKey;
+    const shift = mouse.event.shiftKey;
     const addKey = shift || ctrl;
     const pastDeadZone = state.translating.mouse ? (Math.abs(mouse.x - state.translating.mouse.x) > 2
         || Math.abs(mouse.y - state.translating.mouse.y) > 2) : false;

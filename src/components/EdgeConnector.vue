@@ -6,46 +6,6 @@
             ref="canvas"
             :height="height * ratio"
             :width="width * ratio"/>
-        <div v-if="hovered && activityInfo" :style="connectorInfoStyle">
-            <v-card>
-                <v-card-text>
-                    <v-simple-table>
-                        <template v-slot:default>
-                            <thead>
-                                <tr>
-                                    <th class="text-left">Name</th>
-                                    <th class="text-left">Value</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Field</td>
-                                    <td>{{activityInfo.event.field}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Time</td>
-                                    <td>{{activityInfo.event.time}}</td>
-                                </tr>
-                                <tr v-if="activityInfo.end">
-                                    <td>End</td>
-                                    <td>{{activityInfo.end}}</td>
-                                </tr>
-                                <tr v-if="activityInfo.event.duration">
-                                    <td>Duration</td>
-                                    <td>{{activityInfo.event.duration}}</td>
-                                </tr>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                        <pre>{{activityInfo.event.value}}</pre>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </template>
-                    </v-simple-table>
-                </v-card-text>
-            </v-card>
-        </div>
     </div>
 </template>
 <script>
@@ -99,7 +59,7 @@ export default {
             movingConnector: state => state.movingConnector,
         }),
         activityInfo() {
-            return this.activityConnectors[this.connector.graphId + this.connector.vectorId + this.connector.field];
+            return this.activityConnectors[this.graph.id + this.output.vector.id + this.input.vector.id + this.input.field.name];
         },
         watched() {
             return this.watchConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
@@ -168,7 +128,7 @@ export default {
         },
         activityConnectors: {
             handler: function () {
-                const key = this.graph.id + this.input.vector.id + this.input.field.name;
+                const key = this.graph.id + this.output.vector.id + this.input.vector.id + this.input.field.name;
                 const activity = this.activityConnectors[key];
                 if (activity) {
                     if (activity.start) {

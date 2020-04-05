@@ -153,6 +153,17 @@
                     style="padding-right: 10px;cursor: pointer;"
                     >{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
+            <v-card style="position: fixed; bottom: 30px; right: 10px; width: 300px;" v-if="hoveredActivity">
+                <v-card-text>
+                    Field: {{hoveredActivity.event.field}}
+                    <v-spacer/>
+                    Duration: {{hoveredActivity.duration}}ms
+                    <v-spacer/>
+                    Value:
+                    <v-divider/>
+                    <pre>{{hoveredActivity.event.value}}</pre>
+                </v-card-text>
+            </v-card>
         </template>
         <v-bottom-sheet hide-overlay inset :timeout="2000" v-model="presentationWarning" multi-line>
             <v-alert>
@@ -231,6 +242,7 @@ export default {
     },
     computed: {
         ...mapState({
+            activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
             panelVisibility: state => state.panelVisibility,
@@ -258,6 +270,14 @@ export default {
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        hoveredActivity: function() {
+            if (!this.hoveredConnector) {
+                return null;
+            }
+            const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id
+                + this.hoveredConnector.input.vector.id + this.hoveredConnector.input.field.name;
+            return this.activityConnectors[key];
+        },
         graphContainerStyle: function() {
             let cursor = "";
             if ((this.mouse.lmb && this.translate) || this.mouse.mmb) {

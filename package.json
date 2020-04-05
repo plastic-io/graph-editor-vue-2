@@ -24,7 +24,7 @@
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-typescript": "^7.8.3",
     "@mdi/font": "^4.9.95",
-    "@plastic-io/plastic-io": "^1.0.5",
+    "@plastic-io/plastic-io": "^1.0.8",
     "@types/escodegen": "0.0.6",
     "babel-jest": "^25.1.0",
     "core-js": "^3.6.4",

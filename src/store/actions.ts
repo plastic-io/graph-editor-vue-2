@@ -87,6 +87,9 @@ export default {
         document.body.removeChild(a);
     },
     instantiateGraph(context: any) {
+        function connectorKey(e: any) {
+            return e.graphId + e.currentVectorId + e.vectorId + e.field;
+        }
         const logger = {
             log: (e: any) => {
                 context.commit("addLogItem", {eventName: "log", event: e});
@@ -110,14 +113,15 @@ export default {
         const instanceId = newId();
         scheduler.addEventListener("beginedge", (e) => {
             if ("field" in e) {
+                const key = connectorKey(e);
                 context.commit("connectorActivity", {
-                    key: e.graphId + e.vectorId + e.field,
+                    key,
                     start: Date.now(),
                     event: e,
                 });
                 if (context.state.preferences.debug) {
                     context.commit("setLoadingStatus", {
-                        key: e.graphId + e.vectorId + e.field,
+                        key,
                         type: "edge",
                         loading: true,
                         event: e,
@@ -129,15 +133,16 @@ export default {
         scheduler.addEventListener("endedge", (e) => {
             if ("field" in e) {
                 const now = Date.now();
+                const key = connectorKey(e);
                 context.commit("connectorActivity", {
-                    key: e.graphId + e.vectorId + e.field,
+                    key,
                     end: Date.now(),
-                    duration: now - context.state.activityConnectors[e.graphId + e.vectorId + e.field].start,
+                    duration: now - context.state.activityConnectors[key].start,
                     event: e,
                 });
                 if (context.state.preferences.debug) {
                     context.commit("setLoadingStatus", {
-                        key: e.graphId + e.vectorId + e.field,
+                        key,
                         type: "edge",
                         loading: false,
                     });
