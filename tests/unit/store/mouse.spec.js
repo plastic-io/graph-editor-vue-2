@@ -28,6 +28,9 @@ describe("Mouse mutations", () => {
                 mmb: false,
                 x: 0,
                 y: 0,
+                event: {
+                    preventDefault: jest.fn(),
+                },
             },
             selectedGroups: [],
             groupVectors: [],

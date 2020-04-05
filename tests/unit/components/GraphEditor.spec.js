@@ -157,9 +157,9 @@ describe("GraphEditor.vue", () => {
                     className: "not-vector",
                 },
             });
-            expect(actions.translating.mock.calls[0][1]).toEqual({mouse: {x: 0, y: 0}, vectors: [], view: {x: 0, y: 0}});
+            expect(actions.translating.mock.calls[0][1]).toEqual({"mouse": {"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "not-vector"}}, "x": 0, "y": 0}, "vectors": [], "view": {"x": 0, "y": 0}});
             expect(actions.mouse).toHaveBeenCalled();
-            expect(actions.mouse.mock.calls[0][1]).toEqual({lmb: true, mmb: false, rmb: false, x: 0, y: 0});
+            expect(actions.mouse.mock.calls[0][1]).toEqual({"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "not-vector"}}, "lmb": true, "mmb": false, "rmb": false, "x": 0, "y": 0});
             done();
         });
         it("Should transmit a mouse event with the mouse button up on mouseup.", (done) => {
@@ -171,7 +171,7 @@ describe("GraphEditor.vue", () => {
                     className: "vector",
                 },
             });
-            expect(actions.mouse.mock.calls[0][1]).toEqual({lmb: false, mmb: false, rmb: false, x: 0, y: 0});
+            expect(actions.mouse.mock.calls[0][1]).toEqual({"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "vector"}}, "lmb": false, "mmb": false, "rmb": false, "x": 0, "y": 0});
             done();
         });
         it("Should scale correctly on scale method.", (done) => {

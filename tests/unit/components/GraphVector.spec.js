@@ -178,17 +178,5 @@ describe("GraphVector.vue", () => {
                 done();
             }, 100);
         });
-        it("Should dispatch hoveredVector actions when hover is called.", (done) => {
-            state.graph = graphArtifactGraph;
-            wrapper.vm.hover();
-            expect(actions.hoveredVector.mock.calls[0][1].id).toEqual("8a50a102-c5ac-4b27-bec9-d70b79b80cff");
-            done();
-        });
-        it("Should dispatch hoveredVector actions when unhover is called.", (done) => {
-            state.graph = graphArtifactGraph;
-            wrapper.vm.unhover();
-            expect(actions.hoveredVector.mock.calls[0][1]).toEqual(null);
-            done();
-        });
     });
 });

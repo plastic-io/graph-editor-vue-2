@@ -64,12 +64,7 @@ describe("VectorField.vue", () => {
         actions = storeConfig.actions;
     });
     describe("Vector Field Methods", () => {
-        it("Should unhover a hovered port by calling hoveredPort with null", (done) => {
-            wrapper.vm.unhoverPort();
-            expect(actions.hoveredPort.mock.calls[0][1]).toEqual(null);
-            done();
-        });
-        it("Should hover a hovered port by calling hoveredPort with null", (done) => {
+        it("Should hover a hovered port by calling hoveredPort", (done) => {
             wrapper.vm.hoverPort();
             expect(actions.hoveredPort.mock.calls[0][1].type).toEqual("output");
             expect(actions.hoveredPort.mock.calls[0][1].vector).toEqual(acid.vectors[0]);
