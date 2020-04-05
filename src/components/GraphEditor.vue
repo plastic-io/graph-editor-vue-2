@@ -76,7 +76,7 @@
             <div :style="showHelp ? 'pointer-events: none;' : ''">
                 <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
             </div>
-            <div class="graph-container" :style="graphContainerStyle">
+            <div :class="presentation ? '' : 'graph-container'" :style="graphContainerStyle">
                 <graph-canvas
                     :class="translating && mouse.lmb ? 'no-select' : ''"
                     :showGrid="preferences.appearance.showGrid && !presentation"
@@ -354,11 +354,37 @@ export default {
                     || (this.$refs.topBar && this.$refs.topBar.$el.contains(e.target))
                     || (this.$refs.bottomBar && this.$refs.bottomBar.$el.contains(e.target)));
         },
+        getItemAt(e) {
+            while (e.parentNode) {
+                if (e.className === "vector-inputs" || e.className === "vector-outputs") {
+                    return {port: true};
+                }
+                if (e.className === "vector") {
+                    const vectorId = e.getAttribute("x-vector-id");
+                    return {
+                        vector: this.graph.vectors.find((v) => {
+                            return v.id === vectorId;
+                        }),
+                    };
+                }
+                e = e.parentNode;
+            }
+            return {};
+        },
         mousemove(e) {
             if (this.showHelp) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);
+            const item = this.getItemAt(e.target);
+            if (item.vector) {
+                this.$store.dispatch("hoveredVector", item.vector);
+            } else {
+                this.$store.dispatch("hoveredVector", null);
+            }
+            if (!item.port) {
+                this.$store.dispatch("hoveredPort", null);
+            }
             this.$store.dispatch("mouse", {
                 ...this.mouse,
                 event: e,

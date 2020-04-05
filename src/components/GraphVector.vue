@@ -4,6 +4,8 @@
             v-if="loaded[vectorComponentName] && visible"
             ref="vector"
             class="vector"
+            :key="localVector.id"
+            :x-vector-id="localVector.id"
             :style="vectorStyle">
             <template v-if="errors.length > 0">
                 <div v-for="(error, index) in errors" :key="index">
@@ -39,8 +41,6 @@
             <div
                 help-topic="vectorInstance"
                 :id="'vector-' + localVector.id"
-                @mouseover="hover"
-                @mouseout="unhover"
                 :class="translating && mouse.lmb ? 'no-select' : ''"
             >
                 <component
@@ -240,12 +240,6 @@ export default {
             v.properties.presentation.y = this.vector.properties.presentation.y;
             v.properties.presentation.z = this.vector.properties.presentation.z;
             await this.compileTemplate(artifactKey, v.template.vue);
-        },
-        hover() {
-            this.$store.dispatch("hoveredVector", this.localVector);
-        },
-        unhover() {
-            this.$store.dispatch("hoveredVector", null);
         },
         compileTemplate(id, tmp, clearLoad) {
             if (clearLoad) {

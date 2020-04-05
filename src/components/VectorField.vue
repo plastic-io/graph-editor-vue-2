@@ -1,7 +1,6 @@
 <template>
     <div
         v-if="!presentation"
-        @mouseout="unhoverPort"
         @mouseover="hoverPort"
         :style="connectorWarn ? 'cursor: not-allowed;' : ''"
     >
@@ -57,9 +56,6 @@ export default {
         },
     },
     methods: {
-        unhoverPort() {
-            this.$store.dispatch("hoveredPort", null);
-        },
         hoverPort() {
             this.$store.dispatch("hoveredPort", {
                 field: this.field,

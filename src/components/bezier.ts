@@ -1,7 +1,7 @@
 import Bezier from "bezier-js"; // eslint-disable-line
 import colors from "vuetify/lib/util/colors";
 const lastViewPos = {x: 0, y: 0, k: 1};
-const lookups = [];
+const lookups: string[] = [];
 export default function bezierDraw(connector: any): void {
     const ctx = connector.ctx;
     function getColor(key: string) {
