@@ -172,10 +172,13 @@
                 </v-row>
             </v-alert>
         </v-bottom-sheet>
-        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" multi-line>
+        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph">
             <v-alert type="error" prominent>
                 <v-row>
-                    <v-col><pre>{{localErrorMessage}}</pre></v-col>
+                    <v-col><h2>An error has occred on a vector</h2></v-col>
+                </v-row>
+                <v-row>
+                    <v-col>{{localErrorMessage}}</v-col>
                 </v-row>
                 <v-row>
                     <v-col class="shrink" v-if="graph">
