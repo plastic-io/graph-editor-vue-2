@@ -11,12 +11,12 @@
                     <v-icon help-topic="openGraph" @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
-                    <span help-topic="documentName">
-                        {{ graph.properties.name || "Untitled" }}
-                    </span>
+                    <span help-topic="plastic">Plastic-IO</span>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-                <span help-topic="plastic">Plastic-IO</span>
+                <span help-topic="documentName">
+                    {{ graph.properties.name || "Untitled" }}
+                </span>
                 <v-spacer/>
                 <span>
                     <v-divider vertical style="margin: 5px;"/>

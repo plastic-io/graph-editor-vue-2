@@ -1,5 +1,5 @@
 <template>
-    <v-card flat v-if="vector" style="height: calc(100vh - 48px); overflow-y: auto;">
+    <v-card flat v-if="vector" style="height: calc(100vh - 98px); overflow-y: auto;">
         <v-card-title>
             <v-icon left help-topic="vector">mdi-network-outline</v-icon>
             Vector Properties

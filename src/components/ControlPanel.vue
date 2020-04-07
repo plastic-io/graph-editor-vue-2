@@ -18,7 +18,10 @@
                 style="overflow: hidden;"
                 elevation="0"
                 v-if="panel">
-                <v-tabs v-if="selectedVector && panel === 'properties'" :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
+                <v-tabs
+                    v-model="vectorPanelTabs"
+                    v-if="selectedVector && panel === 'properties'"
+                    :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
                     <v-tab>
                         <v-icon>
                             mdi-vector-point
@@ -172,6 +175,7 @@ import SetEditor from "./SetEditor";
 import TemplateEditor from "./TemplateEditor";
 import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
+import {mapFields} from "vuex-map-fields";
 export default {
     name: "control-panel",
     components: {
@@ -200,6 +204,9 @@ export default {
         },
     },
     computed: {
+        ...mapFields([
+            "preferences.vectorPanelTabs",
+        ]),
         ...mapState({
             showHelp: state => state.showHelp,
             historyPosition: state => state.historyPosition,

@@ -2,38 +2,14 @@
     <div @keydown="keydown($event)" v-if="selectedVector">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
-            <v-toolbar-title help-topic="vueTemplate">{{selectedVector.properties.name || "Vector"}} - Vue Template</v-toolbar-title>
+            <v-toolbar-title help-topic="vueTemplate">
+                Template
+                <span v-if="dirty" title="Unsaved changes">*</span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn :loading="saving" @click="save" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
-            <v-menu bottom :close-on-content-click="false">
-                <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-help-circle-outline</v-icon>
-                </template>
-                <v-card>
-                    <v-card-text>
-                        <pre class="dont-propagate-copy">
-# Props
-
-vector: This vector
-state: Runtime state
-scheduler: Graph execution scheduler
-
-# Scheduler Events
-
-beginedge: When an edge is about to be invoked
-endedge: When an edge is finished invoking
-error: When an error occurs
-set: When a set function is run
-begin: When the scheduler starts to run
-end: When the scheduler is done running
-warning: When a warning occurs
-load: When a remote resourse is loaded
-                        </pre>
-                    </v-card-text>
-                </v-card>
-            </v-menu>
         </v-toolbar>
         <editor
             v-model="value"
@@ -56,11 +32,23 @@ export default {
     },
     data: () => {
         return {
+            dirty: false,
             saving: false,
             value: "",
         };
     },
     watch: {
+        value: {
+            handler: function () {
+                if (this.value !== this.vector.template.vue) {
+                    localStorage.setItem("_cached_vue_" + this.selectedVector.id, this.value);
+                    this.dirty = true;
+                } else {
+                    localStorage.removeItem("_cached_vue_" + this.selectedVector.id);
+                    this.dirty = false;
+                }
+            },
+        },
         selectedVector: {
             handler: function () {
                 this.setValue();
@@ -84,8 +72,10 @@ export default {
                 key: "vue",
             });
             this.saving = true;
+            localStorage.removeItem("_cached_vue_" + this.selectedVector.id);
             setTimeout(() => {
                 this.saving = false;
+                this.dirty = false;
             }, 250);
         },
         setValue() {
@@ -98,6 +88,11 @@ export default {
             }
             if (this.vector.template.vue) {
                 this.value = this.vector.template.vue;
+            }
+            const cached = localStorage.getItem("_cached_vue_" + this.selectedVector.id);
+            if (cached) {
+                this.value = cached;
+                this.dirty = true;
             }
         },
         editorInit() {

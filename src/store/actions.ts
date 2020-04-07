@@ -95,6 +95,9 @@ export default {
                 context.commit("addLogItem", {eventName: "log", event: e});
             },
             info: (e: any) => {
+                if (/Executing vector at URL/.test(e.toString()) && !context.state.preferences.debug) {
+                    return;
+                }
                 context.commit("addLogItem", {eventName: "info", event: e});
             },
             debug: (e: any) => {
