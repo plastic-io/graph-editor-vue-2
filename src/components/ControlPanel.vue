@@ -18,43 +18,46 @@
                 style="overflow: hidden;"
                 elevation="0"
                 v-if="panel">
-                <v-tabs v-if="selectedVector && panel === 'properties'" :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
-                    <v-tab>
+                <v-tabs
+                    v-model="vectorPanelTabs"
+                    v-if="selectedVector && panel === 'properties'"
+                    :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
+                    <v-tab key="properties">
                         <v-icon>
                             mdi-vector-point
                         </v-icon>
                     </v-tab>
-                    <v-tab>
+                    <v-tab key="edge">
                         <v-icon help-topic="edge">
                             mdi-video-input-component
                         </v-icon>
                     </v-tab>
-                    <v-tab>
+                    <v-tab key="template">
                         <v-icon help-topic="template">
                             mdi-vuejs
                         </v-icon>
                     </v-tab>
-                    <v-tab>
+                    <v-tab key="set">
                         <v-icon help-topic="set">
                             mdi-lambda
                         </v-icon>
                     </v-tab>
-                    <v-tab-item>
+                    <v-tab-item key="properties">
                         <vector-properties
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
-                    <v-tab-item>
+                    <v-tab-item key="edge">
                         <edge-properties
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
-                    <v-tab-item>
+                    <v-tab-item key="template">
                         <template-editor
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
-                    <v-tab-item>
+                    <v-tab-item key="set">
                         <set-editor
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
@@ -275,6 +278,7 @@ export default {
     },
     data: () => {
         return {
+            vectorPanelTabs: null,
             localVersion: 0,
             iconGutterSize: 43,
             graphVue: null,

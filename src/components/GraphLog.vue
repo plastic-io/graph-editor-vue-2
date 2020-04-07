@@ -63,8 +63,10 @@
                             <v-spacer/>
                             <v-icon help-topic="logStateRefresh" title="Clear" style="cursor: pointer;" @click="$forceUpdate">mdi-refresh</v-icon>
                         </v-system-bar>
-                        <v-card-text style="padding-top: 20px;">
-                            <pre>{{JSON.stringify(state, null, "\t")}}</pre>
+                        <v-card-text style="padding-top: 20px;height: calc(100vh - 195px); overflow: auto;">
+                            <div :style="preferences.appearance.theme === 'dark' ? 'filter: invert(1);' : ''">
+                                <json-viewer copyable style="background: transparent; margin-left: -25px;" :value="state"></json-viewer>
+                            </div>
                         </v-card-text>
                     </v-card>
                 </v-tab-item>
@@ -133,9 +135,11 @@
     </v-card>
 </template>
 <script>
+import JsonViewer from "vue-json-viewer";
 import {mapState, mapMutations} from "vuex";
 export default {
     name: "graph-log",
+    components: {JsonViewer},
     data: () => {
         return {};
     },

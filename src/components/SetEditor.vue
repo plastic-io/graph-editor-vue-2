@@ -2,39 +2,14 @@
     <div @keydown="keydown($event)" v-if="selectedVector">
         <v-toolbar short flat dense>
             <v-icon style="margin-right: 10px;">{{selectedVector.properties.icon}}</v-icon>
-            <v-toolbar-title help-topic="setTemplate">{{selectedVector.properties.name || "Vector"}} - Set Function</v-toolbar-title>
+            <v-toolbar-title help-topic="setTemplate">
+                Set
+                <span v-if="dirty" title="Unsaved changes">*</span>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn @click="save" :loading="saving" title="Save">
                 <v-icon>mdi-content-save</v-icon>
             </v-btn>
-            <v-menu bottom :close-on-content-click="false">
-                <template v-slot:activator="{ on: tooltip }">
-                    <v-icon style="margin: 0 7px 0 14px;" v-on="{ ...tooltip }">mdi-help-circle-outline</v-icon>
-                </template>
-                <v-card>
-                    <v-card-text>
-                        <pre class="dont-propagate-copy">
-# Set
-
-    This function runs when your vector is invoked directly, either by the scheudler
-    url function or by another vector's edge.
-
-# Globals
-
-    edges: These edge outputs are defined in the designer.  E.x.: edges.x = "foo" sends "foo" out of the x edge.
-    state: Scheduler state.  Use this shared object to track your application state.
-    field: The name of the input field trigged by the remote vector edge.
-    value: The value passed to the field.
-    vector: The vector schema, contains many of the other fields.
-    cache: Vector specific runtime cache object.  Stick what you want here, it's yours, but it goes away.
-    graph: The entire graph.
-    data: Vector specific data.  This data persists between runs.  Requires graph modification to change.
-    properties: Graph editor properties and input/output field list.
-
-                        </pre>
-                    </v-card-text>
-                </v-card>
-            </v-menu>
         </v-toolbar>
         <editor
             v-model="value"
@@ -57,11 +32,24 @@ export default {
     },
     data: () => {
         return {
+            dirty: false,
             value: "",
             saving: false,
         };
     },
     watch: {
+        value: {
+            handler: function () {
+                if (this.value !== this.vector.template.set) {
+                    localStorage.setItem("_cached_set_" + this.selectedVector.id, this.value);
+                    console.log("set handler dirty");
+                    this.dirty = true;
+                } else {
+                    localStorage.removeItem("_cached_set_" + this.selectedVector.id);
+                    this.dirty = false;
+                }
+            },
+        },
         selectedVector: {
             handler: function () {
                 this.setValue();
@@ -85,8 +73,10 @@ export default {
                 key: "set",
             });
             this.saving = true;
+            localStorage.removeItem("_cached_set_" + this.selectedVector.id);
             setTimeout(() => {
                 this.saving = false;
+                this.dirty = false;
             }, 250);
         },
         setValue() {
@@ -99,6 +89,12 @@ export default {
             }
             if (this.vector.template.set) {
                 this.value = this.vector.template.set;
+            }
+            const cached = localStorage.getItem("_cached_set_" + this.selectedVector.id);
+            if (cached) {
+                this.value = cached;
+                console.log("set value dirty");
+                this.dirty = true;
             }
         },
         editorInit() {

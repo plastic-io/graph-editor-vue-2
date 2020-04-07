@@ -36,6 +36,7 @@
     "v-runtime-template": "^1.10.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-json-viewer": "^2.2.11",
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.17",

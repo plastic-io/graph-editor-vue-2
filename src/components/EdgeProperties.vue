@@ -1,12 +1,9 @@
 <template>
-    <v-card v-if="vector" flat style="height: calc(100vh - 49px);overflow-y: auto;">
+    <v-card v-if="vector" flat style="height: calc(100vh - 98px);overflow-y: auto;">
         <v-card-title help-topic="edge">
-            <v-icon left>mdi-transit-connection-variant</v-icon>
-            Vector Edge
-        </v-card-title>
-        <v-card-subtitle>
+            <v-icon left>mdi-video-input-component</v-icon>
             Inputs and Outputs
-        </v-card-subtitle>
+        </v-card-title>
         <v-card-text>
             <v-expansion-panels flat multiple :value="panels">
                 <v-expansion-panel v-for="ioKey in ['outputs', 'inputs']" :key="ioKey">
