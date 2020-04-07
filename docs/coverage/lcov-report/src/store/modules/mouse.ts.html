@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.06% </span>
+                <span class="strong">96.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>195/203</span>
+                <span class='fraction'>196/204</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.33% </span>
+                <span class="strong">85.48% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>157/184</span>
+                <span class='fraction'>159/186</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.72% </span>
+                <span class="strong">95.74% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>179/187</span>
+                <span class='fraction'>180/188</span>
             </div>
         
             
@@ -406,7 +406,8 @@
 <a name='L348'></a><a href='#L348'>348</a>
 <a name='L349'></a><a href='#L349'>349</a>
 <a name='L350'></a><a href='#L350'>350</a>
-<a name='L351'></a><a href='#L351'>351</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -420,6 +421,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">21x</span>
@@ -770,6 +772,7 @@ export default function mouse(state: any, mouse: {
         y: number,
         event: any
     }) {
+    const locked = state.presentation || state.locked;
     const ctrl = mouse.event.ctrlKey || mouse.event.metaKey;
     const shift = mouse.event.shiftKey;
     const gridSize = state.preferences.snapToGrid &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >!shift ? <span class="branch-0 cbranch-no" title="branch not covered" >s</span>tate.preferences.gridSize : 1</span>;
@@ -824,7 +827,7 @@ export default function mouse(state: any, mouse: {
         };
     });
     // adding a connector
-    if (state.hoveredPort &amp;&amp; !state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; !state.movingConnector &amp;&amp; state.hoveredPort.type === "output" &amp;&amp; !state.locked) {
+    if (state.hoveredPort &amp;&amp; !state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; !state.movingConnector &amp;&amp; state.hoveredPort.type === "output" &amp;&amp; !locked) {
         state.addingConnector = state.hoveredPort;
         state.addingConnector.connector = {
             id: newId(),
@@ -835,7 +838,7 @@ export default function mouse(state: any, mouse: {
         };
     }
     // moving a connector
-    if (state.hoveredConnector &amp;&amp; !state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; pastDeadZone &amp;&amp; !state.locked) {
+    if (state.hoveredConnector &amp;&amp; !state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; pastDeadZone &amp;&amp; !locked) {
         state.movingConnector = state.hoveredConnector;
     }
     // draw select box maybe
@@ -970,7 +973,7 @@ export default function mouse(state: any, mouse: {
         state.selectedVector = null;
     }
     // start moving vectors
-    if (!state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; state.hoveredVector &amp;&amp; state.movingVectors.length === 0 &amp;&amp; !state.locked) {
+    if (!state.mouse.lmb &amp;&amp; mouse.lmb &amp;&amp; state.hoveredVector &amp;&amp; state.movingVectors.length === 0 &amp;&amp; !locked) {
         const selected = remapVectors(state.selectedVectors);
         if (selected.find((v: Vector) =&gt; v.id === state.hoveredVector.id)) {
             state.movingVectors = [
@@ -1050,7 +1053,7 @@ export default function mouse(state: any, mouse: {
         state.view.y = state.translating.view.y + (mouse.y - state.translating.mouse.y);
     }
     // move vectors
-    if (state.movingVectors.length &gt; 0 &amp;&amp; !state.locked) {
+    if (state.movingVectors.length &gt; 0 &amp;&amp; !locked) {
         state.movingVectors.forEach((movingVector: any) =&gt; {
             const vector = state.graphSnapshot.vectors.find((v: Vector) =&gt; movingVector.id === v.id);
             const transVector = state.translating.vectors.find((v: any) =&gt; movingVector.id === v.id);
@@ -1113,7 +1116,7 @@ export default function mouse(state: any, mouse: {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Apr 05 2020 23:26:50 GMT+0000 (Coordinated Universal Time)
+                at Tue Apr 07 2020 04:56:35 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
