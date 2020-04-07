@@ -36,6 +36,14 @@ function keys(state: any, keys: {
     const ctrl = e.ctrlKey || e.metaKey;
     const shift = e.shiftKey;
     const alt = e.altKey;
+    const locked = state.presentation || state.locked;
+    if (keys[graveKeyCode] && alt) {
+        togglePresentation(state);
+    }
+    if (locked) {
+        // keyboard shortcuts are disabled in presentation/locked mode
+        return;
+    }
     // zoom
     // BUG in chrome?: in key interface. - and + do not "keyup" when command is held down
     if (keys[equalKeyCode] && ctrl) {
@@ -98,9 +106,6 @@ function keys(state: any, keys: {
     if (keys[dKeyCode] && ctrl && shift) {
         e.preventDefault();
         duplicateSelection(state);
-    }
-    if (keys[graveKeyCode] && alt) {
-        togglePresentation(state);
     }
     if (keys[tabKeyCode]) {
         e.preventDefault();
