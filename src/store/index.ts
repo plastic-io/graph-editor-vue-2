@@ -105,7 +105,6 @@ export default function () {
             },
             presentation: false,
             vectorPanelTabs: 0,
-            navWidth: 450,
             locked: false,
             historyPosition: 0,
             vectorZCounter: 0,
