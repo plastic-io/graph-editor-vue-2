@@ -1,5 +1,8 @@
 <template>
     <div ref="vector-root">
+        <v-alert v-if="broken" type="error">
+            <pre>{{broken}}</pre>
+        </v-alert>
         <div
             v-if="loaded[vectorComponentName] && visible"
             ref="vector"
@@ -305,7 +308,15 @@ export default {
                 next: true,
             });
             const astString = generate(ast);
+            this.styles = [];
+            this.broken = null;
             const scr = document.createElement("script");
+            scr.crossorigin = "anonymous";
+            scr.async = true;
+            scr.onerror = (err) => {
+                console.error("Script load error", err);
+                this.broken = err;
+            };
             window.Vue = Vue;
             scr.type = "module";
             this.$el.appendChild(scr);
@@ -330,7 +341,13 @@ export default {
                     });
                     if (allLoaded) {
                         clearTimeout(this.longLoadingTimer);
-                        this.$forceUpdate();
+                        this.broken = false;
+                        try {
+                            this.$forceUpdate();
+                        } catch (err) {
+                            console.error(`Vector ${id} error:`, err);
+                            this.broken = err;
+                        }
                     }
                     return;
                 }

@@ -295,8 +295,8 @@ export default {
             if (isInput) {
                 for (let x = 0; x < this.graphSnapshot.vectors.length; x += 1) {
                     for (let y =0; y < this.graphSnapshot.vectors[x].edges.length; y += 1) {
-                        this.graphSnapshot.vectors[x].edges[y].connectors.find(c => c.vectorId === this.vector.id && c.field === io.name);
-                        if (!override) {
+                        const connectors = this.graphSnapshot.vectors[x].edges[y].connectors.find(c => c.vectorId === this.vector.id && c.field === io.name);
+                        if (!override && connectors) {
                             this.showMessage = true;
                             this.message = "There are connectors connected to this input.  Are you sure you want to delete it?";
                             this.messageCallback = () => {

@@ -42,7 +42,7 @@
             lang="javascript"
             :theme="preferences.appearance.theme === 'dark' ? 'twilight' : 'chrome'"
             :width="width + 'px'"
-            height="calc(100vh - 96px)"
+            height="calc(100vh - 145px)"
         ></editor>
     </div>
 </template>
