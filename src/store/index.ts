@@ -104,7 +104,6 @@ export default function () {
                 instance: null,
             },
             presentation: false,
-            vectorPanelTabs: 0,
             locked: false,
             historyPosition: 0,
             vectorZCounter: 0,

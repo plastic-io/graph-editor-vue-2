@@ -154,21 +154,6 @@ export default {
             state: state => state.scheduler.state,
             log: state => state.log,
         }),
-        stateFormated() {
-            const getCircularReplacer = () => {
-                const seen = new WeakSet();
-                return (key, value) => {
-                    if (typeof value === "object" && value !== null) {
-                        if (seen.has(value)) {
-                            return "<circular reference>";
-                        }
-                        seen.add(value);
-                    }
-                    return value;
-                };
-            };
-            return JSON.stringify(this.state, getCircularReplacer(), "\t");
-        },
         getLogByType() {
             return (type) => {
                 return this.log.filter((item) => {
