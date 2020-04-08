@@ -274,7 +274,10 @@ export default {
             preferences: (state) => state.preferences,
         }),
         hoveredActivity: function() {
-            if (!this.hoveredConnector) {
+            if (!this.hoveredConnector
+                || !this.hoveredConnector.vector
+                || !this.hoveredConnector.input
+                || !this.hoveredConnector.vector) {
                 return null;
             }
             const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id

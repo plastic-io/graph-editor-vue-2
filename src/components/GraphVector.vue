@@ -222,10 +222,15 @@ export default {
             }
             const temp = [];
             temp.push("<template><div>");
-            g.vectors.forEach((v) => {
+            g.vectors.sort((a, b) => {
+                if (a.properties.presentation.z === b.properties.presentation.z) {
+                    return 0;
+                }
+                return a.properties.presentation.z > b.properties.presentation.z ? -1 : 1;
+            }).forEach((v) => {
                 if (v.properties.appearsInExportedGraph) {
                     const vectorKey = (this.artifactKey(v.artifact) || v.id);
-                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/ :state=\"state\">");
+                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/ :state=\"$store.state\"/>");
                 }
             });
             temp.push("</div></template>");
