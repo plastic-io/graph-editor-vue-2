@@ -1,5 +1,6 @@
 <template>
     <div
+        v-if="!presentation"
         :class="connectorClass"
         :style="connectorStyle">
         <canvas

@@ -487,7 +487,7 @@ export default {
         },
         scale(e) {
             // do not track control panel inputs
-            if (!this.isGraphTarget(e) || this.showHelp) {
+            if (!this.isGraphTarget(e) || this.showHelp || this.presentation) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);
