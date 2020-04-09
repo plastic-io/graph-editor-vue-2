@@ -277,7 +277,7 @@ export default {
             if (!this.hoveredConnector
                 || !this.hoveredConnector.vector
                 || !this.hoveredConnector.input
-                || !this.hoveredConnector.vector) {
+                || !this.hoveredConnector.input.vector) {
                 return null;
             }
             const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id

@@ -192,10 +192,11 @@ export default {
                 inputs: [],
                 outputs: [],
             };
+            console.log("get external io");
             this.graph.vectors.forEach((v) => {
                 ["inputs", "outputs"].forEach((io) => {
                     v.properties[io].forEach((i) => {
-                        if (i.external && i.graphId === this.graph.id) {
+                        if (i.external) {
                             info[io].push({
                                 vector: v,
                                 field: i,

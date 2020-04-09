@@ -230,7 +230,12 @@ export default {
             }).forEach((v) => {
                 if (v.properties.appearsInExportedGraph) {
                     const vectorKey = (this.artifactKey(v.artifact) || v.id);
-                    temp.push("<component is=\"vector-" + vectorKey + "\" :vector=\"$store.getters.getArtifactByUrl('" + (v.artifact || v.id) + "')\" :scheduler=\"$store.state.scheduler\"/ :state=\"$store.state\"/>");
+                    temp.push(`<component
+                        is="vector-${vectorKey}"
+                        @set="$store.state.scheduler.instance.url('${v.url}', $event)"
+                        :vector="$store.getters.getArtifactByUrl('${v.artifact || v.id}')"
+                        :scheduler="$store.state.scheduler"
+                        :state="$store.state"/>`);
                 }
             });
             temp.push("</div></template>");
