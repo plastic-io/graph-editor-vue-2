@@ -42,7 +42,6 @@ export default {
             handler: function () {
                 if (this.value !== this.vector.template.set) {
                     localStorage.setItem("_cached_set_" + this.selectedVector.id, this.value);
-                    console.log("set handler dirty");
                     this.dirty = true;
                 } else {
                     localStorage.removeItem("_cached_set_" + this.selectedVector.id);
@@ -93,7 +92,6 @@ export default {
             const cached = localStorage.getItem("_cached_set_" + this.selectedVector.id);
             if (cached) {
                 this.value = cached;
-                console.log("set value dirty");
                 this.dirty = true;
             }
         },

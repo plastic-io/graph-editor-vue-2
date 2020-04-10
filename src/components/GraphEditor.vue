@@ -274,7 +274,10 @@ export default {
             preferences: (state) => state.preferences,
         }),
         hoveredActivity: function() {
-            if (!this.hoveredConnector) {
+            if (!this.hoveredConnector
+                || !this.hoveredConnector.vector
+                || !this.hoveredConnector.input
+                || !this.hoveredConnector.input.vector) {
                 return null;
             }
             const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id
@@ -487,7 +490,7 @@ export default {
         },
         scale(e) {
             // do not track control panel inputs
-            if (!this.isGraphTarget(e) || this.showHelp) {
+            if (!this.isGraphTarget(e) || this.showHelp || this.presentation) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);

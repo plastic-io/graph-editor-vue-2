@@ -1,5 +1,6 @@
 <template>
     <div
+        v-if="!presentation"
         :class="connectorClass"
         :style="connectorStyle">
         <canvas
@@ -206,9 +207,17 @@ export default {
     methods: {
         redraw() {
             this.$nextTick(() => {
+                if (this.presentation) {
+                    return;
+                }
                 this.calls += 1;
+                this.setContext();
                 bezier(this);
             });
+        },
+        setContext() {
+            this.ctx = this.$refs.canvas.getContext("2d");
+            this.ctx.scale(this.ratio, this.ratio);
         },
     },
     updated() {
@@ -220,10 +229,9 @@ export default {
             input: this.input,
             output: this.output,
         }));
-        this.ctx = this.$refs.canvas.getContext("2d");
-        this.ctx.scale(this.ratio, this.ratio);
+        this.setContext();
         this.redraw();
-    }
+    },
 };
 </script>
 <style>
