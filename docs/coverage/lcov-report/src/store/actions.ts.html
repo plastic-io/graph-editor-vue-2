@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.13% </span>
+                <span class="strong">73.56% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>192/259</span>
+                <span class='fraction'>192/261</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">32.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/78</span>
+                <span class='fraction'>26/80</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.05% </span>
+                <span class="strong">77.11% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>64/82</span>
+                <span class='fraction'>64/83</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.03% </span>
+                <span class="strong">73.46% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>191/258</span>
+                <span class='fraction'>191/260</span>
             </div>
         
             
@@ -661,7 +661,13 @@
 <a name='L603'></a><a href='#L603'>603</a>
 <a name='L604'></a><a href='#L604'>604</a>
 <a name='L605'></a><a href='#L605'>605</a>
-<a name='L606'></a><a href='#L606'>606</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L606'></a><a href='#L606'>606</a>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -669,6 +675,11 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -751,6 +762,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1273,6 +1285,11 @@ import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; //
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+<span class="fstat-no" title="function not covered" >    async s</span>etGraphVector(context: any, o: any) {
+<span class="cstat-no" title="statement not covered" >        context.</span>state.scheduler.instance.url(context.state.graphReferences[o.vectorRef].url,
+            o.event, "$url", context.state.graphReferences[o.vectorRef],
+            context.state.graphReferences[o.graphRef]);
+    },
     async subscribePreferences(context: any) {
         await context.state.dataProviders.preferences.subscribe("preferences", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if (e.type === "preferences") {</span>
@@ -1356,7 +1373,8 @@ export default {
     },
     instantiateGraph(context: any) {
         function <span class="fstat-no" title="function not covered" >connectorKey(e</span>: any) {
-<span class="cstat-no" title="statement not covered" >            return e</span>.graphId + e.currentVectorId + e.vectorId + e.field;
+            const currentVectorId = <span class="cstat-no" title="statement not covered" >e.linkedEdges.length &gt; 0 ? e.linkedEdges[0].hostVectorId : e.currentVectorId;</span>
+<span class="cstat-no" title="statement not covered" >            return e</span>.graphId + currentVectorId + e.vectorId + e.field;
         }
         const logger = {
             log: (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
@@ -1878,7 +1896,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Apr 07 2020 09:30:55 GMT+0000 (Coordinated Universal Time)
+                at Fri Apr 10 2020 09:48:18 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

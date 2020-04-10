@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.34% </span>
+                <span class="strong">86.12% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>335/388</span>
+                <span class='fraction'>335/389</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.96% </span>
+                <span class="strong">88.41% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>145/163</span>
+                <span class='fraction'>145/164</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.48% </span>
+                <span class="strong">86.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>307/355</span>
+                <span class='fraction'>307/356</span>
             </div>
         
             
@@ -953,11 +953,18 @@
 <a name='L895'></a><a href='#L895'>895</a>
 <a name='L896'></a><a href='#L896'>896</a>
 <a name='L897'></a><a href='#L897'>897</a>
-<a name='L898'></a><a href='#L898'>898</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L898'></a><a href='#L898'>898</a>
+<a name='L899'></a><a href='#L899'>899</a>
+<a name='L900'></a><a href='#L900'>900</a>
+<a name='L901'></a><a href='#L901'>901</a>
+<a name='L902'></a><a href='#L902'>902</a>
+<a name='L903'></a><a href='#L903'>903</a>
+<a name='L904'></a><a href='#L904'>904</a>
+<a name='L905'></a><a href='#L905'>905</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1003,9 +1010,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">868x</span>
-<span class="cline-any cline-yes">868x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">899x</span>
+<span class="cline-any cline-yes">899x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1778,7 +1785,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2054,7 +2068,7 @@ export function addGraphItem(state: any, e: any) {
             <span class="missing-if-branch" title="if path not taken" >I</span>if (i.external) {
 <span class="cstat-no" title="statement not covered" >                linkedGraphInputs[</span>i.name] = {
                     id: v.id,
-                    name: i.name,
+                    field: i.name,
                     type: i.type,
                     external: false,
                 } as any;
@@ -2064,7 +2078,7 @@ export function addGraphItem(state: any, e: any) {
             if (i.external) {
                 linkedGraphOutputs[i.name] = {
                     id: v.id,
-                    name: i.name,
+                    field: i.name,
                     type: i.type,
                     external: false,
                 } as any;
@@ -2086,7 +2100,7 @@ export function addGraphItem(state: any, e: any) {
             version: e.version,
             data: {},
             loaded: true,
-            graph: e,
+            graph,
             properties: {},
             fields: {
                 inputs: linkedGraphInputs,
@@ -2121,7 +2135,7 @@ export function addGraphItem(state: any, e: any) {
     Object.keys(linkedGraphInputs).forEach((<span class="fstat-no" title="function not covered" >ioKey) =&gt; </span>{
         const io: any = <span class="cstat-no" title="statement not covered" >linkedGraphInputs[i</span>oKey];
 <span class="cstat-no" title="statement not covered" >        vector.</span>properties.inputs.push({
-            name: io.name,
+            name: io.field,
             external: false,
             type: io.type,
         });
@@ -2129,11 +2143,11 @@ export function addGraphItem(state: any, e: any) {
     Object.keys(linkedGraphOutputs).forEach((ioKey) =&gt; {
         const io: any = linkedGraphOutputs[ioKey];
         vector.properties.outputs.push({
-            name: io.name,
+            name: io.field,
             external: false
         });
         vector.edges.push({
-            field: io.name,
+            field: io.field,
             connectors: [],
             type: io.type,
         } as Edge);
@@ -2675,7 +2689,14 @@ export function <span class="fstat-no" title="function not covered" >toggleSelec
     });
 <span class="cstat-no" title="statement not covered" >    applyGraphChanges(</span>state, "Toggle Vector Presentation");
 }
+export function <span class="fstat-no" title="function not covered" >setGraphReferences(s</span>tate: any, refs: any) {
+<span class="cstat-no" title="statement not covered" >    state.</span>graphReferences = {
+        ...state.graphReferences,
+        ...refs,
+    };
+}
 export default {
+    setGraphReferences,
     remoteChangeEvents,
     addHelpTopic,
     toggleHelp,
@@ -2754,7 +2775,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Apr 07 2020 09:30:55 GMT+0000 (Coordinated Universal Time)
+                at Fri Apr 10 2020 09:48:18 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
