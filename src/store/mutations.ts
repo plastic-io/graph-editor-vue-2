@@ -202,7 +202,7 @@ export function addGraphItem(state: any, e: any) {
             if (i.external) {
                 linkedGraphInputs[i.name] = {
                     id: v.id,
-                    name: i.name,
+                    field: i.name,
                     type: i.type,
                     external: false,
                 } as any;
@@ -212,7 +212,7 @@ export function addGraphItem(state: any, e: any) {
             if (i.external) {
                 linkedGraphOutputs[i.name] = {
                     id: v.id,
-                    name: i.name,
+                    field: i.name,
                     type: i.type,
                     external: false,
                 } as any;
@@ -234,7 +234,7 @@ export function addGraphItem(state: any, e: any) {
             version: e.version,
             data: {},
             loaded: true,
-            graph: e,
+            graph,
             properties: {},
             fields: {
                 inputs: linkedGraphInputs,
@@ -269,7 +269,7 @@ export function addGraphItem(state: any, e: any) {
     Object.keys(linkedGraphInputs).forEach((ioKey) => {
         const io: any = linkedGraphInputs[ioKey];
         vector.properties.inputs.push({
-            name: io.name,
+            name: io.field,
             external: false,
             type: io.type,
         });
@@ -277,11 +277,11 @@ export function addGraphItem(state: any, e: any) {
     Object.keys(linkedGraphOutputs).forEach((ioKey) => {
         const io: any = linkedGraphOutputs[ioKey];
         vector.properties.outputs.push({
-            name: io.name,
+            name: io.field,
             external: false
         });
         vector.edges.push({
-            field: io.name,
+            field: io.field,
             connectors: [],
             type: io.type,
         } as Edge);
@@ -823,7 +823,14 @@ export function toggleSelectedVectorPresentationMode(state: any) {
     });
     applyGraphChanges(state, "Toggle Vector Presentation");
 }
+export function setGraphReferences(state: any, refs: any) {
+    state.graphReferences = {
+        ...state.graphReferences,
+        ...refs,
+    };
+}
 export default {
+    setGraphReferences,
     remoteChangeEvents,
     addHelpTopic,
     toggleHelp,

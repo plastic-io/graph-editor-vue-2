@@ -74,6 +74,7 @@
     </div>
 </template>
 <script>
+import {newId} from "../store/mutations"; // eslint-disable-line
 import {Vector} from "@plastic-io/plastic-io";
 import Vue from "vue";
 import {mapState, mapMutations, mapGetters} from "vuex";
@@ -216,6 +217,9 @@ export default {
             }
         },
         async importGraph(g, artifactKey) {
+            const refs = {};
+            const graphRef = newId();
+            refs[graphRef] = g;
             // compile a template for every vector marked 
             for (let v of g.vectors) {
                 await this.importRoot(v);
@@ -228,17 +232,18 @@ export default {
                 }
                 return a.properties.presentation.z > b.properties.presentation.z ? -1 : 1;
             }).forEach((v) => {
-                if (v.properties.appearsInExportedGraph) {
-                    const vectorKey = (this.artifactKey(v.artifact) || v.id);
-                    temp.push(`<component
-                        is="vector-${vectorKey}"
-                        @set="$store.state.scheduler.instance.url('${v.url}', $event)"
-                        :vector="$store.getters.getArtifactByUrl('${v.artifact || v.id}')"
-                        :scheduler="$store.state.scheduler"
-                        :state="$store.state"/>`);
-                }
+                const vectorKey = (this.artifactKey(v.artifact) || v.id);
+                refs[vectorKey] = v;
+                temp.push(`<component
+                    v-if="${v.properties.appearsInExportedGraph}"
+                    is="vector-${vectorKey}"
+                    @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', graphRef: '${graphRef}', event: $event})"
+                    :vector="$store.getters.getGraphReference('${vectorKey}')"
+                    :scheduler="$store.state.scheduler"
+                    :state="$store.state"/>`);
             });
             temp.push("</div></template>");
+            this.$store.commit("setGraphReferences", refs);
             await this.compileTemplate(artifactKey, temp.join(""));
         },
         async importVector(v, artifactKey) {

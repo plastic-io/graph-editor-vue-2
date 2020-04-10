@@ -73,6 +73,7 @@ export default function () {
                 "lambda",
                 "cli",
             ],
+            graphReferences: {},
             registry: {},
             artifacts: {},
             publicGraphRegistries: [
@@ -168,6 +169,11 @@ export default function () {
             updateField,
         },
         getters: {
+            getGraphReference(state: any) {
+                return (refId: string) => {
+                    return state.graphReferences[refId];
+                };
+            },
             getArtifactByUrl(state: any) {
                 return (url: string) => {
                     if (!state.artifacts[url]) {

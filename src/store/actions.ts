@@ -5,6 +5,11 @@ import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; //
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+    async setGraphVector(context: any, o: any) {
+        context.state.scheduler.instance.url(context.state.graphReferences[o.vectorRef].url,
+            o.event, "$url", context.state.graphReferences[o.vectorRef],
+            context.state.graphReferences[o.graphRef]);
+    },
     async subscribePreferences(context: any) {
         await context.state.dataProviders.preferences.subscribe("preferences", (e: any) => {
             if (e.type === "preferences") {
@@ -88,7 +93,8 @@ export default {
     },
     instantiateGraph(context: any) {
         function connectorKey(e: any) {
-            return e.graphId + e.currentVectorId + e.vectorId + e.field;
+            const currentVectorId = e.linkedEdges.length > 0 ? e.linkedEdges[0].hostVectorId : e.currentVectorId;
+            return e.graphId + currentVectorId + e.vectorId + e.field;
         }
         const logger = {
             log: (e: any) => {

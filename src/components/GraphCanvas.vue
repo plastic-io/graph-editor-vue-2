@@ -51,6 +51,9 @@ export default {
             "importItem",
         ]),
         sort() {
+            if (!this.localGraph) {
+                return;
+            }
             this.localGraph.vectors.sort((a, b) => {
                 if (a.properties.presentation.z === b.properties.presentation.z) {
                     return 0;
