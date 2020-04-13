@@ -13,6 +13,7 @@
         />
         <graph-vector
             v-for="vector in localGraph.vectors"
+            :style="presentation ? {order: vector.properties.presentation.z} : {}"
             :key="vector.id"
             :vector="vector"
         />
@@ -42,7 +43,6 @@ export default {
     mounted() {
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
         this.localGraph = this.graphSnapshot;
-        this.sort();
     },
     methods: {
         ...mapActions([
@@ -50,17 +50,6 @@ export default {
             "addItem",
             "importItem",
         ]),
-        sort() {
-            if (!this.localGraph) {
-                return;
-            }
-            this.localGraph.vectors.sort((a, b) => {
-                if (a.properties.presentation.z === b.properties.presentation.z) {
-                    return 0;
-                }
-                return a.properties.presentation.z > b.properties.presentation.z ? 1 : -1;
-            });
-        },
         dragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = "link";
@@ -96,8 +85,7 @@ export default {
                 // when this becomes unbound
                 const changes = diff(this.localGraph, this.graphSnapshot);
                 if (changes) {
-                    this.localGraph = this.graphSnapshot;
-                    this.sort();
+                    this.localGraph = JSON.parse(JSON.stringify(this.graphSnapshot));
                 }
             },
             deep: true,
@@ -165,7 +153,9 @@ export default {
         },
         graphCanvasStyle: function () {
             if (this.presentation) {
-                return {};
+                return {
+                    display: "flex"
+                };
             }
             return {
                 transform: `translate(${this.view.x}px, ${this.view.y}px) scale(${this.view.k})`,

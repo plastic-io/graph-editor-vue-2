@@ -274,14 +274,10 @@ export default {
             preferences: (state) => state.preferences,
         }),
         hoveredActivity: function() {
-            if (!this.hoveredConnector
-                || !this.hoveredConnector.vector
-                || !this.hoveredConnector.input
-                || !this.hoveredConnector.input.vector) {
+            if (!this.hoveredConnector) {
                 return null;
             }
-            const key = this.hoveredConnector.connector.graphId + this.hoveredConnector.vector.id
-                + this.hoveredConnector.input.vector.id + this.hoveredConnector.input.field.name;
+            const key = this.hoveredConnector.connector.id;
             return this.activityConnectors[key];
         },
         graphContainerStyle: function() {

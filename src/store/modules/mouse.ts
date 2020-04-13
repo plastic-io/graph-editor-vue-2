@@ -2,7 +2,7 @@ const shiftKeyCode = 16;
 const metaKeyCode = 91;
 const ctrlKeyCode = 17;
 const spaceKeyCode = 32;
-import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import {Vector, linkInnerVectorEdges} from "@plastic-io/plastic-io"; // eslint-disable-line
 import {applyGraphChanges, newId} from "../mutations"; // eslint-disable-line
 export default function mouse(state: any, mouse: {
         lmb: boolean,
@@ -188,6 +188,9 @@ export default function mouse(state: any, mouse: {
                 connector.graphId = state.hoveredPort.vector.graphId;
                 connector.version = state.hoveredPort.vector.version;
                 edge.connectors.push(connector);
+                if (vector.linkedGraph) {
+                    linkInnerVectorEdges(vector, state.scheduler.instance);
+                }
                 applyGraphChanges(state, "Add Connector");
                 state.addingConnector = null;
             } else {

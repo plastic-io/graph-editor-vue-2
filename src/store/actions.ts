@@ -1,14 +1,20 @@
 import {newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Hashes from "jshashes";
-import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
     async setGraphVector(context: any, o: any) {
-        context.state.scheduler.instance.url(context.state.graphReferences[o.vectorRef].url,
-            o.event, "$url", context.state.graphReferences[o.vectorRef],
-            context.state.graphReferences[o.graphRef]);
+        const vector = context.state.graphReferences[o.vectorRef];
+        const hostVector = context.state.graphReferences[o.hostVectorRef];
+        const e = {
+            event: o.event,
+            vector,
+            hostVector,
+            context,
+        };
+        context.state.scheduler.instance.url(hostVector.url, e, "$url", null);
     },
     async subscribePreferences(context: any) {
         await context.state.dataProviders.preferences.subscribe("preferences", (e: any) => {
@@ -92,10 +98,6 @@ export default {
         document.body.removeChild(a);
     },
     instantiateGraph(context: any) {
-        function connectorKey(e: any) {
-            const currentVectorId = e.linkedEdges.length > 0 ? e.linkedEdges[0].hostVectorId : e.currentVectorId;
-            return e.graphId + currentVectorId + e.vectorId + e.field;
-        }
         const logger = {
             log: (e: any) => {
                 context.commit("addLogItem", {eventName: "log", event: e});
@@ -120,43 +122,39 @@ export default {
         };
         const scheduler = new Scheduler(context.state.graph, context, context.state.scheduler.state, logger);
         const instanceId = newId();
-        scheduler.addEventListener("beginedge", (e) => {
-            if ("field" in e) {
-                const key = connectorKey(e);
-                context.commit("connectorActivity", {
-                    key,
-                    start: Date.now(),
+        scheduler.addEventListener("beginconnector", (e: any) => {
+            context.commit("connectorActivity", {
+                key: e.connector.id,
+                start: Date.now(),
+                event: e,
+            });
+            if (context.state.preferences.debug) {
+                context.commit("setLoadingStatus", {
+                    key: e.connector.id,
+                    type: "connector",
+                    loading: true,
                     event: e,
                 });
-                if (context.state.preferences.debug) {
-                    context.commit("setLoadingStatus", {
-                        key,
-                        type: "edge",
-                        loading: true,
-                        event: e,
-                    });
-                    context.commit("addLogItem", {eventName: "edge", event: e});
-                }
+                context.commit("addLogItem", {eventName: "connector", event: e});
             }
         });
-        scheduler.addEventListener("endedge", (e) => {
-            if ("field" in e) {
-                const now = Date.now();
-                const key = connectorKey(e);
-                context.commit("connectorActivity", {
-                    key,
-                    end: Date.now(),
-                    duration: now - context.state.activityConnectors[key].start,
-                    event: e,
+        scheduler.addEventListener("endconnector", (e: any) => {
+            const now = Date.now();
+            const startConnector = context.state.activityConnectors[e.connector.id];
+            const duration = startConnector ? now - startConnector.start : "";
+            context.commit("connectorActivity", {
+                key: e.connector.id,
+                end: Date.now(),
+                duration,
+                event: e,
+            });
+            if (context.state.preferences.debug) {
+                context.commit("setLoadingStatus", {
+                    key: e.connector.id,
+                    type: "connector",
+                    loading: false,
                 });
-                if (context.state.preferences.debug) {
-                    context.commit("setLoadingStatus", {
-                        key,
-                        type: "edge",
-                        loading: false,
-                    });
-                    context.commit("addLogItem", {eventName: "edge", event: e});
-                }
+                context.commit("addLogItem", {eventName: "connector", event: e});
             }
         });
         scheduler.addEventListener("set", (e) => {

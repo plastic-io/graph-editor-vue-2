@@ -262,7 +262,16 @@ export function addGraphItem(state: any, e: any) {
             },
         },
         template: {
-            set: "",
+            // url: string, value: any, field: string, currentVector: Vector, graph?: Graph
+            set: `const scheduler = value.context.state.scheduler.instance;
+const hostVector = value.context.getters.getVectorById(value.hostVector.id);
+const vect = hostVector.linkedGraph.graph.vectors.find(v => v.id === value.vector.id);
+scheduler.url.call(scheduler,
+    vect.url,
+    value.event,
+    '$url',
+    hostVector,
+    hostVector.linkedGraph.graph);`,
             vue: "",
         },
     } as Vector;
@@ -381,15 +390,29 @@ function deleteVectorById(state: any): (id: string) => void {
     };
 }
 function deleteConnectorById(state: any): (id: string) => void {
+    let targetVector: Vector;
     return (id: string): void => {
         state.graphSnapshot.vectors.forEach((v: Vector) => {
             v.edges.forEach((edge: {connectors: any[]}) => {
                 edge.connectors.forEach((connector: {id: string}, index) => {
                     if (id === connector.id) {
                         edge.connectors.splice(index, 1);
+                        targetVector = v;
                     }
                 });
             });
+            // remove top level connectors that match
+            if (targetVector && v.linkedGraph && targetVector.id === v.id && v.linkedGraph.graph) {
+                v.linkedGraph.graph.vectors.forEach((v: Vector) => {
+                    v.edges.forEach((edge: {connectors: any[]}) => {
+                        edge.connectors.forEach((connector: {id: string}, index) => {
+                            if (id === connector.id) {
+                                edge.connectors.splice(index, 1);
+                            }
+                        });
+                    });
+                });
+            }
         });
     };
 }
