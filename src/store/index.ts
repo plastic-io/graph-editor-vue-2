@@ -54,7 +54,7 @@ const preferences = {
 };
 export default function () {
     return {
-        strict: false,
+        strict: true,
         state: {
             helpTopics,
             log: [],

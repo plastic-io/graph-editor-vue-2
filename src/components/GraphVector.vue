@@ -203,7 +203,7 @@ export default {
                 };
                 this.setArtifact(l);
                 if (v.vectors) {
-                    await this.importGraph(v, this.artifactKey(vect.artifact));
+                    await this.importGraph(v, this.artifactKey(vect.artifact), vect);
                 } else {
                     await this.importVector(v, this.artifactKey(vect.artifact));
                 }
@@ -216,10 +216,10 @@ export default {
                 await this.compileTemplate(vect.id, vect.template.vue);
             }
         },
-        async importGraph(g, artifactKey) {
+        async importGraph(g, artifactKey, hostVector) {
             const refs = {};
-            const graphRef = newId();
-            refs[graphRef] = g;
+            const hostVectorRef = newId();
+            refs[hostVectorRef] = hostVector;
             // compile a template for every vector marked 
             for (let v of g.vectors) {
                 await this.importRoot(v);
@@ -237,7 +237,7 @@ export default {
                 temp.push(`<component
                     v-if="${v.properties.appearsInExportedGraph}"
                     is="vector-${vectorKey}"
-                    @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', graphRef: '${graphRef}', event: $event})"
+                    @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', hostVectorRef: '${hostVectorRef}', event: $event})"
                     :vector="$store.getters.getGraphReference('${vectorKey}')"
                     :scheduler="$store.state.scheduler"
                     :state="$store.state"/>`);

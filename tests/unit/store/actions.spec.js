@@ -144,7 +144,7 @@ describe("Bummer in the summer", () => {
         actions.instantiateGraph(context);
         expect(context.commit).toHaveBeenCalledWith("addLogItem", {"event": "Scheduler started", "eventName": "debug"});
         expect(context.commit).toHaveBeenCalledWith("addLogItem", {"event": "Startup parameters set", "eventName": "debug"});
-        expect(context.commit).toHaveBeenCalledWith("addLogItem", {"event": "Scheduler: Add event beginedge", "eventName": "debug"});
+        expect(context.commit).toHaveBeenCalledWith("addLogItem", {"event": "Scheduler: Add event beginconnector", "eventName": "debug"});
     });
     it("Should call url on the scheduler when graphUrl is called", async (done) => {
         context.state.scheduler.instance = {

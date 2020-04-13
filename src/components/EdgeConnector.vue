@@ -60,7 +60,7 @@ export default {
             movingConnector: state => state.movingConnector,
         }),
         activityInfo() {
-            return this.activityConnectors[this.graph.id + this.output.vector.id + this.input.vector.id + this.input.field.name];
+            return this.activityConnectors[this.connector.id];
         },
         watched() {
             return this.watchConnectors.map((i) => i.id).indexOf(this.connector.id) !== -1;
@@ -129,7 +129,7 @@ export default {
         },
         activityConnectors: {
             handler: function () {
-                const key = this.graph.id + this.output.vector.id + this.input.vector.id + this.input.field.name;
+                const key = this.connector.id;
                 const activity = this.activityConnectors[key];
                 if (activity) {
                     if (activity.start) {
