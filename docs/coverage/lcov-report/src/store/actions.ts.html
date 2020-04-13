@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.56% </span>
+                <span class="strong">73.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>192/261</span>
+                <span class='fraction'>192/260</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32.5% </span>
+                <span class="strong">34.21% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/80</span>
+                <span class='fraction'>26/76</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.11% </span>
+                <span class="strong">78.05% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>64/83</span>
+                <span class='fraction'>64/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.46% </span>
+                <span class="strong">73.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>191/260</span>
+                <span class='fraction'>191/259</span>
             </div>
         
             
@@ -665,9 +665,7 @@
 <a name='L607'></a><a href='#L607'>607</a>
 <a name='L608'></a><a href='#L608'>608</a>
 <a name='L609'></a><a href='#L609'>609</a>
-<a name='L610'></a><a href='#L610'>610</a>
-<a name='L611'></a><a href='#L611'>611</a>
-<a name='L612'></a><a href='#L612'>612</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L610'></a><a href='#L610'>610</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -676,8 +674,14 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -760,10 +764,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -791,8 +791,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -805,7 +803,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -825,7 +822,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1281,14 +1277,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {newId} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Hashes from "jshashes";
-import Scheduler, {LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
 <span class="fstat-no" title="function not covered" >    async s</span>etGraphVector(context: any, o: any) {
-<span class="cstat-no" title="statement not covered" >        context.</span>state.scheduler.instance.url(context.state.graphReferences[o.vectorRef].url,
-            o.event, "$url", context.state.graphReferences[o.vectorRef],
-            context.state.graphReferences[o.graphRef]);
+        const vector = <span class="cstat-no" title="statement not covered" >context.</span>state.graphReferences[o.vectorRef];
+        const hostVector = <span class="cstat-no" title="statement not covered" >context.</span>state.graphReferences[o.hostVectorRef];
+        const e = <span class="cstat-no" title="statement not covered" >{</span>
+            event: o.event,
+            vector,
+            hostVector,
+            context,
+        };
+<span class="cstat-no" title="statement not covered" >        context.</span>state.scheduler.instance.url(hostVector.url, e, "$url", null);
     },
     async subscribePreferences(context: any) {
         await context.state.dataProviders.preferences.subscribe("preferences", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
@@ -1372,10 +1374,6 @@ export default {
         document.body.removeChild(a);
     },
     instantiateGraph(context: any) {
-        function <span class="fstat-no" title="function not covered" >connectorKey(e</span>: any) {
-            const currentVectorId = <span class="cstat-no" title="statement not covered" >e.linkedEdges.length &gt; 0 ? e.linkedEdges[0].hostVectorId : e.currentVectorId;</span>
-<span class="cstat-no" title="statement not covered" >            return e</span>.graphId + currentVectorId + e.vectorId + e.field;
-        }
         const logger = {
             log: (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "log", event: e});
@@ -1400,43 +1398,39 @@ export default {
         };
         const scheduler = new Scheduler(context.state.graph, context, context.state.scheduler.state, logger);
         const instanceId = newId();
-        scheduler.addEventListener("beginedge", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >            if ("field" in e) {</span>
-                const key = <span class="cstat-no" title="statement not covered" >connectorKey(e</span>);
-<span class="cstat-no" title="statement not covered" >                context.</span>commit("connectorActivity", {
-                    key,
-                    start: Date.now(),
+        scheduler.addEventListener("beginconnector", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >            context.</span>commit("connectorActivity", {
+                key: e.connector.id,
+                start: Date.now(),
+                event: e,
+            });
+<span class="cstat-no" title="statement not covered" >            if (context.state.preferences.debug) {</span>
+<span class="cstat-no" title="statement not covered" >                context.</span>commit("setLoadingStatus", {
+                    key: e.connector.id,
+                    type: "connector",
+                    loading: true,
                     event: e,
                 });
-<span class="cstat-no" title="statement not covered" >                if (context.state.preferences.debug) {</span>
-<span class="cstat-no" title="statement not covered" >                    context.</span>commit("setLoadingStatus", {
-                        key,
-                        type: "edge",
-                        loading: true,
-                        event: e,
-                    });
-<span class="cstat-no" title="statement not covered" >                    context.</span>commit("addLogItem", {eventName: "edge", event: e});
-                }
+<span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "connector", event: e});
             }
         });
-        scheduler.addEventListener("endedge", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >            if ("field" in e) {</span>
-                const now = <span class="cstat-no" title="statement not covered" >Date.</span>now();
-                const key = <span class="cstat-no" title="statement not covered" >connectorKey(e</span>);
-<span class="cstat-no" title="statement not covered" >                context.</span>commit("connectorActivity", {
-                    key,
-                    end: Date.now(),
-                    duration: now - context.state.activityConnectors[key].start,
-                    event: e,
+        scheduler.addEventListener("endconnector", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
+            const now = <span class="cstat-no" title="statement not covered" >Date.</span>now();
+            const startConnector = <span class="cstat-no" title="statement not covered" >context.</span>state.activityConnectors[e.connector.id];
+            const duration = <span class="cstat-no" title="statement not covered" >startConnector ? now - startConnector.start : "";</span>
+<span class="cstat-no" title="statement not covered" >            context.</span>commit("connectorActivity", {
+                key: e.connector.id,
+                end: Date.now(),
+                duration,
+                event: e,
+            });
+<span class="cstat-no" title="statement not covered" >            if (context.state.preferences.debug) {</span>
+<span class="cstat-no" title="statement not covered" >                context.</span>commit("setLoadingStatus", {
+                    key: e.connector.id,
+                    type: "connector",
+                    loading: false,
                 });
-<span class="cstat-no" title="statement not covered" >                if (context.state.preferences.debug) {</span>
-<span class="cstat-no" title="statement not covered" >                    context.</span>commit("setLoadingStatus", {
-                        key,
-                        type: "edge",
-                        loading: false,
-                    });
-<span class="cstat-no" title="statement not covered" >                    context.</span>commit("addLogItem", {eventName: "edge", event: e});
-                }
+<span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "connector", event: e});
             }
         });
         scheduler.addEventListener("set", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
@@ -1896,7 +1890,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Apr 10 2020 09:48:18 GMT+0000 (Coordinated Universal Time)
+                at Mon Apr 13 2020 22:44:14 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
