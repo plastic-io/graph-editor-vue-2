@@ -32,7 +32,7 @@ const preferences = {
     defaultNewSetTemplate,
     defaultNewVueTemplate,
     snapToGrid: true,
-    gridSize: 10, // cannot be changed for now
+    gridSize: 10,
     appearance: {
         theme: "dark",
         helpColor: "blue",
@@ -54,7 +54,9 @@ const preferences = {
 };
 export default function () {
     return {
-        strict: true,
+        // only turn this on for debugging, severe performance hit.
+        // Always follow string mode rules
+        strict: false,
         state: {
             helpTopics,
             log: [],

@@ -298,6 +298,28 @@ scheduler.url.call(scheduler,
     state.graphSnapshot.vectors.push(vector);
     applyGraphChanges(state, "Import New Graph");
 }
+export function addDroppedItem(state: any, e: any) {
+    const pos = {
+        x: (e.x - state.view.x) / state.view.k,
+        y: (e.y - state.view.y) / state.view.k,
+    };
+    pos.x = Math.floor(pos.x / 10) * 10;
+    pos.y = Math.floor(pos.y / 10) * 10;
+    const id = newId();
+    e.item.id = id;
+    e.item.url = id;
+    e.item.version = state.graphSnapshot.version;
+    e.item.graphId = state.graphSnapshot.id;
+    e.item.properties.x = pos.x;
+    e.item.properties.y = pos.y;
+    e.item.properties.z = 0 + state.preferences.newVectorOffset.z;
+    // ensure connectors are not imported
+    e.item.edges.forEach((edge: Edge) => {
+        edge.connectors = [];
+    });
+    state.graphSnapshot.vectors.push(e.item);
+    applyGraphChanges(state, "Drop New Item");
+}
 export function addVectorItem(state: any, e: any) {
     const pos = {
         x: (e.x - state.view.x) / state.view.k,
@@ -853,6 +875,7 @@ export function setGraphReferences(state: any, refs: any) {
     };
 }
 export default {
+    addDroppedItem,
     setGraphReferences,
     remoteChangeEvents,
     addHelpTopic,

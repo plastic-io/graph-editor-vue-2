@@ -239,10 +239,8 @@ export default {
             this.deleteRef = e;
         },
         deleteItem() {
-            console.log("deleteItem", this.deleteRef.type);
             this.deleteConfirm = false;
             if (this.deleteRef.type === "graph") {
-                console.log("this.remove(this.deleteRef.id);", this.deleteRef.id);
                 this.remove(this.deleteRef.id);
             } else {
                 this.removeArtifact(this.deleteRef);
@@ -313,7 +311,7 @@ export default {
             error: state => state.error,
         }),
         numberOfPages() {
-            return Math.ceil(Object.keys(this.localItems).length / this.itemsPerPage);
+            return Math.ceil(this.tocItems.length / this.itemsPerPage);
         },
         filteredKeys() {
             return this.keys.filter(key => key !== "Name");
@@ -322,7 +320,7 @@ export default {
             return Object.keys(this.localItems).map(key => {
                 return this.localItems[key];
             }).filter((item) => {
-                return !/published/.test(item.type);
+                return item.type === "graph";
             });
         }
     },

@@ -109,6 +109,7 @@ describe("GraphCanvas.vue", () => {
             const e = {
                 preventDefault: jest.fn(),
                 dataTransfer: {
+                    files: [],
                     dropEffect: null,
                 }
             };
@@ -122,6 +123,7 @@ describe("GraphCanvas.vue", () => {
                 clientX: 100,
                 clientY: 100,
                 dataTransfer: {
+                    files: [],
                     getData(mimeType) {
                         if (mimeType === state.jsonMimeType) {
                             return JSON.stringify({
@@ -140,6 +142,7 @@ describe("GraphCanvas.vue", () => {
                 clientX: 100,
                 clientY: 100,
                 dataTransfer: {
+                    files: [],
                     getData(mimeType) {
                         if (mimeType === state.vectorMimeType) {
                             return JSON.stringify({
@@ -158,6 +161,7 @@ describe("GraphCanvas.vue", () => {
                 clientX: 100,
                 clientY: 100,
                 dataTransfer: {
+                    files: [],
                     getData(mimeType) {
                         if (mimeType === state.vectorMimeType) {
                             return JSON.stringify({
@@ -170,6 +174,6 @@ describe("GraphCanvas.vue", () => {
             wrapper.vm.drop(e);
             expect(actions.addItem.mock.calls[0][1]).toEqual({"x": 100, "y": 100, type: "publishedGraph"});
             done();
-        });        
+        });
     });
 });
