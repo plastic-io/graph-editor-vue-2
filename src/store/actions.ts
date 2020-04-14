@@ -38,9 +38,6 @@ export default {
         });
         
     },
-    importItem(context: any, e: any) {
-        console.log("importItem", e);
-    },
     async getPublicRegistry(context: any, e: any) {
         const relPath = /^\.\//;
         let url = e.url;

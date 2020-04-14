@@ -24,9 +24,10 @@
 <script>
 import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
-import {mapState, mapActions, mapGetters} from "vuex";
+import {mapState, mapActions, mapGetters, mapMutations} from "vuex";
 import {diff} from "deep-diff";
 import colors from "vuetify/lib/util/colors";
+import {newId} from "../store/mutations"; 
 export default {
     name: "graph-canvas",
     components: {GraphVector, EdgeConnector},
@@ -45,6 +46,9 @@ export default {
         this.localGraph = this.graphSnapshot;
     },
     methods: {
+        ...mapMutations([
+            "addDroppedItem",
+        ]),
         ...mapActions([
             "createNewVector",
             "addItem",
@@ -55,6 +59,36 @@ export default {
             e.dataTransfer.dropEffect = "link";
         },
         drop(e) {
+            if (e.dataTransfer.files.length > 0) {
+                e.preventDefault();
+                for (let x = 0; x < e.dataTransfer.files.length; x += 1) {
+                    const file = e.dataTransfer.files[x];
+                    if (file.type !== this.jsonMimeType) {
+                        continue;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        const parsedResult = JSON.parse(ev.target.result);
+                        //  context.commit(e.type === "publishedVector" ? "addVectorItem" : "addGraphItem", e);
+                        this.addDroppedItem({
+                            x: e.clientX,
+                            y: e.clientY,
+                            ...{
+                                id: newId(),
+                                lastUpdate: file.lastModified,
+                                description: file.name,
+                                name: file.name.split("_")[0],
+                                icon: parsedResult.properties.icon,
+                                item: parsedResult,
+                                version: parsedResult.version,
+                                type: "droppedFile",
+                            },
+                        });
+                    };
+                    reader.readAsText(file);
+                }
+                return;
+            }
             const jsonData = e.dataTransfer.getData(this.jsonMimeType);
             const plasticData = e.dataTransfer.getData(this.vectorMimeType);
             if (plasticData) {

@@ -239,10 +239,8 @@ export default {
             this.deleteRef = e;
         },
         deleteItem() {
-            console.log("deleteItem", this.deleteRef.type);
             this.deleteConfirm = false;
             if (this.deleteRef.type === "graph") {
-                console.log("this.remove(this.deleteRef.id);", this.deleteRef.id);
                 this.remove(this.deleteRef.id);
             } else {
                 this.removeArtifact(this.deleteRef);
