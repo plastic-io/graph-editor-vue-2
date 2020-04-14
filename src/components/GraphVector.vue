@@ -50,7 +50,7 @@
                     :is="'vector-' + vectorComponentName"
                     :vector="localVector"
                     :scheduler="scheduler"
-                    :state="state"
+                    :state="$store.state.scheduler.state"
                     @dataChange="dataChange"
                     @set="set"
                 />
@@ -122,6 +122,8 @@ export default {
                 this.localVector = this.vector;
                 this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
                 if (changes) {
+                    this.styles = [];
+                    this.broken = null;
                     // recompile template after change
                     this.compileTemplate(this.localVector.id, this.localVector.template.vue, true);
                 }
@@ -149,6 +151,8 @@ export default {
         };
     },
     async mounted() {
+        this.styles = [];
+        this.broken = null;
         this.localVector = this.vector;
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
@@ -240,7 +244,7 @@ export default {
                     @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', hostVectorRef: '${hostVectorRef}', event: $event})"
                     :vector="$store.getters.getGraphReference('${vectorKey}')"
                     :scheduler="$store.state.scheduler"
-                    :state="$store.state"/>`);
+                    :state="$store.state.scheduler.state"/>`);
             });
             temp.push("</div></template>");
             this.$store.commit("setGraphReferences", refs);
@@ -323,8 +327,6 @@ export default {
                 next: true,
             });
             const astString = generate(ast);
-            this.styles = [];
-            this.broken = null;
             const scr = document.createElement("script");
             scr.crossorigin = "anonymous";
             scr.async = true;

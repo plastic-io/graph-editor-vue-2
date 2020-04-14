@@ -54,7 +54,7 @@ const preferences = {
 };
 export default function () {
     return {
-        strict: true,
+        strict: false, // only turn this on for debugging, severe performance hit
         state: {
             helpTopics,
             log: [],
