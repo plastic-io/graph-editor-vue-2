@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.77% </span>
+                <span class="strong">65.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>114/176</span>
+                <span class='fraction'>116/178</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.77% </span>
+                <span class="strong">65.17% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>114/176</span>
+                <span class='fraction'>116/178</span>
             </div>
         
             
@@ -520,7 +520,9 @@
 <a name='L462'></a><a href='#L462'>462</a>
 <a name='L463'></a><a href='#L463'>463</a>
 <a name='L464'></a><a href='#L464'>464</a>
-<a name='L465'></a><a href='#L465'>465</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -644,6 +646,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -676,7 +680,9 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -849,8 +855,6 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -864,7 +868,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">329x</span>
+<span class="cline-any cline-yes">330x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -888,7 +892,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">329x</span>
+<span class="cline-any cline-yes">330x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1036,7 +1040,7 @@
                     :is="'vector-' + vectorComponentName"
                     :vector="localVector"
                     :scheduler="scheduler"
-                    :state="state"
+                    :state="$store.state.scheduler.state"
                     @dataChange="dataChange"
                     @set="set"
                 /&gt;
@@ -1108,6 +1112,8 @@ export default {
                 this.localVector = this.vector;
                 this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
 <span class="missing-if-branch" title="else path not taken" >E</span>                if (changes) {
+                    this.styles = [];
+                    this.broken = null;
                     // recompile template after change
                     this.compileTemplate(this.localVector.id, this.localVector.template.vue, true);
                 }
@@ -1135,6 +1141,8 @@ export default {
         };
     },
     async mounted() {
+        this.styles = [];
+        this.broken = null;
         this.localVector = this.vector;
         this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
         this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
@@ -1226,7 +1234,7 @@ export default {
                     @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', hostVectorRef: '${hostVectorRef}', event: $event})"
                     :vector="$store.getters.getGraphReference('${vectorKey}')"
                     :scheduler="$store.state.scheduler"
-                    :state="$store.state"/&gt;`);
+                    :state="$store.state.scheduler.state"/&gt;`);
             });
             temp.push("&lt;/div&gt;&lt;/template&gt;");
             this.$store.commit("setGraphReferences", refs);
@@ -1309,8 +1317,6 @@ export default {
                 next: true,
             });
             const astString = generate(ast);
-            this.styles = [];
-            this.broken = null;
             const scr = document.createElement("script");
             scr.crossorigin = "anonymous";
             scr.async = true;
@@ -1455,7 +1461,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Apr 13 2020 22:44:14 GMT+0000 (Coordinated Universal Time)
+                at Tue Apr 14 2020 05:32:35 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

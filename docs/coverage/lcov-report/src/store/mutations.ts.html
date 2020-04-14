@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.6% </span>
+                <span class="strong">81.51% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>335/396</span>
+                <span class='fraction'>335/411</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">86.83% </span>
+                <span class="strong">85.8% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>145/167</span>
+                <span class='fraction'>145/169</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">84.57% </span>
+                <span class="strong">81.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>307/363</span>
+                <span class='fraction'>307/378</span>
             </div>
         
             
@@ -983,7 +983,30 @@
 <a name='L925'></a><a href='#L925'>925</a>
 <a name='L926'></a><a href='#L926'>926</a>
 <a name='L927'></a><a href='#L927'>927</a>
-<a name='L928'></a><a href='#L928'>928</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L928'></a><a href='#L928'>928</a>
+<a name='L929'></a><a href='#L929'>929</a>
+<a name='L930'></a><a href='#L930'>930</a>
+<a name='L931'></a><a href='#L931'>931</a>
+<a name='L932'></a><a href='#L932'>932</a>
+<a name='L933'></a><a href='#L933'>933</a>
+<a name='L934'></a><a href='#L934'>934</a>
+<a name='L935'></a><a href='#L935'>935</a>
+<a name='L936'></a><a href='#L936'>936</a>
+<a name='L937'></a><a href='#L937'>937</a>
+<a name='L938'></a><a href='#L938'>938</a>
+<a name='L939'></a><a href='#L939'>939</a>
+<a name='L940'></a><a href='#L940'>940</a>
+<a name='L941'></a><a href='#L941'>941</a>
+<a name='L942'></a><a href='#L942'>942</a>
+<a name='L943'></a><a href='#L943'>943</a>
+<a name='L944'></a><a href='#L944'>944</a>
+<a name='L945'></a><a href='#L945'>945</a>
+<a name='L946'></a><a href='#L946'>946</a>
+<a name='L947'></a><a href='#L947'>947</a>
+<a name='L948'></a><a href='#L948'>948</a>
+<a name='L949'></a><a href='#L949'>949</a>
+<a name='L950'></a><a href='#L950'>950</a>
+<a name='L951'></a><a href='#L951'>951</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1282,6 +1305,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1910,6 +1955,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
@@ -2209,6 +2255,28 @@ scheduler.url.call(scheduler,
     });
     state.graphSnapshot.vectors.push(vector);
     applyGraphChanges(state, "Import New Graph");
+}
+export function <span class="fstat-no" title="function not covered" >addDroppedItem(s</span>tate: any, e: any) {
+    const pos = <span class="cstat-no" title="statement not covered" >{</span>
+        x: (e.x - state.view.x) / state.view.k,
+        y: (e.y - state.view.y) / state.view.k,
+    };
+<span class="cstat-no" title="statement not covered" >    pos.</span>x = Math.floor(pos.x / 10) * 10;
+<span class="cstat-no" title="statement not covered" >    pos.</span>y = Math.floor(pos.y / 10) * 10;
+    const id = <span class="cstat-no" title="statement not covered" >newId();</span>
+<span class="cstat-no" title="statement not covered" >    e.</span>item.id = id;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.url = id;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.version = state.graphSnapshot.version;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.graphId = state.graphSnapshot.id;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.properties.x = pos.x;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.properties.y = pos.y;
+<span class="cstat-no" title="statement not covered" >    e.</span>item.properties.z = 0 + state.preferences.newVectorOffset.z;
+    // ensure connectors are not imported
+<span class="cstat-no" title="statement not covered" >    e.</span>item.edges.forEach((<span class="fstat-no" title="function not covered" >edge: Edge) =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >        edge.</span>connectors = [];
+    });
+<span class="cstat-no" title="statement not covered" >    state.</span>graphSnapshot.vectors.push(e.item);
+<span class="cstat-no" title="statement not covered" >    applyGraphChanges(</span>state, "Drop New Item");
 }
 export function addVectorItem(state: any, e: any) {
     const pos = {
@@ -2765,6 +2833,7 @@ export function <span class="fstat-no" title="function not covered" >setGraphRef
     };
 }
 export default {
+    addDroppedItem,
     setGraphReferences,
     remoteChangeEvents,
     addHelpTopic,
@@ -2844,7 +2913,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Apr 13 2020 22:44:14 GMT+0000 (Coordinated Universal Time)
+                at Tue Apr 14 2020 05:32:35 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
