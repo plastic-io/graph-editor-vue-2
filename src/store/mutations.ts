@@ -113,6 +113,8 @@ export function pasteVectors(state: any, vectors: Vector[], name: string = "Past
         } else {
             v.id = idMap[v.id];
         }
+        v.graphId = state.graph.id;
+        v.version = state.graph.version;
         for (let x = 0; x < v.properties.groups.length; x += 1) {
             const groupId = v.properties.groups[x];
             // group ids
@@ -127,6 +129,8 @@ export function pasteVectors(state: any, vectors: Vector[], name: string = "Past
                 // connected vectors
                 idMap[c.vectorId] = idMap[c.vectorId] || newId();
                 c.vectorId = idMap[c.vectorId];
+                c.graphId = state.graph.id;
+                c.version = state.graph.version;
             });
         });
     });

@@ -111,7 +111,7 @@ const provider = {
         let item: string = (await localStorage.getItem(url) || "");
         let obj: object;
         if (!item) {
-            throw new Error("Resource not found.");
+            throw new Error("Resource not found." + url);
         }
         try {
             obj = JSON.parse(item);
