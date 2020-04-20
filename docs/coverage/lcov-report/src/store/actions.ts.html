@@ -22,9 +22,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.13% </span>
+                <span class="strong">73.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>192/259</span>
+                <span class='fraction'>193/262</span>
             </div>
         
             
@@ -36,16 +36,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.01% </span>
+                <span class="strong">78.05% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>64/81</span>
+                <span class='fraction'>64/82</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.03% </span>
+                <span class="strong">73.56% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>191/258</span>
+                <span class='fraction'>192/261</span>
             </div>
         
             
@@ -662,7 +662,14 @@
 <a name='L604'></a><a href='#L604'>604</a>
 <a name='L605'></a><a href='#L605'>605</a>
 <a name='L606'></a><a href='#L606'>606</a>
-<a name='L607'></a><a href='#L607'>607</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L607'></a><a href='#L607'>607</a>
+<a name='L608'></a><a href='#L608'>608</a>
+<a name='L609'></a><a href='#L609'>609</a>
+<a name='L610'></a><a href='#L610'>610</a>
+<a name='L611'></a><a href='#L611'>611</a>
+<a name='L612'></a><a href='#L612'>612</a>
+<a name='L613'></a><a href='#L613'>613</a>
+<a name='L614'></a><a href='#L614'>614</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -770,8 +777,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -816,6 +823,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -1044,10 +1058,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1057,6 +1067,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1099,7 +1114,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1268,7 +1282,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {newId} from "./mutations"; // eslint-disable-line
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {newId, replacer} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
@@ -1424,25 +1438,32 @@ export default {
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "connector", event: e});
             }
         });
-        scheduler.addEventListener("set", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
+        scheduler.addEventListener("set", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
+            const comp = <span class="cstat-no" title="statement not covered" >context.</span>getters.getGraphReference(e.vectorInterface.vector.__contextId);
+<span class="cstat-no" title="statement not covered" >            e.</span>setContext({
+                props: comp.vectorProps[comp.vector.__contextId],
+                component: comp,
+            });
+        });
+        scheduler.addEventListener("afterSet", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if (context.state.preferences.debug) {</span>
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "set", event: e});
             }
         });
-        scheduler.addEventListener("error", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
+        scheduler.addEventListener("error", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if ("err" in e &amp;&amp; e.err) {</span>
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addSchedulerError", {key: e.vectorId, error: e.err});
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "error", event: e});
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
             }
         });
-        scheduler.addEventListener("warning", (<span class="fstat-no" title="function not covered" >e) =&gt; </span>{
+        scheduler.addEventListener("warning", (<span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if ("message" in e) {</span>
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("addLogItem", {eventName: "warning", event: e});
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
             }
         });
-        scheduler.addEventListener("load", <span class="fstat-no" title="function not covered" >async (e</span>): Promise&lt;any&gt; =&gt; {
+        scheduler.addEventListener("load", <span class="fstat-no" title="function not covered" >async (e</span>: any): Promise&lt;any&gt; =&gt; {
 <span class="cstat-no" title="statement not covered" >            if ("setValue" in e) {</span>
                 const pathParts = <span class="cstat-no" title="statement not covered" >e.</span>url.split("/");
                 const itemId = <span class="cstat-no" title="statement not covered" >pathParts[</span>2].split(".")[0];
@@ -1625,7 +1646,7 @@ export default {
         if (e !== undefined) {
             context.state.graph = e;
         }
-        const changes = diff(context.state.remoteSnapshot, context.state.graph);
+        const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)), JSON.parse(JSON.stringify(context.state.graph, replacer)));
         <span class="missing-if-branch" title="if path not taken" >I</span>if (!changes) {
 <span class="cstat-no" title="statement not covered" >            return;</span>
         }
@@ -1642,13 +1663,14 @@ export default {
         // on the client as if it was the server to get around the lack of a
         // round trip with a new version number.
         if (!context.state.dataProviders.graph.asyncUpdate) {
-            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
+            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph, replacer));
             context.commit("setGraphVersion", context.state.graph.version + 1);
-            const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
-            Array.prototype.push.apply(changes, versionChanges);
+            const versionChanges = diff(preVersionSnapshot, JSON.parse(JSON.stringify(context.state.graph, replacer)));
+            Array.prototype.push.apply(changes, versionChanges as any[]);
         }
         // calculate CRC
-        const crc = Hashes.CRC32(JSON.stringify(context.state.graph));
+        const calcState = JSON.stringify(context.state.graph, replacer);
+        const crc = Hashes.CRC32(calcState);
         await context.state.dataProviders.graph.set(context.state.graph.id, {
             crc,
             changes,
@@ -1705,7 +1727,6 @@ export default {
         } else {
             e.item = item;
             context.commit(e.type === "publishedVector" ? "addVectorItem" : "addGraphItem", e);
-            context.dispatch("save");
         }
     },
     // simple actions with multiple commits or dispatches (or plans for such)
@@ -1881,7 +1902,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Apr 14 2020 05:32:35 GMT+0000 (Coordinated Universal Time)
+                at Mon Apr 20 2020 01:20:39 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
