@@ -3,8 +3,8 @@ module.exports = { // eslint-disable-line
     publicPath: "/graph-editor/",
     devServer: {
         overlay: {
-            warnings: true,
-            errors: true,
+            warnings: false,
+            errors: false,
         },
     },
 };

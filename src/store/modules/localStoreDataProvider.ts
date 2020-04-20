@@ -111,7 +111,7 @@ const provider = {
         let item: string = (await localStorage.getItem(url) || "");
         let obj: object;
         if (!item) {
-            throw new Error("Resource not found.");
+            throw new Error("Resource not found." + url);
         }
         try {
             obj = JSON.parse(item);
@@ -147,6 +147,7 @@ const provider = {
             });
             const crc = Hashes.CRC32(JSON.stringify(state));
             if (crc !== value.crc) {
+                console.log("state", value, JSON.parse(JSON.stringify(state)));
                 throw new Error(`CRC Mismatch.  Expected ${crc} got ${value.crc}`);
             }
             await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));

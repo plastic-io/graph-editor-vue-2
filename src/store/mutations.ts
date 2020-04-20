@@ -28,6 +28,12 @@ function remoteChangeEvents(state: any, events: any[]) {
         setGraphVersion(state, preApplySnapshot.version);
     }
 }
+export function replacer(key: any, value: any) {
+    if (key === "__contextId") {
+        return undefined;
+    }
+    return value;
+}
 export function applyGraphChanges(state: any, name: string) {
     if (state.events.length !== state.historyPosition) {
         state.events.splice(state.historyPosition, state.events.length - state.historyPosition);
@@ -113,6 +119,8 @@ export function pasteVectors(state: any, vectors: Vector[], name: string = "Past
         } else {
             v.id = idMap[v.id];
         }
+        v.graphId = state.graph.id;
+        v.version = state.graph.version;
         for (let x = 0; x < v.properties.groups.length; x += 1) {
             const groupId = v.properties.groups[x];
             // group ids
@@ -127,6 +135,8 @@ export function pasteVectors(state: any, vectors: Vector[], name: string = "Past
                 // connected vectors
                 idMap[c.vectorId] = idMap[c.vectorId] || newId();
                 c.vectorId = idMap[c.vectorId];
+                c.graphId = state.graph.id;
+                c.version = state.graph.version;
             });
         });
     });
@@ -223,6 +233,7 @@ export function addGraphItem(state: any, e: any) {
     const id = newId();
     const vector = {
         id,
+        __contextId: null,
         edges: [],
         version: state.graphSnapshot.version,
         graphId: state.graphSnapshot.id,
@@ -263,8 +274,7 @@ export function addGraphItem(state: any, e: any) {
         },
         template: {
             // url: string, value: any, field: string, currentVector: Vector, graph?: Graph
-            set: `const scheduler = value.context.state.scheduler.instance;
-const hostVector = value.context.getters.getVectorById(value.hostVector.id);
+            set: `const hostVector = value.context.getters.getVectorById(value.hostVector.id);
 const vect = hostVector.linkedGraph.graph.vectors.find(v => v.id === value.vector.id);
 scheduler.url.call(scheduler,
     vect.url,
@@ -748,6 +758,15 @@ function changeConnectorOrder(state: any, e: {vectorId: string, connectorId: str
 }
 async function open(state: any, e: any) {
     state.graph = e;
+    function setVectorsContext(vectors: Vector[]) {
+        vectors.forEach((v: Vector) => {
+            v.__contextId = newId();
+            if (v.linkedGraph) {
+                setVectorsContext(v.linkedGraph.graph.vectors);
+            }
+        });
+    }
+    setVectorsContext(state.graph.vectors);
     state.graphSnapshot = JSON.parse(JSON.stringify(e));
     state.remoteSnapshot = JSON.parse(JSON.stringify(e));
 }

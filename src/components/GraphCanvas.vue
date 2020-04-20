@@ -16,6 +16,7 @@
             :style="presentation ? {order: vector.properties.presentation.z} : {}"
             :key="vector.id"
             :vector="vector"
+            :graph="localGraph"
         />
         <div v-if="selectionRect.visible && !presentation" class="selection-rect" :style="selectionRectStyle"></div>
         <div v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
@@ -120,6 +121,7 @@ export default {
                 const changes = diff(this.localGraph, this.graphSnapshot);
                 if (changes) {
                     this.localGraph = JSON.parse(JSON.stringify(this.graphSnapshot));
+                    this.localGraph.vectors.length;
                 }
             },
             deep: true,
