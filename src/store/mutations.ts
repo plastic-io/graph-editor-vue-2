@@ -887,6 +887,12 @@ export function toggleSelectedVectorPresentationMode(state: any) {
     });
     applyGraphChanges(state, "Toggle Vector Presentation");
 }
+export function resetLoadedState(state: any, e: any) {
+    state.graph = e;
+    state.createdGraphId = e.id;
+    state.remoteSnapshot = {};
+    state.graphSnapshot = null;
+}
 export function setGraphReferences(state: any, refs: any) {
     state.graphReferences = {
         ...state.graphReferences,
@@ -894,6 +900,7 @@ export function setGraphReferences(state: any, refs: any) {
     };
 }
 export default {
+    resetLoadedState,
     addDroppedItem,
     setGraphReferences,
     remoteChangeEvents,

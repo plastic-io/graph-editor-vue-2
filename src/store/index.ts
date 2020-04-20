@@ -58,6 +58,7 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            createdGraphId: null,
             helpTopics,
             log: [],
             pathPrefix: "/graph-editor/",

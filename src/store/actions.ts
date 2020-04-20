@@ -360,7 +360,7 @@ export default {
     },
     async save(context: any, e?: any) {
         if (e !== undefined) {
-            context.state.graph = e;
+            context.commit("resetLoadedState", e);
         }
         const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)), JSON.parse(JSON.stringify(context.state.graph, replacer)));
         if (!changes) {
