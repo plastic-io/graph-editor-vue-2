@@ -231,10 +231,11 @@ describe("Bummer in the summer", () => {
         expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[1]).not.toEqual({"kind": "E", "lhs": 0, "path": ["version"], "rhs": 1});
     });
     it("Should save diff by passing in arbitrary graph state.", async () => {
-        context.state.graph = {id: "123", foo: "bar", version: 0};
-        context.state.remoteSnapshot = {id: "123", foo: "baz", version: 0};
+        context.state.remoteSnapshot = {};
+        context.state.graphSnapshot = {};
         await actions.save(context, {id: "123", foo: "fiz", version: 0});
-        expect(JSON.stringify(context.state.dataProviders.graph.set.mock.calls[0][1])).not.toMatch(/bar/);
+        expect(context.commit.mock.calls[0][0]).toEqual("resetLoadedState");
+        expect(context.commit.mock.calls[0][1]).toEqual({id: "123", foo: "fiz", version: 0});
     });
     it("Should commit open and dispatch instantiateGraph when calling open.", async () => {
         context.dataProvidersResponse.graph.get = "bar";

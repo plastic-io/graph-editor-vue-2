@@ -67,7 +67,7 @@
                                         md="4"
                                         lg="3"
                                     >
-                                        <v-card style="padding-top: 30px;">
+                                        <v-card style="padding-top: 30px;" :color="createdGraphId === item.id ? 'primary' : ''">
                                             <v-icon left x-large style="margin-top: -30px;margin-left: 10px;">
                                                 {{item.icon || 'mdi-graph'}}
                                             </v-icon>
@@ -304,6 +304,7 @@ export default {
     },
     computed: {
         ...mapState({
+            createdGraphId: state => state.createdGraphId,
             pathPrefix: state => state.pathPrefix,
             toc: state => state.toc,
             preferences: state => state.preferences,
