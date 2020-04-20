@@ -32,7 +32,7 @@
                     </v-alert>
                 </div>
             </template>
-            <div class="vector-inputs">
+            <div class="vector-inputs" v-if="!hostVector">
                 <vector-field
                     v-for="field in inputs"
                     :key="'input_' + field.name"
@@ -47,13 +47,26 @@
                 :class="translating && mouse.lmb ? 'no-select' : ''"
             >
                 <component
+                    v-if="!localVector.linkedGraph"
                     :is="'vector-' + vectorComponentName"
                     :vector="localVector"
                     :scheduler="scheduler"
                     :state="$store.state.scheduler.state"
+                    :vectorProps="vectorProps"
+                    v-bind="vectorProps[localVector.__contextId]"
+                    v-on="vectorEvents[localVector.__contextId]"
                     @dataChange="dataChange"
                     @set="set"
                 />
+                <div v-else style="display: flex;">
+                    <graph-vector
+                        v-for="vect in localVector.linkedGraph.graph.vectors"
+                        :style="{order: vect.properties.presentation.z}"
+                        :key="vect.key"
+                        :vector="vect"
+                        :hostVector="localVector"
+                    />
+                </div>
                 <component
                     v-for="(style, index) in styles"
                     :is="'style'"
@@ -61,7 +74,7 @@
                     :key="index"
                 />
             </div>
-            <div class="vector-outputs">
+            <div class="vector-outputs" v-if="!hostVector">
                 <vector-field
                     v-for="field in outputs"
                     :key="'output_' + field.name"
@@ -74,8 +87,8 @@
     </div>
 </template>
 <script>
-import {newId} from "../store/mutations"; // eslint-disable-line
-import {Vector} from "@plastic-io/plastic-io";
+import {newId, replacer} from "../store/mutations"; // eslint-disable-line
+import {Vector, Graph} from "@plastic-io/plastic-io";
 import Vue from "vue";
 import {mapState, mapMutations, mapGetters} from "vuex";
 import {parseScript} from "meriyah";
@@ -90,8 +103,23 @@ export default {
     components: {VectorField},
     props: {
         vector: Vector,
+        hostVector: Vector,
+        graph: Graph,
     },
     watch: {
+        vectorProps: {
+            handler: function () {
+                const changes = diff(this.localVectorDataSnapshot, this.vector.data);
+                this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
+                if (changes) {
+                    this.updateVectorData({
+                        vectorId: this.vector.id,
+                        data: this.vector.data,
+                    });
+                }
+            },
+            deep: true,
+        },
         localVector: {
             handler: function () {
                 const changes = diff(this.localVectorDataSnapshot, this.vector.data);
@@ -120,7 +148,7 @@ export default {
             handler: function () {
                 const changes = diff(this.localVectorSnapshot.template.vue, this.vector.template.vue);
                 this.localVector = this.vector;
-                this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
+                this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector, replacer));
                 if (changes) {
                     this.styles = [];
                     this.broken = null;
@@ -139,6 +167,8 @@ export default {
             loaded: {},
             localHoveredVector: null,
             localSelectedVectors: [],
+            vectorEvents: {},
+            vectorProps: {},
             dragged: null,
             localVector: null,
             localVectorSnapshot: null,
@@ -146,6 +176,7 @@ export default {
             template: null,
             stateVersion: 0,
             compileCount: 0,
+            contextId: null,
             artifactVectors: {},
             styles: [],
         };
@@ -154,7 +185,10 @@ export default {
         this.styles = [];
         this.broken = null;
         this.localVector = this.vector;
-        this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector));
+        this.updateContextId();
+        this.bindVectorEvents(this.localVector);
+        this.bindVectorProps(this.localVector);
+        this.localVectorSnapshot = JSON.parse(JSON.stringify(this.vector, replacer));
         this.localVectorDataSnapshot = JSON.parse(JSON.stringify(this.vector.data));
         this.localSelectedVectors = this.selectedVectors;
         this.longLoadingTimer = setTimeout(() => {
@@ -173,6 +207,30 @@ export default {
             "updateVectorData",
             "clearArtifact",
         ]),
+        setLinkedVector(e) {
+            console.log("setLinkedVector", e);
+        },
+        bindVectorEvents(vect) {
+            const events = {};
+            vect.properties.outputs.forEach((output) => {
+                events[output.name] = (val) => {
+                    this.scheduler.instance.url(this.vector.url, val, output.name, this.hostVector);
+                };
+            });
+            this.vectorEvents[vect.__contextId] = events;
+        },
+        bindVectorProps(vect) {
+            const props = {};
+            vect.properties.inputs.forEach((input) => {
+                props[input.name] = undefined;
+            });
+            this.vectorProps[vect.__contextId] = props;
+        },
+        updateContextId() {
+            this.$store.commit("setGraphReferences", {
+                [this.localVector.__contextId]: this,
+            });
+        },
         dataChange(e) {
             this.updateVectorData({
                 vectorId: this.vector.id,
@@ -180,7 +238,7 @@ export default {
             });
         },
         set(e) {
-            this.scheduler.instance.url(this.vector.url, e);
+            this.scheduler.instance.url(this.vector.url, e, "$url", this.hostVector);
         },
         artifactKey(key) {
             if (!key) {
@@ -207,7 +265,7 @@ export default {
                 };
                 this.setArtifact(l);
                 if (v.vectors) {
-                    await this.importGraph(v, this.artifactKey(vect.artifact), vect);
+                    await this.importGraph(v);
                 } else {
                     await this.importVector(v, this.artifactKey(vect.artifact));
                 }
@@ -220,35 +278,11 @@ export default {
                 await this.compileTemplate(vect.id, vect.template.vue);
             }
         },
-        async importGraph(g, artifactKey, hostVector) {
-            const refs = {};
-            const hostVectorRef = newId();
-            refs[hostVectorRef] = hostVector;
-            // compile a template for every vector marked 
+        async importGraph(g) {
             for (let v of g.vectors) {
                 await this.importRoot(v);
             }
-            const temp = [];
-            temp.push("<template><div>");
-            g.vectors.sort((a, b) => {
-                if (a.properties.presentation.z === b.properties.presentation.z) {
-                    return 0;
-                }
-                return a.properties.presentation.z > b.properties.presentation.z ? -1 : 1;
-            }).forEach((v) => {
-                const vectorKey = (this.artifactKey(v.artifact) || v.id);
-                refs[vectorKey] = v;
-                temp.push(`<component
-                    v-if="${v.properties.appearsInExportedGraph}"
-                    is="vector-${vectorKey}"
-                    @set="$store.dispatch('setGraphVector', {vectorRef: '${vectorKey}', hostVectorRef: '${hostVectorRef}', event: $event})"
-                    :vector="$store.getters.getGraphReference('${vectorKey}')"
-                    :scheduler="$store.state.scheduler"
-                    :state="$store.state.scheduler.state"/>`);
-            });
-            temp.push("</div></template>");
-            this.$store.commit("setGraphReferences", refs);
-            await this.compileTemplate(artifactKey, temp.join(""));
+            this.loaded[this.vectorComponentName] = true;
         },
         async importVector(v, artifactKey) {
             v.artifact = this.vector.artifact;
@@ -420,7 +454,7 @@ export default {
             } else if (hovered) {
                 borderColor = "var(--v-info-lighten2)";
             }
-            if (this.presentation) {
+            if (this.presentation || this.hostVector) {
                 if (this.localVector.properties.positionAbsolute) {
                     return {
                         position: "absolute",

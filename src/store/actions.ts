@@ -1,4 +1,4 @@
-import {newId} from "./mutations"; // eslint-disable-line
+import {newId, replacer} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
@@ -154,25 +154,32 @@ export default {
                 context.commit("addLogItem", {eventName: "connector", event: e});
             }
         });
-        scheduler.addEventListener("set", (e) => {
+        scheduler.addEventListener("set", (e: any) => {
+            const comp = context.getters.getGraphReference(e.vectorInterface.vector.__contextId);
+            e.setContext({
+                props: comp.vectorProps[comp.vector.__contextId],
+                component: comp,
+            });
+        });
+        scheduler.addEventListener("afterSet", (e: any) => {
             if (context.state.preferences.debug) {
                 context.commit("addLogItem", {eventName: "set", event: e});
             }
         });
-        scheduler.addEventListener("error", (e) => {
+        scheduler.addEventListener("error", (e: any) => {
             if ("err" in e && e.err) {
                 context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
                 context.commit("addLogItem", {eventName: "error", event: e});
                 context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
             }
         });
-        scheduler.addEventListener("warning", (e) => {
+        scheduler.addEventListener("warning", (e: any) => {
             if ("message" in e) {
                 context.commit("addLogItem", {eventName: "warning", event: e});
                 context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
             }
         });
-        scheduler.addEventListener("load", async (e): Promise<any> => {
+        scheduler.addEventListener("load", async (e: any): Promise<any> => {
             if ("setValue" in e) {
                 const pathParts = e.url.split("/");
                 const itemId = pathParts[2].split(".")[0];
@@ -355,7 +362,7 @@ export default {
         if (e !== undefined) {
             context.state.graph = e;
         }
-        const changes = diff(context.state.remoteSnapshot, context.state.graph);
+        const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)), JSON.parse(JSON.stringify(context.state.graph, replacer)));
         if (!changes) {
             return;
         }
@@ -372,13 +379,14 @@ export default {
         // on the client as if it was the server to get around the lack of a
         // round trip with a new version number.
         if (!context.state.dataProviders.graph.asyncUpdate) {
-            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph));
+            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph, replacer));
             context.commit("setGraphVersion", context.state.graph.version + 1);
-            const versionChanges: any = diff(preVersionSnapshot, context.state.graph);
-            Array.prototype.push.apply(changes, versionChanges);
+            const versionChanges = diff(preVersionSnapshot, JSON.parse(JSON.stringify(context.state.graph, replacer)));
+            Array.prototype.push.apply(changes, versionChanges as any[]);
         }
         // calculate CRC
-        const crc = Hashes.CRC32(JSON.stringify(context.state.graph));
+        const calcState = JSON.stringify(context.state.graph, replacer);
+        const crc = Hashes.CRC32(calcState);
         await context.state.dataProviders.graph.set(context.state.graph.id, {
             crc,
             changes,
@@ -435,7 +443,6 @@ export default {
         } else {
             e.item = item;
             context.commit(e.type === "publishedVector" ? "addVectorItem" : "addGraphItem", e);
-            context.dispatch("save");
         }
     },
     // simple actions with multiple commits or dispatches (or plans for such)

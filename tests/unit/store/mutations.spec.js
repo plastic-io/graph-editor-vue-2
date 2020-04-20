@@ -453,10 +453,10 @@ describe("Mutation ethods", () => {
         state.graph = null;
         state.graphSnapshot = null;
         state.remoteSnapshot = null;
-        mutations.open(state, "foo");
-        expect(state.graph).toEqual("foo");
-        expect(state.graphSnapshot).toEqual("foo");
-        expect(state.remoteSnapshot).toEqual("foo");
+        mutations.open(state, {vectors: []});
+        expect(state.graph).toEqual({vectors: []});
+        expect(state.graphSnapshot).toEqual({vectors: []});
+        expect(state.remoteSnapshot).toEqual({vectors: []});
     });
     it("Should set data providers by key when calling setDataProviders", () => {
         state.dataProviders = {};
