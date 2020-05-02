@@ -8,10 +8,12 @@ import VueRouter from "vue-router";
 import {sync} from "vuex-router-sync";
 import Vuex from "vuex";
 import "@babel/polyfill";
+import PortalVue from "portal-vue";
 import localStoreDataProvider from "./store/modules/localStoreDataProvider";
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(PortalVue);
 const store = new Vuex.Store(storeConfig());
 store.dispatch("setDataProviders", {
     publish: localStoreDataProvider,
