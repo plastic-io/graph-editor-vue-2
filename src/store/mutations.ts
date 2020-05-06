@@ -899,7 +899,11 @@ export function setGraphReferences(state: any, refs: any) {
         ...refs,
     };
 }
+export function setConnectionState(state: any, e: any) {
+    state.connectionState = e;
+}
 export default {
+    setConnectionState,
     resetLoadedState,
     addDroppedItem,
     setGraphReferences,

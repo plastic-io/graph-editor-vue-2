@@ -5,6 +5,12 @@ import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io
 const artifactPrefix = "artifacts/";
 const eventsPrefix = "events/";
 export default {
+    message(context: any, e: any) {
+        console.info("got remote message", e);
+    },
+    setConnectionState(context: any, e: any) {
+        context.commit("setConnectionState", e.state);
+    },
     async setGraphVector(context: any, o: any) {
         const vector = context.state.graphReferences[o.vectorRef];
         const hostVector = context.state.graphReferences[o.hostVectorRef];
@@ -24,19 +30,18 @@ export default {
         });
     },
     async subscribeToc(context: any) {
-        await context.state.dataProviders.publish.subscribe("toc.json", (e: any) => {
+        await context.state.dataProviders.notification.subscribe("toc.json", (e: any) => {
             if (e.type === "toc") {
                 context.commit("setToc", e.toc);
             }
         });
     },
     async subscribe(context: any, url: string) {
-        await context.state.dataProviders.graph.subscribe(url, (e: any) => {
+        await context.state.dataProviders.notification.subscribe(url, (e: any) => {
             if (e.type === "events") {
                 context.commit("remoteChangeEvents", e.events);
             }
         });
-        
     },
     async getPublicRegistry(context: any, e: any) {
         const relPath = /^\.\//;
@@ -277,7 +282,7 @@ export default {
             loading: true,
         });
         try {
-            toc = await context.state.dataProviders.graph.get("toc.json");
+            toc = await context.state.dataProviders.publish.get("toc.json");
         } catch (err) {
             er = err;
             if (/not found/.test(er.toString())) {
@@ -388,6 +393,7 @@ export default {
         const calcState = JSON.stringify(context.state.graph, replacer);
         const crc = Hashes.CRC32(calcState);
         await context.state.dataProviders.graph.set(context.state.graph.id, {
+            graphId: context.state.graph.id,
             crc,
             changes,
             id: newId(),

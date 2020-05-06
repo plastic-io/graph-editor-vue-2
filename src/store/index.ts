@@ -3,6 +3,9 @@ import mutations from "./mutations";
 import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
 import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+const NODE_ENV = process.env.NODE_ENV;
+const graphHTTPServer = process.env.VUE_APP_GRAPH_HTTP_SERVER;
+const graphWSSServer = process.env.VUE_APP_GRAPH_WSS_SERVER;
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -58,6 +61,10 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            connectionState: "closed",
+            NODE_ENV,
+            graphHTTPServer,
+            graphWSSServer,
             createdGraphId: null,
             helpTopics,
             log: [],

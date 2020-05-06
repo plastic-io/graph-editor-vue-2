@@ -9,17 +9,48 @@ import {sync} from "vuex-router-sync";
 import Vuex from "vuex";
 import "@babel/polyfill";
 import PortalVue from "portal-vue";
-import localStoreDataProvider from "./store/modules/localStoreDataProvider";
+import LocalStoreDataProvider from "./store/modules/LocalStoreDataProvider";
+import WSSDataProvider from "./store/modules/WSSDataProvider";
+import HTTPDataProvider from "./store/modules/HTTPDataProvider";
+const graphHTTPServer = process.env.VUE_APP_GRAPH_HTTP_SERVER;
+const graphWSSServer = process.env.VUE_APP_GRAPH_WSS_SERVER;
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(PortalVue);
 const store = new Vuex.Store(storeConfig());
-store.dispatch("setDataProviders", {
-    publish: localStoreDataProvider,
-    graph: localStoreDataProvider,
-    preferences: localStoreDataProvider,
-});
+const localStoreDataProvider = new LocalStoreDataProvider();
+if (graphWSSServer && graphHTTPServer) {
+    const wssDataProvider = new WSSDataProvider(graphWSSServer, (e) => {
+        console.log("message", e);
+        store.dispatch("message", e);
+    }, () => {
+        console.log("connection open");
+        store.dispatch("setConnectionState", {
+            state: "open",
+        });
+    }, 
+    () => {
+        console.log("connection close");
+        store.dispatch("setConnectionState", {
+            state: "closed",
+        });
+    });
+    const httpDataProvider = new HTTPDataProvider(graphHTTPServer);
+    store.dispatch("setDataProviders", {
+        publish: httpDataProvider,
+        notification: wssDataProvider,
+        graph: wssDataProvider,
+        preferences: localStoreDataProvider,
+    });
+} else {
+    store.dispatch("setDataProviders", {
+        publish: localStoreDataProvider,
+        notification: localStoreDataProvider,
+        graph: localStoreDataProvider,
+        preferences: localStoreDataProvider,
+    });
+}
 store.dispatch("getPreferences");
 store.watch((state) => state.historyPosition, () => {
     store.dispatch("save");
