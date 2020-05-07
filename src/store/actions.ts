@@ -3,10 +3,9 @@ import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
-const eventsPrefix = "events/";
 export default {
     message(context: any, e: any) {
-        console.info("got remote message", e);
+        console.info("got WS message:", e);
     },
     setConnectionState(context: any, e: any) {
         context.commit("setConnectionState", e.state);
@@ -31,6 +30,7 @@ export default {
     },
     async subscribeToc(context: any) {
         await context.state.dataProviders.notification.subscribe("toc.json", (e: any) => {
+            console.log("toc notification");
             if (e.type === "toc") {
                 context.commit("setToc", e.toc);
             }
@@ -342,7 +342,6 @@ export default {
             loading: true,
         });
         await context.state.dataProviders.graph.delete(graphId);
-        await context.state.dataProviders.graph.delete(eventsPrefix + graphId);
         context.commit("setLoadingStatus", {
             key: graphId,
             type: "removeGraph",

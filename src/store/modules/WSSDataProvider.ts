@@ -27,11 +27,12 @@ export default class WSSDataProvider {
         this.subscriptions = [];
         this.connect();
     }
-    send(message) {
+    send(e) {
         if (this.state !== "open") {
-            return this.messages.push(message);
+            return this.messages.push(e);
         }
-        this.webSocket.send(JSON.stringify(message));
+        console.log("sending", e);
+        this.webSocket.send(JSON.stringify(e));
     }
     connect() {
         this.webSocket = new WebSocket(this.url);
@@ -72,6 +73,13 @@ export default class WSSDataProvider {
         if (e.subscribed && this.subscriptions.indexOf(e.subscribed) === -1) {
             this.subscriptions.push(e.subscribed);
         }
+        if (e.channelId) {
+            if (this.events[e.channelId]) {
+                this.events[e.channelId].forEach((listener) => {
+                    listener(e.response);
+                });
+            }
+        }
         this.message(e);
     }
     disconnect() {
@@ -102,23 +110,27 @@ export default class WSSDataProvider {
             channelId,
         });
     }
-    listSubscribers(e, callback) {
-        const value = {
-            requestId: newId(),
-            action: "listSubscribers",
-            channelId: e,
-        };
-        this.send(value);
-        this.events[value.requestId] = callback;
+    async listSubscribers(e) {
+        return new Promise((success) => {
+            const value = {
+                requestId: newId(),
+                action: "listSubscribers",
+                channelId: e,
+            };
+            this.send(value);
+            this.events[value.requestId] = success;
+        });
     }
-    listSubscriptions(e, callback) {
-        const value = {
-            requestId: newId(),
-            action: "listSubscriptions",
-            connectionId: e,
-        };
-        this.send(value);
-        this.events[value.requestId] = callback;
+    async listSubscriptions(e) {
+        return new Promise((success) => {
+            const value = {
+                requestId: newId(),
+                action: "listSubscriptions",
+                connectionId: e,
+            };
+            this.send(value);
+            this.events[value.requestId] = success;
+        });
     }
     sendToAll(e) {
         this.send({
@@ -140,8 +152,30 @@ export default class WSSDataProvider {
             connectionId: e.connectionId,
         });
     }
+    async get(url) {
+        return await new Promise((success) => {
+            console.log("get");
+            console.log("get");
+            console.log("get");
+            const value = {
+                action: "getGraph",
+                id: url,
+                requestId: newId(),
+            };
+            this.send(value);
+            this.events[value.requestId] = (e) => {
+                console.log("<<<<get");
+                success(e);
+            };
+        });
+    }
+    delete(url) {
+        this.send({
+            action: "deleteGraph",
+            id: url,
+        });
+    }
     set(url: string, value: any) {
-        console.log("set", url, value);
         // can be three things, changes, published graph, published vector
         if ("changes" in value) {
             this.send({
@@ -159,8 +193,5 @@ export default class WSSDataProvider {
                 artifact: value
             });
         }
-    }
-    get(url: string) {
-        console.log("connect", url);
     }
 }

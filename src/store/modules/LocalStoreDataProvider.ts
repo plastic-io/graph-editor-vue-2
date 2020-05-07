@@ -193,6 +193,7 @@ export default class LocalStorageDataProvider {
         }
     }
     async delete(url: string): Promise<void> {
+        // HACK: also do this for event prefix, silently fail if there's nothing there
         const sToc = await localStorage.getItem(tocKey);
         let toc: Toc;
         if (!sToc) {
@@ -206,6 +207,9 @@ export default class LocalStorageDataProvider {
         }
         delete toc[url];
         await localStorage.setItem(tocKey, JSON.stringify(toc));
+        if (localStorage.getItem(eventsPrefix + url) !== null) {
+            localStorage.removeItem(eventsPrefix + url);
+        }
         return await localStorage.removeItem(url);
     }
 }
