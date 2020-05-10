@@ -31,6 +31,7 @@ describe("Mouse mutations", () => {
                     preventDefault: jest.fn(),
                 },
             },
+            mouseMovements: [],
             selectedGroups: [],
             groupVectors: [],
             selectedConnectors: [],

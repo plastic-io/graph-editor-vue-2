@@ -18,6 +18,18 @@ describe("GraphEditor.vue", () => {
     beforeEach(() => {
         storeConfig = {
             state: {
+                dataProviders: {
+                    graph: {
+                        asyncUpdate: false,
+                    },
+                },
+                showRemoteMouseMovements: true,
+                mouseMovements: [],
+                mouseTransmitInterval: 1000,
+                heartBeatInterval: 5000,
+                graphUserMouse: {},
+                graphUserChat: {},
+                graphUsers: {},
                 pathPrefix: "/graph-editor/",
                 translating: {},
                 keys: {},

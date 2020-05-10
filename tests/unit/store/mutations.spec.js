@@ -15,6 +15,11 @@ describe("Mutation ethods", () => {
     beforeEach(() => {
         time = 0;
         state = {
+            dataProviders: {
+                graph: {
+                    asyncUpdate: false,
+                },
+            },
             selectedConnectors: [],
             selectedVector: null,
             historyPosition: 0,

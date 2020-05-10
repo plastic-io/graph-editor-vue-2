@@ -9,6 +9,7 @@ describe("Bummer in the summer", () => {
                 graph: JSON.parse(JSON.stringify(graph)),
                 dataProviders: {
                     preferences: {
+                        asyncUpdate: false,
                         get() {
                             return context.dataProvidersResponse.preferences.get;
                         },
@@ -16,6 +17,7 @@ describe("Bummer in the summer", () => {
                         subscribe: jest.fn(),
                     },
                     graph: {
+                        asyncUpdate: false,
                         get() {
                             return context.dataProvidersResponse.graph.get;
                         },
@@ -24,6 +26,16 @@ describe("Bummer in the summer", () => {
                         subscribe: jest.fn(),
                     },
                     publish: {
+                        asyncUpdate: false,
+                        get() {
+                            return context.dataProvidersResponse.publish.get;
+                        },
+                        set: jest.fn(),
+                        delete: jest.fn(),
+                        subscribe: jest.fn(),
+                    },
+                    notification: {
+                        asyncUpdate: false,
                         get() {
                             return context.dataProvidersResponse.publish.get;
                         },
@@ -178,7 +190,7 @@ describe("Bummer in the summer", () => {
         expect(context.state.dataProviders.preferences.set).toHaveBeenCalledWith("preferences", {"preferences": undefined});
     });
     it("Should fetch toc from the data provider.", async () => {
-        context.dataProvidersResponse.graph.get = "foo";
+        context.dataProvidersResponse.publish.get = "foo";
         await actions.getToc(context);
         expect(context.commit).toHaveBeenCalledWith("setToc", "foo");
     });
@@ -206,7 +218,6 @@ describe("Bummer in the summer", () => {
     it("Should remove a graph when calling remove.", async () => {
         await actions.remove(context, "foo");
         expect(context.state.dataProviders.graph.delete).toHaveBeenCalledWith("foo");
-        expect(context.state.dataProviders.graph.delete).toHaveBeenCalledWith("events/foo");
         expect(context.dispatch).toHaveBeenCalledWith("getToc");
     });
     it("Should save preferences when calling savePreferences.", async () => {
@@ -352,10 +363,10 @@ describe("Bummer in the summer", () => {
     });
     it("Should subscibe to dataProviders when calling subscribeToc action.", async () => {
         actions.subscribeToc(context);
-        expect(context.state.dataProviders.publish.subscribe).toHaveBeenCalled();
+        expect(context.state.dataProviders.notification.subscribe).toHaveBeenCalled();
     });
     it("Should subscibe to dataProviders when calling subscribe action.", async () => {
         actions.subscribe(context, "foo");
-        expect(context.state.dataProviders.graph.subscribe).toHaveBeenCalled();
+        expect(context.state.dataProviders.notification.subscribe).toHaveBeenCalled();
     });
 });
