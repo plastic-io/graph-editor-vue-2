@@ -37,6 +37,10 @@ export default class WSSDataProvider {
         this.webSocket.send(value);
     }
     connect() {
+        if (this.state === "closed") {
+            this.state = "connecting";
+            this.webSocket = new WebSocket(this.url);
+        }
         this.webSocket.addEventListener("open", () => {
             this.state = "open";
             this.open();

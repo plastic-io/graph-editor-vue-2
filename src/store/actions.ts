@@ -3,12 +3,132 @@ import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
+const schedulerNotifyActions: any = {
+    logger(context: any) {
+        return {
+            log: (e: any) => {
+                context.commit("addLogItem", {eventName: "log", event: e});
+            },
+            info: (e: any) => {
+                if (/Executing vector at URL/.test(e.toString()) && !context.state.preferences.debug) {
+                    return;
+                }
+                context.commit("addLogItem", {eventName: "info", event: e});
+            },
+            debug: (e: any) => {
+                if (context.state.preferences.debug) {
+                    context.commit("addLogItem", {eventName: "debug", event: e});
+                }
+            },
+            error: (e: any) => {
+                context.commit("addLogItem", {eventName: "logError", event: e});
+            },
+            warn: (e: any) => {
+                context.commit("addLogItem", {eventName: "warn", event: e});
+            },
+        };
+    },
+    begin(context: any, e: any) {
+        context.commit("setLoadingStatus", {
+            key: context.state.graph.id,
+            type: "graphUrl",
+            loading: true,
+        });
+        context.commit("addLogItem", {eventName: "begin", event: e});
+    },
+    end(context: any, e: any) {
+        context.commit("setLoadingStatus", {
+            key: context.state.graph.id,
+            type: "graphUrl",
+            loading: false,
+        });
+        context.commit("addLogItem", {eventName: "end", event: e});
+    },
+    beginconnector(context: any, e: any) {
+        context.commit("connectorActivity", {
+            key: e.connector.id,
+            start: Date.now(),
+            event: e,
+        });
+        if (context.state.preferences.debug) {
+            context.commit("setLoadingStatus", {
+                key: e.connector.id,
+                type: "connector",
+                loading: true,
+                event: e,
+            });
+            context.commit("addLogItem", {eventName: "connector", event: e});
+        }
+    },
+    endconnector(context: any, e: any) {
+        const now = Date.now();
+        const startConnector = context.state.activityConnectors[e.connector.id];
+        const duration = startConnector ? now - startConnector.start : "";
+        context.commit("connectorActivity", {
+            key: e.connector.id,
+            end: Date.now(),
+            duration,
+            event: e,
+        });
+        if (context.state.preferences.debug) {
+            context.commit("setLoadingStatus", {
+                key: e.connector.id,
+                type: "connector",
+                loading: false,
+            });
+            context.commit("addLogItem", {eventName: "connector", event: e});
+        }
+    },
+    set(context: any, e: any) {
+        if (!e.vectorInterface) {
+            return;
+        }
+        const comp = context.getters.getGraphReference(e.vectorInterface.vector.__contextId);
+        e.setContext({
+            props: comp.vectorProps[comp.vector.__contextId],
+            component: comp,
+        });
+    },
+    afterSet(context: any, e: any) {
+        if (context.state.preferences.debug) {
+            context.commit("addLogItem", {eventName: "set", event: e});
+        }
+    },
+    error(context: any, e: any) {
+        if ("err" in e && e.err) {
+            context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
+            context.commit("addLogItem", {eventName: "error", event: e});
+            context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
+        }
+    },
+    warning(context: any, e: any) {
+        if ("message" in e) {
+            context.commit("addLogItem", {eventName: "warning", event: e});
+            context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
+        }
+    },
+    async load(context: any, e: any) {
+        if ("setValue" in e) {
+            const pathParts = e.url.split("/");
+            const itemId = pathParts[2].split(".")[0];
+            const itemVersion = pathParts[2].split(".")[1];
+            const itemType = pathParts[1];
+            context.commit("addLogItem", {eventName: "load", event: e});
+            if (itemType === "graph" && itemId === context.state.graph.id) {
+                return e.setValue(context.state.graph);
+            }
+            const item = await context.state.dataProviders.publish.get(artifactPrefix + itemId + "." + itemVersion);
+            e.setValue(item);
+        }
+    }
+};
 export default {
     subscribeToGraphEvents(context: any, e: any) {
         const chGraphEvents = "graph-event-" + e.graphId;
         const chGraphUsers = "graph-users-" + e.graphId;
         const chGraphMouse = "graph-mouse-" + e.graphId;
         const chGraphChat = "graph-chat-" + e.graphId;
+        const chGraphNotify = "graph-notify-" + e.graphId;
         context.state.dataProviders.graph.subscribe(chGraphEvents, (ev: any) => {
             ev.forEach((event: any) => {
                 context.commit("remoteChangeEvents", event);
@@ -16,6 +136,13 @@ export default {
         });
         context.state.dataProviders.graph.subscribe(chGraphUsers, (ev: any) => {
             context.commit("updateGraphUsers", ev);
+        });
+        context.state.dataProviders.graph.subscribe(chGraphNotify, (ev: any) => {
+            if (ev.eventType) {
+                schedulerNotifyActions[ev.eventType](context, ev);
+            } else {
+                console.warn("Unknown remote graph event", ev);
+            }
         });
         context.state.dataProviders.graph.subscribe(chGraphMouse, (ev: any) => {
             context.commit("updateGraphMouse", ev);
@@ -148,119 +275,34 @@ export default {
         document.body.removeChild(a);
     },
     instantiateGraph(context: any) {
-        const logger = {
-            log: (e: any) => {
-                context.commit("addLogItem", {eventName: "log", event: e});
-            },
-            info: (e: any) => {
-                if (/Executing vector at URL/.test(e.toString()) && !context.state.preferences.debug) {
-                    return;
-                }
-                context.commit("addLogItem", {eventName: "info", event: e});
-            },
-            debug: (e: any) => {
-                if (context.state.preferences.debug) {
-                    context.commit("addLogItem", {eventName: "debug", event: e});
-                }
-            },
-            error: (e: any) => {
-                context.commit("addLogItem", {eventName: "logError", event: e});
-            },
-            warn: (e: any) => {
-                context.commit("addLogItem", {eventName: "warn", event: e});
-            },
-        };
-        const scheduler = new Scheduler(context.state.graph, context, context.state.scheduler.state, logger);
-        const instanceId = newId();
+        const scheduler = new Scheduler(context.state.graph, context,
+            context.state.scheduler.state, schedulerNotifyActions.logger(context));
         scheduler.addEventListener("beginconnector", (e: any) => {
-            context.commit("connectorActivity", {
-                key: e.connector.id,
-                start: Date.now(),
-                event: e,
-            });
-            if (context.state.preferences.debug) {
-                context.commit("setLoadingStatus", {
-                    key: e.connector.id,
-                    type: "connector",
-                    loading: true,
-                    event: e,
-                });
-                context.commit("addLogItem", {eventName: "connector", event: e});
-            }
+            schedulerNotifyActions.beginconnector(context, e);
         });
         scheduler.addEventListener("endconnector", (e: any) => {
-            const now = Date.now();
-            const startConnector = context.state.activityConnectors[e.connector.id];
-            const duration = startConnector ? now - startConnector.start : "";
-            context.commit("connectorActivity", {
-                key: e.connector.id,
-                end: Date.now(),
-                duration,
-                event: e,
-            });
-            if (context.state.preferences.debug) {
-                context.commit("setLoadingStatus", {
-                    key: e.connector.id,
-                    type: "connector",
-                    loading: false,
-                });
-                context.commit("addLogItem", {eventName: "connector", event: e});
-            }
+            schedulerNotifyActions.endconnector(context, e);
         });
         scheduler.addEventListener("set", (e: any) => {
-            const comp = context.getters.getGraphReference(e.vectorInterface.vector.__contextId);
-            e.setContext({
-                props: comp.vectorProps[comp.vector.__contextId],
-                component: comp,
-            });
+            schedulerNotifyActions.set(context, e);
         });
         scheduler.addEventListener("afterSet", (e: any) => {
-            if (context.state.preferences.debug) {
-                context.commit("addLogItem", {eventName: "set", event: e});
-            }
+            schedulerNotifyActions.afterSet(context, e);
         });
         scheduler.addEventListener("error", (e: any) => {
-            if ("err" in e && e.err) {
-                context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
-                context.commit("addLogItem", {eventName: "error", event: e});
-                context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
-            }
+            schedulerNotifyActions.error(context, e);
         });
         scheduler.addEventListener("warning", (e: any) => {
-            if ("message" in e) {
-                context.commit("addLogItem", {eventName: "warning", event: e});
-                context.commit("raiseError", new Error("Graph Scheduler Warning: " + e.message));
-            }
+            schedulerNotifyActions.warning(context, e);
         });
         scheduler.addEventListener("load", async (e: any): Promise<any> => {
-            if ("setValue" in e) {
-                const pathParts = e.url.split("/");
-                const itemId = pathParts[2].split(".")[0];
-                const itemVersion = pathParts[2].split(".")[1];
-                const itemType = pathParts[1];
-                context.commit("addLogItem", {eventName: "load", event: e});
-                if (itemType === "graph" && itemId === context.state.graph.id) {
-                    return e.setValue(context.state.graph);
-                }
-                const item = await context.state.dataProviders.publish.get(artifactPrefix + itemId + "." + itemVersion);
-                e.setValue(item);
-            }
+            return await schedulerNotifyActions.load(context, e);
         });
         scheduler.addEventListener("begin", (e) => {
-            context.commit("setLoadingStatus", {
-                key: context.state.graph.id + instanceId,
-                type: "graphUrl",
-                loading: true,
-            });
-            context.commit("addLogItem", {eventName: "begin", event: e});
+            schedulerNotifyActions.begin(context, e);
         });
         scheduler.addEventListener("end", (e) => {
-            context.commit("setLoadingStatus", {
-                key: context.state.graph.id + instanceId,
-                type: "graphUrl",
-                loading: false,
-            });
-            context.commit("addLogItem", {eventName: "end", event: e});
+            schedulerNotifyActions.end(context, e);
         });
         context.commit("setScheduler", scheduler);
     },
