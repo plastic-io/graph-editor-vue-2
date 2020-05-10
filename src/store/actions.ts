@@ -4,8 +4,59 @@ import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 export default {
-    message(context: any, e: any) {
-        console.info("got WS message:", e);
+    subscribeToGraphEvents(context: any, e: any) {
+        const chGraphEvents = "graph-event-" + e.graphId;
+        const chGraphUsers = "graph-users-" + e.graphId;
+        const chGraphMouse = "graph-mouse-" + e.graphId;
+        const chGraphChat = "graph-chat-" + e.graphId;
+        context.state.dataProviders.graph.subscribe(chGraphEvents, (ev: any) => {
+            ev.forEach((event: any) => {
+                context.commit("remoteChangeEvents", event);
+            });
+        });
+        context.state.dataProviders.graph.subscribe(chGraphUsers, (ev: any) => {
+            context.commit("updateGraphUsers", ev);
+        });
+        context.state.dataProviders.graph.subscribe(chGraphMouse, (ev: any) => {
+            context.commit("updateGraphMouse", ev);
+        });
+        context.state.dataProviders.graph.subscribe(chGraphChat, (ev: any) => {
+            context.commit("updateGraphChat", ev);
+        });
+        const sendMouseTelemetry = () => {
+            setTimeout(sendMouseTelemetry, context.state.mouseTransmitInterval);
+            if (context.state.mouseMovements.length === 0) {
+                return;
+            }
+            const data = {
+                channelId: chGraphMouse,
+                value: {
+                    workstationId: context.state.preferences.workstationId,
+                    userName: context.state.preferences.userName,
+                    avatar: context.state.preferences.avatar,
+                    movements: context.state.mouseMovements,
+                }
+            };
+            context.state.dataProviders.graph.sendToChannel(chGraphMouse, data);
+            context.commit("resetMouseTelemetry");
+        };
+        setTimeout(sendMouseTelemetry, context.state.mouseTransmitInterval);
+        // send a heartbeat to the other users
+        setTimeout(() => {
+            const heartBeat = () => {
+                const data = {
+                    channelId: chGraphUsers,
+                    value: {
+                        workstationId: context.state.preferences.workstationId,
+                        userName: context.state.preferences.userName,
+                        avatar: context.state.preferences.avatar,
+                    }
+                };
+                context.state.dataProviders.graph.sendToChannel(chGraphUsers, data);
+                setTimeout(heartBeat, context.state.heartBeatInterval);
+            };
+            heartBeat();
+        }, 500);
     },
     setConnectionState(context: any, e: any) {
         context.commit("setConnectionState", e.state);
@@ -30,17 +81,14 @@ export default {
     },
     async subscribeToc(context: any) {
         await context.state.dataProviders.notification.subscribe("toc.json", (e: any) => {
-            console.log("toc notification");
             if (e.type === "toc") {
                 context.commit("setToc", e.toc);
             }
         });
     },
-    async subscribe(context: any, url: string) {
-        await context.state.dataProviders.notification.subscribe(url, (e: any) => {
-            if (e.type === "events") {
-                context.commit("remoteChangeEvents", e.events);
-            }
+    async subscribe(context: any, e: {channelId: string, callback: (err: any, data: any) => void}) {
+        await context.state.dataProviders.notification.subscribe(e.channelId, (ev: any) => {
+            e.callback(null, ev);
         });
     },
     async getPublicRegistry(context: any, e: any) {
@@ -395,14 +443,18 @@ export default {
             graphId: context.state.graph.id,
             crc,
             changes,
+            graph: context.state.graph,
             id: newId(),
         });
+        // when using a async data source (server), apply changes to the remote locally to prevent re-save
+        if (context.state.dataProviders.graph.asyncUpdate) {
+            context.commit("setGraphVersion", context.state.graph.version);
+        }
         context.commit("setLoadingStatus", {
             key: context.state.graph.id,
             type: "saveGraph",
             loading: false,
         });
-        context.dispatch("getToc");
     },
     async open(context: any, e: {graphId: string}) {
         let graph, er;
@@ -424,6 +476,9 @@ export default {
             type: "graph",
             loading: false,
         });
+        if (context.state.dataProviders.graph.asyncUpdate) {
+            context.dispatch("subscribeToGraphEvents", e);
+        }
         context.commit("open", graph);
         context.dispatch("instantiateGraph");
     },

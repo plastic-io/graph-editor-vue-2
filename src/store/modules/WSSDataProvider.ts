@@ -5,12 +5,11 @@ export default class WSSDataProvider {
     keepOpen: boolean;
     webSocket: WebSocket;
     state: string;
-    message: () => void;
+    messages: any[];
+    message: (e: any) => void;
     open: () => void;
     close: () => void;
-    events: {
-        [key: string]: Function[]; // tslint:disable-line
-    };
+    events: any;
     subscriptions: string[];
     constructor(url: string, message: () => void, open: () => void, close: () => void) {
         if (!url) {
@@ -25,19 +24,19 @@ export default class WSSDataProvider {
         this.open = open;
         this.close = close;
         this.subscriptions = [];
+        this.state = "connecting";
+        this.keepOpen = true;
+        this.webSocket = new WebSocket(this.url);
         this.connect();
     }
-    send(e) {
+    send(e: any) {
         if (this.state !== "open") {
             return this.messages.push(e);
         }
-        console.log("sending", e);
-        this.webSocket.send(JSON.stringify(e));
+        const value = JSON.stringify(e);
+        this.webSocket.send(value);
     }
     connect() {
-        this.webSocket = new WebSocket(this.url);
-        this.state = "connecting";
-        this.keepOpen = true;
         this.webSocket.addEventListener("open", () => {
             this.state = "open";
             this.open();
@@ -45,7 +44,7 @@ export default class WSSDataProvider {
                 this.send(this.messages.shift());
             }
             this.subscriptions.forEach((channelId) => {
-                this.subscribe(channelId);
+                this.subscribe(channelId, null);
             });
         });
         this.webSocket.addEventListener("close", () => {
@@ -60,22 +59,22 @@ export default class WSSDataProvider {
             this.messageHandler(val);
         });
     }
-    messageHandler(e) {
+    messageHandler(e: any) {
         if (e.unsubscribed) {
             const idx = this.subscriptions.indexOf(e.unsubscribed);
             if (idx !== -1) {
                 this.subscriptions.splice(idx, 1);
             }
         }
-        if (e.requsetId && typeof this.events[e.requsetId] === "function") {
-            this.events[e.requsetId](e.response);
+        if (e.messageId && typeof this.events[e.messageId] === "function") {
+            this.events[e.messageId](e.response);
         }
         if (e.subscribed && this.subscriptions.indexOf(e.subscribed) === -1) {
             this.subscriptions.push(e.subscribed);
         }
         if (e.channelId) {
             if (this.events[e.channelId]) {
-                this.events[e.channelId].forEach((listener) => {
+                this.events[e.channelId].forEach((listener: any) => {
                     listener(e.response);
                 });
             }
@@ -86,17 +85,19 @@ export default class WSSDataProvider {
         this.keepOpen = false;
         this.webSocket.close();
     }
-    subscribe(channelId, listener) {
-        if (!this.events[channelId]) {
-            this.events[channelId] = [];
+    subscribe(channelId: string, listener: ((e: any) => void) | null) {
+        if (listener) {
+            if (!this.events[channelId]) {
+                this.events[channelId] = [];
+            }
+            this.events[channelId].push(listener);
         }
-        this.events[channelId].push(listener);
         this.send({
             action: "subscribe",
             channelId,
         });
     }
-    unsubscribe(channelId, listener) {
+    unsubscribe(channelId: string, listener: (e: any) => void) {
         if (!this.events[channelId]) {
             return;
         }
@@ -110,66 +111,63 @@ export default class WSSDataProvider {
             channelId,
         });
     }
-    async listSubscribers(e) {
+    async listSubscribers(channelId: string) {
         return new Promise((success) => {
             const value = {
-                requestId: newId(),
+                messageId: newId(),
                 action: "listSubscribers",
-                channelId: e,
+                channelId,
             };
             this.send(value);
-            this.events[value.requestId] = success;
+            this.events[value.messageId] = success;
         });
     }
-    async listSubscriptions(e) {
+    async listSubscriptions(connectionId: string) {
         return new Promise((success) => {
             const value = {
-                requestId: newId(),
+                messageId: newId(),
                 action: "listSubscriptions",
-                connectionId: e,
+                connectionId,
             };
             this.send(value);
-            this.events[value.requestId] = success;
+            this.events[value.messageId] = success;
         });
     }
-    sendToAll(e) {
+    sendToAll(value: any) {
         this.send({
             action: "sendToAll",
-            value: e,
+            value,
         });
     }
-    sendToChannel(channelId, e: {value: any, channelId: string}) {
+    sendToChannel(channelId: string, e: {value: any, channelId: string}) {
         this.send({
-            action: "sendToConnection",
+            action: "sendToChannel",
             value: e.value,
             channelId: e.channelId,
         });
     }
-    sendToConnection(connectionId, e: {value: any, connectionId: string}) {
+    sendToConnection(connectionId: string, e: {value: any, connectionId: string}) {
         this.send({
             action: "sendToConnection",
             value: e.value,
             connectionId: e.connectionId,
         });
     }
-    async get(url) {
-        return await new Promise((success) => {
-            console.log("get");
-            console.log("get");
-            console.log("get");
+    get(url: string) {
+        return new Promise((success) => {
             const value = {
                 action: "getGraph",
                 id: url,
-                requestId: newId(),
+                version: "latest",
+                messageId: newId(),
             };
             this.send(value);
-            this.events[value.requestId] = (e) => {
-                console.log("<<<<get");
+            this.events[value.messageId] = (e: any) => {
                 success(e);
             };
         });
     }
-    delete(url) {
+    delete(url: string) {
         this.send({
             action: "deleteGraph",
             id: url,

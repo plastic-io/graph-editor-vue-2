@@ -7,7 +7,36 @@
         <v-card-text class="ma-0">
             <v-expansion-panels flat v-model="panel">
                 <v-expansion-panel>
-                    <v-expansion-panel-header>General</v-expansion-panel-header>
+                    <v-expansion-panel-header>User</v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <v-card class="ma-0 pa-0" flat>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-img
+                                    :title="userName"
+                                    :src="avatar"
+                                    style="width: 50px; border-radius: 25px;border: solid 2px rgba(255, 255, 255, 0.5);"/>
+                                <v-text-field
+                                    v-model="userName"
+                                    help-topic="userName"
+                                    label="User Name"
+                                />
+                                <v-text-field
+                                    disabled
+                                    v-model="workstationId"
+                                    help-topic="workstationId"
+                                    label="Workstation Id"
+                                />
+                                <v-text-field
+                                    v-model="avatar"
+                                    help-topic="avatar"
+                                    label="Avatar"
+                                />
+                            </v-card-text>
+                        </v-card>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>Graph</v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
@@ -123,6 +152,9 @@ export default {
             preferences: state => state.preferences,
         }),
         ...mapFields([
+            "preferences.userName",
+            "preferences.avatar",
+            "preferences.workstationId",
             "preferences.showLabels",
             "preferences.debug",
             "preferences.appearance.theme",

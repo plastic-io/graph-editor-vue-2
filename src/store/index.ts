@@ -1,5 +1,6 @@
 import actions from "./actions";
 import mutations from "./mutations";
+import getRandomName from "./names";
 import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
 import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
@@ -23,7 +24,12 @@ export default {
 <style>
 </style>
 `;
+const randomName = getRandomName();
 const preferences = {
+    userName: randomName,
+    userId: 0,
+    avatar: "https://api.adorable.io/avatars/50/" + randomName.replace(/ /g, "") + ".png",
+    workstationId: mutations.newId(),
     newVectorHelp: true,
     showLabels: true,
     debug: false,
@@ -61,6 +67,13 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            showRemoteMouseMovements: true,
+            mouseMovements: [],
+            mouseTransmitInterval: 1000,
+            heartBeatInterval: 5000,
+            graphUserMouse: {},
+            graphUserChat: {},
+            graphUsers: {},
             connectionState: "closed",
             NODE_ENV,
             graphHTTPServer,

@@ -21,17 +21,14 @@ Vue.use(PortalVue);
 const store = new Vuex.Store(storeConfig());
 const localStoreDataProvider = new LocalStoreDataProvider();
 if (graphWSSServer && graphHTTPServer) {
-    const wssDataProvider = new WSSDataProvider(graphWSSServer, (e) => {
-        console.log("message", e);
-        store.dispatch("message", e);
+    const wssDataProvider = new WSSDataProvider(graphWSSServer, () => {
+        return;
     }, () => {
-        console.log("connection open");
         store.dispatch("setConnectionState", {
             state: "open",
         });
     }, 
     () => {
-        console.log("connection close");
         store.dispatch("setConnectionState", {
             state: "closed",
         });

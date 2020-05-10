@@ -18,6 +18,7 @@
                 <v-spacer style="margin-right: 5%;"/>
                 <span help-topic="plastic">Plastic-IO</span>
                 <v-spacer/>
+                <graph-users/>
                 <span>
                     <v-divider vertical style="margin: 5px;"/>
                     <v-icon :disabled="historyPosition === 0 || events.length === 0"
@@ -194,6 +195,7 @@
                 overflow: hidden;
             }
         </component>
+        <graph-mouse/>
     </v-app>
 </template>
 <script>
@@ -201,6 +203,8 @@ import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
 import HelpOverlay from "./HelpOverlay";
+import GraphUsers from "./GraphUsers";
+import GraphMouse from "./GraphMouse";
 export default {
     name: "GraphEditor",
     props: {
@@ -210,6 +214,8 @@ export default {
         GraphCanvas,
         ControlPanel,
         HelpOverlay,
+        GraphUsers,
+        GraphMouse,
     },
     watch: {
         presentationWarning() {
@@ -245,6 +251,7 @@ export default {
     },
     computed: {
         ...mapState({
+            dataProviders: state => state.dataProviders,
             activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
@@ -627,7 +634,6 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
-        this.$store.dispatch("subscribe", graphId);
         this.$store.dispatch("subscribeToc");
         this.$store.dispatch("subscribePreferences");
     },

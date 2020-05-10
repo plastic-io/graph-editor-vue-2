@@ -351,4 +351,5 @@ export default function mouse(state: any, mouse: {
     }
     // set state last so we can check state.mouse/mouse diff
     state.mouse = mouse;
+    state.mouseMovements.push({time: Date.now(), mouse});
 }
