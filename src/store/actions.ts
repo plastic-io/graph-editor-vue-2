@@ -2,6 +2,9 @@ import {newId, replacer} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import LocalStoreDataProvider from "./modules/LocalStoreDataProvider";
+import WSSDataProvider from "./modules/WSSDataProvider";
+import HTTPDataProvider from "./modules/HTTPDataProvider";
 const artifactPrefix = "artifacts/";
 const schedulerNotifyActions: any = {
     logger(context: any) {
@@ -123,6 +126,55 @@ const schedulerNotifyActions: any = {
     }
 };
 export default {
+    async setupDataProvider(context: any) {
+        const localStoreDataProvider = new LocalStoreDataProvider();
+        let preferences;
+        try {
+            preferences = localStorage.getItem("preferences");
+            if (preferences === null) {
+                throw "not found";
+            }
+            preferences = JSON.parse(preferences);
+        } catch (err) {
+            if (/not found/.test(err.toString())) {
+                console.warn("No preferences found, writing defaults.");
+                localStorage.setItem("preferences", JSON.stringify(context.state.originalPreferences));
+                preferences = JSON.parse(JSON.stringify(context.state.originalPreferences));
+            }
+        }
+        context.commit("setPreferences", preferences);
+        if (preferences.useLocalStorage) {
+            context.dispatch("setDataProviders", {
+                publish: localStoreDataProvider,
+                notification: localStoreDataProvider,
+                graph: localStoreDataProvider,
+                preferences: localStoreDataProvider,
+            });
+        } else {
+            const wsOpen = () => {
+                context.dispatch("setConnectionState", {
+                    state: "open",
+                });
+            };
+            const wsClose = () => {
+                context.dispatch("setConnectionState", {
+                    state: "closed",
+                });
+            };
+            const wsMessage = () => {
+                // handle WS messages again?
+                return;
+            };
+            const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
+            const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
+            context.dispatch("setDataProviders", {
+                publish: httpDataProvider,
+                notification: wssDataProvider,
+                graph: wssDataProvider,
+                preferences: localStoreDataProvider,
+            });
+        }
+    },
     subscribeToGraphEvents(context: any, e: any) {
         const chGraphEvents = "graph-event-" + e.graphId;
         const chGraphUsers = "graph-users-" + e.graphId;
@@ -347,22 +399,6 @@ export default {
             loading: false,
         });
         context.dispatch("getToc");
-    },
-    async getPreferences(context: any) {
-        let preferences;
-        try {
-            preferences = await context.state.dataProviders.preferences.get("preferences");
-        } catch (err) {
-            if (/not found/.test(err.toString())) {
-                console.warn("No preferences found, writing defaults.");
-                await context.state.dataProviders.preferences.set("preferences", {
-                    preferences: context.state.originalPreferences,
-                });
-                context.commit("setPreferences", context.state.originalPreferences);
-                return;
-            }
-        }
-        context.commit("setPreferences", preferences);
     },
     async getToc(context: any) {
         let toc, er;

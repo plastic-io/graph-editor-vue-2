@@ -152,6 +152,9 @@ export default {
             preferences: state => state.preferences,
         }),
         ...mapFields([
+            "preferences.useLocalStorage",
+            "preferences.graphHTTPServer",
+            "preferences.graphWSSServer",
             "preferences.userName",
             "preferences.avatar",
             "preferences.workstationId",

@@ -1,6 +1,6 @@
 import actions from "./actions";
 import mutations from "./mutations";
-import getRandomName from "./names";
+import getRandomName from "../names";
 import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
 import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
@@ -33,6 +33,9 @@ const preferences = {
     newVectorHelp: true,
     showLabels: true,
     debug: false,
+    useLocalStorage: true,
+    graphHTTPServer,
+    graphWSSServer,
     newVectorOffset: {
         x: 100,
         y: 100,
@@ -43,7 +46,7 @@ const preferences = {
     snapToGrid: true,
     gridSize: 10,
     appearance: {
-        theme: "dark",
+        theme: "light",
         helpColor: "blue",
         showGrid: true,
         selectionRectColor: "lightBlue",
@@ -76,8 +79,6 @@ export default function () {
             graphUsers: {},
             connectionState: "closed",
             NODE_ENV,
-            graphHTTPServer,
-            graphWSSServer,
             createdGraphId: null,
             helpTopics,
             log: [],
