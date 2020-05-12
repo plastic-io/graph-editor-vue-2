@@ -9,21 +9,44 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
-function remoteChangeEvents(state: any, events: any[]) {
+function updateGraphMouse(state: any, ev: any) {
+    const start = ev.movements[0].time;
+    ev.movements.forEach((movement: any) => {
+        setTimeout(() => {
+            Vue.set(state.graphUserMouse, ev.workstationId, {
+                workstationId: ev.workstationId,
+                avatar: ev.avatar,
+                userName: ev.userName,
+                ...movement,
+            });
+        }, movement.time - start);
+    });
+}
+function resetMouseTelemetry(state: any) {
+    Vue.set(state, "mouseMovements", []);
+}
+function updateGraphUsers(state: any, event: any) {
+    if (state.graphUsers[event.workstationId] && state.graphUsers[event.workstationId].timeout) {
+        clearTimeout(state.graphUsers[event.workstationId].timeout);
+    }
+    Vue.set(state.graphUsers, event.workstationId, event);
+    state.graphUsers[event.workstationId].timeout = setTimeout(() => {
+        Vue.delete(state.graphUsers, event.workstationId);
+    }, state.heartBeatInterval + 1000);
+}
+function remoteChangeEvents(state: any, event: any) {
     const eventKeys: string[] = state.events.map((e: {id: string}) => e.id);
     const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
     const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
-    events.forEach((event: any) => {
-        // don't apply events we created, don't apply events we've already recieved
-        if (eventKeys.indexOf(event.id) === -1 && remoteEventKeys.indexOf(event.id) === -1) {
-            event.changes.forEach((change: any) => {
-                applyChange(preApplySnapshot, true, change);
-            });
-        }
-    });
+    // don't apply events we created, don't apply events we've already recieved
+    if (eventKeys.indexOf(event.id) === -1 && remoteEventKeys.indexOf(event.id) === -1) {
+        event.changes.forEach((change: any) => {
+            applyChange(preApplySnapshot, true, change);
+        });
+    }
     const changes = diff(state.graph, preApplySnapshot);
     if (changes) {
-        state.remoteEvents.push(...events);
+        state.remoteEvents.push(event);
         state.graph = preApplySnapshot;
         setGraphVersion(state, preApplySnapshot.version);
     }
@@ -796,15 +819,17 @@ function setPreferences(state: any, e: any) {
     state.preferences = e;
 }
 function setGraphVersion(state: any, e: number) {
-    state.graph.version = e;
-    state.graph.vectors.forEach((v: Vector) => {
-        v.version = e;
-        v.edges.forEach((edge: Edge) => {
-            edge.connectors.forEach((connector: Connector) => {
-                connector.version = e;
+    if (!state.dataProviders.graph.asyncUpdate) {
+        state.graph.version = e;
+        state.graph.vectors.forEach((v: Vector) => {
+            v.version = e;
+            v.edges.forEach((edge: Edge) => {
+                edge.connectors.forEach((connector: Connector) => {
+                    connector.version = e;
+                });
             });
         });
-    });
+    }
     state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
     state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
@@ -899,7 +924,15 @@ export function setGraphReferences(state: any, refs: any) {
         ...refs,
     };
 }
+export function setConnectionState(state: any, e: any) {
+    state.connectionState = e;
+}
 export default {
+    updateGraphMouse,
+    resetMouseTelemetry,
+    updateGraphUsers,
+    newId,
+    setConnectionState,
     resetLoadedState,
     addDroppedItem,
     setGraphReferences,

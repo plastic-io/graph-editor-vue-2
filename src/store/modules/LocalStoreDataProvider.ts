@@ -34,24 +34,27 @@ interface PreferencesArtifact {
 // Note: localStorage methods are not async.  Async  methods are used to show
 // what it would look like to implement an async data provider which are far
 // more typical than sync providers like local store.
-async function updateToc(key: string, value: TocItem) {
-    let sToc: string | null = await localStorage.getItem(tocKey);
-    let toc: Toc;
-    if (!sToc) {
-        toc = {};
-    } else {
-        try {
-            toc = JSON.parse(sToc);
-        } catch (err) {
-            throw new Error("Cannot parse toc");
-        }
+export default class LocalStorageDataProvider {
+    asyncUpdate: boolean;
+    constructor() {
+        this.asyncUpdate = false;
     }
-    toc[key] = value;
-    await localStorage.setItem(tocKey, JSON.stringify(toc));
-}
-const provider = {
-    events: {},
-    async subscribe(url: string | null, callback: Function): Promise<void> {
+    async updateToc(key: string, value: TocItem) {
+        let sToc: string | null = await localStorage.getItem(tocKey);
+        let toc: Toc;
+        if (!sToc) {
+            toc = {};
+        } else {
+            try {
+                toc = JSON.parse(sToc);
+            } catch (err) {
+                throw new Error("Cannot parse toc");
+            }
+        }
+        toc[key] = value;
+        await localStorage.setItem(tocKey, JSON.stringify(toc));
+    }
+    async subscribe(url: string | null, callback: (e: any) => void): Promise<void> {
         let lastLength = -1;
         const updateState = async () => {
             if (url === "toc.json") {
@@ -106,7 +109,7 @@ const provider = {
             // if this is not a document, do not try and fetch an initial state
             updateState();
         }
-    },
+    }
     async get(url: string): Promise<object> {
         let item: string = (await localStorage.getItem(url) || "");
         let obj: object;
@@ -119,7 +122,7 @@ const provider = {
             throw new Error("Cannot parse resource." + err.toString());
         }
         return obj;
-    },
+    }
     async set(url: string, value: GraphDiff | VectorArtifact | GraphArtifact | PreferencesArtifact): Promise<void> {
         let events: GraphDiff[] = [];
         const state: any = {};
@@ -152,7 +155,7 @@ const provider = {
             }
             await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));
             await localStorage.setItem(url, JSON.stringify(state));
-            await updateToc(url, {
+            await this.updateToc(url, {
                 id: state.id,
                 lastUpdate: Date.now(),
                 type: "graph",
@@ -164,7 +167,7 @@ const provider = {
         } else if ("vector" in value) {
             const key = artifactsPrefix + url + "." + value.vector.version;
             localStorage.setItem(key, JSON.stringify(value.vector));
-            await updateToc(key, {
+            await this.updateToc(key, {
                 id: value.vector.id,
                 lastUpdate: Date.now(),
                 type: "publishedVector",
@@ -176,7 +179,7 @@ const provider = {
         } else if ("graph" in value) {
             const key = artifactsPrefix + url + "." + value.graph.version;
             localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
-            await updateToc(key, {
+            await this.updateToc(key, {
                 id: value.graph.id,
                 lastUpdate: Date.now(),
                 type: "publishedGraph",
@@ -188,8 +191,9 @@ const provider = {
         } else {
             throw new Error("Set called without a recognized type");
         }
-    },
+    }
     async delete(url: string): Promise<void> {
+        // HACK: also do this for event prefix, silently fail if there's nothing there
         const sToc = await localStorage.getItem(tocKey);
         let toc: Toc;
         if (!sToc) {
@@ -203,7 +207,9 @@ const provider = {
         }
         delete toc[url];
         await localStorage.setItem(tocKey, JSON.stringify(toc));
+        if (localStorage.getItem(eventsPrefix + url) !== null) {
+            localStorage.removeItem(eventsPrefix + url);
+        }
         return await localStorage.removeItem(url);
-    },
-};
-export default provider;
+    }
+}

@@ -1,13 +1,15 @@
-import provider from "@/store/modules/localStoreDataProvider";
+import Provider from "@/store/modules/LocalStoreDataProvider";
 // NOTE: This was VERY complex for some reason.  Jest + Async = hard.
 // Could not use beforeEach, caused problems with shared localStorage
 describe("Local storage data provider tests", () => {
     let returns;
     let localStorage;
+    let provider;
     beforeAll((done) => {
         returns = {
             getItem: undefined,
         };
+        provider = new Provider();
         localStorage = {
             setItem: jest.fn(),
             removeItem: jest.fn(),

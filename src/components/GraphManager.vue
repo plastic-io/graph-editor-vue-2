@@ -194,6 +194,11 @@
                 </v-row>
             </v-container>
         </v-content>
+        <v-btn fab style="position: fixed; bottom: 15px; left: 15px;" small @click="dataSourceProviderSetup">
+            <v-icon small>
+                mdi-database
+            </v-icon>
+        </v-btn>
         <v-snackbar :timeout="0" v-model="localShowError" top>
             <v-alert prominent type="error">
                 <v-row align="center">
@@ -219,14 +224,82 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="showDataSourceProviderSetup" width="500">
+            <v-card>
+                <v-card-title class="headline" primary-title>
+                    Data Source Provider
+                </v-card-title>
+                <v-card-text>
+                    <v-switch
+                        help-topic="useLocalStorage"
+                        :label="useLocalStorage ? 'Local Storage' : 'Server Storage'"
+                        v-model="useLocalStorage"></v-switch>
+                    <v-text-field
+                        :disabled="useLocalStorage"
+                        v-model="graphHTTPServer"
+                        help-topic="HTTPServer"
+                        label="HTTPS Server"
+                    />
+                    <v-text-field
+                        :disabled="useLocalStorage"
+                        v-model="graphWSSServer"
+                        help-topic="WSSServer"
+                        label="WSS Server"
+                    />
+                </v-card-text>
+                <v-card-title class="headline" primary-title>
+                    User Settings
+                </v-card-title>
+                <v-card-text>
+                    <v-text-field
+                        v-model="userName"
+                        @click:prepend="randomizeName"
+                        prepend-icon="mdi-dice-multiple-outline"
+                        help-topic="userName"
+                        label="User Name"
+                    />
+                    <v-text-field
+                        v-model="avatar"
+                        help-topic="avatar"
+                        label="Avatar"
+                    >
+                        <template v-slot:prepend>
+                            <v-img
+                                :src="avatar"
+                                style="width: 30px; border-radius: 15px;"/>
+                        </template>
+                    </v-text-field>
+                    <v-text-field
+                        disabled
+                        v-model="workstationId"
+                        help-topic="workstationId"
+                        label="Workstation Id"
+                    />
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn @click="saveDbPrefs">Ok</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-bottom-sheet :timeout="2000" v-model="showWarning">
+            <v-alert type="warning">
+                <v-row>
+                    <v-col>{{warningMessage}}</v-col>
+                </v-row>
+            </v-alert>
+        </v-bottom-sheet>
     </v-app>
 </template>
 <script>
 import {mapState, mapActions} from "vuex";
+import {mapFields} from "vuex-map-fields";
+import getRandomName from "../names";
 export default {
     name: "graph-manager",
     methods: {
         ...mapActions([
+            "savePreferences",
             "download",
             "removeArtifact",
             "remove",
@@ -234,6 +307,19 @@ export default {
             "clearError",
             "getToc",
         ]),
+        saveDbPrefs() {
+            if (this.originalPreferences !== JSON.stringify(this.preferences)) {
+                this.showWarning = true;
+                this.warningMessage = "Changes to data source provider will not take effect until you refresh your browser.";
+            }
+            this.showDataSourceProviderSetup = false;
+            this.savePreferences();
+        },
+        randomizeName() {
+            const name = getRandomName();
+            this.userName = name;
+            this.avatar = "https://api.adorable.io/avatars/50/" + name.replace(/ /g, "") + ".png";
+        },
         confirmDelete(e) {
             this.deleteConfirm = true;
             this.deleteRef = e;
@@ -261,11 +347,19 @@ export default {
         updateItemsPerPage(number) {
             this.itemsPerPage = number;
         },
+        dataSourceProviderSetup() {
+            this.originalPreferences = JSON.stringify(this.preferences);
+            this.showDataSourceProviderSetup = true;
+        },
     },
     data: () => ({
+        showWarning: null,
+        warningMessage: null,
+        originalPreferences: null,
         deleteConfirm: false,
         deleteRef: null,
         localErrorMessage: "",
+        showDataSourceProviderSetup: false,
         localShowError: false,
         drawer: null,
         localItems: [],
@@ -303,6 +397,14 @@ export default {
         },
     },
     computed: {
+        ...mapFields([
+            "preferences.useLocalStorage",
+            "preferences.graphHTTPServer",
+            "preferences.graphWSSServer",
+            "preferences.userName",
+            "preferences.avatar",
+            "preferences.workstationId",
+        ]),
         ...mapState({
             createdGraphId: state => state.createdGraphId,
             pathPrefix: state => state.pathPrefix,

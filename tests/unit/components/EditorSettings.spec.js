@@ -67,9 +67,7 @@ describe("EditorSettings.vue", () => {
     });
     describe("EditorSettings Methods", () => {
         it("Should render a properties form bound using vuex-map-fields.mapFields/getField", (done) => {
-            expect(wrapper.html()).toMatch("Show Grid");
-            expect(wrapper.html()).toMatch("Input/Output Labels");
-            expect(wrapper.html()).toMatch("help-topic=\"settingsDebug\"");
+            expect(wrapper.html()).toMatch("Workstation Id");
             done();
         });
     });

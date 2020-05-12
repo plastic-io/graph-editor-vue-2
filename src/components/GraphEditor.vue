@@ -18,6 +18,7 @@
                 <v-spacer style="margin-right: 5%;"/>
                 <span help-topic="plastic">Plastic-IO</span>
                 <v-spacer/>
+                <graph-users/>
                 <span>
                     <v-divider vertical style="margin: 5px;"/>
                     <v-icon :disabled="historyPosition === 0 || events.length === 0"
@@ -125,6 +126,13 @@
                     style="padding-right: 10px;cursor: pointer;"
                     >mdi-magnify-plus-outline</v-icon>
                 <v-icon
+                    help-topic="showConnectorView"
+                    title="Show Connector Information"
+                    @click="showConnectorView = !showConnectorView"
+                    style="padding-right: 10px;cursor: pointer;"
+                    :color="showConnectorView ? 'info' : ''"
+                    >mdi-information-outline</v-icon>
+                <v-icon
                     help-topic="toggleLabels"
                     title="Toggle Input/Output Labels"
                     @click="toggleLabels"
@@ -153,17 +161,6 @@
                     style="padding-right: 10px;cursor: pointer;"
                     >{{presentation ? 'mdi-presentation-play' : 'mdi-presentation'}}</v-icon>
             </v-system-bar>
-            <v-card style="position: fixed; bottom: 30px; right: 10px; width: 300px;" v-if="hoveredActivity">
-                <v-card-text>
-                    Field: {{hoveredActivity.event.field}}
-                    <v-spacer/>
-                    Duration: {{hoveredActivity.duration}}ms
-                    <v-spacer/>
-                    Value:
-                    <v-divider/>
-                    <pre>{{hoveredActivity.event.value}}</pre>
-                </v-card-text>
-            </v-card>
         </template>
         <v-bottom-sheet hide-overlay inset :timeout="2000" v-model="presentationWarning" multi-line>
             <v-alert>
@@ -194,6 +191,8 @@
                 overflow: hidden;
             }
         </component>
+        <graph-mouse/>
+        <connector-view v-if="showConnectorView" @close="showConnectorView = false;" :activity="hoveredActivity"/>
     </v-app>
 </template>
 <script>
@@ -201,6 +200,9 @@ import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
 import HelpOverlay from "./HelpOverlay";
+import GraphUsers from "./GraphUsers";
+import GraphMouse from "./GraphMouse";
+import ConnectorView from "./ConnectorView";
 export default {
     name: "GraphEditor",
     props: {
@@ -210,6 +212,9 @@ export default {
         GraphCanvas,
         ControlPanel,
         HelpOverlay,
+        GraphUsers,
+        GraphMouse,
+        ConnectorView,
     },
     watch: {
         presentationWarning() {
@@ -245,6 +250,7 @@ export default {
     },
     computed: {
         ...mapState({
+            dataProviders: state => state.dataProviders,
             activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
@@ -274,10 +280,10 @@ export default {
             preferences: (state) => state.preferences,
         }),
         hoveredActivity: function() {
-            if (!this.hoveredConnector) {
+            if (!this.hoveredConnector && this.selectedConnectors.length === 0) {
                 return null;
             }
-            const key = this.hoveredConnector.connector.id;
+            const key = this.hoveredConnector ? this.hoveredConnector.connector.id : this.selectedConnectors[0].id;
             return this.activityConnectors[key];
         },
         graphContainerStyle: function() {
@@ -627,7 +633,6 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
-        this.$store.dispatch("subscribe", graphId);
         this.$store.dispatch("subscribeToc");
         this.$store.dispatch("subscribePreferences");
     },
@@ -647,6 +652,7 @@ export default {
             graphLoaded: false,
             presentationWarning: false,
             hasSeenPresentationWarning: false,
+            showConnectorView: false,
         };
     }
 };

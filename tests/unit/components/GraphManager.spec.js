@@ -54,13 +54,28 @@ describe("GraphManager.vue", () => {
                     k: 1,
                 },
             },
+            preferences: {
+                useLocalStorage: jest.fn(),
+                graphHTTPServer: jest.fn(),
+                graphWSSServer: jest.fn(),
+                userName: jest.fn(),
+                avatar: jest.fn(),
+                workstationId: jest.fn(),
+            },
             actions: {
                 getToc: jest.fn(),
                 removeArtifact: jest.fn(),
                 remove: jest.fn(),
+                setupDataProvider: jest.fn(),
+                subscribeToc: jest.fn(),
+                subscribePreferences: jest.fn(),
             },
             mutations: {},
-            getters: {},
+            getters: {
+                getField: () => {
+                    return jest.fn();
+                },
+            },
         };
         store = new Vuex.Store(storeConfig);
         let vuetify = new Vuetify();

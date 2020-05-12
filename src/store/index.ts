@@ -1,8 +1,12 @@
 import actions from "./actions";
 import mutations from "./mutations";
+import getRandomName from "../names";
 import helpTopics from "../helpTopics";
 import {getField, updateField} from "vuex-map-fields";
 import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+const NODE_ENV = process.env.NODE_ENV;
+const graphHTTPServer = process.env.VUE_APP_GRAPH_HTTP_SERVER;
+const graphWSSServer = process.env.VUE_APP_GRAPH_WSS_SERVER;
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -20,10 +24,18 @@ export default {
 <style>
 </style>
 `;
+const randomName = getRandomName();
 const preferences = {
+    userName: randomName,
+    userId: 0,
+    avatar: "https://api.adorable.io/avatars/50/" + randomName.replace(/ /g, "") + ".png",
+    workstationId: mutations.newId(),
     newVectorHelp: true,
     showLabels: true,
     debug: false,
+    useLocalStorage: true,
+    graphHTTPServer,
+    graphWSSServer,
     newVectorOffset: {
         x: 100,
         y: 100,
@@ -34,7 +46,7 @@ const preferences = {
     snapToGrid: true,
     gridSize: 10,
     appearance: {
-        theme: "dark",
+        theme: "light",
         helpColor: "blue",
         showGrid: true,
         selectionRectColor: "lightBlue",
@@ -58,6 +70,15 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            showRemoteMouseMovements: true,
+            mouseMovements: [],
+            mouseTransmitInterval: 1000,
+            heartBeatInterval: 5000,
+            graphUserMouse: {},
+            graphUserChat: {},
+            graphUsers: {},
+            connectionState: "closed",
+            NODE_ENV,
             createdGraphId: null,
             helpTopics,
             log: [],
