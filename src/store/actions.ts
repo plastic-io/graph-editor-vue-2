@@ -142,6 +142,9 @@ export default {
                 preferences = JSON.parse(JSON.stringify(context.state.originalPreferences));
             }
         }
+        if (preferences.useLocalStorage !== false && preferences.useLocalStorage !== true) {
+            preferences.useLocalStorage = true;
+        }
         context.commit("setPreferences", preferences);
         if (preferences.useLocalStorage) {
             context.dispatch("setDataProviders", {

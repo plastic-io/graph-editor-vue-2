@@ -176,19 +176,6 @@ describe("Bummer in the summer", () => {
         expect(JSON.stringify(context.state.dataProviders.publish.set.mock.calls[0][1])).toMatch(/8a50a102-c5ac-4b27-bec9-d70b79b80cff/);
         expect(context.dispatch).toHaveBeenCalledWith("getToc");
     });
-    it("Should fetch preferences from the data provider.", async () => {
-        context.dataProvidersResponse.preferences.get = "foo";
-        await actions.getPreferences(context);
-        expect(context.commit).toHaveBeenCalledWith("setPreferences", "foo");
-    });
-    it("Should write a new preferences document if dataProviders.preferences.get throws an error with 'not found'.", async () => {
-        global.console.warn = () => {};
-        context.state.dataProviders.preferences.get = () => {
-            throw new Error("Resource not found");
-        };
-        await actions.getPreferences(context);
-        expect(context.state.dataProviders.preferences.set).toHaveBeenCalledWith("preferences", {"preferences": undefined});
-    });
     it("Should fetch toc from the data provider.", async () => {
         context.dataProvidersResponse.publish.get = "foo";
         await actions.getToc(context);

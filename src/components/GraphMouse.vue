@@ -9,7 +9,7 @@
                 <div v-if="mouse.workstationId !== workstationId">
                     <v-icon v-text="(mouse.mouse.lmb || mouse.mouse.mmb || mouse.mouse.rmb) ? 'mdi-cursor-default-click-outline' : 'mdi-cursor-default-outline'" />
                     <v-card class="graph-user-mouse-label">
-                        <v-card-title>
+                        <v-card-title style="white-space: nowrap;">
                             <v-img class="graph-user-mouse-avatar" :src="mouse.avatar"/>
                             <v-spacer/>
                             {{mouse.userName}}

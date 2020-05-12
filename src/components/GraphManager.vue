@@ -308,7 +308,6 @@ export default {
             "getToc",
         ]),
         saveDbPrefs() {
-            console.log("saveDbPrefs");
             if (this.originalPreferences !== JSON.stringify(this.preferences)) {
                 this.showWarning = true;
                 this.warningMessage = "Changes to data source provider will not take effect until you refresh your browser.";
