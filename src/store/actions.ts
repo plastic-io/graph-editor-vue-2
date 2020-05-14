@@ -453,6 +453,11 @@ export default {
             }
         };
         context.dispatch("save", e);
+        if (context.state.preferences.useLocalStorage) {
+            setTimeout(() => {
+                context.dispatch("getToc");
+            }, 0);
+        }
     },
     async removeArtifact(context: any, item: any) {
         context.commit("setLoadingStatus", {
