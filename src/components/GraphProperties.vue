@@ -13,6 +13,7 @@
                             <v-card-text class="ma-0 pa-0">
                                 <v-text-field help-topic="graphName" label="Name" v-model="name"></v-text-field>
                                 <v-textarea help-topic="graphDescription" label="Description" v-model="description"></v-textarea>
+                                <v-text-field help-topic="graphUrl" label="URL" v-model="url"></v-text-field>
                                 <v-text-field help-topic="graphId" label="Graph Id" disabled :value="id"></v-text-field>
                                 <v-combobox
                                     help-topic="graphIcon"
@@ -186,6 +187,7 @@ export default {
             "graph.properties.tags",
             "graph.version",
             "graph.id",
+            "graph.url",
         ]),
         externalIO() {
             const info = {

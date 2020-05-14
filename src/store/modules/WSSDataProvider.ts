@@ -187,12 +187,17 @@ export default class WSSDataProvider {
         } else if ("vector" in value) {
             this.send({
                 action: "publishVector",
-                artifact: value
+                graphId: value.vector.graphId,
+                vectorId: value.vector.id,
+                version: value.vector.version,
+                messageId: newId(),
             });
         } else if ("graph" in value) {
             this.send({
                 action: "publishGraph",
-                artifact: value
+                id: value.graph.id,
+                version: value.graph.version,
+                messageId: newId(),
             });
         }
     }

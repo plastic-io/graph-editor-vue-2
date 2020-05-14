@@ -148,6 +148,7 @@ export default {
         context.commit("setPreferences", preferences);
         if (preferences.useLocalStorage) {
             context.dispatch("setDataProviders", {
+                toc: localStoreDataProvider,
                 publish: localStoreDataProvider,
                 notification: localStoreDataProvider,
                 graph: localStoreDataProvider,
@@ -171,7 +172,8 @@ export default {
             const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
             const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
             context.dispatch("setDataProviders", {
-                publish: httpDataProvider,
+                toc: httpDataProvider,
+                publish: wssDataProvider,
                 notification: wssDataProvider,
                 graph: wssDataProvider,
                 preferences: localStoreDataProvider,
@@ -411,7 +413,7 @@ export default {
             loading: true,
         });
         try {
-            toc = await context.state.dataProviders.publish.get("toc.json");
+            toc = await context.state.dataProviders.toc.get("toc.json");
         } catch (err) {
             er = err;
             if (/not found/.test(er.toString())) {
@@ -431,9 +433,11 @@ export default {
         context.commit("setToc", toc);
     },
     create(context: any) {
+        const id = newId();
         const e = {
-            id: newId(),
+            id,
             version: 0,
+            url: id,
             vectors: [],
             properties: {
                 name: "",
@@ -524,7 +528,6 @@ export default {
             graphId: context.state.graph.id,
             crc,
             changes,
-            graph: context.state.graph,
             id: newId(),
         });
         // when using a async data source (server), apply changes to the remote locally to prevent re-save
