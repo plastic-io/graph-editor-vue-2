@@ -34,6 +34,15 @@ describe("Bummer in the summer", () => {
                         delete: jest.fn(),
                         subscribe: jest.fn(),
                     },
+                    toc: {
+                        asyncUpdate: false,
+                        get() {
+                            return context.dataProvidersResponse.publish.get;
+                        },
+                        set: jest.fn(),
+                        delete: jest.fn(),
+                        subscribe: jest.fn(),
+                    },
                     notification: {
                         asyncUpdate: false,
                         get() {
@@ -214,26 +223,34 @@ describe("Bummer in the summer", () => {
     it("Should save diff to the graph to the event store, no async update response. (!context.state.dataProviders.graph.asyncUpdate)", async () => {
         context.state.graph = {id: "123", foo: "bar", version: 0};
         context.state.remoteSnapshot = {id: "123", foo: "baz", version: 0};
-        await actions.save(context);
-        expect(context.state.dataProviders.graph.set).toHaveBeenCalled();
-        expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[0]).toEqual({"kind": "E", "lhs": "baz", "path": ["foo"], "rhs": "bar"});
-        expect(context.commit).toHaveBeenCalledWith("setGraphVersion", 1);
+        actions.save(context);
+        // save debounce requires waiting
+        setTimeout(() => {
+            expect(context.state.dataProviders.graph.set).toHaveBeenCalled();
+            expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[0]).toEqual({"kind": "E", "lhs": "baz", "path": ["foo"], "rhs": "bar"});
+            expect(context.commit).toHaveBeenCalledWith("setGraphVersion", 1);
+        }, 600);
     });
     it("Should save diff to the graph to the event store, expect async response. (context.state.dataProviders.graph.asyncUpdate)", async () => {
         context.state.graph = {id: "123", foo: "bar", version: 0};
         context.state.remoteSnapshot = {id: "123", foo: "baz", version: 0};
         context.state.dataProviders.graph.asyncUpdate = true;
-        await actions.save(context);
-        expect(context.state.dataProviders.graph.set).toHaveBeenCalled();
-        expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[0]).toEqual({"kind": "E", "lhs": "baz", "path": ["foo"], "rhs": "bar"});
-        expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[1]).not.toEqual({"kind": "E", "lhs": 0, "path": ["version"], "rhs": 1});
+        actions.save(context);
+        // save debounce requires waiting
+        setTimeout(() => {
+            expect(context.state.dataProviders.graph.set).toHaveBeenCalled();
+            expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[0]).toEqual({"kind": "E", "lhs": "baz", "path": ["foo"], "rhs": "bar"});
+            expect(context.state.dataProviders.graph.set.mock.calls[0][1].changes[1]).not.toEqual({"kind": "E", "lhs": 0, "path": ["version"], "rhs": 1});
+        }, 600);
     });
     it("Should save diff by passing in arbitrary graph state.", async () => {
         context.state.remoteSnapshot = {};
         context.state.graphSnapshot = {};
-        await actions.save(context, {id: "123", foo: "fiz", version: 0});
-        expect(context.commit.mock.calls[0][0]).toEqual("resetLoadedState");
-        expect(context.commit.mock.calls[0][1]).toEqual({id: "123", foo: "fiz", version: 0});
+        actions.save(context, {id: "123", foo: "fiz", version: 0});
+        setTimeout(() => {
+            expect(context.commit.mock.calls[0][0]).toEqual("resetLoadedState");
+            expect(context.commit.mock.calls[0][1]).toEqual({id: "123", foo: "fiz", version: 0});
+        }, 600);
     });
     it("Should commit open and dispatch instantiateGraph when calling open.", async () => {
         context.dataProvidersResponse.graph.get = "bar";
