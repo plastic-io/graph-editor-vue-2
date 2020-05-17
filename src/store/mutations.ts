@@ -28,7 +28,7 @@ function clearPendingMessage(state: any, e: any) {
             // try sending the changes again
             state.queuedEvent = state.pendingEvents[e.response.eventId];
             if (!state.queuedEvent) {
-                raiseError(state, "Out of sync with server.  Last event could not be replayed.  Try refreshing your browser.");
+                raiseError(state, new Error("Out of sync with server.  Last event could not be replayed.  Try refreshing your browser."));
             }
             Vue.delete(state.pendingEvents, state.pendingEvents);
             console.warn("CRC error.  Resync from origin.");
@@ -93,7 +93,7 @@ function remoteChangeEvents(state: any, event: any) {
         state.graph = preApplySnapshot;
         // version is not updated by this event when using a remote data source
         // rather, version is updated on the server and applied on applyChange just above
-        setGraphVersion(state, null);
+        setGraphVersion(state, 0);
     }
 }
 export function replacer(key: any, value: any) {

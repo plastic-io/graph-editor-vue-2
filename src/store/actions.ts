@@ -7,7 +7,7 @@ import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
 const artifactPrefix = "artifacts/";
 let saveDebounceTimeout = 500;
-let saveTimer;
+let saveTimer: any;
 const schedulerNotifyActions: any = {
     logger(context: any) {
         return {
@@ -171,7 +171,7 @@ export default {
                 context.commit("clearPendingMessage", e);
                 if (context.state.queuedEvent) {
                     const preApplySnapshot: any = JSON.parse(JSON.stringify(context.state.graph));
-                    context.state.queuedEvent.changes.forEach((change) => {
+                    context.state.queuedEvent.changes.forEach((change: any) => {
                         applyChange(preApplySnapshot, true, change);
                     });
                     context.commit("dequeueEvent", preApplySnapshot);
@@ -519,7 +519,7 @@ export default {
     save(context: any, e?: any) {
         clearTimeout(saveTimer);
         saveTimer = setTimeout(() => {
-            function sendEvent(changes) {
+            function sendEvent(changes: any) {
                 // calculate CRC
                 const eventId = newId();
                 const calcState = JSON.stringify(context.state.graph, replacer);

@@ -11,7 +11,7 @@ export default class WSSDataProvider {
     close: () => void;
     events: any;
     subscriptions: string[];
-    constructor(url: string, message: () => void, open: () => void, close: () => void) {
+    constructor(url: string, message: (e: any) => void, open: () => void, close: () => void) {
         if (!url) {
             throw new Error("No url was passed to WSSDataProvider");
         }
