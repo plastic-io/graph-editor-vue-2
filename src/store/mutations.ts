@@ -2,12 +2,49 @@ import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
 import helpTemplate from "./newVectorHelpTemplate";
+import Hashes from "jshashes";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
 export interface ChangeEvent {
     id: string,
     date: number,
     changes: any[],
+}
+function clearResync(state: any) {
+    state.pendingEvents = {};
+    state.resyncRequired = false;
+}
+function dequeueEvent(state: any, graph: any) {
+    state.graph = graph;
+    state.queuedEvent = null;
+}
+function queueEvent(state: any, event: any) {
+    state.eventQueue.push(event);
+}
+function clearPendingMessage(state: any, e: any) {
+    if (e && e.error && e.response.err) {
+        if (/CRC/.test(e.response.err)) {
+            state.resyncRequired = true;
+            // try sending the changes again
+            state.queuedEvent = state.pendingEvents[e.response.eventId];
+            if (!state.queuedEvent) {
+                raiseError(state, new Error("Out of sync with server.  Last event could not be replayed.  Try refreshing your browser."));
+            }
+            Vue.delete(state.pendingEvents, state.pendingEvents);
+            console.warn("CRC error.  Resync from origin.");
+        } else {
+            raiseError(state, e.response.err);
+        }
+    } else if (e && e.response && e.response.event) {
+        Vue.delete(state.pendingEvents, e.response.event.id);
+    }
+    if (Object.keys(state.pendingEvents).length === 0 && state.eventQueue.length > 0) {
+        state.queuedEvent = state.eventQueue.shift();
+    }
+}
+function setPendingEvent(state: any, event: any) {
+    state.ownEvents.push(event);
+    Vue.set(state.pendingEvents, event.id, event);
 }
 function updateGraphMouse(state: any, ev: any) {
     const start = ev.movements[0].time;
@@ -35,20 +72,28 @@ function updateGraphUsers(state: any, event: any) {
     }, state.heartBeatInterval + 1000);
 }
 function remoteChangeEvents(state: any, event: any) {
-    const eventKeys: string[] = state.events.map((e: {id: string}) => e.id);
+    const ownKeys: string[] = state.ownEvents.map((e: {id: string}) => e.id); 
     const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
     const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
     // don't apply events we created, don't apply events we've already recieved
-    if (eventKeys.indexOf(event.id) === -1 && remoteEventKeys.indexOf(event.id) === -1) {
+    if (ownKeys.indexOf(event.id) === -1
+        && remoteEventKeys.indexOf(event.id) === -1) {
         event.changes.forEach((change: any) => {
             applyChange(preApplySnapshot, true, change);
         });
     }
     const changes = diff(state.graph, preApplySnapshot);
     if (changes) {
+        const crc = Hashes.CRC32(JSON.stringify(preApplySnapshot, replacer));
+        if (crc !== event.crc) {
+            state.resyncRequired = true;
+            console.warn("CRC error.  Resync from origin.");
+        }
         state.remoteEvents.push(event);
         state.graph = preApplySnapshot;
-        setGraphVersion(state, preApplySnapshot.version);
+        // version is not updated by this event when using a remote data source
+        // rather, version is updated on the server and applied on applyChange just above
+        setGraphVersion(state, 0);
     }
 }
 export function replacer(key: any, value: any) {
@@ -928,6 +973,11 @@ export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
 export default {
+    clearResync,
+    dequeueEvent,
+    queueEvent,
+    clearPendingMessage,
+    setPendingEvent,
     updateGraphMouse,
     resetMouseTelemetry,
     updateGraphUsers,

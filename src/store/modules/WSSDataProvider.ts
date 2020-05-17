@@ -11,7 +11,7 @@ export default class WSSDataProvider {
     close: () => void;
     events: any;
     subscriptions: string[];
-    constructor(url: string, message: () => void, open: () => void, close: () => void) {
+    constructor(url: string, message: (e: any) => void, open: () => void, close: () => void) {
         if (!url) {
             throw new Error("No url was passed to WSSDataProvider");
         }
@@ -187,12 +187,17 @@ export default class WSSDataProvider {
         } else if ("vector" in value) {
             this.send({
                 action: "publishVector",
-                artifact: value
+                graphId: value.vector.graphId,
+                vectorId: value.vector.id,
+                version: value.vector.version,
+                messageId: newId(),
             });
         } else if ("graph" in value) {
             this.send({
                 action: "publishGraph",
-                artifact: value
+                id: value.graph.id,
+                version: value.graph.version,
+                messageId: newId(),
             });
         }
     }
