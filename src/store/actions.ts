@@ -1,11 +1,13 @@
 import {newId, replacer} from "./mutations"; // eslint-disable-line
-import {diff} from "deep-diff";
+import {diff, applyChange} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 import LocalStoreDataProvider from "./modules/LocalStoreDataProvider";
 import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
 const artifactPrefix = "artifacts/";
+let saveDebounceTimeout = 500;
+let saveTimer;
 const schedulerNotifyActions: any = {
     logger(context: any) {
         return {
@@ -165,9 +167,23 @@ export default {
                     state: "closed",
                 });
             };
-            const wsMessage = () => {
-                // handle WS messages again?
-                return;
+            const wsMessage = (e: any) => {
+                context.commit("clearPendingMessage", e);
+                if (context.state.queuedEvent) {
+                    const preApplySnapshot: any = JSON.parse(JSON.stringify(context.state.graph));
+                    context.state.queuedEvent.changes.forEach((change) => {
+                        applyChange(preApplySnapshot, true, change);
+                    });
+                    context.commit("dequeueEvent", preApplySnapshot);
+                    context.dispatch("save");
+                }
+                if (context.state.resyncRequired) {
+                    context.commit("clearResync");
+                    console.warn("Resyncing due to remote state mismatch.");
+                    context.dispatch("open", {
+                        graphId: context.state.graph.id,
+                    });
+                }
             };
             const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
             const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
@@ -209,7 +225,7 @@ export default {
         });
         const sendMouseTelemetry = () => {
             setTimeout(sendMouseTelemetry, context.state.mouseTransmitInterval);
-            if (context.state.mouseMovements.length === 0) {
+            if (context.state.mouseMovements.length === 0 || Object.keys(context.state.graphUsers).length < 2) {
                 return;
             }
             const data = {
@@ -500,50 +516,68 @@ export default {
             loading: true,
         });
     },
-    async save(context: any, e?: any) {
-        if (e !== undefined) {
-            context.commit("resetLoadedState", e);
-        }
-        const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)), JSON.parse(JSON.stringify(context.state.graph, replacer)));
-        if (!changes) {
-            return;
-        }
-        context.commit("setLoadingStatus", {
-            key: context.state.graph.id,
-            type: "saveGraph",
-            loading: true,
-        });
-        // in a server data provider, the server would increment the version
-        // and transmit that result back to us via subscribe callback
-        // but on local host (!asyncUpdate) the localStore will not emit
-        // the localStore observer if you are the writer, unlike a server
-        // so to simulate a server, this block is here incrementing the version
-        // on the client as if it was the server to get around the lack of a
-        // round trip with a new version number.
-        if (!context.state.dataProviders.graph.asyncUpdate) {
-            const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph, replacer));
-            context.commit("setGraphVersion", context.state.graph.version + 1);
-            const versionChanges = diff(preVersionSnapshot, JSON.parse(JSON.stringify(context.state.graph, replacer)));
-            Array.prototype.push.apply(changes, versionChanges as any[]);
-        }
-        // calculate CRC
-        const calcState = JSON.stringify(context.state.graph, replacer);
-        const crc = Hashes.CRC32(calcState);
-        await context.state.dataProviders.graph.set(context.state.graph.id, {
-            graphId: context.state.graph.id,
-            crc,
-            changes,
-            id: newId(),
-        });
-        // when using a async data source (server), apply changes to the remote locally to prevent re-save
-        if (context.state.dataProviders.graph.asyncUpdate) {
-            context.commit("setGraphVersion", context.state.graph.version);
-        }
-        context.commit("setLoadingStatus", {
-            key: context.state.graph.id,
-            type: "saveGraph",
-            loading: false,
-        });
+    save(context: any, e?: any) {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+            function sendEvent(changes) {
+                // calculate CRC
+                const eventId = newId();
+                const calcState = JSON.stringify(context.state.graph, replacer);
+                const crc = Hashes.CRC32(calcState);
+                const event = {
+                    graphId: context.state.graph.id,
+                    crc,
+                    changes,
+                    id: eventId,
+                };
+                if (Object.keys(context.state.pendingEvents).length > 0
+                    && context.state.dataProviders.graph.asyncUpdate) {
+                    context.commit("queueEvent", event);
+                    return;
+                }
+                context.state.dataProviders.graph.set(context.state.graph.id, event);
+                if (context.state.dataProviders.graph.asyncUpdate) {
+                    context.commit("setPendingEvent", event);
+                }
+                // when using a async data source (server), apply changes to the remote locally to prevent re-save
+                if (context.state.dataProviders.graph.asyncUpdate) {
+                    // context.commit("setGraphVersion", context.state.graph.version);
+                }
+                context.commit("setLoadingStatus", {
+                    key: context.state.graph.id,
+                    type: "saveGraph",
+                    loading: false,
+                });
+            }
+            if (e !== undefined) {
+                context.commit("resetLoadedState", e);
+            }
+            const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)),
+                JSON.parse(JSON.stringify(context.state.graph, replacer)));
+            if (!changes) {
+                return;
+            }
+            context.commit("setLoadingStatus", {
+                key: context.state.graph.id,
+                type: "saveGraph",
+                loading: true,
+            });
+            // in a server data provider, the server would increment the version
+            // and transmit that result back to us via subscribe callback
+            // but on local host (!asyncUpdate) the localStore will not emit
+            // the localStore observer if you are the writer, unlike a server
+            // so to simulate a server, this block is here incrementing the version
+            // on the client as if it was the server to get around the lack of a
+            // round trip with a new version number.
+            if (!context.state.dataProviders.graph.asyncUpdate) {
+                const preVersionSnapshot = JSON.parse(JSON.stringify(context.state.graph, replacer));
+                context.commit("setGraphVersion", context.state.graph.version + 1);
+                const versionChanges = diff(preVersionSnapshot,
+                    JSON.parse(JSON.stringify(context.state.graph, replacer)));
+                Array.prototype.push.apply(changes, versionChanges as any[]);
+            }
+            sendEvent(changes);
+        }, saveDebounceTimeout);
     },
     async open(context: any, e: {graphId: string}) {
         let graph, er;
@@ -573,7 +607,17 @@ export default {
     },
     async addItem(context: any, e: any) {
         let item, er;
-        if (e.url) {
+        if (e["artifact-url"] && context.state.preferences.graphHTTPServer) {
+            try {
+                const artifactUrl = context.state.preferences.graphHTTPServer + e["artifact-url"];
+                item = await fetch(artifactUrl);
+                item = await item.json();
+                e.url = artifactUrl;
+                item.url = artifactUrl;
+            } catch (err) {
+                er = err;
+            }
+        } else if (e.url) {
             try {
                 item = await fetch(e.url);
                 item = await item.json();

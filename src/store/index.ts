@@ -70,10 +70,15 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            ownEvents: [],
             showRemoteMouseMovements: true,
             mouseMovements: [],
             mouseTransmitInterval: 1000,
-            heartBeatInterval: 5000,
+            heartBeatInterval: 50000,
+            queuedEvent: null,
+            resyncRequired: false,
+            eventQueue: [],
+            pendingEvents: {},
             graphUserMouse: {},
             graphUserChat: {},
             graphUsers: {},
