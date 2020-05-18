@@ -537,17 +537,19 @@ export default {
             return vectors;
         },
         evCut(e) {
-            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
+            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {
                 return;
             }
+            console.warn("Clipboard cut captured by graph editor");
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             this.deleteSelected();
             e.preventDefault();
         },
         evCopy(e) {
-            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
+            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {
                 return;
             }
+            console.warn("Clipboard copy captured by graph editor");
             e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));
             e.preventDefault();
         },
@@ -555,6 +557,7 @@ export default {
             if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
                 return;
             }
+            console.warn("Clipboard paste captured by graph editor");
             const data = e.clipboardData.getData(this.vectorMimeType);
             this.tryPasteVectorString(data);
             e.preventDefault();

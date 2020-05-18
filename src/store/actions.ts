@@ -27,6 +27,7 @@ const schedulerNotifyActions: any = {
             },
             error: (e: any) => {
                 context.commit("addLogItem", {eventName: "logError", event: e});
+                context.commit("raiseError", e.err);
             },
             warn: (e: any) => {
                 context.commit("addLogItem", {eventName: "warn", event: e});
@@ -103,7 +104,8 @@ const schedulerNotifyActions: any = {
         if ("err" in e && e.err) {
             context.commit("addSchedulerError", {key: e.vectorId, error: e.err});
             context.commit("addLogItem", {eventName: "error", event: e});
-            context.commit("raiseError", new Error("Graph Scheduler Error: " + e.err!.message));
+            const msg = e.message || e.err!.message;
+            context.commit("raiseError", new Error("Graph Scheduler Error: " + msg));
         }
     },
     warning(context: any, e: any) {
@@ -212,6 +214,16 @@ export default {
         });
         context.state.dataProviders.graph.subscribe(chGraphNotify, (ev: any) => {
             if (ev.eventType) {
+                if (ev.eventType === "error") {
+                    // error originated on server
+                    ev.err = new Error(ev.message);
+                }
+                if (ev.eventType === "log") {
+                    return schedulerNotifyActions.logger(context)[ev.level](ev);
+                }
+                if (!schedulerNotifyActions[ev.eventType]) {
+                    return console.warn("No client event for recieved event type:", ev.eventType);
+                }
                 schedulerNotifyActions[ev.eventType](context, ev);
             } else {
                 console.warn("Unknown remote graph event", ev);
