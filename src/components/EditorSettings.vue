@@ -54,7 +54,7 @@
                                 <v-switch help-topic="settingsShowGrid" label="Show Grid" v-model="showGrid"></v-switch>
                                 <v-switch help-topic="settingsShowLabels" label="Input/Output Labels" v-model="showLabels"/>
                                 <v-switch help-topic="settingsDebug" persistent-hint hint="Captures debug logs and show edge values.  Performance penalty." label="Debug" v-model="debug"/>
-                                <v-switch help-topic="settingsNewVectorHelp" label="Use tutorial vector" persistent-hint hint="When on, new vectors contain a help message." v-model="newVectorHelp"></v-switch>
+                                <v-switch help-topic="settingsNewVectorHelp" label="Show Help Messages" persistent-hint hint="When on, help messages will appear from time to time." v-model="newVectorHelp"></v-switch>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
