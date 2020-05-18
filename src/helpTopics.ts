@@ -81,12 +81,16 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         title: "Vector Set Function",
         html: `
 <div style="height: 70vh; overflow: auto;padding: 7px;border: solid 1px rgba(0, 0, 0, 0.3);background: rgba(0, 0, 0, 0.1);border-radius: 5px;">
-    <p>Set functions are the core of plastic-io.  Set functions are invoked when vectors pass data from one to another.  Your function can be vector can be invoked directly via the <i>scheudler.url(vectorUrl)</i> function, or from within the another vector using <i>edge[outputName] = val</i>.</p>
-    <p>Unless your vector is expected to be the last one invoked, you'll likely invoke another vector using <i>edge[outputName] = val</i>.</p>
-    <p>There is no time limit to when you invoke your vectors edges.  You can use this to control the asyncronous flow of your program.</p>
-    <h4>Interface</h4>
+    <p>Set runs when data flows into one of the edges of your vector.  This happens either when someone runs <i>scheduler.url("this-vector's-url")</i>,
+    or when another vector's edge is connected to this vector and data is passed through.</p>
+    <p>When recieving data on an edge, the set function will run, pay attention to the scoped values <i>field</i> and <i>value</i>.
+        <i>field</i> is the name of the edge on this vector data is being passed in on, while <i>value</i> is the data being passed in.</p>
+    <p>While the set function is executing, to pass data out of an edge, type <i>edges[outputName] = val;</i>.</p>
+    <p>There is no limit to the number of edges or number of times you can set an edge value.  Each time you set a value, it will cause a distinct data flow event.</p>
+    <p>Data can flow from edge to edge over time, there is no time limit.  However the domain in which you are executing might have a time limit, for example, lambda time limit is typically 5 minutes.</p>
+    <h4>Scoped Variables</h4>
     <p>
-        <table>
+        <table class="help-overlay-table">
             <tr>
                 <th>Name</th>
                 <th>Description</th>
@@ -95,15 +99,18 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
                 <td>
                     edges
                 </td>
-                <td>These edge outputs are defined in the designer.  E.x.: edges.x = "foo" sends "foo" out of the x edge.
+                <td>
+                    These edge outputs are defined in the designer.  E.x.: edges.x = "foo" sends "foo" out of the x edge.
+                    Setting edges is how data flows through the graph.
+                </td>
             </tr>
             <tr>
                 <td>state</td>
-                <td>Scheduler state.  Use this shared object to track your application state.</td>
+                <td>Scheduler state.  Use this shared object to track your application state during execution.</td>
             </tr>
             <tr>
                 <td>field</td>
-                <td>The name of the input field trigged by the remote vector edge.</td>
+                <td>The name of the input edge trigged by the remote vector edge.</td>
             </tr>
             <tr>
                 <td>value</td>
@@ -111,11 +118,11 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
             </tr>
             <tr>
                 <td>vector</td>
-                <td>The vector schema, contains many of the other fields.</td>
+                <td>The vector instance, contains many of the other fields.</td>
             </tr>
             <tr>
                 <td>cache</td>
-                <td>Vector specific runtime cache object.  Stick what you want here, it's yours, but it goes away.</td>
+                <td>Vector specific runtime cache object.  Stick what you want here, it's yours, but it goes away when runtime is over.</td>
             </tr>
             <tr>
                 <td>graph</td>
@@ -123,11 +130,89 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
             </tr>
             <tr>
                 <td>data</td>
-                <td>Vector specific data.  This data persists between runs.  Requires graph modification to change.</td>
+                <td>Vector specific data.  This data persists between runs.  Requires graph modification to change.
+                If your domain does not allow for writes to the graph, you cannot modify this data in the set function.</td>
+            </tr>
+        </table>
+    </p>
+    <h4>Browser Context Variables</h4>
+    <p>
+        <table class="help-overlay-table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
             </tr>
             <tr>
-                <td>properties</td>
-                <td>Graph editor properties and input/output field list.</td>
+                <td>
+                    this.component
+                </td>
+                <td>
+                    The Vue component instance.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    this.props
+                </td>
+                <td>
+                    Mutable reactive props of the component.
+                </td>
+            </tr>
+        </table>
+    </p>
+    <h4>Server Context Variables</h4>
+    <p>
+        <table class="help-overlay-table">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>
+                    this.event
+                </td>
+                <td>
+                    The AWS event.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    this.context
+                </td>
+                <td>
+                    The AWS event context.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    this.callback(err, response)
+                </td>
+                <td>
+                    The AWS request callback.
+                    <pre>
+// example callback
+this.callback(null, {
+    statusCode: 200,
+    body: "Hello World!"
+});
+                    </pre>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    this.console.(log|error|warn|info|debug)
+                </td>
+                <td>
+                    Web socket console transmitter. Sends log data to the client side Graph Editor IDE.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    this.AWS
+                </td>
+                <td>
+                    The AWS library.
+                </td>
             </tr>
         </table>
     </p>
@@ -135,7 +220,9 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
     <p>The vector set function is what runs when another vector's edge connector outputs to this vector.</p>
     <p>The set function also gets invoked when this vector is executed via <i>scheduler.url(vectorUrl)</i>.</p>
     <h4>What can it do?</h4>
-    <p>The set function runs in the context that the graph was instantiated in.  This means if the graph was instantiated on the browser, the context of the graph will be the browser.  You only have access to the functionality in the context the graph was instantiated in.  This means if your graph was instantiated on the server, you cannot do things on the browser, and vice versa.</p>
+    <p>The set function runs in the context that the graph was instantiated in.  This means if the graph was instantiated on the browser, the context of the graph will be the browser.
+    You only have access to the functionality in the context the graph was instantiated in.
+    This means if your graph was instantiated on the server, you cannot do things on the browser, and vice versa.</p>
 </div>
         `
     },
@@ -147,8 +234,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         When in the Graph IDE, each vector is represented by a Vue Single File Component.  This component can observe and manipulate the <i>vector</i>, <i>state</i>, and <i>scheduler</i>.
     </p>
     <h4>Props</h4>
-    Attach to these events using <i>scheduler.addEventListener(event, proc)</i>
-    <table>
+    <table class="help-overlay-table">
         <tr>
             <td>vector</td>
             <td>The current vector.  You can alter the <i>data</i> property of the vector.  If your vector is in a writeable environment, changes will be persisted onto the graph. See <a href="https://plastic-io.github.io/plastic-io/modules/_vector_.html">Vector</a></td>
@@ -164,7 +250,7 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
     </table>
     <h4>Scheduler Events</h4>
     <p>Attach to these events using <i>scheduler.addEventListener(event, proc)</i></p>
-    <table>
+    <table class="help-overlay-table">
         <tr>
             <td>beginedge</td>
             <td>When an edge is about to be invoked</td>
@@ -211,13 +297,13 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
     edge: {
         title: "Vector Edges",
         html: `
-<p>Each vector can can zero or more inputs and/or outptus.  Values always flow from left to right.</p>
+<p>Each vector can can zero or more input and/or output edges.  Data always flow from left to right.</p>
 <h4>Names</h4>
-<p>Inputs and outputs are named.  Within your <i>set</i> function at runtime, you can send data to outputs using <i>edge[outputName]</i>.</p>
+<p>Input and output edges are named.  Within your <i>set</i> function at runtime, you can send data to outputs using <i>edges[outputName] = val</i>.</p>
 <h4>Types</h4>
 <p>Connectors are typed by matching string names to other string names in the "type" field.  The Object type can connect to any other type.  All other types strictly connect to matching types.
 <h4>External</h4>
-<p>When an input or output is marked "external" that means it will appears as an input or output in the graph when it is published.
+<p>When an input or output is marked "external" that means it will appear as an input or output in the graph when it is published.
 <h4>Tests</h4>
 <p>Each input can have a number of tests to exercise the code to ensure it works correctly.  You can create and run the tests here.  You can also run all tests from the vector properties panel.
 `
@@ -420,16 +506,16 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         html: "The unique UUIDv4 of the graph generated when the graph was created."
     },
     graphIcon: {
-        title: "Graph icon.  This icon will appear in the Graph Manager and published lists.",
-        html: "graphIcon"
+        title: "Graph icon.",
+        html: "This icon will appear in the Graph Manager and published lists."
     },
     graphVersion: {
         title: "Graph event source Version",
-        html: `<p>Each time a change is made to the graph, the version is increases by 1.</p>
-        <p>Graph data is event sourced.  This means the graph data is not stored as state but rather a list of events.  Event sourcing provides a number of features.r</p>
+        html: `<p>Each time a change is made to the graph, the version increases by 1.</p>
+        <p>Graph data is event sourced.  This means the graph data is not stored as state but rather a list of events.  Event sourcing provides a number of features.</p>
         <ul>
             <li>Versioning</li>
-            <li>State time travel</li>
+            <li>State rewind and fast-forward</li>
             <li>Event idempotency</li>
             <li>Small, asyncronous updates</li>
             <li>Multi user</li>
@@ -549,8 +635,16 @@ Graph Manager allows you to create, open, delete and download graphs stored on y
         title: "Debug",
         html: "When on, additional detailed information in collected at runtime.  This will incur a performance penalty when turned on because a large amount of data is collected and stored in memory."
     },
+    showConnectorView: {
+        title: "Show Connector Info",
+        html: "Toggle runtime connector info display on and off."
+    },
     vectorId: {
         title: "Vector ID",
         html: "The UUIDv4 of the vector.  This uniquely identifies the vector."
+    },
+    graphUrl: {
+        title: "Graph URL",
+        html: "URL of the graph.  This value sets what endpoint this graph controls."
     },
 } as any;

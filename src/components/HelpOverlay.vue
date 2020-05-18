@@ -172,30 +172,44 @@ export default {
             this.drawHelp();
         },
         drawHelp() {
-            this.topics.forEach((topic) => {
-                if (topic === this.topic) {
-                    this.localGraph = this.graph;
-                    this.ctx = this.$refs.canvas.getContext("2d");
-                    this.$refs.canvas.height = window.innerHeight;
-                    this.$refs.canvas.width = window.innerWidth;
-                    this.ctx.scale(this.ratio, this.ratio);
-                    const source = this.topicEl(topic).getBoundingClientRect();
-                    const target = this.$refs.card.$el.getBoundingClientRect();
-                    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                    this.ctx.strokeStyle = colors["pink"].base;
-                    this.ctx.lineWidth = 3;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(source.x + 5, source.y + 5);
-                    this.ctx.lineTo(target.x + (target.width / 2), target.y);
-                    this.ctx.stroke();
-                    this.ctx.closePath();
-                }
-            });
+            setTimeout(() => {
+                this.topics.forEach((topic) => {
+                    if (topic === this.topic) {
+                        this.localGraph = this.graph;
+                        this.ctx = this.$refs.canvas.getContext("2d");
+                        this.$refs.canvas.height = window.innerHeight;
+                        this.$refs.canvas.width = window.innerWidth;
+                        this.ctx.scale(this.ratio, this.ratio);
+                        const source = this.topicEl(topic).getBoundingClientRect();
+                        const target = this.$refs.card.$el.getBoundingClientRect();
+                        this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                        this.ctx.strokeStyle = colors["pink"].base;
+                        this.ctx.lineWidth = 3;
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(source.x + 5, source.y + 5);
+                        this.ctx.lineTo(target.x + (target.width / 2), target.y + 5);
+                        this.ctx.stroke();
+                        this.ctx.closePath();
+                    }
+                });
+            }, 10);
         }
     },
 };
 </script>
 <style>
+.help-overlay-table td {
+    padding: 3px;
+}
+.help-overlay-table {
+    border-collapse: collapse;
+}
+.help-overlay-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1);
+}
+.help-overlay-table tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.05);
+}
 .help-topic-canvas {
     pointer-events: none;
     position: fixed;
