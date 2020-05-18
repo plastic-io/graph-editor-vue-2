@@ -64,10 +64,195 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#graph-editor" id="graph-editor" style="color: inherit; text-decoration: none;">
-					<h1>graph-editor</h1>
+				<a href="#plastic-io-graph-editor" id="plastic-io-graph-editor" style="color: inherit; text-decoration: none;">
+					<h1>Plastic-IO Graph Editor</h1>
 				</a>
-				<p>Demo: <a href="https://plastic-io.github.io/graph-editor/graphs">https://plastic-io.github.io/graph-editor/graphs</a></p>
+				<p><img src="https://avatars1.githubusercontent.com/u/60668496?s=200&v=4" alt="plastic-io"></p>
+				<p><a href="https://plastic-io.github.io/graph-editor/graphs">Public CDN Graph Editor Application</a></p>
+				<p><em>Note: LocalStorage only by default.</em></p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h1>Installation</h1>
+				</a>
+				<ol>
+					<li>Install the AWS based <a href="https://github.com/plastic-io/graph-server">Plastic-IO Graph Server</a></li>
+					<li>Install the Graph Editor, this repository, or use the <a href="https://plastic-io.github.io/graph-editor/graphs">public version</a>.</li>
+					<li>Configure the Graph Editor to use your server.</li>
+					<li>Open your graph editor and start making graphs.</li>
+				</ol>
+				<p><em>Note: You can use the graph editor and export to other systems even without a graph server.  However you cannot host HTTP web sites without the graph server.</em></p>
+				<a href="#what-is-plastic-io" id="what-is-plastic-io" style="color: inherit; text-decoration: none;">
+					<h1>What is Plastic-IO?</h1>
+				</a>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
+				<p>Visual programming using a graph interface.  If you can hook up a cable box, you can write programs in Plastic-IO.  Click and drag vectors into your graph, then connect them together and run it.</p>
+				<a href="#what-is-plastic-io-for" id="what-is-plastic-io-for" style="color: inherit; text-decoration: none;">
+					<h2>What is Plastic-IO for?</h2>
+				</a>
+				<p>Plastic-IO is a general purpose graph programming language.  It can be used to create any sort of program in any domain.  Here&#39;s a few ideas:</p>
+				<ul>
+					<li>Build your entire microservice architecture as reuseable graphs and vectors.</li>
+					<li>Build an entire front facing web site, code and views on the same graph.</li>
+					<li>Create a highly mailable services facade to control the shape and flow of your existing APIs.</li>
+					<li>Create your massively parallel CLI build pipeline.</li>
+				</ul>
+				<p>Declarative graph programming is great for parallel and asynchronous tasks and generally runs faster and can be built in less time than imperative programming.</p>
+				<a href="#what39s-so-cool-about-plastic-io" id="what39s-so-cool-about-plastic-io" style="color: inherit; text-decoration: none;">
+					<h2>What&#39;s so cool about Plastic-IO?</h2>
+				</a>
+				<ul>
+					<li>Build your components in the same interface where you build your graph.</li>
+					<li>Pure serverless environment.  Plastic-IO only uses lambdas and CDN based client applications.</li>
+					<li>Event Sourced Graph Database ensures you can rewind or fast-forward changes made to your graph.</li>
+					<li>Multiuser debug environment for server side <em>and</em> client side programming.</li>
+					<li>See the actual animated server data flow in your program <em>live</em> via web sockets.</li>
+					<li>Typescript Graph Scheduling Engine built on promises from the ground up.</li>
+					<li>Distributed graph schema allows for in-line or runtime side loaded resources to optimize performance.</li>
+					<li>Immutable artifact system allows for instant safe reuse of components in other graphs.</li>
+					<li>Public and private registries for cataloging and sharing graph components.</li>
+					<li>Graph Design and Presentation views allow for live editing of highly complex asynchronous web sites.</li>
+				</ul>
+				<a href="#where-can-i-run-plastic-io" id="where-can-i-run-plastic-io" style="color: inherit; text-decoration: none;">
+					<h2>Where can I run Plastic-IO?</h2>
+				</a>
+				<p>Plastic-IO graphs are domain agnostic.  If it can run JavaScript, it can run a Plastic-IO graph.  Just like JavaScript, Plastic-IO vectors and graphs can run in mixed domains, although some are dedicated to a specific domain, for example, a vector that reads files from the file system will likely not work in the browser domain, but will work in the server or CLI domains.  Vectors and graphs are tagged with which domains they work in, so you can make sure you&#39;re using the right kind.</p>
+				<a href="#how-does-this-work" id="how-does-this-work" style="color: inherit; text-decoration: none;">
+					<h2>How does this work?</h2>
+				</a>
+				<p>If you use the Graph-Editor and Graph-Server together all of this is abstracted from you and you can concentrate on graph programming.  However if you want to use the scheduling engine directly, it is very easy to do.</p>
+				<p>Plastic-IO uses a number of code build and analysis tools to build and execute code held in graphs or side loaded in via registries and CDNs.  Compiled code executes through the graph scheduling engine.</p>
+				<p>To get started, a graph is built then passed to the scheduler.</p>
+				<p><code>const scheduler = new Scheduler(graph, {}, {}, console);</code></p>
+				<p>Next, let the scheduler know which vector to invoke first by using the vector&#39;s URL.</p>
+				<p><code>scheduler.url(&#39;my-vectors-url&#39;);</code></p>
+				<p>And that&#39;s it!  The code within the graph&#39;s vectors takes care of the rest.</p>
+				<p>You can hook into a variety of events listed in the scheduling engine documentation if you want to log or react to different events and changes that occur during the runtime of the graph.</p>
+				<a href="#graph-programming-in-plastic-io" id="graph-programming-in-plastic-io" style="color: inherit; text-decoration: none;">
+					<h1>Graph Programming in Plastic-IO</h1>
+				</a>
+				<a href="#core-concepts" id="core-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Core Concepts</h2>
+				</a>
+				<p>In this integrated development environment (IDE), you can create and share graph programs.  Graph programs consist of 4 major parts:</p>
+				<ul>
+					<li>Graph</li>
+					<li>Vectors</li>
+					<li>View</li>
+					<li>Bus</li>
+				</ul>
+				<a href="#graph" id="graph" style="color: inherit; text-decoration: none;">
+					<h3>Graph</h3>
+				</a>
+				<p>Graphs in Plastic-IO are classed as &quot;hypergraphs&quot;.  This means your graph can be imported into another graph where it will show up as a vector.  Graphs are made up of a collection of vectors.  Graphs have an explicit URL.  You can publish and share graphs.  Graphs can be executed on the client, or server, or both.  Graphs are domain agnostic.  It can execute anywhere JavaScript can execute.</p>
+				<a href="#vectors" id="vectors" style="color: inherit; text-decoration: none;">
+					<h3>Vectors</h3>
+				</a>
+				<p>Vectors are points on the graph.  Vectors in Plastic-IO are classed as &quot;hypervectors&quot;.  This means your vector can have multiple sets of &quot;edges&quot; that connect your vector to other points on the graph.  Additionally, each edge can be shared with multiple other vector&#39;s edges at the same time.  These &quot;hyper edges&quot; are called &quot;connectors&quot;.  The relationship between the vectors, edges and connectors controls the flow of your graph program.</p>
+				<a href="#view" id="view" style="color: inherit; text-decoration: none;">
+					<h3>View</h3>
+				</a>
+				<p>Each vector has a &quot;view&quot;.  When you view the graph, you can see the view of each vector on the graph.  You can edit the view of the vector directly in the IDE.  Vectors have an explicit URL.  You can publish and share vectors.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.</p>
+				<a href="#bus" id="bus" style="color: inherit; text-decoration: none;">
+					<h3>Bus</h3>
+				</a>
+				<p>Each vector has a &quot;set&quot; function. This set function dictates how data flows through the graph.  You can edit the set function of the vector directly in the IDE.  The flow of data through the graph is called &quot;the bus&quot;.  Data always flows in one direction, left to right.  This meams data always &quot;comes out&quot; of the right hand side of a vector and &quot;goes into&quot; the left side a vector.</p>
+				<a href="#what-are-plastic-io-graphs" id="what-are-plastic-io-graphs" style="color: inherit; text-decoration: none;">
+					<h1>What are Plastic-IO Graphs?</h1>
+				</a>
+				<p>Plastic-IO graphs are a high level graph programming language built on top of JavaScript and executed with the <a href="https://github.com/plastic-io/plastic-io">Plastic-IO Scheduling Engine</a>.  Plastic-IO graphs are stored as JSON files.  The GUI for Plastic-IO is the <a href="https://github.com/plastic-io/graph-editor">Plastic-IO Graph Editor IDE</a>.</p>
+				<a href="#executing-graphs-on-the-browser" id="executing-graphs-on-the-browser" style="color: inherit; text-decoration: none;">
+					<h2>Executing Graphs on the browser</h2>
+				</a>
+				<p>Graph can be executed directly in the design view of the editor, however you can also set your graph to &quot;Presentation Mode&quot;.
+				In presentation mode, connectors not marked &quot;Visible in Presentation&quot; will be hidden.  Additionally, vectors will by default stack into a flex-grid.  You can set your graph to &quot;Start in Presentation Mode&quot; which will allow you to then distribute your graph program to anyone with a Plastic-IO graph host.</p>
+				<p>When a vector&#39;s set function is being invoked, the <code>this</code> object contains a few helpful properties:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Property</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>props</td>
+							<td>Vue Component props of this vector.</td>
+						</tr>
+						<tr>
+							<td>component</td>
+							<td>Vue Component instance.</td>
+						</tr>
+				</tbody></table>
+				<a href="#executing-graphs-on-the-graph-server" id="executing-graphs-on-the-graph-server" style="color: inherit; text-decoration: none;">
+					<h2>Executing Graphs on the Graph Server</h2>
+				</a>
+				<p>When you installed your server, you took note of the endpoint beginning with <code>ANY - https://</code>.  This is where your graphs can be executed from.  Where you see <code>&lt;root&gt;</code> below is where you would put your HTTP server.</p>
+				<pre><code>ANY - http<span class="hljs-variable">s:</span>//<span class="hljs-number">4</span>bc4u834549.<span class="hljs-keyword">execute</span>-api.us-east-<span class="hljs-number">1</span>.amazonaws.<span class="hljs-keyword">com</span>/dev/{proxy+}</code></pre><p>Your graph URL goes where you see {proxy+}</p>
+				<p><em>Note: In production <code>/dev/</code> is not present at the end of the <code>ANY</code> URL.</em></p>
+				<p>You can execute graphs on the server by subscribing events to the lambda &quot;DefaultRoute&quot; in this project.  By default, all unbound HTTP traffic to the domain will come to the graph route.  What graph gets executed is based on the URL.</p>
+				<pre><code><span class="hljs-params">&lt;root&gt;</span>/<span class="hljs-params">&lt;graph.url&gt;</span>.<span class="hljs-params">&lt;graph.vector[].url&gt;</span>
+<span class="hljs-symbol">
+
+Example:</span>
+The following URL would run vector <span class="hljs-string">"html"</span> on graph <span class="hljs-string">"home"</span>
+<span class="hljs-symbol">
+https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pre><p>Graphs are stored by their URL.  Once the graph is looked up, the scheduler is invoked with the matching vector&#39;s URL.</p>
+				<p>If no vector URL is specified, the vector URL &quot;index&quot; is assumed.  Similarity, if no graph URL is specified, the graph &quot;index&quot; is assumed.  That makes the default route to the server &quot;/&quot; the graph &quot;index&quot; and the vector &quot;index&quot;.</p>
+				<p>When a vector&#39;s set function is being invoked, the <code>this</code> object contains a few helpful properties:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Property</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>event</td>
+							<td>The AWS request event.</td>
+						</tr>
+						<tr>
+							<td>context</td>
+							<td>The AWS request context.</td>
+						</tr>
+						<tr>
+							<td>callback</td>
+							<td>The AWS request HTTP callback.</td>
+						</tr>
+						<tr>
+							<td>AWS</td>
+							<td>The AWS library.</td>
+						</tr>
+						<tr>
+							<td>console</td>
+							<td>Web socket console transmitter.  Sends log data to the client side Graph Editor IDE.</td>
+						</tr>
+				</tbody></table>
+				<pre><code><span class="hljs-comment">// example callback</span>
+<span class="hljs-keyword">this</span>.callback(<span class="hljs-literal">null</span>, {
+    statusCode: <span class="hljs-number">200</span>,
+    <span class="hljs-keyword">body</span>: <span class="hljs-string">"Hello World!"</span>
+});</code></pre><p>This is quite literally the AWS callback method passed to the lambda.  If you do not call it within 30 seconds, it will automatically be called and a timeout will be logged.  Your lambda can run for longer than 30 seconds, but API gateway requires all HTTP responses end within 30 seconds.</p>
+				<a href="#environments-and-publishing" id="environments-and-publishing" style="color: inherit; text-decoration: none;">
+					<h2>Environments and Publishing</h2>
+				</a>
+				<p>When you publish a graph, that graph becomes available in the production environment.  Changes to the graph will not take effect until you publish the graph once again.  You can still test your graph in the development environment after each change.</p>
+				<a href="#sharing-vectors-and-graphs" id="sharing-vectors-and-graphs" style="color: inherit; text-decoration: none;">
+					<h2>Sharing Vectors and Graphs</h2>
+				</a>
+				<p>When you publish your vector or graph, it becomes available to other users of your Graph Database.  These published versions are immutable and free of dependency issues.  Once a graph or vector is published, users of that artifact can be sure it will never change.  Past versions are listed right next to current versions and clearly labeled.</p>
+				<p>You can also share your graphs and vectors by downloading them via links provided in the IDE and then clicking and dragging the files onto other graphs.  Unlike using published graphs and vectors, importing this way causes the imported artifact to originate on the graph you are currently editing, where published vectors and graphs are linked and can potentially have their data side loaded.</p>
+				<a href="#infrastructure-as-a-graph" id="infrastructure-as-a-graph" style="color: inherit; text-decoration: none;">
+					<h3>Infrastructure as a Graph</h3>
+				</a>
+				<p>Because you can share the parts of the graph, and entire hypergraphs, Plastic-IO server allows you to build your entire infrastructure using first &quot;low level&quot; JavaScript and then higher level graphical programming, all within the multiuser <a href="https://github.com/plastic-io/graph-editor">Plastic-IO IDE</a>.</p>
+				<a href="#maximize-code-reuse" id="maximize-code-reuse" style="color: inherit; text-decoration: none;">
+					<h3>Maximize Code Reuse</h3>
+				</a>
+				<p>Because each vector and graph in Plastic-IO are implicitly modular, this makes it so you can reuse the artifacts you create in other graphs very easily.  Plastic-IO graph server provides a marketplace of graphs and vectors for developers to choose from, safely and securely.</p>
+				<p>See <a href="https://github.com/plastic-io/graph-editor">https://github.com/plastic-io/graph-editor</a> for for the GUI client for this server.</p>
+				<a href="#installing-the-graph-editor" id="installing-the-graph-editor" style="color: inherit; text-decoration: none;">
+					<h1>Installing the Graph Editor</h1>
+				</a>
 				<p>Uses local storage</p>
 				<a href="#project-setup" id="project-setup" style="color: inherit; text-decoration: none;">
 					<h2>Project setup</h2>
@@ -93,37 +278,6 @@
 					<h3>E2E tests</h3>
 				</a>
 				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> <span class="hljs-built_in">test</span>:e2e</span></code></pre>
-				<a href="#graph-programming-in-plastic-io" id="graph-programming-in-plastic-io" style="color: inherit; text-decoration: none;">
-					<h1>Graph Programming in Plastic-IO</h1>
-				</a>
-				<p>In this integrated development environment (IDE), you can create and share graph programs.  Graph programs consist of 4 major parts:</p>
-				<ul>
-					<li>Graph</li>
-					<li>Vectors</li>
-					<li>View</li>
-					<li>Bus</li>
-				</ul>
-				<a href="#graph" id="graph" style="color: inherit; text-decoration: none;">
-					<h1>Graph</h1>
-				</a>
-				<p>Graphs in Plastic-IO are classed as &quot;hypergraphs&quot;.  This means your graph can be imported into another graph where it will show up as a vector.  Graphs are made up of a collection of vectors.  Graphs have an explicit URL.  You can publish and share graphs.  Graphs can be executed on the client, or server, or both.  Graphs are domain agnostic.  It can execute anywhere JavaScript can execute.</p>
-				<a href="#vectors" id="vectors" style="color: inherit; text-decoration: none;">
-					<h1>Vectors</h1>
-				</a>
-				<p>Vectors are points on the graph.  Vectors in Plastic-IO are classed as &quot;hypervectors&quot;.  This means your vector can have multiple sets of &quot;edges&quot; that connect your vector to other points on the graph.  Addtionally, each edge can be shared with multiple other vector&#39;s edges at the same time.  These &quot;hyper edges&quot; are called &quot;connectors&quot;.  The relationship between the vectors, edges and connectors controls the flow of your graph program.</p>
-				<a href="#view" id="view" style="color: inherit; text-decoration: none;">
-					<h1>View</h1>
-				</a>
-				<p>Each vector has a &quot;view&quot;.  When you view the graph, you can see the view of each vector on the graph.  You can edit the view of the vector directly in the IDE.  Vectors have an explicit URL.  You can publish and share vectors.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.</p>
-				<a href="#bus" id="bus" style="color: inherit; text-decoration: none;">
-					<h1>Bus</h1>
-				</a>
-				<p>Each vector has a &quot;set&quot; function. This set function dictates how data flows through the graph.  The flow of data through the graph is called &quot;the bus&quot;.  Data always flows in one direction, left to right.  That doesn&#39;t mean you cannot create cyclic graphs, just that the edges and connectors in the graph must form a loop, graph execution does not flow right to left.</p>
-				<pre><code>Loop
-/----\
-|<span class="hljs-string">    </span>|
-|<span class="hljs-string">    </span>|
-\____/</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
