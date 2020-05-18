@@ -193,6 +193,35 @@
         </component>
         <graph-mouse/>
         <connector-view v-if="showConnectorView" @close="showConnectorView = false;" :activity="hoveredActivity"/>
+        <v-bottom-sheet hide-overlay inset v-model="showAnnoyingHelpMessage">
+            <v-alert type="info" prominent border="left" color="primary" colored-border elevation="2" middle icon="mdi-help-circle-outline">
+                <v-row>
+                    <v-col>
+                        <h2>Welcome to the Plastic-IO Graph Editor</h2>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        Click the <v-icon>mdi-help-circle-outline</v-icon> in the upper right corner for contextual help.
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        To start building, select <v-icon>mdi-library</v-icon> on the left, then click and drag an item from the library onto your graph.
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        Or double click on the canvas to create a new vector.
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <i style="font-size: 0.8rem;">&bull; To disable this message, click on <v-icon>mdi-cogs</v-icon> settings, then click the "Graph" section, then turn off "Show Help Messages".</i>
+                    </v-col>
+                </v-row>
+            </v-alert>
+        </v-bottom-sheet>
     </v-app>
 </template>
 <script>
@@ -638,6 +667,7 @@ export default {
         });
         this.$store.dispatch("subscribeToc");
         this.$store.dispatch("subscribePreferences");
+        this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
     },
     data: () => {
         return {
@@ -655,6 +685,7 @@ export default {
             graphLoaded: false,
             presentationWarning: false,
             hasSeenPresentationWarning: false,
+            showAnnoyingHelpMessage: false,
             showConnectorView: false,
         };
     }
