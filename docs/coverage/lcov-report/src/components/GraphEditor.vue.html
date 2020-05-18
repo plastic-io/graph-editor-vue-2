@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.69% </span>
+                <span class="strong">47.94% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>93/191</span>
+                <span class='fraction'>93/194</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.85% </span>
+                <span class="strong">28.3% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>30/104</span>
+                <span class='fraction'>30/106</span>
             </div>
         
             
@@ -43,9 +43,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.95% </span>
+                <span class="strong">48.19% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>93/190</span>
+                <span class='fraction'>93/193</span>
             </div>
         
             
@@ -736,7 +736,10 @@
 <a name='L678'></a><a href='#L678'>678</a>
 <a name='L679'></a><a href='#L679'>679</a>
 <a name='L680'></a><a href='#L680'>680</a>
-<a name='L681'></a><a href='#L681'>681</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L681'></a><a href='#L681'>681</a>
+<a name='L682'></a><a href='#L682'>682</a>
+<a name='L683'></a><a href='#L683'>683</a>
+<a name='L684'></a><a href='#L684'>684</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1281,18 +1284,21 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1955,17 +1961,19 @@ export default {
             return vectors;
         },
 <span class="fstat-no" title="function not covered" >        evCut(e) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
+<span class="cstat-no" title="statement not covered" >            console.warn("Clipboard cut captured by graph editor");</span>
 <span class="cstat-no" title="statement not covered" >            e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));</span>
 <span class="cstat-no" title="statement not covered" >            this.deleteSelected();</span>
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
         },
 <span class="fstat-no" title="function not covered" >        evCopy(e) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
+<span class="cstat-no" title="statement not covered" >            console.warn("Clipboard copy captured by graph editor");</span>
 <span class="cstat-no" title="statement not covered" >            e.clipboardData.setData(this.vectorMimeType, JSON.stringify(this.copyVectors(this.selectedVectors), null, "\t"));</span>
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
         },
@@ -1973,6 +1981,7 @@ export default {
 <span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
+<span class="cstat-no" title="statement not covered" >            console.warn("Clipboard paste captured by graph editor");</span>
 <span class="cstat-no" title="statement not covered" >            const data = e.clipboardData.getData(this.vectorMimeType);</span>
 <span class="cstat-no" title="statement not covered" >            this.tryPasteVectorString(data);</span>
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
@@ -2103,7 +2112,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun May 17 2020 18:14:46 GMT+0000 (Coordinated Universal Time)
+                at Mon May 18 2020 02:08:03 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

@@ -93,6 +93,37 @@
 					<h3>E2E tests</h3>
 				</a>
 				<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> <span class="hljs-built_in">test</span>:e2e</span></code></pre>
+				<a href="#graph-programming-in-plastic-io" id="graph-programming-in-plastic-io" style="color: inherit; text-decoration: none;">
+					<h1>Graph Programming in Plastic-IO</h1>
+				</a>
+				<p>In this integrated development environment (IDE), you can create and share graph programs.  Graph programs consist of 4 major parts:</p>
+				<ul>
+					<li>Graph</li>
+					<li>Vectors</li>
+					<li>View</li>
+					<li>Bus</li>
+				</ul>
+				<a href="#graph" id="graph" style="color: inherit; text-decoration: none;">
+					<h1>Graph</h1>
+				</a>
+				<p>Graphs in Plastic-IO are classed as &quot;hypergraphs&quot;.  This means your graph can be imported into another graph where it will show up as a vector.  Graphs are made up of a collection of vectors.  Graphs have an explicit URL.  You can publish and share graphs.  Graphs can be executed on the client, or server, or both.  Graphs are domain agnostic.  It can execute anywhere JavaScript can execute.</p>
+				<a href="#vectors" id="vectors" style="color: inherit; text-decoration: none;">
+					<h1>Vectors</h1>
+				</a>
+				<p>Vectors are points on the graph.  Vectors in Plastic-IO are classed as &quot;hypervectors&quot;.  This means your vector can have multiple sets of &quot;edges&quot; that connect your vector to other points on the graph.  Addtionally, each edge can be shared with multiple other vector&#39;s edges at the same time.  These &quot;hyper edges&quot; are called &quot;connectors&quot;.  The relationship between the vectors, edges and connectors controls the flow of your graph program.</p>
+				<a href="#view" id="view" style="color: inherit; text-decoration: none;">
+					<h1>View</h1>
+				</a>
+				<p>Each vector has a &quot;view&quot;.  When you view the graph, you can see the view of each vector on the graph.  You can edit the view of the vector directly in the IDE.  Vectors have an explicit URL.  You can publish and share vectors.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.</p>
+				<a href="#bus" id="bus" style="color: inherit; text-decoration: none;">
+					<h1>Bus</h1>
+				</a>
+				<p>Each vector has a &quot;set&quot; function. This set function dictates how data flows through the graph.  The flow of data through the graph is called &quot;the bus&quot;.  Data always flows in one direction, left to right.  That doesn&#39;t mean you cannot create cyclic graphs, just that the edges and connectors in the graph must form a loop, graph execution does not flow right to left.</p>
+				<pre><code>Loop
+/----\
+|<span class="hljs-string">    </span>|
+|<span class="hljs-string">    </span>|
+\____/</code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
