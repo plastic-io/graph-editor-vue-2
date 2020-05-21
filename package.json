@@ -30,7 +30,6 @@
     "core-js": "^3.6.5",
     "emmet": "git+https://github.com/cloud9ide/emmet-core.git#41973fcc70392864c7a469cf5dcd875b88b93d4a",
     "htmlparser2": "^4.1.0",
-    "jest": "^25.3.0",
     "jshashes": "^1.0.8",
     "mocha": "^7.1.2",
     "portal-vue": "^2.1.7",
@@ -47,6 +46,7 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "jest": "^25.3.0",
     "@babel/core": "^7.9.0",
     "@mdi/js": "^4.9.95",
     "@types/bezier-js": "0.0.8",
