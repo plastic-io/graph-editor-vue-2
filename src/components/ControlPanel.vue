@@ -42,6 +42,11 @@
                             mdi-lambda
                         </v-icon>
                     </v-tab>
+                    <v-tab key="tests">
+                        <v-icon help-topic="tests">
+                            mdi-flask
+                        </v-icon>
+                    </v-tab>
                     <v-tab-item key="properties">
                         <vector-properties
                             :style="gutterStyle"
@@ -59,6 +64,11 @@
                     </v-tab-item>
                     <v-tab-item key="set">
                         <set-editor
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item key="tests">
+                        <vector-tests
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
@@ -175,9 +185,11 @@ import SetEditor from "./SetEditor";
 import TemplateEditor from "./TemplateEditor";
 import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
+import VectorTests from "./VectorTests";
 export default {
     name: "control-panel",
     components: {
+        VectorTests,
         GraphLog,
         VectorProperties,
         GraphProperties,

@@ -222,6 +222,7 @@
                 </v-row>
             </v-alert>
         </v-bottom-sheet>
+        <test-view/>
     </v-app>
 </template>
 <script>
@@ -232,12 +233,14 @@ import HelpOverlay from "./HelpOverlay";
 import GraphUsers from "./GraphUsers";
 import GraphMouse from "./GraphMouse";
 import ConnectorView from "./ConnectorView";
+import TestView from "./TestView";
 export default {
     name: "GraphEditor",
     props: {
         route: Object,
     },
     components: {
+        TestView,
         GraphCanvas,
         ControlPanel,
         HelpOverlay,
@@ -566,7 +569,10 @@ export default {
             return vectors;
         },
         evCut(e) {
-            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {
+            if (!this.isGraphTarget(e)
+                || /dont-propagate-copy/.test(e.target.className)
+                || this.selectedVectors.length === 0
+                || /input|textarea/i.test(e.target.tagName)) {
                 return;
             }
             console.warn("Clipboard cut captured by graph editor");
@@ -575,7 +581,10 @@ export default {
             e.preventDefault();
         },
         evCopy(e) {
-            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {
+            if (!this.isGraphTarget(e)
+                    || /dont-propagate-copy/.test(e.target.className)
+                    || this.selectedVectors.length === 0
+                    || /input|textarea/i.test(e.target.tagName)) {
                 return;
             }
             console.warn("Clipboard copy captured by graph editor");
@@ -583,7 +592,9 @@ export default {
             e.preventDefault();
         },
         evPaste(e) {
-            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {
+            if (!this.isGraphTarget(e)
+                || /dont-propagate-copy/.test(e.target.className)
+                || /input|textarea/i.test(e.target.tagName)) {
                 return;
             }
             console.warn("Clipboard paste captured by graph editor");

@@ -97,7 +97,7 @@ information in real time.
             </v-alert>
             <v-spacer class="pa-2"></v-spacer>
             To stop this tutorial vector from appearing each time you create a new blank vector
-            click on <v-icon>mdi-cogs</v-icon> and under "General" select: turn off "Use tutorial vector".
+            click on <v-icon>mdi-cogs</v-icon> and under "Graph" select: turn off "Show Help Messages".
         </v-card-text>
     </v-card>
 </template>

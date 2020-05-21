@@ -70,7 +70,9 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            testOutput: [],
             ownEvents: [],
+            testsVisible: false,
             showRemoteMouseMovements: true,
             mouseMovements: [],
             mouseTransmitInterval: 1000,
