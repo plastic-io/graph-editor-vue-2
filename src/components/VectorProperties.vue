@@ -136,13 +136,12 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-3">
-                                <v-btn disabled color="info" block help-topic="vectorTests">
+                                <v-btn @click="runTest" color="info" block help-topic="vectorTests">
                                     Run Tests
                                     <v-icon right>
                                         mdi-flask
                                     </v-icon>
                                 </v-btn>
-                                <i>No tests.  Add tests in input connectors.</i>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -159,8 +158,12 @@ export default {
     methods: {
         ...mapActions([
             "publishVector",
+            "runVectorTest",
             "moveHistoryPosition",
         ]),
+        runTest() {
+            this.runVectorTest(this.vector);
+        },
         hyphenateProperty(prop) {
             var p = "";
             Array.prototype.forEach.call(prop, function (char) {

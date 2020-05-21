@@ -5,6 +5,7 @@ import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io
 import LocalStoreDataProvider from "./modules/LocalStoreDataProvider";
 import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
+import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
 let saveDebounceTimeout = 500;
 let saveTimer: any;
@@ -130,6 +131,9 @@ const schedulerNotifyActions: any = {
     }
 };
 export default {
+    async runVectorTest(context: any, vector: any) {
+        testService(context, vector);
+    },
     async setupDataProvider(context: any) {
         const localStoreDataProvider = new LocalStoreDataProvider();
         let preferences;

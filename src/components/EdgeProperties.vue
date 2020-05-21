@@ -60,9 +60,6 @@
                                             <v-tab title="Connection list" help-topic="ioConnections">
                                                 <v-icon>mdi-power-plug</v-icon>
                                             </v-tab>
-                                            <v-tab title="Tests" v-if="ioKey === 'inputs'" help-topic="ioTests">
-                                                <v-icon>mdi-flask</v-icon>
-                                            </v-tab>
                                             <v-tab-item>
                                                 <v-text-field
                                                     :disabled="controlsDisabled"
@@ -124,13 +121,6 @@
                                                             </v-card-text>
                                                         </v-card>
                                                     </v-list>
-                                                </v-card>
-                                            </v-tab-item>
-                                            <v-tab-item>
-                                                <v-card flat>
-                                                    <v-card-text style="margin-top: 10px;">
-                                                        <i>No Tests</i>
-                                                    </v-card-text>
                                                 </v-card>
                                             </v-tab-item>
                                         </v-tabs>

@@ -5,10 +5,22 @@ import helpTemplate from "./newVectorHelpTemplate";
 import Hashes from "jshashes";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
+const originalLog = console.log;
 export interface ChangeEvent {
     id: string,
     date: number,
     changes: any[],
+}
+function addTestOutput(state: any, item: any) {
+    state.testOutput.push(item);
+}
+function showTests(state: any) {
+    state.testsVisible = true;
+}
+function hideTests(state: any) {
+    state.testsVisible = false;
+    state.testOutput = [];
+    console.log = originalLog;
 }
 function clearResync(state: any) {
     state.pendingEvents = {};
@@ -630,6 +642,8 @@ export function changeOutputOrder(state: any, e: {
 export function addInput(state: any, e: {
     vectorId: string,
     name: string,
+    type: string,
+    external: boolean,
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
@@ -637,14 +651,16 @@ export function addInput(state: any, e: {
     }
     vector.properties.inputs.push({
         name: e.name,
-        type: "Object",
-        external: false,
+        type: e.type || "Object",
+        external: e.external === undefined ? false : e.external,
     });
     applyGraphChanges(state, "Add Input");
 }
 export function addOutput(state: any, e: {
     vectorId: string,
     name: string,
+    type: string,
+    external: boolean,
 }) {
     const vector = state.graphSnapshot.vectors.find((v:Vector) => v.id === e.vectorId);
     if (!vector) {
@@ -652,8 +668,8 @@ export function addOutput(state: any, e: {
     }
     vector.properties.outputs.push({
         name: e.name,
-        type: "Object",
-        external: false,
+        type: e.type || "Object",
+        external: e.external === undefined ? false : e.external,
     });
     vector.edges.push({
         field: e.name,
@@ -973,6 +989,9 @@ export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
 export default {
+    addTestOutput,
+    hideTests,
+    showTests,
     clearResync,
     dequeueEvent,
     queueEvent,
