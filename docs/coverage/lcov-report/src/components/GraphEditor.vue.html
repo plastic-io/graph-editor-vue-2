@@ -7,7 +7,8 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
             background-image: url(../../sort-arrow-sprite.png);
@@ -22,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.21% </span>
+                <span class="strong">48.47% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>94/195</span>
+                <span class='fraction'>95/196</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.3% </span>
+                <span class="strong">27.52% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>30/106</span>
+                <span class='fraction'>30/109</span>
             </div>
         
             
@@ -43,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">48.45% </span>
+                <span class="strong">48.72% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>94/194</span>
+                <span class='fraction'>95/195</span>
             </div>
         
             
@@ -770,7 +771,19 @@
 <a name='L712'></a><a href='#L712'>712</a>
 <a name='L713'></a><a href='#L713'>713</a>
 <a name='L714'></a><a href='#L714'>714</a>
-<a name='L715'></a><a href='#L715'>715</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L715'></a><a href='#L715'>715</a>
+<a name='L716'></a><a href='#L716'>716</a>
+<a name='L717'></a><a href='#L717'>717</a>
+<a name='L718'></a><a href='#L718'>718</a>
+<a name='L719'></a><a href='#L719'>719</a>
+<a name='L720'></a><a href='#L720'>720</a>
+<a name='L721'></a><a href='#L721'>721</a>
+<a name='L722'></a><a href='#L722'>722</a>
+<a name='L723'></a><a href='#L723'>723</a>
+<a name='L724'></a><a href='#L724'>724</a>
+<a name='L725'></a><a href='#L725'>725</a>
+<a name='L726'></a><a href='#L726'>726</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1004,6 +1017,8 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1339,6 +1354,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1348,6 +1366,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1356,6 +1377,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1708,6 +1731,7 @@
                 &lt;/v-row&gt;
             &lt;/v-alert&gt;
         &lt;/v-bottom-sheet&gt;
+        &lt;test-view/&gt;
     &lt;/v-app&gt;
 &lt;/template&gt;
 &lt;script&gt;
@@ -1718,12 +1742,14 @@ import HelpOverlay from "./HelpOverlay";
 import GraphUsers from "./GraphUsers";
 import GraphMouse from "./GraphMouse";
 import ConnectorView from "./ConnectorView";
+import TestView from "./TestView";
 export default {
     name: "GraphEditor",
     props: {
         route: Object,
     },
     components: {
+        TestView,
         GraphCanvas,
         ControlPanel,
         HelpOverlay,
@@ -2052,7 +2078,10 @@ export default {
             return vectors;
         },
 <span class="fstat-no" title="function not covered" >        evCut(e) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e)</span>
+                || /dont-propagate-copy/.test(e.target.className)
+                || this.selectedVectors.length === 0
+                || /input|textarea/i.test(e.target.tagName)) {
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
 <span class="cstat-no" title="statement not covered" >            console.warn("Clipboard cut captured by graph editor");</span>
@@ -2061,7 +2090,10 @@ export default {
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
         },
 <span class="fstat-no" title="function not covered" >        evCopy(e) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className) || this.selectedVectors.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e)</span>
+                    || /dont-propagate-copy/.test(e.target.className)
+                    || this.selectedVectors.length === 0
+                    || /input|textarea/i.test(e.target.tagName)) {
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
 <span class="cstat-no" title="statement not covered" >            console.warn("Clipboard copy captured by graph editor");</span>
@@ -2069,7 +2101,9 @@ export default {
 <span class="cstat-no" title="statement not covered" >            e.preventDefault();</span>
         },
 <span class="fstat-no" title="function not covered" >        evPaste(e) {</span>
-<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e) || /dont-propagate-copy/.test(e.target.className)) {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.isGraphTarget(e)</span>
+                || /dont-propagate-copy/.test(e.target.className)
+                || /input|textarea/i.test(e.target.tagName)) {
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
 <span class="cstat-no" title="statement not covered" >            console.warn("Clipboard paste captured by graph editor");</span>
@@ -2205,7 +2239,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon May 18 2020 08:52:06 GMT+0000 (Coordinated Universal Time)
+                at Thu May 21 2020 17:54:11 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
