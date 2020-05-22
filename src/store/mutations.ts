@@ -49,6 +49,7 @@ function clearPendingMessage(state: any, e: any) {
         }
     } else if (e && e.response && e.response.event) {
         Vue.delete(state.pendingEvents, e.response.event.id);
+        takeGraphSnapshots(state);
     }
     if (Object.keys(state.pendingEvents).length === 0 && state.eventQueue.length > 0) {
         state.queuedEvent = state.eventQueue.shift();
@@ -100,12 +101,11 @@ function remoteChangeEvents(state: any, event: any) {
         if (crc !== event.crc) {
             state.resyncRequired = true;
             console.warn("CRC error.  Resync from origin.");
+            return;
         }
         state.remoteEvents.push(event);
         state.graph = preApplySnapshot;
-        // version is not updated by this event when using a remote data source
-        // rather, version is updated on the server and applied on applyChange just above
-        setGraphVersion(state, 0);
+        takeGraphSnapshots(state);
     }
 }
 export function replacer(key: any, value: any) {
@@ -879,6 +879,10 @@ function setRemoteSnapshot(state: any, e: any) {
 function setPreferences(state: any, e: any) {
     state.preferences = e;
 }
+function takeGraphSnapshots(state: any) {
+    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
+    state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
+}
 function setGraphVersion(state: any, e: number) {
     if (!state.dataProviders.graph.asyncUpdate) {
         state.graph.version = e;
@@ -891,8 +895,7 @@ function setGraphVersion(state: any, e: number) {
             });
         });
     }
-    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
-    state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
+    takeGraphSnapshots(state);
 }
 function setToc(state: any, e: any) {
     state.toc = e;
@@ -989,6 +992,7 @@ export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
 export default {
+    takeGraphSnapshots,
     addTestOutput,
     hideTests,
     showTests,

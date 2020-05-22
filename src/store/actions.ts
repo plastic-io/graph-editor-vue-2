@@ -7,7 +7,7 @@ import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
 import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
-let saveDebounceTimeout = 500;
+let saveDebounceTimeout = 900;
 let saveTimer: any;
 const schedulerNotifyActions: any = {
     logger(context: any) {
@@ -554,10 +554,6 @@ export default {
                 context.state.dataProviders.graph.set(context.state.graph.id, event);
                 if (context.state.dataProviders.graph.asyncUpdate) {
                     context.commit("setPendingEvent", event);
-                }
-                // when using a async data source (server), apply changes to the remote locally to prevent re-save
-                if (context.state.dataProviders.graph.asyncUpdate) {
-                    // context.commit("setGraphVersion", context.state.graph.version);
                 }
                 context.commit("setLoadingStatus", {
                     key: context.state.graph.id,
