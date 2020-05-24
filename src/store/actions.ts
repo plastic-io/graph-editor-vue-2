@@ -176,16 +176,15 @@ export default {
             const wsMessage = (e: any) => {
                 context.commit("clearPendingMessage", e);
                 if (context.state.queuedEvent) {
-                    const preApplySnapshot: any = JSON.parse(JSON.stringify(context.state.graph));
                     context.state.queuedEvent.changes.forEach((change: any) => {
-                        applyChange(preApplySnapshot, true, change);
+                        applyChange(context.state.graph, true, change);
                     });
-                    context.commit("dequeueEvent", preApplySnapshot);
+                    context.commit("dequeueEvent");
                     context.dispatch("save");
                 }
                 if (context.state.resyncRequired) {
                     context.commit("clearResync");
-                    console.warn("Resyncing due to remote state mismatch.");
+                    console.warn("Resyncing due to remote state mismatch.", context.pendingEvents);
                     context.dispatch("open", {
                         graphId: context.state.graph.id,
                     });
@@ -548,6 +547,7 @@ export default {
                 };
                 if (Object.keys(context.state.pendingEvents).length > 0
                     && context.state.dataProviders.graph.asyncUpdate) {
+                    console.log("queueEvent", event.id);
                     context.commit("queueEvent", event);
                     return;
                 }
@@ -562,6 +562,7 @@ export default {
                 });
             }
             if (e !== undefined) {
+                // this is for creating a new graph
                 context.commit("resetLoadedState", e);
             }
             const changes = diff(JSON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)),

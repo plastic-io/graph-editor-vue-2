@@ -303,7 +303,6 @@ export default {
             hoveredConnector: state => state.hoveredConnector,
             hoveredVector: state => state.hoveredVector,
             hoveredPort: state => state.hoveredPort,
-            graphSnapshot: state => state.graphSnapshot,
             graph: state => state.graph,
             mouse: state => state.mouse,
             translating: state => state.translating,

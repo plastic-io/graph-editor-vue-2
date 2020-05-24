@@ -172,7 +172,7 @@ export default {
             };
         },
         input(connector) {
-            const vector = this.graphSnapshot.vectors.find((v) => {
+            const vector = this.graph.vectors.find((v) => {
                 return v.id === connector.vectorId;
             });
             const field = vector ? vector.properties.inputs.find((input) => {
@@ -216,7 +216,7 @@ export default {
         getConnectors(ioKey, name) {
             const connectors = [];
             if (ioKey === "inputs") {
-                this.graphSnapshot.vectors.forEach((v) => {
+                this.graph.vectors.forEach((v) => {
                     v.edges.forEach((edge) => {
                         connectors.push(...edge.connectors.filter((c) => {
                             return c.vectorId === this.vector.id && c.field === name;
@@ -280,9 +280,9 @@ export default {
             // if there are connectors attached to edges, warn the user of the eventual removal of the connectors
             const isInput = ioKey === "inputs";
             if (isInput) {
-                for (let x = 0; x < this.graphSnapshot.vectors.length; x += 1) {
-                    for (let y =0; y < this.graphSnapshot.vectors[x].edges.length; y += 1) {
-                        const connectors = this.graphSnapshot.vectors[x].edges[y].connectors.find(c => c.vectorId === this.vector.id && c.field === io.name);
+                for (let x = 0; x < this.graph.vectors.length; x += 1) {
+                    for (let y =0; y < this.graph.vectors[x].edges.length; y += 1) {
+                        const connectors = this.graph.vectors[x].edges[y].connectors.find(c => c.vectorId === this.vector.id && c.field === io.name);
                         if (!override && connectors) {
                             this.showMessage = true;
                             this.message = "There are connectors connected to this input.  Are you sure you want to delete it?";
@@ -326,7 +326,7 @@ export default {
             this.vector = JSON.parse(JSON.stringify(v));
         },
         getSelectedVector() {
-            return this.graphSnapshot.vectors.find((v) => v.id === this.vectorId);
+            return this.graph.vectors.find((v) => v.id === this.vectorId);
         },
     },
     data() {
@@ -340,7 +340,7 @@ export default {
         };
     },
     watch: {
-        graphSnapshot: {
+        graph: {
             handler: function () {
                 if (diff(this.getSelectedVector(), this.vector)) {
                     this.setLocalVector();
@@ -376,7 +376,7 @@ export default {
         ...mapState({
             ioTypes: state => state.ioTypes,
             selectedVector: state => state.selectedVector,
-            graphSnapshot: state => state.graphSnapshot,
+            graph: state => state.graph,
         }),
     },
 };

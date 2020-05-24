@@ -2,7 +2,6 @@ import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
 import helpTemplate from "./newVectorHelpTemplate";
-import Hashes from "jshashes";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
 const originalLog = console.log;
@@ -23,11 +22,9 @@ function hideTests(state: any) {
     console.log = originalLog;
 }
 function clearResync(state: any) {
-    state.pendingEvents = {};
     state.resyncRequired = false;
 }
-function dequeueEvent(state: any, graph: any) {
-    state.graph = graph;
+function dequeueEvent(state: any) {
     state.queuedEvent = null;
 }
 function queueEvent(state: any, event: any) {
@@ -43,13 +40,16 @@ function clearPendingMessage(state: any, e: any) {
                 raiseError(state, new Error("Out of sync with server.  Last event could not be replayed.  Try refreshing your browser."));
             }
             Vue.delete(state.pendingEvents, state.pendingEvents);
-            console.warn("CRC error.  Resync from origin.");
+            console.warn("CRC error applying local to remote.  Resync from origin.");
         } else {
             raiseError(state, e.response.err);
         }
     } else if (e && e.response && e.response.event) {
+        const ev = state.pendingEvents[e.response.event.id];
+        ev.changes.forEach((change: any) => {
+            applyChange(state.remoteSnapshot, true, change);
+        });
         Vue.delete(state.pendingEvents, e.response.event.id);
-        takeGraphSnapshots(state);
     }
     if (Object.keys(state.pendingEvents).length === 0 && state.eventQueue.length > 0) {
         state.queuedEvent = state.eventQueue.shift();
@@ -97,15 +97,12 @@ function remoteChangeEvents(state: any, event: any) {
     }
     const changes = diff(state.graph, preApplySnapshot);
     if (changes) {
-        const crc = Hashes.CRC32(JSON.stringify(preApplySnapshot, replacer));
-        if (crc !== event.crc) {
-            state.resyncRequired = true;
-            console.warn("CRC error.  Resync from origin.");
-            return;
-        }
         state.remoteEvents.push(event);
-        state.graph = preApplySnapshot;
-        takeGraphSnapshots(state);
+        event.changes.forEach((change: any) => {
+            applyChange(state.graph, true, change);
+            applyChange(state.remoteSnapshot, true, change);
+        });
+        state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
     }
 }
 export function replacer(key: any, value: any) {
@@ -873,15 +870,8 @@ function setLoadingStatus(state: any, e: {key: string, type: string, loading: bo
 function addLogItem(state: any, e: any) {
     state.log.push({_t: Date.now(), ...e});
 }
-function setRemoteSnapshot(state: any, e: any) {
-    state.remoteSnapshot = e;
-}
 function setPreferences(state: any, e: any) {
     state.preferences = e;
-}
-function takeGraphSnapshots(state: any) {
-    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
-    state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
 function setGraphVersion(state: any, e: number) {
     if (!state.dataProviders.graph.asyncUpdate) {
@@ -895,7 +885,7 @@ function setGraphVersion(state: any, e: number) {
             });
         });
     }
-    takeGraphSnapshots(state);
+    state.graphSnapshot = JSON.parse(JSON.stringify(e));
 }
 function setToc(state: any, e: any) {
     state.toc = e;
@@ -976,6 +966,7 @@ export function toggleSelectedVectorPresentationMode(state: any) {
     });
     applyGraphChanges(state, "Toggle Vector Presentation");
 }
+// this is for creating a new graph
 export function resetLoadedState(state: any, e: any) {
     state.graph = e;
     state.createdGraphId = e.id;
@@ -992,7 +983,6 @@ export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
 export default {
-    takeGraphSnapshots,
     addTestOutput,
     hideTests,
     showTests,
@@ -1035,7 +1025,6 @@ export default {
     setGraphVersion,
     addVectorItem,
     setPreferences,
-    setRemoteSnapshot,
     setToc,
     setLoadingStatus,
     open,

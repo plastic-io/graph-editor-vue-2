@@ -120,7 +120,7 @@ export default {
                 // when this becomes unbound
                 const changes = diff(this.localGraph, this.graphSnapshot);
                 if (changes) {
-                    this.localGraph = JSON.parse(JSON.stringify(this.graphSnapshot));
+                    this.localGraph = this.graphSnapshot;
                     this.localGraph.vectors.length;
                 }
             },
