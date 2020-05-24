@@ -50,10 +50,7 @@ export default {
     },
     methods: {
         updateLocalToc() {
-            this.localToc = {
-                "0": {type: "newVector", name: "Empty Vector", description: "An new, empty vector."},
-                ...JSON.parse(JSON.stringify(this.toc)),
-            };
+            this.localToc = JSON.parse(JSON.stringify(this.toc));
         },
     },
     computed: {

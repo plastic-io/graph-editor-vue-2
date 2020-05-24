@@ -2,7 +2,6 @@ import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
 import helpTemplate from "./newVectorHelpTemplate";
-import Hashes from "jshashes";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
 const originalLog = console.log;
@@ -12,7 +11,9 @@ export interface ChangeEvent {
     changes: any[],
 }
 function addTestOutput(state: any, item: any) {
+    console.info("state.testOutput.push(item);", item);
     state.testOutput.push(item);
+    state.testOutputVersion += 1;
 }
 function showTests(state: any) {
     state.testsVisible = true;
@@ -23,11 +24,9 @@ function hideTests(state: any) {
     console.log = originalLog;
 }
 function clearResync(state: any) {
-    state.pendingEvents = {};
     state.resyncRequired = false;
 }
-function dequeueEvent(state: any, graph: any) {
-    state.graph = graph;
+function dequeueEvent(state: any) {
     state.queuedEvent = null;
 }
 function queueEvent(state: any, event: any) {
@@ -43,13 +42,16 @@ function clearPendingMessage(state: any, e: any) {
                 raiseError(state, new Error("Out of sync with server.  Last event could not be replayed.  Try refreshing your browser."));
             }
             Vue.delete(state.pendingEvents, state.pendingEvents);
-            console.warn("CRC error.  Resync from origin.");
+            console.warn("CRC error applying local to remote.  Resync from origin.");
         } else {
             raiseError(state, e.response.err);
         }
     } else if (e && e.response && e.response.event) {
+        const ev = state.pendingEvents[e.response.event.id];
+        ev.changes.forEach((change: any) => {
+            applyChange(state.remoteSnapshot, true, change);
+        });
         Vue.delete(state.pendingEvents, e.response.event.id);
-        takeGraphSnapshots(state);
     }
     if (Object.keys(state.pendingEvents).length === 0 && state.eventQueue.length > 0) {
         state.queuedEvent = state.eventQueue.shift();
@@ -97,15 +99,12 @@ function remoteChangeEvents(state: any, event: any) {
     }
     const changes = diff(state.graph, preApplySnapshot);
     if (changes) {
-        const crc = Hashes.CRC32(JSON.stringify(preApplySnapshot, replacer));
-        if (crc !== event.crc) {
-            state.resyncRequired = true;
-            console.warn("CRC error.  Resync from origin.");
-            return;
-        }
         state.remoteEvents.push(event);
-        state.graph = preApplySnapshot;
-        takeGraphSnapshots(state);
+        event.changes.forEach((change: any) => {
+            applyChange(state.graph, true, change);
+            applyChange(state.remoteSnapshot, true, change);
+        });
+        state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
     }
 }
 export function replacer(key: any, value: any) {
@@ -873,15 +872,8 @@ function setLoadingStatus(state: any, e: {key: string, type: string, loading: bo
 function addLogItem(state: any, e: any) {
     state.log.push({_t: Date.now(), ...e});
 }
-function setRemoteSnapshot(state: any, e: any) {
-    state.remoteSnapshot = e;
-}
 function setPreferences(state: any, e: any) {
     state.preferences = e;
-}
-function takeGraphSnapshots(state: any) {
-    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
-    state.remoteSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
 function setGraphVersion(state: any, e: number) {
     if (!state.dataProviders.graph.asyncUpdate) {
@@ -895,7 +887,7 @@ function setGraphVersion(state: any, e: number) {
             });
         });
     }
-    takeGraphSnapshots(state);
+    state.graphSnapshot = JSON.parse(JSON.stringify(e));
 }
 function setToc(state: any, e: any) {
     state.toc = e;
@@ -976,6 +968,7 @@ export function toggleSelectedVectorPresentationMode(state: any) {
     });
     applyGraphChanges(state, "Toggle Vector Presentation");
 }
+// this is for creating a new graph
 export function resetLoadedState(state: any, e: any) {
     state.graph = e;
     state.createdGraphId = e.id;
@@ -991,8 +984,61 @@ export function setGraphReferences(state: any, refs: any) {
 export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
+// remapping needs to be done so we don't use previous versions of the
+// vectors that were stored in various selection arrays this can probably be
+// improved by makign the selection arrays ID based
+export function remapVectors(state: any, arr: any) {
+    return state.graph.vectors.filter((v: Vector) => {
+        return arr.find((vi: any) => v.id === vi.id);
+    });
+}
+export function updateBoundingRect(state: any) {
+    // calculate bounding box
+    // this probably doesn't have to run as frequently as it does, lots of calls to getElementById here, might be slow
+    if (state.selectedVectors.length > 0) {
+        /// map to updated graph, but filter for bound vectors
+        const bound = remapVectors(state, state.selectedVectors);
+        const minX = Math.min.apply(null, bound
+            .map((v: Vector) => v.properties.x));
+        const maxX = Math.max.apply(null, bound
+            .map((v: Vector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.x;
+                }
+                return v.properties.x + el.offsetWidth;
+            }));
+        const minY = Math.min.apply(null, bound
+            .map((v: Vector) => v.properties.y));
+        const maxY = Math.max.apply(null, bound
+            .map((v: Vector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.y;
+                }
+                return v.properties.y + el.offsetHeight;
+            }));
+        state.groupBounds = {
+            minX,
+            maxX,
+            minY,
+            maxY,
+        };
+        // update bounding box
+        state.boundingRect = {
+            x: state.groupBounds.minX,
+            y: state.groupBounds.minY,
+            width: state.groupBounds.maxX - state.groupBounds.minX,
+            height: state.groupBounds.maxY - state.groupBounds.minY,
+            right: state.groupBounds.minX + state.groupBounds.maxX - state.groupBounds.minX,
+            bottom: state.groupBounds.minY + state.groupBounds.maxY - state.groupBounds.minY,
+        };
+    } else {
+        state.boundingRect = {x: 0, y: 0, height: 0, width: 0, bottom: 0, right: 0, visible: false};
+    }
+}
 export default {
-    takeGraphSnapshots,
+    updateBoundingRect,
     addTestOutput,
     hideTests,
     showTests,
@@ -1035,7 +1081,6 @@ export default {
     setGraphVersion,
     addVectorItem,
     setPreferences,
-    setRemoteSnapshot,
     setToc,
     setLoadingStatus,
     open,

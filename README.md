@@ -174,6 +174,26 @@ Because each vector and graph in Plastic-IO are implicitly modular, this makes i
 See https://github.com/plastic-io/graph-editor for for the GUI client for this server.
 
 
+## Client Server Sequence Diagram
+
+    +-----------+ +------------------+ +-----------------------------+       +----------------+
+    |           | |                  | |                             |       |                |
+    |  Browser  | |   Local Graph    | |   Local Remote Graph Copy   |       |  Remote Graph  |
+    |           | |                  | |                             |       |                |
+    +-----+-----+ +--------+---------+ +-------------+---------------+       +--------+-------+
+          |                |                         |                                |
+          |               +++                        |                               +++
+          +----Change---> | | +----Diff Calc----------------Change sent to Server--> | |
+          |               | |                        |                               | |
+          |               | |                       +++                              | |
+          |               | |                       | |                              | |
+          |               | | <----Diff Calc------+ | | <---Change Sent to Client--+ | |
+          |               +++                       +++                              +++
+          |                |                         |                                |
+          |                |                         |                                |
+
+
+
 # Installing the Graph Editor
  
 Uses local storage

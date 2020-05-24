@@ -70,6 +70,7 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            testOutputVersion: 0,
             testOutput: [],
             ownEvents: [],
             testsVisible: false,

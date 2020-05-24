@@ -1,5 +1,5 @@
 <template>
-    <v-card flat v-if="graph" style="height: calc(100vh - 48px); overflow-y: auto;">
+    <v-card flat v-if="graphSnapshot" style="height: calc(100vh - 48px); overflow-y: auto;">
         <v-card-title>
             <v-icon left help-topic="graph">mdi-graph-outline</v-icon>
             Graph Properties
@@ -12,12 +12,12 @@
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0">
                                 <v-text-field help-topic="graphName" label="Name" v-model="name"></v-text-field>
-                                <v-textarea help-topic="graphDescription" label="Description" v-model="description"></v-textarea>
+                                <v-text-field help-topic="graphDescription" label="Description" v-model="description"></v-text-field>
                                 <v-text-field help-topic="graphUrl" label="URL" v-model="url"></v-text-field>
                                 <v-text-field help-topic="graphId" label="Graph Id" disabled :value="id"></v-text-field>
                                 <v-combobox
                                     help-topic="graphIcon"
-                                    :prepend-icon="graph.properties.icon"
+                                    :prepend-icon="graphSnapshot.properties.icon"
                                     persistent-hint
                                     hint="https://cdn.materialdesignicons.com/4.9.95/"
                                     :eager="true"
@@ -62,7 +62,7 @@
                                     <v-list-item-group v-model="vectorList" color="primary">
                                         <v-list-item
                                             @click="selectVector(vector.id)"
-                                            v-for="vector in graph.vectors"
+                                            v-for="vector in graphSnapshot.vectors"
                                             :key="'select_' + vector.id">
                                             <v-list-item-icon>
                                                 <v-icon v-text="vector.properties.icon"></v-icon>
@@ -163,7 +163,7 @@ export default {
         };
     },
     watch: {
-        "graph.properties": {
+        "graphSnapshot.properties": {
             handler: function () {
                 this.save();
             },
@@ -175,26 +175,26 @@ export default {
             return Object.keys(mdi).map(this.hyphenateProperty);
         },
         ...mapFields([
-            "graph.properties.startInPresentationMode",
-            "graph.properties.name",
-            "graph.properties.icon",
-            "graph.properties.description",
-            "graph.properties.createdOn",
-            "graph.properties.lastUpdate",
-            "graph.properties.height",
-            "graph.properties.width",
-            "graph.properties.createdBy",
-            "graph.properties.tags",
-            "graph.version",
-            "graph.id",
-            "graph.url",
+            "graphSnapshot.properties.startInPresentationMode",
+            "graphSnapshot.properties.name",
+            "graphSnapshot.properties.icon",
+            "graphSnapshot.properties.description",
+            "graphSnapshot.properties.createdOn",
+            "graphSnapshot.properties.lastUpdate",
+            "graphSnapshot.properties.height",
+            "graphSnapshot.properties.width",
+            "graphSnapshot.properties.createdBy",
+            "graphSnapshot.properties.tags",
+            "graphSnapshot.version",
+            "graphSnapshot.id",
+            "graphSnapshot.url",
         ]),
         externalIO() {
             const info = {
                 inputs: [],
                 outputs: [],
             };
-            this.graph.vectors.forEach((v) => {
+            this.graphSnapshot.vectors.forEach((v) => {
                 ["inputs", "outputs"].forEach((io) => {
                     v.properties[io].forEach((i) => {
                         if (i.external) {
@@ -209,7 +209,7 @@ export default {
             return info;
         },
         ...mapState({
-            graph: state => state.graph,
+            graphSnapshot: state => state.graphSnapshot,
             domainTags: state => state.tags,
         }),
     }

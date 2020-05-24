@@ -487,11 +487,6 @@ describe("Mutation ethods", () => {
         });
         expect(state.loading.bar.foo[0]).toEqual({"event": "baz", "loading": true, "time": 0});
     });
-    it("Should set the remote snapshot when calling setRemoteSnapshot", () => {
-        state.remoteSnapshot = undefined;
-        mutations.setRemoteSnapshot(state, "foo");
-        expect(state.remoteSnapshot).toEqual("foo");
-    });
     it("Should set preferences when setPreferences is called", () => {
         state.preferences = undefined;
         mutations.setPreferences(state, "foo");
