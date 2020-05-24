@@ -107,9 +107,7 @@ export default {
             }
             try {
                 row = JSON.parse(lastMessage.args[0]);
-            } catch (ignore) {
-                console.error(lastMessage);
-            }
+            } catch (ignore) {} // eslint-disable-line
             if (!row) {
                 return;
             }

@@ -11,12 +11,14 @@
                     <v-icon help-topic="openGraph" @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
-                    <span help-topic="documentName">
-                        {{ graph.properties.name || "Untitled" }}
-                    </span>
+                    <i style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-                <span help-topic="plastic">Plastic-IO</span>
+                <span help-topic="documentName" class="pa-1">
+                    {{ graph.properties.name || "Untitled" }}
+                </span>
+                <span>-</span>
+                <span help-topic="plastic" class="pa-1">Plastic-IO</span>
                 <v-spacer/>
                 <graph-users/>
                 <span>
@@ -283,6 +285,7 @@ export default {
     computed: {
         ...mapState({
             dataProviders: state => state.dataProviders,
+            pendingEvents: state => state.pendingEvents,
             activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
@@ -310,6 +313,9 @@ export default {
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        pending: function() {
+            return Object.keys(this.pendingEvents).length;
+        },
         hoveredActivity: function() {
             if (!this.hoveredConnector && this.selectedConnectors.length === 0) {
                 return null;
