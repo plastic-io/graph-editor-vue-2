@@ -22,6 +22,7 @@ describe("GraphProperties.vue", () => {
                 translating: {},
                 keys: {},
                 graph: acid,
+                graphSnapshot: acid,
                 locked: false,
                 preferences: {
                     appearance: {
