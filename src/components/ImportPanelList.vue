@@ -28,13 +28,18 @@
                             <span v-if="item.description">{{item.description}}</span>
                             <span v-else><i>No description</i></span>
                         </v-list-item-subtitle>
+                        <v-list-item-subtitle>
+                            <span v-if="item.tags" class="font-italic font-weight-thin"><i>{{item.tags.split(',').join(', ')}}</i></span>
+                            <span v-else><i>No Tags</i></span>
+                        </v-list-item-subtitle>
                     </v-list-item-content>
-                    <v-list-item-icon v-if="item.type !== 'newVector'">
+                    <v-list-item-icon>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on: tooltip }">
                                 <v-icon v-on="{ ...tooltip }">mdi-information-outline</v-icon>
                             </template>
                             <div>Latest Version: {{item.version}}</div>
+                            <div>Id: {{item.id}}</div>
                             <div>Last Updated: {{item.lastUpdate}}</div>
                             <div>Total Versions: {{artifacts(item.id).length}}</div>
                             <div v-if="item.description">{{item.description}}</div>
@@ -42,7 +47,7 @@
                         </v-tooltip>
                     </v-list-item-icon>
                 </template>
-                <template v-if="item.type !== 'newVector'">
+                <template>
                     <v-list-item v-for="(artifact, index) in artifacts(item.id)" :key="index">
                         <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)">
                             <v-icon>{{artifact.icon}}</v-icon>
@@ -90,7 +95,6 @@ export default {
         },
         iconType(item) {
             return {
-                newVector: "mdi-shape-rectangle-plus",
                 publishedVector: "mdi-network",
                 publishedGraph: "mdi-switch",
             }[item] || "";
@@ -101,8 +105,12 @@ export default {
             return (id) => {
                 const regEx = new RegExp(this.search, "ig");
                 return this.list.filter((item) => {
-                    return /published|newVector/.test(item.type) && item.id === id
-                        && (this.search === "" || (regEx.test(item.name) || regEx.test(item.description)));
+                    return /published/.test(item.type) && item.id === id
+                        && (this.search === ""
+                            || (regEx.test(item.name)
+                            || regEx.test(item.description)
+                            || item.tags.split(",").find((tag) => regEx.test(tag)))
+                        );
                 });
             };
         },
@@ -110,9 +118,11 @@ export default {
             const items = {};
             const regEx = new RegExp(this.search, "ig");
             this.list.filter((item) => {
-                return (this.search === "" || (regEx.test(item.name) || regEx.test(item.description)));
+                return (this.search === "" || item.tags.split(",").find((tag) => regEx.test(tag)) || (regEx.test(item.name) || regEx.test(item.description)));
+            }).sort((a, b) => {
+                return a.name.localeCompare(b.name);
             }).forEach((item) => {
-                if (/published|newVector/.test(item.type)) {
+                if (/published/.test(item.type)) {
                     if (!items[item.id] || items[item.id].version < item.version) {
                         items[item.id] = item;
                     }

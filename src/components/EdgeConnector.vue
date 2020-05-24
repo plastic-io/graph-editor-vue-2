@@ -47,6 +47,7 @@ export default {
             historyPosition: (state) => state.historyPosition,
             addingConnector: (state) => state.addingConnector,
             graph: (state) => state.graph,
+            graphSnapshot: (state) => state.graphSnapshot,
             view: (state) => state.view,
             mouse: (state) => state.mouse,
             translating: (state) => state.translating,
@@ -137,6 +138,13 @@ export default {
                         this.activeConnector = false;
                     }
                 }
+            },
+            deep: true,
+        },
+        graphSnapshot: {
+            handler: function () {
+                this.localGraph = this.graphSnapshot;
+                this.redraw();
             },
             deep: true,
         },

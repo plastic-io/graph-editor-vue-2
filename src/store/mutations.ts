@@ -11,7 +11,9 @@ export interface ChangeEvent {
     changes: any[],
 }
 function addTestOutput(state: any, item: any) {
+    console.info("state.testOutput.push(item);", item);
     state.testOutput.push(item);
+    state.testOutputVersion += 1;
 }
 function showTests(state: any) {
     state.testsVisible = true;
@@ -982,7 +984,61 @@ export function setGraphReferences(state: any, refs: any) {
 export function setConnectionState(state: any, e: any) {
     state.connectionState = e;
 }
+// remapping needs to be done so we don't use previous versions of the
+// vectors that were stored in various selection arrays this can probably be
+// improved by makign the selection arrays ID based
+export function remapVectors(state: any, arr: any) {
+    return state.graph.vectors.filter((v: Vector) => {
+        return arr.find((vi: any) => v.id === vi.id);
+    });
+}
+export function updateBoundingRect(state: any) {
+    // calculate bounding box
+    // this probably doesn't have to run as frequently as it does, lots of calls to getElementById here, might be slow
+    if (state.selectedVectors.length > 0) {
+        /// map to updated graph, but filter for bound vectors
+        const bound = remapVectors(state, state.selectedVectors);
+        const minX = Math.min.apply(null, bound
+            .map((v: Vector) => v.properties.x));
+        const maxX = Math.max.apply(null, bound
+            .map((v: Vector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.x;
+                }
+                return v.properties.x + el.offsetWidth;
+            }));
+        const minY = Math.min.apply(null, bound
+            .map((v: Vector) => v.properties.y));
+        const maxY = Math.max.apply(null, bound
+            .map((v: Vector) => {
+                const el = document.getElementById("vector-" + v.id);
+                if (!el) {
+                    return v.properties.y;
+                }
+                return v.properties.y + el.offsetHeight;
+            }));
+        state.groupBounds = {
+            minX,
+            maxX,
+            minY,
+            maxY,
+        };
+        // update bounding box
+        state.boundingRect = {
+            x: state.groupBounds.minX,
+            y: state.groupBounds.minY,
+            width: state.groupBounds.maxX - state.groupBounds.minX,
+            height: state.groupBounds.maxY - state.groupBounds.minY,
+            right: state.groupBounds.minX + state.groupBounds.maxX - state.groupBounds.minX,
+            bottom: state.groupBounds.minY + state.groupBounds.maxY - state.groupBounds.minY,
+        };
+    } else {
+        state.boundingRect = {x: 0, y: 0, height: 0, width: 0, bottom: 0, right: 0, visible: false};
+    }
+}
 export default {
+    updateBoundingRect,
     addTestOutput,
     hideTests,
     showTests,

@@ -1,7 +1,6 @@
 import Bezier from "bezier-js"; // eslint-disable-line
 import colors from "vuetify/lib/util/colors";
 const lastViewPos = {x: 0, y: 0, k: 1};
-const lookups: string[] = [];
 export default function bezierDraw(connector: any): void {
     const ctx = connector.ctx;
     function getColor(key: string) {
@@ -133,18 +132,14 @@ export default function bezierDraw(connector: any): void {
             lastViewPos.x = connector.view.x;
             lastViewPos.y = connector.view.y;
             lastViewPos.k = connector.view.k;
-            lookups.length = 0;
         }
-        if (lookups.indexOf(connector.connector.id) === -1) {
-            connector.$store.dispatch("lut", {
-                connector: connector.connector,
-                input: connector.input,
-                output: connector.output,
-                vector: connector.vector,
-                lut,
-            });
-            lookups.push(connector.connector.id);
-        }
+        connector.$store.dispatch("lut", {
+            connector: connector.connector,
+            input: connector.input,
+            output: connector.output,
+            vector: connector.vector,
+            lut,
+        });
     }
     draw();
 }

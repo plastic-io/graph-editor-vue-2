@@ -1,4 +1,5 @@
 import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import * as vueTestUtils from "@vue/test-utils";
 declare global {
     interface Window {
         mocha: any;
@@ -6,14 +7,6 @@ declare global {
 }
 export default function test(context: any, vector: any) {
     context.commit("showTests");
-    const log = console.log.bind(console);
-    console.log = (...args: any) => {
-        const val =  [...args][0];
-        if (val[0] === "[") {
-            context.commit("addTestOutput", JSON.parse(val));
-        }
-        log(...args);
-    };
     function start() {
         setTimeout(() => {
             if (!window.mocha) {
@@ -21,11 +14,14 @@ export default function test(context: any, vector: any) {
             }
             window.mocha.setup({
                 reporter: "json-stream",
-                ui: "bdd"
+                ui: "bdd",
+                cleanReferencesAfterRun: false,
             });
             window.mocha.checkLeaks();
+            console.log("test vector", vector);
+            const testFn = new Function("VueTestUtils", vector.template.tests);
             try {
-                eval(vector.template.tests);
+                testFn(vueTestUtils);
             } catch (err) {
                 context.commit("raiseError", new Error(err));
             }

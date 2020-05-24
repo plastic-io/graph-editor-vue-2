@@ -39,12 +39,9 @@
                                 <v-list-item-subtitle v-if="item[0] === 'end'">
                                     Duration {{item[1].duration + 'ms'}}
                                 </v-list-item-subtitle>
-                                <v-list-item-title v-if="item[0] !== 'end'" v-html="/start|end/.test(item[0]) ? item[0] : item[1].title"></v-list-item-title>
-                                <v-list-item-subtitle
-                                    v-if="item[1].fullTitle"
-                                    v-html="item[1].fullTitle + ' - ' + item[1].duration + 'ms'"></v-list-item-subtitle>
+                                <v-list-item-title v-if="item[0] !== 'end'" v-html="/start|end/.test(item[0]) ? item[0] : item[1].fullTitle"></v-list-item-title>
+                                <v-list-item-subtitle v-if="!/start|end/.test(item[0])" v-html="item[1].duration + 'ms'"></v-list-item-subtitle>
                                 <v-list-item-subtitle v-if="item[1].stack" v-html="item[1].stack"></v-list-item-subtitle>
-
                             </v-list-item-content>
                         </v-list-item>
                         <v-divider :key="index + '_divider'"></v-divider>
@@ -90,9 +87,29 @@ export default {
             this.currentTest = 0;
             this.totalTests = 0;
             this.tests = [];
+            if (this.testsVisible) {
+                const log = console.log.bind(console);
+                console.log = (...args) => {
+                    this.logItem({args});
+                    log(...args);
+                };
+            }
         },
-        testOutput() {
-            const row = this.testOutput[this.testOutput.length - 1];
+    },
+    methods: {
+        ...mapMutations([
+            "hideTests",
+        ]),
+        logItem(lastMessage) {
+            let row;
+            if (!lastMessage.args) {
+                return;
+            }
+            try {
+                row = JSON.parse(lastMessage.args[0]);
+            } catch (ignore) {
+                console.error(lastMessage);
+            }
             if (!row) {
                 return;
             }
@@ -108,11 +125,6 @@ export default {
             }
             this.$nextTick(this.scrollTests);
         },
-    },
-    methods: {
-        ...mapMutations([
-            "hideTests",
-        ]),
         scrollTests() {
             const el = this.$refs.tests;
             el.scrollTop = el.scrollHeight;
@@ -134,6 +146,7 @@ export default {
     computed: {
         ...mapState({
             testOutput: state => state.testOutput,
+            testOutputVersion: state => state.testOutputVersion,
             testsVisible: state => state.testsVisible,
         }),
         pct() {

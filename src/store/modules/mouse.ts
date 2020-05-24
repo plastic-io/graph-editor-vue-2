@@ -3,7 +3,7 @@ const metaKeyCode = 91;
 const ctrlKeyCode = 17;
 const spaceKeyCode = 32;
 import {Vector, linkInnerVectorEdges} from "@plastic-io/plastic-io"; // eslint-disable-line
-import {applyGraphChanges, newId} from "../mutations"; // eslint-disable-line
+import {applyGraphChanges, newId, updateBoundingRect, remapVectors} from "../mutations"; // eslint-disable-line
 export default function mouse(state: any, mouse: {
         lmb: boolean,
         rmb: boolean,
@@ -38,14 +38,6 @@ export default function mouse(state: any, mouse: {
         if (addCount > 0) {
             expandGroupVectorArray(arr);
         }
-    }
-    // remapping needs to be done so we don't use previous versions of the
-    // vectors that were stored in various selection arrays this can probably be
-    // improved by makign the selection arrays ID based
-    function remapVectors(arr: any) {
-        return state.graph.vectors.filter((v: Vector) => {
-            return arr.find((vi: any) => v.id === vi.id);
-        });
     }
     function remapHovered() {
         return state.graph.vectors.find((v: Vector) => {
@@ -217,7 +209,7 @@ export default function mouse(state: any, mouse: {
     }
     // start moving vectors
     if (!state.mouse.lmb && mouse.lmb && state.hoveredVector && state.movingVectors.length === 0 && !locked) {
-        const selected = remapVectors(state.selectedVectors);
+        const selected = remapVectors(state, state.selectedVectors);
         if (selected.find((v: Vector) => v.id === state.hoveredVector.id)) {
             state.movingVectors = [
                 ...selected,
@@ -306,49 +298,7 @@ export default function mouse(state: any, mouse: {
             vector.properties.y = Math.floor(y / gridSize) * gridSize;
         });
     }
-    // calculate bounding box
-    // this probably doesn't have to run as frequently as it does, lots of calls to getElementById here, might be slow
-    if (state.selectedVectors.length > 0) {
-        /// map to updated graph, but filter for bound vectors
-        const bound = remapVectors(state.selectedVectors);
-        const minX = Math.min.apply(null, bound
-            .map((v: Vector) => v.properties.x));
-        const maxX = Math.max.apply(null, bound
-            .map((v: Vector) => {
-                const el = document.getElementById("vector-" + v.id);
-                if (!el) {
-                    return v.properties.x;
-                }
-                return v.properties.x + el.offsetWidth;
-            }));
-        const minY = Math.min.apply(null, bound
-            .map((v: Vector) => v.properties.y));
-        const maxY = Math.max.apply(null, bound
-            .map((v: Vector) => {
-                const el = document.getElementById("vector-" + v.id);
-                if (!el) {
-                    return v.properties.y;
-                }
-                return v.properties.y + el.offsetHeight;
-            }));
-        state.groupBounds = {
-            minX,
-            maxX,
-            minY,
-            maxY,
-        };
-        // update bounding box
-        state.boundingRect = {
-            x: state.groupBounds.minX,
-            y: state.groupBounds.minY,
-            width: state.groupBounds.maxX - state.groupBounds.minX,
-            height: state.groupBounds.maxY - state.groupBounds.minY,
-            right: state.groupBounds.minX + state.groupBounds.maxX - state.groupBounds.minX,
-            bottom: state.groupBounds.minY + state.groupBounds.maxY - state.groupBounds.minY,
-        };
-    } else {
-        state.boundingRect = {x: 0, y: 0, height: 0, width: 0, bottom: 0, right: 0, visible: false};
-    }
+    updateBoundingRect(state);
     // set state last so we can check state.mouse/mouse diff
     state.mouse = mouse;
     state.mouseMovements.push({time: Date.now(), mouse});
