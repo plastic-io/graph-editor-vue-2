@@ -875,7 +875,8 @@
 <a name='L816'></a><a href='#L816'>816</a>
 <a name='L817'></a><a href='#L817'>817</a>
 <a name='L818'></a><a href='#L818'>818</a>
-<a name='L819'></a><a href='#L819'>819</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L819'></a><a href='#L819'>819</a>
+<a name='L820'></a><a href='#L820'>820</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -1055,7 +1056,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1427,18 +1427,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1871,16 +1873,15 @@ export default {
             const wsMessage = (<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >e: any) =&gt; </span>{</span>
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("clearPendingMessage", e);
 <span class="cstat-no" title="statement not covered" >                if (context.state.queuedEvent) {</span>
-                    const preApplySnapshot: any = <span class="cstat-no" title="statement not covered" >JSON.</span>parse(JSON.stringify(context.state.graph));
 <span class="cstat-no" title="statement not covered" >                    context.</span>state.queuedEvent.changes.forEach((<span class="fstat-no" title="function not covered" >change: any) =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >                        applyChange(p</span>reApplySnapshot, true, change);
+<span class="cstat-no" title="statement not covered" >                        applyChange(c</span>ontext.state.graph, true, change);
                     });
-<span class="cstat-no" title="statement not covered" >                    context.</span>commit("dequeueEvent", preApplySnapshot);
+<span class="cstat-no" title="statement not covered" >                    context.</span>commit("dequeueEvent");
 <span class="cstat-no" title="statement not covered" >                    context.</span>dispatch("save");
                 }
 <span class="cstat-no" title="statement not covered" >                if (context.state.resyncRequired) {</span>
 <span class="cstat-no" title="statement not covered" >                    context.</span>commit("clearResync");
-<span class="cstat-no" title="statement not covered" >                    console.</span>warn("Resyncing due to remote state mismatch.");
+<span class="cstat-no" title="statement not covered" >                    console.</span>warn("Resyncing due to remote state mismatch.", context.pendingEvents);
 <span class="cstat-no" title="statement not covered" >                    context.</span>dispatch("open", {
                         graphId: context.state.graph.id,
                     });
@@ -2243,6 +2244,7 @@ export default {
                 };
 <span class="cstat-no" title="statement not covered" >                if (Object.keys(context.state.pendingEvents).length &gt; 0</span>
                     &amp;&amp; context.state.dataProviders.graph.asyncUpdate) {
+<span class="cstat-no" title="statement not covered" >                    console.</span>log("queueEvent", event.id);
 <span class="cstat-no" title="statement not covered" >                    context.</span>commit("queueEvent", event);
 <span class="cstat-no" title="statement not covered" >                    return;</span>
                 }
@@ -2257,6 +2259,7 @@ export default {
                 });
             }
 <span class="cstat-no" title="statement not covered" >            if (e !== undefined) {</span>
+                // this is for creating a new graph
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("resetLoadedState", e);
             }
             const changes = <span class="cstat-no" title="statement not covered" >diff(J</span>SON.parse(JSON.stringify(context.state.remoteSnapshot, replacer)),
@@ -2518,7 +2521,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 06:02:30 GMT+0000 (Coordinated Universal Time)
+                at Sun May 24 2020 17:54:05 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

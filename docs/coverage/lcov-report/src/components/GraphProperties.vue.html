@@ -494,7 +494,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-    &lt;v-card flat v-if="graph" style="height: calc(100vh - 48px); overflow-y: auto;"&gt;
+    &lt;v-card flat v-if="graphSnapshot" style="height: calc(100vh - 48px); overflow-y: auto;"&gt;
         &lt;v-card-title&gt;
             &lt;v-icon left help-topic="graph"&gt;mdi-graph-outline&lt;/v-icon&gt;
             Graph Properties
@@ -507,12 +507,12 @@
                         &lt;v-card class="ma-0 pa-0" flat&gt;
                             &lt;v-card-text class="ma-0 pa-0"&gt;
                                 &lt;v-text-field help-topic="graphName" label="Name" v-model="name"&gt;&lt;/v-text-field&gt;
-                                &lt;v-textarea help-topic="graphDescription" label="Description" v-model="description"&gt;&lt;/v-textarea&gt;
+                                &lt;v-text-field help-topic="graphDescription" label="Description" v-model="description"&gt;&lt;/v-text-field&gt;
                                 &lt;v-text-field help-topic="graphUrl" label="URL" v-model="url"&gt;&lt;/v-text-field&gt;
                                 &lt;v-text-field help-topic="graphId" label="Graph Id" disabled :value="id"&gt;&lt;/v-text-field&gt;
                                 &lt;v-combobox
                                     help-topic="graphIcon"
-                                    :prepend-icon="graph.properties.icon"
+                                    :prepend-icon="graphSnapshot.properties.icon"
                                     persistent-hint
                                     hint="https://cdn.materialdesignicons.com/4.9.95/"
                                     :eager="true"
@@ -557,7 +557,7 @@
                                     &lt;v-list-item-group v-model="vectorList" color="primary"&gt;
                                         &lt;v-list-item
                                             @click="selectVector(vector.id)"
-                                            v-for="vector in graph.vectors"
+                                            v-for="vector in graphSnapshot.vectors"
                                             :key="'select_' + vector.id"&gt;
                                             &lt;v-list-item-icon&gt;
                                                 &lt;v-icon v-text="vector.properties.icon"&gt;&lt;/v-icon&gt;
@@ -658,7 +658,7 @@ export default {
         };
     },
     watch: {
-        "graph.properties": {
+        "graphSnapshot.properties": {
 <span class="fstat-no" title="function not covered" >            handler: function () {</span>
 <span class="cstat-no" title="statement not covered" >                this.save();</span>
             },
@@ -670,26 +670,26 @@ export default {
             return Object.keys(mdi).map(this.hyphenateProperty);
         },
         ...mapFields([
-            "graph.properties.startInPresentationMode",
-            "graph.properties.name",
-            "graph.properties.icon",
-            "graph.properties.description",
-            "graph.properties.createdOn",
-            "graph.properties.lastUpdate",
-            "graph.properties.height",
-            "graph.properties.width",
-            "graph.properties.createdBy",
-            "graph.properties.tags",
-            "graph.version",
-            "graph.id",
-            "graph.url",
+            "graphSnapshot.properties.startInPresentationMode",
+            "graphSnapshot.properties.name",
+            "graphSnapshot.properties.icon",
+            "graphSnapshot.properties.description",
+            "graphSnapshot.properties.createdOn",
+            "graphSnapshot.properties.lastUpdate",
+            "graphSnapshot.properties.height",
+            "graphSnapshot.properties.width",
+            "graphSnapshot.properties.createdBy",
+            "graphSnapshot.properties.tags",
+            "graphSnapshot.version",
+            "graphSnapshot.id",
+            "graphSnapshot.url",
         ]),
         externalIO() {
             const info = {
                 inputs: [],
                 outputs: [],
             };
-            this.graph.vectors.forEach((v) =&gt; {
+            this.graphSnapshot.vectors.forEach((v) =&gt; {
                 ["inputs", "outputs"].forEach((io) =&gt; {
                     v.properties[io].forEach((i) =&gt; {
 <span class="missing-if-branch" title="if path not taken" >I</span>                        if (i.external) {
@@ -704,7 +704,7 @@ export default {
             return info;
         },
         ...mapState({
-            graph: state =&gt; state.graph,
+            graphSnapshot: state =&gt; state.graphSnapshot,
             domainTags: state =&gt; state.tags,
         }),
     }
@@ -718,7 +718,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 06:02:30 GMT+0000 (Coordinated Universal Time)
+                at Sun May 24 2020 17:54:05 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

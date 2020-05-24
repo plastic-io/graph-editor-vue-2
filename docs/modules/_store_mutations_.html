@@ -134,6 +134,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#queueevent" class="tsd-kind-icon">queue<wbr>Event</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#raiseerror" class="tsd-kind-icon">raise<wbr>Error</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#redo" class="tsd-kind-icon">redo</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#remapvectors" class="tsd-kind-icon">remap<wbr>Vectors</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#remotechangeevents" class="tsd-kind-icon">remote<wbr>Change<wbr>Events</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#removeinput" class="tsd-kind-icon">remove<wbr>Input</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#removeoutput" class="tsd-kind-icon">remove<wbr>Output</a></li>
@@ -156,13 +157,11 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setpresentation" class="tsd-kind-icon">set<wbr>Presentation</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setregistry" class="tsd-kind-icon">set<wbr>Registry</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setregistryitem" class="tsd-kind-icon">set<wbr>Registry<wbr>Item</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setremotesnapshot" class="tsd-kind-icon">set<wbr>Remote<wbr>Snapshot</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setscheduler" class="tsd-kind-icon">set<wbr>Scheduler</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setschedulerstate" class="tsd-kind-icon">set<wbr>Scheduler<wbr>State</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#setselrelpropz" class="tsd-kind-icon">set<wbr>Sel<wbr>Rel<wbr>PropZ</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#settoc" class="tsd-kind-icon">set<wbr>Toc</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#showtests" class="tsd-kind-icon">show<wbr>Tests</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#takegraphsnapshots" class="tsd-kind-icon">take<wbr>Graph<wbr>Snapshots</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#togglehelp" class="tsd-kind-icon">toggle<wbr>Help</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#togglelabels" class="tsd-kind-icon">toggle<wbr>Labels</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#togglepanelvisibility" class="tsd-kind-icon">toggle<wbr>Panel<wbr>Visibility</a></li>
@@ -171,6 +170,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#translating" class="tsd-kind-icon">translating</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#undo" class="tsd-kind-icon">undo</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#ungroupselected" class="tsd-kind-icon">ungroup<wbr>Selected</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#updateboundingrect" class="tsd-kind-icon">update<wbr>Bounding<wbr>Rect</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#updategraphmouse" class="tsd-kind-icon">update<wbr>Graph<wbr>Mouse</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_store_mutations_.html#updategraphproperties" class="tsd-kind-icon">update<wbr>Graph<wbr>Properties</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_mutations_.html#updategraphusers" class="tsd-kind-icon">update<wbr>Graph<wbr>Users</a></li>
@@ -194,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">original<wbr>Log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">log</span><span class="tsd-signature-symbol"> = console.log</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L8">store/mutations.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L7">store/mutations.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -211,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L391">store/mutations.ts:391</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L390">store/mutations.ts:390</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -237,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L280">store/mutations.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L279">store/mutations.ts:279</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -263,7 +263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L969">store/mutations.ts:969</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L961">store/mutations.ts:961</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -289,7 +289,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L642">store/mutations.ts:642</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L641">store/mutations.ts:641</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -329,7 +329,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L873">store/mutations.ts:873</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L872">store/mutations.ts:872</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L659">store/mutations.ts:659</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L658">store/mutations.ts:658</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -395,7 +395,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L930">store/mutations.ts:930</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L922">store/mutations.ts:922</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -421,7 +421,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L14">store/mutations.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L13">store/mutations.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L413">store/mutations.ts:413</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L412">store/mutations.ts:412</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,7 +473,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L117">store/mutations.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L116">store/mutations.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -499,7 +499,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L254">store/mutations.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L253">store/mutations.ts:253</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -522,7 +522,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L260">store/mutations.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L259">store/mutations.ts:259</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -545,7 +545,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L830">store/mutations.ts:830</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L829">store/mutations.ts:829</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -582,7 +582,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L602">store/mutations.ts:602</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L601">store/mutations.ts:601</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -619,7 +619,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L620">store/mutations.ts:620</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L619">store/mutations.ts:619</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -656,7 +656,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L583">store/mutations.ts:583</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L582">store/mutations.ts:582</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -679,7 +679,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L914">store/mutations.ts:914</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L906">store/mutations.ts:906</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -705,7 +705,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L36">store/mutations.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L35">store/mutations.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -731,7 +731,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L25">store/mutations.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L26">store/mutations.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -754,7 +754,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L927">store/mutations.ts:927</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L919">store/mutations.ts:919</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -780,7 +780,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L922">store/mutations.ts:922</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L914">store/mutations.ts:914</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -806,7 +806,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L919">store/mutations.ts:919</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L911">store/mutations.ts:911</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -832,7 +832,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L734">store/mutations.ts:734</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L733">store/mutations.ts:733</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -858,7 +858,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L818">store/mutations.ts:818</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L817">store/mutations.ts:817</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -889,7 +889,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L504">store/mutations.ts:504</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L503">store/mutations.ts:503</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -930,7 +930,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L531">store/mutations.ts:531</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L530">store/mutations.ts:530</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -953,7 +953,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L484">store/mutations.ts:484</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L483">store/mutations.ts:483</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -988,22 +988,19 @@
 					<a name="dequeueevent" class="tsd-anchor"></a>
 					<h3>dequeue<wbr>Event</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">dequeue<wbr>Event<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">dequeue<wbr>Event<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L29">store/mutations.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L29">store/mutations.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>state: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>graph: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1020,7 +1017,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L240">store/mutations.ts:240</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L239">store/mutations.ts:239</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1043,7 +1040,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L568">store/mutations.ts:568</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L567">store/mutations.ts:567</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1069,7 +1066,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L463">store/mutations.ts:463</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L462">store/mutations.ts:462</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1092,7 +1089,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L20">store/mutations.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L21">store/mutations.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1115,7 +1112,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L547">store/mutations.ts:547</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L546">store/mutations.ts:546</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1141,7 +1138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L565">store/mutations.ts:565</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L564">store/mutations.ts:564</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1167,7 +1164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L559">store/mutations.ts:559</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L558">store/mutations.ts:558</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1193,7 +1190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L572">store/mutations.ts:572</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L571">store/mutations.ts:571</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1232,7 +1229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L165">store/mutations.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L164">store/mutations.ts:164</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1258,7 +1255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L136">store/mutations.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L135">store/mutations.ts:135</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1280,7 +1277,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L142">store/mutations.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L141">store/mutations.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1309,7 +1306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L153">store/mutations.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L152">store/mutations.ts:152</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1335,7 +1332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L156">store/mutations.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L155">store/mutations.ts:155</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1361,7 +1358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L159">store/mutations.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L158">store/mutations.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1387,7 +1384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L150">store/mutations.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L149">store/mutations.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1413,7 +1410,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L843">store/mutations.ts:843</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L842">store/mutations.ts:842</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1439,7 +1436,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L188">store/mutations.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L187">store/mutations.ts:187</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1468,7 +1465,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L544">store/mutations.ts:544</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L543">store/mutations.ts:543</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1494,7 +1491,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L33">store/mutations.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L32">store/mutations.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1520,7 +1517,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L587">store/mutations.ts:587</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L586">store/mutations.ts:586</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1546,7 +1543,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L237">store/mutations.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L236">store/mutations.ts:236</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1556,6 +1553,32 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="remapvectors" class="tsd-anchor"></a>
+					<h3>remap<wbr>Vectors</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">remap<wbr>Vectors<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, arr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L990">store/mutations.ts:990</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>arr: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1569,7 +1592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L87">store/mutations.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L89">store/mutations.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1595,7 +1618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L680">store/mutations.ts:680</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L679">store/mutations.ts:679</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1629,7 +1652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L705">store/mutations.ts:705</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L704">store/mutations.ts:704</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1663,7 +1686,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L111">store/mutations.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L110">store/mutations.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1689,7 +1712,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L979">store/mutations.ts:979</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L972">store/mutations.ts:972</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1715,7 +1738,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L75">store/mutations.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L77">store/mutations.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1738,7 +1761,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L550">store/mutations.ts:550</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L549">store/mutations.ts:549</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1769,7 +1792,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L230">store/mutations.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L229">store/mutations.ts:229</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1795,7 +1818,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L257">store/mutations.ts:257</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L256">store/mutations.ts:256</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1818,7 +1841,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L270">store/mutations.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L269">store/mutations.ts:269</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1841,7 +1864,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L940">store/mutations.ts:940</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L932">store/mutations.ts:932</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1867,7 +1890,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L991">store/mutations.ts:991</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L984">store/mutations.ts:984</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1893,7 +1916,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L857">store/mutations.ts:857</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L856">store/mutations.ts:856</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1924,7 +1947,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L985">store/mutations.ts:985</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L978">store/mutations.ts:978</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1950,7 +1973,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L886">store/mutations.ts:886</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L878">store/mutations.ts:878</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1976,7 +1999,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L864">store/mutations.ts:864</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L863">store/mutations.ts:863</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2016,7 +2039,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L906">store/mutations.ts:906</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L898">store/mutations.ts:898</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2042,7 +2065,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L58">store/mutations.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L60">store/mutations.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2068,7 +2091,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L879">store/mutations.ts:879</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L875">store/mutations.ts:875</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2094,7 +2117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L903">store/mutations.ts:903</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L895">store/mutations.ts:895</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2120,7 +2143,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L953">store/mutations.ts:953</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L945">store/mutations.ts:945</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2146,33 +2169,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L948">store/mutations.ts:948</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>e: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="setremotesnapshot" class="tsd-anchor"></a>
-					<h3>set<wbr>Remote<wbr>Snapshot</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Remote<wbr>Snapshot<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L876">store/mutations.ts:876</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L940">store/mutations.ts:940</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2198,7 +2195,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L937">store/mutations.ts:937</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L929">store/mutations.ts:929</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2224,7 +2221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L959">store/mutations.ts:959</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L951">store/mutations.ts:951</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2250,7 +2247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L245">store/mutations.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L244">store/mutations.ts:244</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2279,7 +2276,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L900">store/mutations.ts:900</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L892">store/mutations.ts:892</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2305,30 +2302,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L17">store/mutations.ts:17</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">any</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="takegraphsnapshots" class="tsd-anchor"></a>
-					<h3>take<wbr>Graph<wbr>Snapshots</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">take<wbr>Graph<wbr>Snapshots<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L882">store/mutations.ts:882</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L18">store/mutations.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2351,7 +2325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L966">store/mutations.ts:966</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L958">store/mutations.ts:958</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2374,7 +2348,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L962">store/mutations.ts:962</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L954">store/mutations.ts:954</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2397,7 +2371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L956">store/mutations.ts:956</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L948">store/mutations.ts:948</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2420,7 +2394,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L934">store/mutations.ts:934</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L926">store/mutations.ts:926</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2443,7 +2417,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L972">store/mutations.ts:972</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L964">store/mutations.ts:964</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2466,7 +2440,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L580">store/mutations.ts:580</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L579">store/mutations.ts:579</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2492,7 +2466,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L234">store/mutations.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L233">store/mutations.ts:233</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2515,7 +2489,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L475">store/mutations.ts:475</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L474">store/mutations.ts:474</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="updateboundingrect" class="tsd-anchor"></a>
+					<h3>update<wbr>Bounding<wbr>Rect</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Bounding<wbr>Rect<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L995">store/mutations.ts:995</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2538,7 +2535,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L62">store/mutations.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L64">store/mutations.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2564,7 +2561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L730">store/mutations.ts:730</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L729">store/mutations.ts:729</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2590,7 +2587,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L78">store/mutations.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L80">store/mutations.ts:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2616,7 +2613,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L592">store/mutations.ts:592</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L591">store/mutations.ts:591</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2653,7 +2650,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L943">store/mutations.ts:943</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L935">store/mutations.ts:935</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2679,7 +2676,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L778">store/mutations.ts:778</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L777">store/mutations.ts:777</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2710,7 +2707,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L719">store/mutations.ts:719</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L718">store/mutations.ts:718</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2744,7 +2741,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L909">store/mutations.ts:909</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L901">store/mutations.ts:901</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2778,7 +2775,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L577">store/mutations.ts:577</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L576">store/mutations.ts:576</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2804,7 +2801,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1d44047/src/store/mutations.ts#L162">store/mutations.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/d8e3770/src/store/mutations.ts#L161">store/mutations.ts:161</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -3030,6 +3027,9 @@
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_store_mutations_.html#redo" class="tsd-kind-icon">redo</a>
 					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_store_mutations_.html#remapvectors" class="tsd-kind-icon">remap<wbr>Vectors</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_mutations_.html#remotechangeevents" class="tsd-kind-icon">remote<wbr>Change<wbr>Events</a>
 					</li>
@@ -3097,9 +3097,6 @@
 						<a href="_store_mutations_.html#setregistryitem" class="tsd-kind-icon">set<wbr>Registry<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_store_mutations_.html#setremotesnapshot" class="tsd-kind-icon">set<wbr>Remote<wbr>Snapshot</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_mutations_.html#setscheduler" class="tsd-kind-icon">set<wbr>Scheduler</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
@@ -3113,9 +3110,6 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_mutations_.html#showtests" class="tsd-kind-icon">show<wbr>Tests</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_store_mutations_.html#takegraphsnapshots" class="tsd-kind-icon">take<wbr>Graph<wbr>Snapshots</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_mutations_.html#togglehelp" class="tsd-kind-icon">toggle<wbr>Help</a>
@@ -3140,6 +3134,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="_store_mutations_.html#ungroupselected" class="tsd-kind-icon">ungroup<wbr>Selected</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_store_mutations_.html#updateboundingrect" class="tsd-kind-icon">update<wbr>Bounding<wbr>Rect</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_mutations_.html#updategraphmouse" class="tsd-kind-icon">update<wbr>Graph<wbr>Mouse</a>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">7.14% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>1/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">7.14% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>1/14</span>
             </div>
         
             
@@ -89,11 +89,8 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -101,14 +98,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -118,6 +107,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -130,6 +122,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
+import * as vueTestUtils from "@vue/test-utils";
 declare global {
     interface Window {
         mocha: any;
@@ -137,14 +130,6 @@ declare global {
 }
 export default function <span class="fstat-no" title="function not covered" >test(c</span>ontext: any, vector: any) {
 <span class="cstat-no" title="statement not covered" >    context.</span>commit("showTests");
-    const log = <span class="cstat-no" title="statement not covered" >console.</span>log.bind(console);
-<span class="cstat-no" title="statement not covered" >    console.</span>log = <span class="fstat-no" title="function not covered" >(.</span>..args: any) =&gt; {
-        const val =  <span class="cstat-no" title="statement not covered" >[.</span>..args][0];
-<span class="cstat-no" title="statement not covered" >        if (val[0] === "[") {</span>
-<span class="cstat-no" title="statement not covered" >            context.</span>commit("addTestOutput", JSON.parse(val));
-        }
-<span class="cstat-no" title="statement not covered" >        log(</span>...args);
-    };
     function <span class="fstat-no" title="function not covered" >start(</span>) {
 <span class="cstat-no" title="statement not covered" >        setTimeout(<span class="fstat-no" title="function not covered" ></span>() =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            if (!window.mocha) {</span>
@@ -152,11 +137,14 @@ export default function <span class="fstat-no" title="function not covered" >tes
             }
 <span class="cstat-no" title="statement not covered" >            window.</span>mocha.setup({
                 reporter: "json-stream",
-                ui: "bdd"
+                ui: "bdd",
+                cleanReferencesAfterRun: false,
             });
 <span class="cstat-no" title="statement not covered" >            window.</span>mocha.checkLeaks();
+<span class="cstat-no" title="statement not covered" >            console.</span>log("test vector", vector);
+            const testFn = <span class="cstat-no" title="statement not covered" >new F</span>unction("VueTestUtils", vector.template.tests);
 <span class="cstat-no" title="statement not covered" >            try {</span>
-<span class="cstat-no" title="statement not covered" >                eval(</span>vector.template.tests);
+<span class="cstat-no" title="statement not covered" >                testFn(</span>vueTestUtils);
             } catch (err) {
 <span class="cstat-no" title="statement not covered" >                context.</span>commit("raiseError", new Error(err));
             }
@@ -172,7 +160,7 @@ export default function <span class="fstat-no" title="function not covered" >tes
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 06:02:30 GMT+0000 (Coordinated Universal Time)
+                at Sun May 24 2020 17:54:05 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

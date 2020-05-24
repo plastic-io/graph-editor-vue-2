@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.12% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/16</span>
+                <span class='fraction'>8/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">76.92% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>10/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.12% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/17</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
@@ -183,7 +183,22 @@
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -282,7 +297,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">132x</span>
 <span class="cline-any cline-yes">132x</span>
@@ -292,10 +306,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">110x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">370x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">110x</span>
 <span class="cline-any cline-yes">55x</span>
@@ -339,13 +359,18 @@
                             &lt;span v-if="item.description"&gt;{{item.description}}&lt;/span&gt;
                             &lt;span v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/span&gt;
                         &lt;/v-list-item-subtitle&gt;
+                        &lt;v-list-item-subtitle&gt;
+                            &lt;span v-if="item.tags" class="font-italic font-weight-thin"&gt;&lt;i&gt;{{item.tags.split(',').join(', ')}}&lt;/i&gt;&lt;/span&gt;
+                            &lt;span v-else&gt;&lt;i&gt;No Tags&lt;/i&gt;&lt;/span&gt;
+                        &lt;/v-list-item-subtitle&gt;
                     &lt;/v-list-item-content&gt;
-                    &lt;v-list-item-icon v-if="item.type !== 'newVector'"&gt;
+                    &lt;v-list-item-icon&gt;
                         &lt;v-tooltip bottom&gt;
                             &lt;template v-slot:activator="{ on: tooltip }"&gt;
                                 &lt;v-icon v-on="{ ...tooltip }"&gt;mdi-information-outline&lt;/v-icon&gt;
                             &lt;/template&gt;
                             &lt;div&gt;Latest Version: {{item.version}}&lt;/div&gt;
+                            &lt;div&gt;Id: {{item.id}}&lt;/div&gt;
                             &lt;div&gt;Last Updated: {{item.lastUpdate}}&lt;/div&gt;
                             &lt;div&gt;Total Versions: {{artifacts(item.id).length}}&lt;/div&gt;
                             &lt;div v-if="item.description"&gt;{{item.description}}&lt;/div&gt;
@@ -353,7 +378,7 @@
                         &lt;/v-tooltip&gt;
                     &lt;/v-list-item-icon&gt;
                 &lt;/template&gt;
-                &lt;template v-if="item.type !== 'newVector'"&gt;
+                &lt;template&gt;
                     &lt;v-list-item v-for="(artifact, index) in artifacts(item.id)" :key="index"&gt;
                         &lt;v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)"&gt;
                             &lt;v-icon&gt;{{artifact.icon}}&lt;/v-icon&gt;
@@ -401,7 +426,6 @@ export default {
         },
 <span class="fstat-no" title="function not covered" >        iconType(item) {</span>
 <span class="cstat-no" title="statement not covered" >            return {</span>
-                newVector: "mdi-shape-rectangle-plus",
                 publishedVector: "mdi-network",
                 publishedGraph: "mdi-switch",
             }[item] || "";
@@ -412,8 +436,12 @@ export default {
             return (id) =&gt; {
                 const regEx = new RegExp(this.search, "ig");
                 return this.list.filter((item) =&gt; {
-<span class="branch-4 cbranch-no" title="branch not covered" ><span class="branch-3 cbranch-no" title="branch not covered" >                    return /published|newVector/.test(item.type) &amp;&amp; item.id === id</span></span>
-                        &amp;&amp; (this.search === "" || (regEx.test(item.name) || regEx.test(item.description)));
+<span class="fstat-no" title="function not covered" ><span class="branch-5 cbranch-no" title="branch not covered" ><span class="branch-4 cbranch-no" title="branch not covered" ><span class="branch-3 cbranch-no" title="branch not covered" >                    return /published/.test(item.type) &amp;&amp; item.id === id</span></span></span></span>
+                        &amp;&amp; (this.search === ""
+                            || (regEx.test(item.name)
+                            || regEx.test(item.description)
+                            || item.tags.split(",").find((tag) =&gt; regEx.test(tag)))
+                        );
                 });
             };
         },
@@ -421,9 +449,11 @@ export default {
             const items = {};
             const regEx = new RegExp(this.search, "ig");
             this.list.filter((item) =&gt; {
-<span class="branch-2 cbranch-no" title="branch not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >                return (this.search === "" || (regEx.test(item.name) || regEx.test(item.description)));</span></span>
+<span class="fstat-no" title="function not covered" ><span class="branch-3 cbranch-no" title="branch not covered" ><span class="branch-2 cbranch-no" title="branch not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >                return (this.search === "" || item.tags.split(",").find((tag) =&gt; regEx.test(tag)) || (regEx.test(item.name) || regEx.test(item.description)));</span></span></span></span>
+            }).sort((a, b) =&gt; {
+                return a.name.localeCompare(b.name);
             }).forEach((item) =&gt; {
-                if (/published|newVector/.test(item.type)) {
+                if (/published/.test(item.type)) {
 <span class="branch-1 cbranch-no" title="branch not covered" ><span class="missing-if-branch" title="else path not taken" >E</span>                    if (!items[item.id] || items[item.id].version &lt; item.version) {</span>
                         items[item.id] = item;
                     }
@@ -442,7 +472,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri May 22 2020 06:02:30 GMT+0000 (Coordinated Universal Time)
+                at Sun May 24 2020 17:54:05 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
