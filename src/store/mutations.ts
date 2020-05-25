@@ -27,6 +27,10 @@ function rewindDisabled(state: any) {
     state.rewindVisible = false;
 }
 function showRewind(state: any) {
+    if (!state.dataProviders.graph.asyncUpdate) {
+        raiseError(state, new Error("Cannot use rewind with local storage."));
+        return;
+    }
     state.rewindVisible = true;
 }
 function addTestOutput(state: any, item: any) {

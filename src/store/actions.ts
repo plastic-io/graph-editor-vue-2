@@ -534,6 +534,10 @@ export default {
         });
     },
     save(context: any, e?: any) {
+        if (context.state.inRewindMode) {
+            console.warn("Cannot save changes while in rewind mode.");
+            return;
+        }
         clearTimeout(saveTimer);
         saveTimer = setTimeout(() => {
             function sendEvent(changes: any) {

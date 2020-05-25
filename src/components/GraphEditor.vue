@@ -175,16 +175,18 @@
                 </v-row>
             </v-alert>
         </v-bottom-sheet>
-        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph">
+        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" color="transparent">
             <v-alert type="error" prominent>
                 <v-row>
-                    <v-col><h2>An error has occred on a vector</h2></v-col>
+                    <v-col>
+                        <h2>Error</h2>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col>{{localErrorMessage}}</v-col>
                 </v-row>
                 <v-row>
-                    <v-col class="shrink" v-if="graph">
+                    <v-col v-if="graph">
                         <v-btn @click="clearError">That Sucks</v-btn>
                     </v-col>
                 </v-row>
