@@ -7,8 +7,10 @@ import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
 import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
+let rewindDebounceTimeout = 900;
 let saveDebounceTimeout = 900;
 let saveTimer: any;
+let rewindTimer: any;
 const schedulerNotifyActions: any = {
     logger(context: any) {
         return {
@@ -591,6 +593,19 @@ export default {
             }
             sendEvent(changes);
         }, saveDebounceTimeout);
+    },
+    setToRewindVersion(context: any, version: number) {
+        clearTimeout(rewindTimer);
+        rewindTimer = setTimeout(async () => {
+            const graphId = context.state.graphSnapshot.id;
+            let graph;
+            try {
+                graph = await context.state.dataProviders.graph.get("graphs/" + graphId + "/projections/" + graphId + "." + version);
+            } catch (err) {
+                console.log(err);
+            }
+            context.commit("setRewindVersion", graph);
+        }, rewindDebounceTimeout);
     },
     async open(context: any, e: {graphId: string}) {
         let graph, er;

@@ -159,10 +159,16 @@ export default class WSSDataProvider {
     }
     get(url: string) {
         return new Promise((success) => {
+            let version = "latest";
+            const projectionReg = /graphs\/([^/]+)\/projections\/[^.]+\.(\d+)/;
+            if (projectionReg.test(url)) {
+                version = url.replace(projectionReg, "$2");
+                url = url.replace(projectionReg, "$1");
+            }
             const value = {
                 action: "getGraph",
                 id: url,
-                version: "latest",
+                version,
                 messageId: newId(),
             };
             this.send(value);

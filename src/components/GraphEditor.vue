@@ -11,9 +11,13 @@
                     <v-icon help-topic="openGraph" @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
-                    <i style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
+                    <span v-if="inRewindMode">
+                        Rewinding...
+                    </span>
+                    <i v-else style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
+
                 <span help-topic="documentName" class="pa-1">
                     {{ graph.properties.name || "Untitled" }}
                 </span>
@@ -228,9 +232,11 @@
             </v-alert>
         </v-bottom-sheet>
         <test-view/>
+        <graph-rewind v-if="rewindVisible"/>
     </v-app>
 </template>
 <script>
+import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
@@ -245,6 +251,7 @@ export default {
         route: Object,
     },
     components: {
+        GraphRewind,
         TestView,
         GraphCanvas,
         ControlPanel,
@@ -287,6 +294,8 @@ export default {
     },
     computed: {
         ...mapState({
+            inRewindMode: state => state.inRewindMode,
+            rewindVisible: state => state.rewindVisible,
             showInfo: state => state.showInfo,
             infoMessage: state => state.infoMessage,
             dataProviders: state => state.dataProviders,
@@ -443,7 +452,7 @@ export default {
             return {};
         },
         mousemove(e) {
-            if (this.showHelp) {
+            if (this.showHelp || this.inRewindMode) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);
@@ -473,7 +482,7 @@ export default {
             });
         },
         mousedown(e) {
-            if (!this.graph || this.showHelp) {
+            if (!this.graph || this.showHelp || this.inRewindMode) {
                 return;
             }
             // do not track control panel inputs

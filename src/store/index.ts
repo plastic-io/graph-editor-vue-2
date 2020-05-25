@@ -70,6 +70,8 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            inRewindMode: false,
+            rewindVisible: false,
             testOutputVersion: 0,
             testOutput: [],
             ownEvents: [],

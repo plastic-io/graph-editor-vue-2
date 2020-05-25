@@ -43,6 +43,7 @@ export default {
     },
     computed: {
         ...mapState({
+            inRewindMode: state => state.inRewindMode,
             presentation: (state) => state.presentation,
             historyPosition: (state) => state.historyPosition,
             addingConnector: (state) => state.addingConnector,
@@ -221,7 +222,17 @@ export default {
         },
     },
     updated() {
-        this.redraw();
+        if (!this.inRewindMode) {
+            return this.redraw();
+        }
+        // in rewwind mode, vectors are a bit animated
+        // this requires a timeout to allow the dom to get
+        // the correct position
+        [0, 25, 100, 125, 250].forEach((n) => {
+            setTimeout(() => {
+                this.redraw();
+            }, n);
+        });
     },
     mounted() {
         this.localGraph = this.graph;

@@ -10,6 +10,25 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function commitToRewindVersion(state: any) {
+    state.rewindTarget = JSON.parse(JSON.stringify(state.graphSnapshot));
+    state.rewindVisible = false;
+}
+function setRewindVersion(state: any, graph: any) {
+    state.graphSnapshot = graph;
+    state.graph = graph;
+    state.remoteSnapshot = graph;
+}
+function rewindEnabled(state: any) {
+    state.inRewindMode = true;
+}
+function rewindDisabled(state: any) {
+    state.inRewindMode = false;
+    state.rewindVisible = false;
+}
+function showRewind(state: any) {
+    state.rewindVisible = true;
+}
 function addTestOutput(state: any, item: any) {
     console.info("state.testOutput.push(item);", item);
     state.testOutput.push(item);
@@ -87,6 +106,10 @@ function updateGraphUsers(state: any, event: any) {
     }, state.heartBeatInterval + 1000);
 }
 function remoteChangeEvents(state: any, event: any) {
+    if (state.inRewindMode) {
+        console.warn("No remote mutations allowed during rewind mode.");
+        return;
+    }
     const ownKeys: string[] = state.ownEvents.map((e: {id: string}) => e.id); 
     const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
     const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
@@ -114,6 +137,10 @@ export function replacer(key: any, value: any) {
     return value;
 }
 export function applyGraphChanges(state: any, name: string) {
+    if (state.inRewindMode) {
+        console.warn("You cannot make changes while in rewind mode");
+        return;
+    }
     if (state.events.length !== state.historyPosition) {
         state.events.splice(state.historyPosition, state.events.length - state.historyPosition);
     }
@@ -867,6 +894,14 @@ async function open(state: any, e: any) {
     setVectorsContext(state.graph.vectors);
     state.graphSnapshot = JSON.parse(JSON.stringify(e));
     state.remoteSnapshot = JSON.parse(JSON.stringify(e));
+    if (state.rewindTarget) {
+        state.graphSnapshot = state.rewindTarget;
+        // if you don't set this, the version
+        // number can be overwritten truncating the state
+        state.graphSnapshot.version = state.graph.version;
+        state.inRewindMode = false;
+        applyGraphChanges(state, "Rewind");
+    }
 }
 function setDataProviders(state: any, e: {
         [key: string]: any;
@@ -1053,6 +1088,11 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    commitToRewindVersion,
+    setRewindVersion,
+    rewindEnabled,
+    rewindDisabled,
+    showRewind,
     showInfoDialog,
     clearInfo,
     updateBoundingRect,

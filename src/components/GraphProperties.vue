@@ -46,9 +46,10 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0" help-topic="graphMeta">
-                                <v-text-field label="Created By" v-model="createdBy"></v-text-field>
-                                <v-text-field label="Created On" v-model="createdOn"></v-text-field>
-                                <v-text-field label="Last Update" v-model="lastUpdate"></v-text-field>
+                                <v-text-field disabled label="Created By" :value="createdBy || lastUpdatedBy"></v-text-field>
+                                <v-text-field disabled label="Last Updated By" :value="lastUpdatedBy"></v-text-field>
+                                <v-text-field disabled label="Created" :value="fromNow(createdOn)"></v-text-field>
+                                <v-text-field disabled label="Updated" :value="fromNow(lastUpdate)"></v-text-field>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -109,6 +110,7 @@
 <script>
 import {mapState, mapActions, mapMutations} from "vuex";
 import {mapFields} from "vuex-map-fields";
+import moment from "moment";
 import * as mdi from "@mdi/js";
 export default {
     name: "graph-properties",
@@ -120,6 +122,9 @@ export default {
         ...mapMutations([
             "selectVector",
         ]),
+        fromNow(e) {
+            return moment(new Date(e)).fromNow();
+        },
         hyphenateProperty(prop) {
             var p = "";
             Array.prototype.forEach.call(prop, function (char) {
@@ -155,6 +160,7 @@ export default {
             "graphSnapshot.properties.icon",
             "graphSnapshot.properties.description",
             "graphSnapshot.properties.createdOn",
+            "graphSnapshot.properties.lastUpdatedBy",
             "graphSnapshot.properties.lastUpdate",
             "graphSnapshot.properties.height",
             "graphSnapshot.properties.width",
