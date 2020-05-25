@@ -19,6 +19,37 @@
                 elevation="0"
                 v-if="panel">
                 <v-tabs
+                    v-model="graphPanelTabs"
+                    v-if="panel === 'graph'"
+                    :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
+                    <v-tab key="properties">
+                        <v-icon>
+                            mdi-graph-outline
+                        </v-icon>
+                    </v-tab>
+                    <v-tab key="vectors">
+                        <v-badge
+                          overlap
+                          :color="selectedVectors.length > 0 ? 'accent' : 'transparent'"
+                          :content="selectedVectors.length"
+                        >
+                            <v-icon>
+                                mdi-vector-point
+                            </v-icon>
+                        </v-badge>
+                    </v-tab>
+                    <v-tab-item key="properties">
+                        <graph-properties
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item key="vectors">
+                        <vector-list
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                </v-tabs>
+                <v-tabs
                     v-model="vectorPanelTabs"
                     v-if="selectedVector && panel === 'properties'"
                     :style="{width: this.navWidth - this.iconGutterSize + 'px'}">
@@ -77,10 +108,6 @@
                     v-if="panel === 'history'"
                     :style="gutterStyle"
                     :width="this.navWidth - this.iconGutterSize"/>
-                <graph-properties
-                    v-if="panel === 'graph'"
-                    :style="gutterStyle"
-                    :width="this.navWidth - this.iconGutterSize"/>
                 <graph-log
                     v-if="panel === 'log'"
                     :style="gutterStyle"
@@ -128,14 +155,22 @@
                 </div>
                 <div style="position: absolute; bottom: 5px;" class="control-panel-bottom">
                     <v-divider style="margin-bottom: 15px;margin-right: 5px;"/>
-                    <v-icon
-                        help-topic="log"
-                        class="control-panel-icon"
-                        title="Graph Logs and State"
-                        :color="panel === 'log' ? 'info' : ''"
-                        @click="selectPanel('log')">
-                        mdi-format-list-text
-                    </v-icon>
+                    <v-badge
+                      style="transform: scale(0.8);"
+                      overlap
+                      :color="log.length > 0 ? 'accent' : 'transparent'"
+                      :content="log.length"
+                    >
+                        <v-icon
+                            style="transform: scale(1.2);"
+                            help-topic="log"
+                            class="control-panel-icon"
+                            title="Graph Logs and State"
+                            :color="panel === 'log' ? 'info' : ''"
+                            @click="selectPanel('log')">
+                            mdi-format-list-text
+                        </v-icon>
+                    </v-badge>
                     <v-icon
                         help-topic="history"
                         class="control-panel-icon"
@@ -186,6 +221,7 @@ import TemplateEditor from "./TemplateEditor";
 import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
 import VectorTests from "./VectorTests";
+import VectorList from "./VectorList";
 export default {
     name: "control-panel",
     components: {
@@ -198,6 +234,7 @@ export default {
         EdgeProperties,
         EditorSettings,
         ImportPanel,
+        VectorList,
         HistoryPanel,
     },
     watch: {
@@ -216,6 +253,7 @@ export default {
     },
     computed: {
         ...mapState({
+            log: state => state.log,
             showHelp: state => state.showHelp,
             historyPosition: state => state.historyPosition,
             events: state => state.events,
@@ -290,6 +328,7 @@ export default {
     },
     data: () => {
         return {
+            graphPanelTabs: null,
             vectorPanelTabs: null,
             localVersion: 0,
             iconGutterSize: 43,

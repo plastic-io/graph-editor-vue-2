@@ -118,6 +118,8 @@ export default function () {
             jsonMimeType: "application/json",
             remoteEvents: [],
             remoteSnapshot: {},
+            showInfo: false,
+            infoMessage: "",
             showHelp: false,
             panelVisibility: true,
             graphSnapshot: null,

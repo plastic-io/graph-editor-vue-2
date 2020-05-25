@@ -195,6 +195,9 @@
         </component>
         <graph-mouse/>
         <connector-view v-if="showConnectorView" @close="showConnectorView = false;" :activity="hoveredActivity"/>
+        <v-snackbar :timeout="2000" :value="showInfo" @input="clearInfo">
+            {{infoMessage}}
+        </v-snackbar>
         <v-bottom-sheet hide-overlay inset v-model="showAnnoyingHelpMessage">
             <v-alert type="info" prominent border="left" color="primary" colored-border elevation="2" middle icon="mdi-help-circle-outline">
                 <v-row>
@@ -284,6 +287,8 @@ export default {
     },
     computed: {
         ...mapState({
+            showInfo: state => state.showInfo,
+            infoMessage: state => state.infoMessage,
             dataProviders: state => state.dataProviders,
             pendingEvents: state => state.pendingEvents,
             activityConnectors: state => state.activityConnectors,
@@ -341,6 +346,7 @@ export default {
     methods: {
         ...mapMutations([
             "toggleLabels",
+            "clearInfo",
             "toggleHelp",
         ]),
         ...mapActions([

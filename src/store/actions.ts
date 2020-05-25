@@ -41,7 +41,7 @@ const schedulerNotifyActions: any = {
             type: "graphUrl",
             loading: true,
         });
-        context.commit("addLogItem", {eventName: "begin", event: e});
+        context.commit("addLogItem", {eventName: "info", event: e});
     },
     end(context: any, e: any) {
         context.commit("setLoadingStatus", {
@@ -49,7 +49,7 @@ const schedulerNotifyActions: any = {
             type: "graphUrl",
             loading: false,
         });
-        context.commit("addLogItem", {eventName: "end", event: e});
+        context.commit("addLogItem", {eventName: "info", event: e});
     },
     beginconnector(context: any, e: any) {
         context.commit("connectorActivity", {

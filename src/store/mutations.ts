@@ -229,6 +229,12 @@ export function pasteVectors(state: any, vectors: Vector[], name: string = "Past
 export function selectVector(state: any, vectorId: string) {
     state.selectedVectors = [state.graph.vectors.find((v: Vector) => v.id === vectorId)];
     state.selectedVector = state.selectedVectors[0];
+    updateBoundingRect(state);
+}
+export function selectVectors(state: any, vectorIds: string[]) {
+    state.selectedVectors = state.graph.vectors.filter((v: Vector) => vectorIds.indexOf(v.id) !== -1);
+    state.selectedVector = state.selectedVectors[0];
+    updateBoundingRect(state);
 }
 export function undo(state: any) {
     moveHistoryPosition(state, -1);
@@ -582,6 +588,15 @@ export function translating(state: any, e: object) {
 export function clearError(state: any) {
     state.error = null;
     state.showError = false;
+}
+export function clearInfo(state: any) {
+    state.infoMessage = "";
+    state.showInfo = false;
+}
+export function showInfoDialog(state: any, e: Error) {
+    console.info(e);
+    state.infoMessage = e;
+    state.showInfo = true;
 }
 export function raiseError(state: any, e: Error) {
     console.error(e);
@@ -1038,6 +1053,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    showInfoDialog,
+    clearInfo,
     updateBoundingRect,
     addTestOutput,
     hideTests,
@@ -1066,6 +1083,7 @@ export default {
     updateVectorData,
     setArtifact,
     togglePresentation,
+    selectVectors,
     selectVector,
     addSchedulerError,
     clearSchedulerErrorItem,
