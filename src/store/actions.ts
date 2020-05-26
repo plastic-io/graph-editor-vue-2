@@ -158,6 +158,7 @@ export default {
         context.commit("setPreferences", preferences);
         if (preferences.useLocalStorage) {
             context.dispatch("setDataProviders", {
+                artifact: localStoreDataProvider,
                 toc: localStoreDataProvider,
                 publish: localStoreDataProvider,
                 notification: localStoreDataProvider,
@@ -195,6 +196,7 @@ export default {
             const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
             const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
             context.dispatch("setDataProviders", {
+                artifact: httpDataProvider,
                 toc: httpDataProvider,
                 publish: wssDataProvider,
                 notification: wssDataProvider,
@@ -349,7 +351,11 @@ export default {
             if (e.type === "graph") {
                 item = await context.state.dataProviders.graph.get(e.id);
             } else {
-                item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
+                if (/^artifacts\//.test(e.id)) {
+                    item = await context.state.dataProviders.artifact.get(e.id + "/" + e.version);
+                } else {
+                    item = await context.state.dataProviders.artifact.get(artifactPrefix + e.id + "." + e.version);
+                }
             }
         } catch (er) {
             context.commit("raiseError", new Error("Cannot open item to download." + er));
