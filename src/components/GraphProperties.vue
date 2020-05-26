@@ -1,5 +1,5 @@
 <template>
-    <v-card flat v-if="graphSnapshot" style="height: calc(100vh - 48px); overflow-y: auto;">
+    <v-card flat v-if="graphSnapshot" style="height: calc(100vh - 96px); overflow-y: auto;">
         <v-card-title>
             <v-icon left help-topic="graph">mdi-graph-outline</v-icon>
             Graph Properties
@@ -46,33 +46,10 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0" help-topic="graphMeta">
-                                <v-text-field label="Created By" v-model="createdBy"></v-text-field>
-                                <v-text-field label="Created On" v-model="createdOn"></v-text-field>
-                                <v-text-field label="Last Update" v-model="lastUpdate"></v-text-field>
-                            </v-card-text>
-                        </v-card>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel>
-                    <v-expansion-panel-header>Vectors</v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
-                                <v-list help-topic="graphVectorList">
-                                    <v-list-item-group v-model="vectorList" color="primary">
-                                        <v-list-item
-                                            @click="selectVector(vector.id)"
-                                            v-for="vector in graphSnapshot.vectors"
-                                            :key="'select_' + vector.id">
-                                            <v-list-item-icon>
-                                                <v-icon v-text="vector.properties.icon"></v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-content>
-                                                <v-list-item-title :title="vector.id" v-text="vector.name || 'Untitled Vector'"></v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-list-item-group>
-                                </v-list>
+                                <v-text-field disabled label="Created By" :value="createdBy || lastUpdatedBy"></v-text-field>
+                                <v-text-field disabled label="Last Updated By" :value="lastUpdatedBy"></v-text-field>
+                                <v-text-field disabled label="Created" :value="fromNow(createdOn)"></v-text-field>
+                                <v-text-field disabled label="Updated" :value="fromNow(lastUpdate)"></v-text-field>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -133,6 +110,7 @@
 <script>
 import {mapState, mapActions, mapMutations} from "vuex";
 import {mapFields} from "vuex-map-fields";
+import moment from "moment";
 import * as mdi from "@mdi/js";
 export default {
     name: "graph-properties",
@@ -144,6 +122,9 @@ export default {
         ...mapMutations([
             "selectVector",
         ]),
+        fromNow(e) {
+            return moment(new Date(e)).fromNow();
+        },
         hyphenateProperty(prop) {
             var p = "";
             Array.prototype.forEach.call(prop, function (char) {
@@ -159,7 +140,6 @@ export default {
     data: () => {
         return {
             panel: 0,
-            vectorList: null,
         };
     },
     watch: {
@@ -180,6 +160,7 @@ export default {
             "graphSnapshot.properties.icon",
             "graphSnapshot.properties.description",
             "graphSnapshot.properties.createdOn",
+            "graphSnapshot.properties.lastUpdatedBy",
             "graphSnapshot.properties.lastUpdate",
             "graphSnapshot.properties.height",
             "graphSnapshot.properties.width",

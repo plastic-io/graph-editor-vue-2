@@ -25,6 +25,15 @@ describe("Bummer in the summer", () => {
                         delete: jest.fn(),
                         subscribe: jest.fn(),
                     },
+                    artifact: {
+                        asyncUpdate: false,
+                        get() {
+                            return context.dataProvidersResponse.graph.get;
+                        },
+                        set: jest.fn(),
+                        delete: jest.fn(),
+                        subscribe: jest.fn(),
+                    },
                     publish: {
                         asyncUpdate: false,
                         get() {
@@ -155,8 +164,8 @@ describe("Bummer in the summer", () => {
             id: "1234",
             version: 1,
         });
-        expect(setAttribute).toHaveBeenCalledWith("href", "data:application/json;charset=utf-8,%7B%22foo%22%3A%22bar%22%7D");
         expect(setAttribute).toHaveBeenCalledWith("download", "Untitled_1234_1_artifact.json");
+        expect(setAttribute).toHaveBeenCalledWith("href", "data:application/json;charset=utf-8,%7B%7D");
         expect(appendChild).toHaveBeenCalled();
         expect(click).toHaveBeenCalled();
         expect(removeChild).toHaveBeenCalled();

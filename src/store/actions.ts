@@ -7,8 +7,10 @@ import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
 import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
+let rewindDebounceTimeout = 900;
 let saveDebounceTimeout = 900;
 let saveTimer: any;
+let rewindTimer: any;
 const schedulerNotifyActions: any = {
     logger(context: any) {
         return {
@@ -41,7 +43,7 @@ const schedulerNotifyActions: any = {
             type: "graphUrl",
             loading: true,
         });
-        context.commit("addLogItem", {eventName: "begin", event: e});
+        context.commit("addLogItem", {eventName: "info", event: e});
     },
     end(context: any, e: any) {
         context.commit("setLoadingStatus", {
@@ -49,7 +51,7 @@ const schedulerNotifyActions: any = {
             type: "graphUrl",
             loading: false,
         });
-        context.commit("addLogItem", {eventName: "end", event: e});
+        context.commit("addLogItem", {eventName: "info", event: e});
     },
     beginconnector(context: any, e: any) {
         context.commit("connectorActivity", {
@@ -156,6 +158,7 @@ export default {
         context.commit("setPreferences", preferences);
         if (preferences.useLocalStorage) {
             context.dispatch("setDataProviders", {
+                artifact: localStoreDataProvider,
                 toc: localStoreDataProvider,
                 publish: localStoreDataProvider,
                 notification: localStoreDataProvider,
@@ -193,6 +196,7 @@ export default {
             const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
             const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
             context.dispatch("setDataProviders", {
+                artifact: httpDataProvider,
                 toc: httpDataProvider,
                 publish: wssDataProvider,
                 notification: wssDataProvider,
@@ -347,7 +351,11 @@ export default {
             if (e.type === "graph") {
                 item = await context.state.dataProviders.graph.get(e.id);
             } else {
-                item = await context.state.dataProviders.publish.get(artifactPrefix + e.id + "." + e.version);
+                if (/^artifacts\//.test(e.id)) {
+                    item = await context.state.dataProviders.artifact.get(e.id + "/" + e.version);
+                } else {
+                    item = await context.state.dataProviders.artifact.get(artifactPrefix + e.id + "." + e.version);
+                }
             }
         } catch (er) {
             context.commit("raiseError", new Error("Cannot open item to download." + er));
@@ -532,6 +540,10 @@ export default {
         });
     },
     save(context: any, e?: any) {
+        if (context.state.inRewindMode) {
+            console.warn("Cannot save changes while in rewind mode.");
+            return;
+        }
         clearTimeout(saveTimer);
         saveTimer = setTimeout(() => {
             function sendEvent(changes: any) {
@@ -591,6 +603,19 @@ export default {
             }
             sendEvent(changes);
         }, saveDebounceTimeout);
+    },
+    setToRewindVersion(context: any, version: number) {
+        clearTimeout(rewindTimer);
+        rewindTimer = setTimeout(async () => {
+            const graphId = context.state.graphSnapshot.id;
+            let graph;
+            try {
+                graph = await context.state.dataProviders.graph.get("graphs/" + graphId + "/projections/" + graphId + "." + version);
+            } catch (err) {
+                console.log(err);
+            }
+            context.commit("setRewindVersion", graph);
+        }, rewindDebounceTimeout);
     },
     async open(context: any, e: {graphId: string}) {
         let graph, er;

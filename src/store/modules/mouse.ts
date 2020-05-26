@@ -12,6 +12,10 @@ export default function mouse(state: any, mouse: {
         y: number,
         event: any
     }) {
+    if (state.inRewindMode) {
+        console.warn("No mouse based mutations during rewind mode");
+        return;
+    }
     const locked = state.presentation || state.locked;
     const ctrl = mouse.event.ctrlKey || mouse.event.metaKey;
     const shift = mouse.event.shiftKey;

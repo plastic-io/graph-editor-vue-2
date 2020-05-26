@@ -70,6 +70,8 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            inRewindMode: false,
+            rewindVisible: false,
             testOutputVersion: 0,
             testOutput: [],
             ownEvents: [],
@@ -118,6 +120,8 @@ export default function () {
             jsonMimeType: "application/json",
             remoteEvents: [],
             remoteSnapshot: {},
+            showInfo: false,
+            infoMessage: "",
             showHelp: false,
             panelVisibility: true,
             graphSnapshot: null,

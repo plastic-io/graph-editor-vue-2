@@ -11,12 +11,18 @@
                     <v-icon help-topic="openGraph" @click="openGraph" title="Show open graph dialog (^ + O)">
                         mdi-folder
                     </v-icon>
-                    <span help-topic="documentName">
-                        {{ graph.properties.name || "Untitled" }}
+                    <span v-if="inRewindMode">
+                        Rewinding...
                     </span>
+                    <i v-else style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-                <span help-topic="plastic">Plastic-IO</span>
+
+                <span help-topic="documentName" class="pa-1">
+                    {{ graph.properties.name || "Untitled" }}
+                </span>
+                <span>-</span>
+                <span help-topic="plastic" class="pa-1">Plastic-IO</span>
                 <v-spacer/>
                 <graph-users/>
                 <span>
@@ -169,16 +175,18 @@
                 </v-row>
             </v-alert>
         </v-bottom-sheet>
-        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph">
+        <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" color="transparent">
             <v-alert type="error" prominent>
                 <v-row>
-                    <v-col><h2>An error has occred on a vector</h2></v-col>
+                    <v-col>
+                        <h2>Error</h2>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col>{{localErrorMessage}}</v-col>
                 </v-row>
                 <v-row>
-                    <v-col class="shrink" v-if="graph">
+                    <v-col v-if="graph">
                         <v-btn @click="clearError">That Sucks</v-btn>
                     </v-col>
                 </v-row>
@@ -193,6 +201,9 @@
         </component>
         <graph-mouse/>
         <connector-view v-if="showConnectorView" @close="showConnectorView = false;" :activity="hoveredActivity"/>
+        <v-snackbar :timeout="2000" :value="showInfo" @input="clearInfo">
+            {{infoMessage}}
+        </v-snackbar>
         <v-bottom-sheet hide-overlay inset v-model="showAnnoyingHelpMessage">
             <v-alert type="info" prominent border="left" color="primary" colored-border elevation="2" middle icon="mdi-help-circle-outline">
                 <v-row>
@@ -223,9 +234,11 @@
             </v-alert>
         </v-bottom-sheet>
         <test-view/>
+        <graph-rewind v-if="rewindVisible"/>
     </v-app>
 </template>
 <script>
+import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
@@ -240,6 +253,7 @@ export default {
         route: Object,
     },
     components: {
+        GraphRewind,
         TestView,
         GraphCanvas,
         ControlPanel,
@@ -282,7 +296,12 @@ export default {
     },
     computed: {
         ...mapState({
+            inRewindMode: state => state.inRewindMode,
+            rewindVisible: state => state.rewindVisible,
+            showInfo: state => state.showInfo,
+            infoMessage: state => state.infoMessage,
             dataProviders: state => state.dataProviders,
+            pendingEvents: state => state.pendingEvents,
             activityConnectors: state => state.activityConnectors,
             pathPrefix: state => state.pathPrefix,
             showHelp: state => state.showHelp,
@@ -310,6 +329,9 @@ export default {
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        pending: function() {
+            return Object.keys(this.pendingEvents).length;
+        },
         hoveredActivity: function() {
             if (!this.hoveredConnector && this.selectedConnectors.length === 0) {
                 return null;
@@ -335,6 +357,7 @@ export default {
     methods: {
         ...mapMutations([
             "toggleLabels",
+            "clearInfo",
             "toggleHelp",
         ]),
         ...mapActions([
@@ -431,7 +454,7 @@ export default {
             return {};
         },
         mousemove(e) {
-            if (this.showHelp) {
+            if (this.showHelp || this.inRewindMode) {
                 return;
             }
             const mouse = this.getMousePosFromEvent(e);
@@ -461,7 +484,7 @@ export default {
             });
         },
         mousedown(e) {
-            if (!this.graph || this.showHelp) {
+            if (!this.graph || this.showHelp || this.inRewindMode) {
                 return;
             }
             // do not track control panel inputs

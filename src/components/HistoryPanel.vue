@@ -1,31 +1,57 @@
 <template>
-    <v-card flat style="height: calc(100vh - 51px);" class="pa-2">
-        <v-card-title>
-            <v-icon left help-topic="historyPanel">mdi-history</v-icon>
-            History
-        </v-card-title>
-        <v-card>
+    <v-card elevation="0" flat style="height: calc(100vh - 51px);" class="pa-2">
+        <v-card elevation="0">
             <v-card-text>
-                <v-list style="height: calc(100vh - 171px);overflow-y: auto;">
-                    <v-list-item
-                        v-for="(event, index) in localEvents"
-                        :key="index"
-                        :style="historyColor(index)"
-                        @click="moveHistoryPosition(-(historyPosition - index))">
-                        <v-list-item-icon>
-                            <v-icon>{{getIcon(event.name)}}</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-content style="font-size: 14px;">
-                            {{event.name}}
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-list>
+                <v-tabs>
+                    <v-tab key="history">
+                        <v-icon help-topic="historyPanel">mdi-history</v-icon>
+                    </v-tab>
+                    <v-tab key="rewind">
+                        <v-icon help-topic="rewind">mdi-rewind</v-icon>
+                    </v-tab>
+                    <v-tab-item key="history">
+                        <v-list style="height: calc(100vh - 121px);overflow-y: auto;">
+                            <v-list-item
+                                v-for="(event, index) in localEvents"
+                                :key="index"
+                                :style="historyColor(index)"
+                                @click="moveHistoryPosition(-(historyPosition - index))">
+                                <v-list-item-icon>
+                                    <v-icon>{{getIcon(event.name)}}</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content style="font-size: 14px;">
+                                    {{event.name}}
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-tab-item>
+                    <v-tab-item key="rewind">
+                        <v-card class="ma-5">
+                            <v-card-title>
+                                Rewind
+                            </v-card-title>
+                            <v-card-text>
+                                You can rewind the state of your graph to any previous
+                                version.
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer/>
+                                <v-btn @click="showRewind">
+                                    <v-icon>
+                                        mdi-rewind
+                                    </v-icon>
+                                    Rewind
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-tab-item>
+                </v-tabs>
             </v-card-text>
         </v-card>
     </v-card>
 </template>
 <script>
-import {mapState, mapActions} from "vuex";
+import {mapState, mapActions, mapMutations} from "vuex";
 export default {
     name: "history-panel",
     methods: {
@@ -40,6 +66,9 @@ export default {
         },
         ...mapActions([
             "moveHistoryPosition",
+        ]),
+        ...mapMutations([
+            "showRewind",
         ]),
         getIcon(name) {
             return {

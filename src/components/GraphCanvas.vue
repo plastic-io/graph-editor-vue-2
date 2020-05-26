@@ -6,7 +6,7 @@
         ></div>
         <edge-connector
             v-for="c in connectors"
-            :key="c.connector.id"
+            :key="c.connector.id + localGraph.version"
             :connector="c.connector"
             :edge="c.edge"
             :vector="c.vector"

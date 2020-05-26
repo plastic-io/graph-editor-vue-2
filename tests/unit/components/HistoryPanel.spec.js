@@ -9,7 +9,6 @@ const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let state;
 let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
@@ -22,7 +21,7 @@ describe("HistoryPanel.vue", () => {
                 translating: {},
                 keys: {},
                 events: events,
-                graph: {
+                graphSnapshot: {
                     id: "321",
                     version: 0,
                     vectors: [{
@@ -73,19 +72,11 @@ describe("HistoryPanel.vue", () => {
             vuetify,
             propsData: {},
         });
-        state = storeConfig.state;
     });
     describe("HistoryPanel Methods", () => {
         it("Should display a list of events", (done) => {
             expect(wrapper.html()).toMatch("Move Vectors");
             done();
-        });
-        it("Should not display a list of events by reacting to event change", (done) => {
-            state.events = [];
-            wrapper.vm.$nextTick(() => {
-                expect(wrapper.html()).not.toMatch("Move Vectors");
-                done();
-            });
         });
     });
 });
