@@ -9,7 +9,6 @@ const localVue = createLocalVue();
 let store;
 let storeConfig;
 let wrapper;
-let state;
 let events;
 localVue.use(Vuex);
 Vue.use(Vuetify);
@@ -73,7 +72,6 @@ describe("HistoryPanel.vue", () => {
             vuetify,
             propsData: {},
         });
-        state = storeConfig.state;
     });
     describe("HistoryPanel Methods", () => {
         it("Should display a list of events", (done) => {
