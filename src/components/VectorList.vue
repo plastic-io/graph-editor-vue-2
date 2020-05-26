@@ -1,5 +1,5 @@
 <template>
-    <v-card class="ma-0 pa-0" flat>
+    <v-card class="ma-0 pa-0" flat style="overflow-y: scroll; height: calc(100vh - 97px);">
         <v-card-text class="ma-0 pa-0">
             <v-list help-topic="graphVectorList" three-line v-if="graphSnapshot.vectors.length > 0">
                 <v-list-item-group v-model="selectedList" color="primary" multiple>
@@ -20,7 +20,6 @@
                                         <template v-slot:prepend>
                                             <v-btn color="accent" x-small rounded elevation="1">
                                                 <v-icon
-                                                    
                                                     small
                                                     title="Copy URL"
                                                     @click="copyVectorUrl($event, preferences.graphHTTPServer + graphSnapshot.url + '.' + vector.url)">
