@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56% </span>
+                <span class="strong">52.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>42/75</span>
+                <span class='fraction'>42/80</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.08% </span>
+                <span class="strong">21.43% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/26</span>
+                <span class='fraction'>6/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.08% </span>
+                <span class="strong">49.02% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>25/48</span>
+                <span class='fraction'>25/51</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56% </span>
+                <span class="strong">52.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>42/75</span>
+                <span class='fraction'>42/80</span>
             </div>
         
             
@@ -325,7 +325,18 @@
 <a name='L266'></a><a href='#L266'>266</a>
 <a name='L267'></a><a href='#L267'>267</a>
 <a name='L268'></a><a href='#L268'>268</a>
-<a name='L269'></a><a href='#L269'>269</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -370,6 +381,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -549,6 +561,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -638,6 +660,7 @@ export default {
     },
     computed: {
         ...mapState({
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            inRewindMode: state =&gt; state.inRewindMode,</span></span>
             presentation: (state) =&gt; state.presentation,
             historyPosition: (state) =&gt; state.historyPosition,
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            addingConnector: (state) =&gt; state.addingConnector,</span></span>
@@ -816,7 +839,17 @@ export default {
         },
     },
 <span class="fstat-no" title="function not covered" >    updated() {</span>
-<span class="cstat-no" title="statement not covered" >        this.redraw();</span>
+<span class="cstat-no" title="statement not covered" >        if (!this.inRewindMode) {</span>
+<span class="cstat-no" title="statement not covered" >            return this.redraw();</span>
+        }
+        // in rewwind mode, vectors are a bit animated
+        // this requires a timeout to allow the dom to get
+        // the correct position
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        [0, 25, 100, 125, 250].forEach((n) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            setTimeout(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >                this.redraw();</span>
+            }, n);
+        });
     },
     mounted() {
         this.localGraph = this.graph;
@@ -868,7 +901,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun May 24 2020 17:54:05 GMT+0000 (Coordinated Universal Time)
+                at Tue May 26 2020 01:21:42 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
