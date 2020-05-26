@@ -941,7 +941,7 @@ function setGraphVersion(state: any, e: number) {
             });
         });
     }
-    state.graphSnapshot = JSON.parse(JSON.stringify(e));
+    state.graphSnapshot = JSON.parse(JSON.stringify(state.graph));
 }
 function setToc(state: any, e: any) {
     state.toc = e;
