@@ -34,6 +34,8 @@ const preferences = {
     showLabels: true,
     debug: false,
     useLocalStorage: true,
+    showRemoteMouseMovements: true,
+    maxConnectorActivity: 100,
     graphHTTPServer,
     graphWSSServer,
     newVectorOffset: {
@@ -76,7 +78,6 @@ export default function () {
             testOutput: [],
             ownEvents: [],
             testsVisible: false,
-            showRemoteMouseMovements: true,
             mouseMovements: [],
             mouseTransmitInterval: 1000,
             heartBeatInterval: 50000,

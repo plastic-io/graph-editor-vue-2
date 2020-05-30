@@ -55,13 +55,14 @@ const schedulerNotifyActions: any = {
     },
     beginconnector(context: any, e: any) {
         context.commit("connectorActivity", {
+            activityType: "start",
             key: e.connector.id,
-            start: Date.now(),
             event: e,
         });
         if (context.state.preferences.debug) {
             context.commit("setLoadingStatus", {
                 key: e.connector.id,
+                activityType: "start",
                 type: "connector",
                 loading: true,
                 event: e,
@@ -70,18 +71,16 @@ const schedulerNotifyActions: any = {
         }
     },
     endconnector(context: any, e: any) {
-        const now = Date.now();
-        const startConnector = context.state.activityConnectors[e.connector.id];
-        const duration = startConnector ? now - startConnector.start : "";
         context.commit("connectorActivity", {
+            activityType: "end",
             key: e.connector.id,
             end: Date.now(),
-            duration,
             event: e,
         });
         if (context.state.preferences.debug) {
             context.commit("setLoadingStatus", {
                 key: e.connector.id,
+                activityType: "end",
                 type: "connector",
                 loading: false,
             });
