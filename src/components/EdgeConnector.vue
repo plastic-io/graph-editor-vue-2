@@ -132,8 +132,9 @@ export default {
             handler: function () {
                 const key = this.connector.id;
                 const activity = this.activityConnectors[key];
-                if (activity) {
-                    if (activity.start) {
+                console.log("activity", activity);
+                if (activity && activity.length > 0) {
+                    if (activity[activity.length - 1].activityType === "start") {
                         this.activeConnector = true;
                     } else {
                         this.activeConnector = false;
@@ -217,6 +218,9 @@ export default {
             });
         },
         setContext() {
+            if (this.presentation) {
+                return;
+            }
             this.ctx = this.$refs.canvas.getContext("2d");
             this.ctx.scale(this.ratio, this.ratio);
         },

@@ -963,7 +963,11 @@ function clearLog(state: any, e: any) {
     });
 }
 function connectorActivity(state: any, e: any) {
-    Vue.set(state.activityConnectors, e.key, e);
+    Vue.set(state.activityConnectors, e.key, state.activityConnectors[e.key] || []);
+    state.activityConnectors[e.key].push(e);
+    while (state.preferences.maxConnectorActivity > state.activityConnectors[e.key].length) {
+        state.activityConnectors[e.key].shift();
+    }
 }
 function clearSchedulerErrorItem(state: any, e: any) {
     state.scheduler.errors[e.key] = state.scheduler.errors[e.key].filter((i: any) => {

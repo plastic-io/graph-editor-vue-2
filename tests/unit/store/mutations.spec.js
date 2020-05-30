@@ -534,7 +534,7 @@ describe("Mutation ethods", () => {
         mutations.connectorActivity(state, {
             key: "foo",
         });
-        expect(state.activityConnectors).toEqual({"foo": {"key": "foo"}});
+        expect(state.activityConnectors).toEqual({"foo": [{"key": "foo"}]});
     });
     it("Should add a keyed scheduler error whne calling addSchedulerError", () => {
         state.scheduler = {
