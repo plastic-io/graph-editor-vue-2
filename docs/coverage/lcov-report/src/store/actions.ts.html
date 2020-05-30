@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.13% </span>
+                <span class="strong">50.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>190/379</span>
+                <span class='fraction'>190/376</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25.83% </span>
+                <span class="strong">26.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>31/120</span>
+                <span class='fraction'>31/118</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">50.4% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>189/378</span>
+                <span class='fraction'>189/375</span>
             </div>
         
             
@@ -900,8 +900,7 @@
 <a name='L841'></a><a href='#L841'>841</a>
 <a name='L842'></a><a href='#L842'>842</a>
 <a name='L843'></a><a href='#L843'>843</a>
-<a name='L844'></a><a href='#L844'>844</a>
-<a name='L845'></a><a href='#L845'>845</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L844'></a><a href='#L844'>844</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -969,13 +968,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -984,6 +981,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1802,13 +1800,14 @@ const schedulerNotifyActions: any = {
     },
 <span class="fstat-no" title="function not covered" >    beginconnector(</span>context: any, e: any) {
 <span class="cstat-no" title="statement not covered" >        context.</span>commit("connectorActivity", {
+            activityType: "start",
             key: e.connector.id,
-            start: Date.now(),
             event: e,
         });
 <span class="cstat-no" title="statement not covered" >        if (context.state.preferences.debug) {</span>
 <span class="cstat-no" title="statement not covered" >            context.</span>commit("setLoadingStatus", {
                 key: e.connector.id,
+                activityType: "start",
                 type: "connector",
                 loading: true,
                 event: e,
@@ -1817,18 +1816,16 @@ const schedulerNotifyActions: any = {
         }
     },
 <span class="fstat-no" title="function not covered" >    endconnector(</span>context: any, e: any) {
-        const now = <span class="cstat-no" title="statement not covered" >Date.</span>now();
-        const startConnector = <span class="cstat-no" title="statement not covered" >context.</span>state.activityConnectors[e.connector.id];
-        const duration = <span class="cstat-no" title="statement not covered" >startConnector ? now - startConnector.start : "";</span>
 <span class="cstat-no" title="statement not covered" >        context.</span>commit("connectorActivity", {
+            activityType: "end",
             key: e.connector.id,
             end: Date.now(),
-            duration,
             event: e,
         });
 <span class="cstat-no" title="statement not covered" >        if (context.state.preferences.debug) {</span>
 <span class="cstat-no" title="statement not covered" >            context.</span>commit("setLoadingStatus", {
                 key: e.connector.id,
+                activityType: "end",
                 type: "connector",
                 loading: false,
             });
@@ -2596,7 +2593,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue May 26 2020 23:32:56 GMT+0000 (Coordinated Universal Time)
+                at Sat May 30 2020 19:47:59 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
