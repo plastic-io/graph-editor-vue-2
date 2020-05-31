@@ -193,6 +193,9 @@ See https://github.com/plastic-io/graph-editor for for the GUI client for this s
           |                |                         |                                |
 
 
+## Going Deeper
+
+Scheduling engine documentation: [Scheduler](https://plastic-io.github.io/plastic-io/classes/_scheduler_.scheduler.html)
 
 # Installing the Graph Editor
  
