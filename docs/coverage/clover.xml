@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1590868079136" clover="3.2.0">
-  <project timestamp="1590868079136" name="All files">
-    <metrics statements="2728" coveredstatements="1656" conditionals="1241" coveredconditionals="639" methods="933" coveredmethods="561" elements="4902" coveredelements="2856" complexity="0" loc="2728" ncloc="2728" packages="5" files="43" classes="43"/>
+<coverage generated="1590912427017" clover="3.2.0">
+  <project timestamp="1590912427017" name="All files">
+    <metrics statements="2727" coveredstatements="1656" conditionals="1241" coveredconditionals="639" methods="933" coveredmethods="561" elements="4901" coveredelements="2856" complexity="0" loc="2727" ncloc="2727" packages="5" files="43" classes="43"/>
     <package name="src">
       <metrics statements="48" coveredstatements="36" conditionals="10" coveredconditionals="0" methods="13" coveredmethods="8"/>
       <file name="helpTopics.ts" path="/home/runner/work/graph-editor/graph-editor/src/helpTopics.ts">
@@ -831,7 +831,7 @@
         <line num="192" count="8" type="stmt"/>
         <line num="193" count="8" type="stmt"/>
         <line num="194" count="8" type="stmt"/>
-        <line num="195" count="3" type="stmt"/>
+        <line num="195" count="2" type="stmt"/>
         <line num="197" count="8" type="stmt"/>
         <line num="211" count="0" type="stmt"/>
         <line num="214" count="8" type="stmt"/>
@@ -1882,21 +1882,21 @@
         <line num="27" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
         <line num="70" count="9" type="stmt"/>
-        <line num="210" count="0" type="stmt"/>
-        <line num="211" count="0" type="stmt"/>
-        <line num="215" count="2" type="stmt"/>
-        <line num="216" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="217" count="1" type="stmt"/>
+        <line num="214" count="0" type="stmt"/>
+        <line num="215" count="0" type="stmt"/>
         <line num="219" count="2" type="stmt"/>
-        <line num="223" count="1" type="stmt"/>
-        <line num="224" count="1" type="stmt"/>
-        <line num="228" count="2" type="stmt"/>
-        <line num="229" count="2" type="stmt"/>
-        <line num="234" count="2" type="stmt"/>
-        <line num="235" count="2" type="stmt"/>
-        <line num="236" count="2" type="stmt"/>
-        <line num="241" count="2" type="stmt"/>
-        <line num="243" count="2" type="stmt"/>
+        <line num="220" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="221" count="1" type="stmt"/>
+        <line num="223" count="2" type="stmt"/>
+        <line num="227" count="1" type="stmt"/>
+        <line num="228" count="1" type="stmt"/>
+        <line num="232" count="2" type="stmt"/>
+        <line num="233" count="2" type="stmt"/>
+        <line num="238" count="2" type="stmt"/>
+        <line num="239" count="2" type="stmt"/>
+        <line num="240" count="2" type="stmt"/>
+        <line num="245" count="2" type="stmt"/>
+        <line num="247" count="2" type="stmt"/>
       </file>
       <file name="mutations.ts" path="/home/runner/work/graph-editor/graph-editor/src/store/mutations.ts">
         <metrics statements="490" coveredstatements="341" conditionals="203" coveredconditionals="123" methods="205" coveredmethods="154"/>
@@ -2399,7 +2399,7 @@
       </file>
     </package>
     <package name="src.store.modules">
-      <metrics statements="455" coveredstatements="323" conditionals="357" coveredconditionals="273" methods="64" coveredmethods="34"/>
+      <metrics statements="454" coveredstatements="323" conditionals="357" coveredconditionals="273" methods="64" coveredmethods="34"/>
       <file name="HTTPDataProvider.ts" path="/home/runner/work/graph-editor/graph-editor/src/store/modules/HTTPDataProvider.ts">
         <metrics statements="6" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -2856,7 +2856,7 @@
         <line num="308" count="21" type="stmt"/>
       </file>
       <file name="testService.ts" path="/home/runner/work/graph-editor/graph-editor/src/store/modules/testService.ts">
-        <metrics statements="15" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <metrics statements="14" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -2867,11 +2867,10 @@
         <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
       </file>
     </package>
   </project>
