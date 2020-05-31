@@ -129,8 +129,12 @@ export default function () {
             graph: null,
             loading: {},
             dataProviders: {
+                artifact: null,
+                toc: null,
                 publish: null,
+                notification: null,
                 graph: null,
+                preferences: null,
                 session: null,
             },
             error: null,
