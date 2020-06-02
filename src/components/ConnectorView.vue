@@ -5,7 +5,7 @@
             <v-icon title="Connector Information">
                 mdi-information-outline
             </v-icon>
-            [{{selectedIndex}}/{{activity.length}}]
+            [{{selectedIndex + 1}}/{{activity.length}}]
             <v-spacer></v-spacer>
             <v-icon style="margin-left: 3px;" title="Previous" :disabled="selectedIndex <= 0" @click="goPrevious">
                 mdi-arrow-left-drop-circle-outline

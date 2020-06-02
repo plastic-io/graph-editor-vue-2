@@ -38,6 +38,11 @@
                             </v-icon>
                         </v-badge>
                     </v-tab>
+                    <v-tab key="presentationTemplate">
+                        <v-icon>
+                            mdi-vuejs
+                        </v-icon>
+                    </v-tab>
                     <v-tab-item key="properties">
                         <graph-properties
                             :style="gutterStyle"
@@ -45,6 +50,11 @@
                     </v-tab-item>
                     <v-tab-item key="vectors">
                         <vector-list
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item key="presentationTemplate">
+                        <presentation-editor
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
@@ -222,9 +232,11 @@ import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
 import VectorTests from "./VectorTests";
 import VectorList from "./VectorList";
+import PresentationEditor from "./PresentationEditor";
 export default {
     name: "control-panel",
     components: {
+        PresentationEditor,
         VectorTests,
         GraphLog,
         VectorProperties,

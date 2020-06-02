@@ -132,7 +132,6 @@ export default {
             handler: function () {
                 const key = this.connector.id;
                 const activity = this.activityConnectors[key];
-                console.log("activity", activity);
                 if (activity && activity.length > 0) {
                     if (activity[activity.length - 1].activityType === "start") {
                         this.activeConnector = true;

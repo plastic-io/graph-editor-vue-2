@@ -11,18 +11,21 @@
             :edge="c.edge"
             :vector="c.vector"
         />
-        <graph-vector
-            v-for="vector in localGraph.vectors"
-            :style="presentation ? {order: vector.properties.presentation.z} : {}"
-            :key="vector.id"
-            :vector="vector"
-            :graph="localGraph"
-        />
+        <template v-if="!presentation">
+            <graph-vector
+                v-for="vector in localGraph.vectors"
+                :key="vector.id"
+                :vector="vector"
+                :graph="localGraph"
+            />
+        </template>
+        <graph-presentation :graph="localGraph" v-if="presentation"/>
         <div v-if="selectionRect.visible && !presentation" class="selection-rect" :style="selectionRectStyle"></div>
         <div v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
 </template>
 <script>
+import GraphPresentation from "./GraphPresentation";
 import EdgeConnector from "./EdgeConnector";
 import GraphVector from "./GraphVector";
 import {mapState, mapActions, mapGetters, mapMutations} from "vuex";
@@ -31,7 +34,7 @@ import colors from "vuetify/lib/util/colors";
 import {newId} from "../store/mutations"; 
 export default {
     name: "graph-canvas",
-    components: {GraphVector, EdgeConnector},
+    components: {GraphVector, EdgeConnector, GraphPresentation},
     props: {
         showGrid: Boolean
     },

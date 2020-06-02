@@ -696,6 +696,10 @@ export default {
         context.commit("raiseError", e);
         // dispatch raise error remotely
     },
+    updateGraphPresentationTemplate(context: any, e: {value: string}) {
+        context.commit("updateGraphPresentationTemplate", e);
+        context.dispatch("save");
+    },
     changeConnectorOrder(context: any, e: {vectorId: string, connectorId: string, direction: string}) {
         context.commit("changeConnectorOrder", e);
         context.dispatch("save");
