@@ -4,6 +4,7 @@ import storeConfig from "./store";
 import App from "./App.vue";
 import GraphEditor from "./components/GraphEditor.vue";
 import GraphManager from "./components/GraphManager.vue";
+import GraphVector from "./components/GraphVector.vue";
 import VueRouter from "vue-router";
 import {sync} from "vuex-router-sync";
 import Vuex from "vuex";
@@ -15,6 +16,7 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(PortalVue);
+Vue.component("graph-vector", GraphVector);
 const store = new Vuex.Store(storeConfig()) as any;
 store.dispatch("setupDataProvider");
 store.watch((state: any) => state.historyPosition, () => {

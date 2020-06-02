@@ -87,15 +87,10 @@
     </div>
 </template>
 <script>
-import {newId, replacer} from "../store/mutations"; // eslint-disable-line
+import compileTemplate from "../compileTemplate";
+import {replacer} from "../store/mutations"; // eslint-disable-line
 import {Vector, Graph} from "@plastic-io/plastic-io";
-import Vue from "vue";
 import {mapState, mapMutations, mapGetters} from "vuex";
-import {parseScript} from "meriyah";
-import {Parser} from "htmlparser2";
-import {DomHandler} from "domhandler";
-import {getInnerHTML} from "domutils";
-import {generate} from "escodegen";
 import VectorField from "./VectorField";
 import {diff} from "deep-diff";
 export default {
@@ -153,7 +148,7 @@ export default {
                     this.styles = [];
                     this.broken = null;
                     // recompile template after change
-                    this.compileTemplate(this.localVector.id, this.localVector.template.vue, true);
+                    compileTemplate(this, this.localVector.id, this.localVector.template.vue, true);
                 }
             },
             deep: true,
@@ -275,7 +270,7 @@ export default {
                     value: vect,
                 };
                 this.setArtifact(l);
-                await this.compileTemplate(vect.id, vect.template.vue);
+                await compileTemplate(this, vect.id, vect.template.vue);
             }
         },
         async importGraph(g) {
@@ -295,118 +290,7 @@ export default {
             v.properties.presentation.x = this.vector.properties.presentation.x;
             v.properties.presentation.y = this.vector.properties.presentation.y;
             v.properties.presentation.z = this.vector.properties.presentation.z;
-            await this.compileTemplate(artifactKey, v.template.vue);
-        },
-        compileTemplate(id, tmp, clearLoad) {
-            if (clearLoad) {
-                this.loaded[id] = undefined;
-            }
-            if (this.loaded[id] !== undefined) {
-                return;
-            }
-            let script;
-            let template;
-            let style;
-            const handler = new DomHandler(function(error, dom) {
-                if (error) {
-                    // Handle error
-                } else {
-                    // Parsing completed, do something
-                    dom.forEach((el) => {
-                        if (el.tagName === "script") {
-                            if (script !== undefined) {
-                                this.$store.dispatch("error",
-                                    new Error(`Vector ${id} contains a Vue template with more than one script tag.`));
-                                return;
-                            }
-                            script = getInnerHTML(el);
-                        }
-                        if (el.tagName === "template") {
-                            if (template !== undefined) {
-                                this.$store.dispatch("error",
-                                    new Error(`Vector ${id} contains a Vue template with more than one template tag.`));
-                                return;
-                            }
-                            template = getInnerHTML(el);
-                        }
-                        if (el.tagName === "style") {
-                            if (style !== undefined) {
-                                this.$store.dispatch("error",
-                                    new Error(`Vector ${id} contains a Vue template with more than one style tag.`));
-                                return;
-                            }
-                            style = getInnerHTML(el);
-                        }
-                    });
-                }
-            });
-            const parser = new Parser(handler, {
-                decodeEntities: true,
-                recognizeSelfClosing: true,
-            });
-            parser.write(tmp);
-            parser.end();
-            if (script === undefined) {
-                script = "export default {}";
-            }
-            // create a script that can use module imports and registers our vector's component
-            // this seems jank, but it isn't.  There are other ways, but they lack features: es6 mport, ref leaking
-            const scriptTemplate = script.replace("export default", "const c = {}; c.comp = ") + ";"
-                + "c.comp.template = `" + template + "`;"
-                + "c.comp.name = 'vector-" + id + "';"
-                + "window.Vue.component(c.comp.name, c.comp);";
-            const ast = parseScript(scriptTemplate, {
-                globalReturn: true,
-                module: true,
-                next: true,
-            });
-            const astString = generate(ast);
-            const scr = document.createElement("script");
-            scr.crossorigin = "anonymous";
-            scr.async = true;
-            scr.onerror = (err) => {
-                console.error("Script load error", err);
-                this.broken = err;
-            };
-            window.Vue = Vue;
-            scr.type = "module";
-            this.$el.appendChild(scr);
-            this.loaded[id] = false;
-            try {
-                scr.innerHTML = astString;
-            } catch (err) {
-                this.$store.dispatch("raiseError", new Error(`Vector ${id} contains an error in the Vue script. ${err}.`));
-            }
-            const checkReg = () => {
-                if (Vue.options.components["vector-" + id]) {
-                    this.loaded[id] = true;
-                    // attempts were made to avoid memory leaks
-                    if (scr.parentNode) {
-                        scr.parentNode.removeChild(scr);
-                    }
-                    let allLoaded = true;
-                    Object.keys(this.loaded).forEach((key) => {
-                        if (!this.loaded[key]) {
-                            allLoaded = false;
-                        }
-                    });
-                    if (allLoaded) {
-                        clearTimeout(this.longLoadingTimer);
-                        this.broken = false;
-                        try {
-                            this.$forceUpdate();
-                        } catch (err) {
-                            console.error(`Vector ${id} error:`, err);
-                            this.broken = err;
-                        }
-                    }
-                    return;
-                }
-                setTimeout(checkReg, 10);
-            };
-            checkReg();
-            // add styles on this component to the style list
-            this.styles.push(style);
+            await compileTemplate(this, artifactKey, v.template.vue);
         },
     },
     computed: {

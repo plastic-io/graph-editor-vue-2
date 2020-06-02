@@ -10,6 +10,9 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function updateGraphPresentationTemplate(state: any, e: {value: string}) {
+    state.graph.properties.presentationTemplate = e.value;
+}
 function commitToRewindVersion(state: any) {
     state.rewindTarget = JSON.parse(JSON.stringify(state.graphSnapshot));
     state.rewindVisible = false;
@@ -1096,6 +1099,7 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    updateGraphPresentationTemplate,
     commitToRewindVersion,
     setRewindVersion,
     rewindEnabled,
