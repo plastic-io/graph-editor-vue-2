@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.67% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/12</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.67% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/12</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
@@ -106,7 +106,12 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,15 +126,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -139,6 +135,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,8 +159,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,9 +166,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
     &lt;div&gt;
         &lt;component
-            v-if="loaded[this.graph.id]"
-            :is="'vector-' + graph.id"
-            :graph="graph"/&gt;
+            :key="localVersion"
+            v-if="loaded[graphSnapshot.id]"
+            :is="'vector-' + graphSnapshot.id"
+            :graph="graphSnapshot"/&gt;
     &lt;/div&gt;
 &lt;/template&gt;
 &lt;script&gt;
@@ -168,26 +177,31 @@ import compileTemplate from "../compileTemplate.ts";
 import {mapState} from "vuex";
 export default {
     name: "graph-presentation",
-    props: {
-        graph: Object,
+    computed: {
+        ...mapState({
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            graphSnapshot: state =&gt; state.graphSnapshot,</span></span>
+        }),
     },
     watch: {
-        graph: {
+        graphSnapshot: {
 <span class="fstat-no" title="function not covered" >            handler() {</span>
-<span class="cstat-no" title="statement not covered" >                if (this.localTemplate !== this.graph.properties.presentationTemplate) {</span>
-<span class="cstat-no" title="statement not covered" >                    this.localTemplate = this.graph.properties.presentationTemplate;</span>
+<span class="cstat-no" title="statement not covered" >                if (this.localTemplate !== this.graphSnapshot.properties.presentationTemplate) {</span>
+<span class="cstat-no" title="statement not covered" >                    this.localTemplate = this.graphSnapshot.properties.presentationTemplate;</span>
 <span class="cstat-no" title="statement not covered" >                    this.styles = [];</span>
 <span class="cstat-no" title="statement not covered" >                    this.broken = null;</span>
                     // recompile template after change
-<span class="cstat-no" title="statement not covered" >                    compileTemplate(this, this.graph.id, this.localTemplate, true);</span>
+<span class="cstat-no" title="statement not covered" >                    compileTemplate(this, this.graphSnapshot.id, this.localTemplate, true);</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                    setTimeout(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >                        this.localVersion += 1;</span>
+                    }, 100);
                 }
-            }
+            },
+            deep: true,
         },
     },
 <span class="fstat-no" title="function not covered" >    mounted() {</span>
-<span class="cstat-no" title="statement not covered" >        console.log("mounted");</span>
-<span class="cstat-no" title="statement not covered" >        this.localTemplate = this.graph.properties.presentationTemplate;</span>
-<span class="cstat-no" title="statement not covered" >        compileTemplate(this, this.graph.id, this.localTemplate, true);</span>
+<span class="cstat-no" title="statement not covered" >        this.localTemplate = this.graphSnapshot.properties.presentationTemplate;</span>
+<span class="cstat-no" title="statement not covered" >        compileTemplate(this, this.graphSnapshot.id, this.localTemplate, true);</span>
     },
 <span class="fstat-no" title="function not covered" >    data: () =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        return {</span>
@@ -196,11 +210,9 @@ export default {
             longLoading: false,
             loaded: {},
             styles: [],
+            localVersion: 0,
         };
     },
-    ...mapState({
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        graph: state =&gt; state.graph,</span></span>
-    }),
 };
 &lt;/script&gt;
 &lt;style&gt;&lt;/style&gt;
@@ -211,7 +223,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Jun 02 2020 08:54:18 GMT+0000 (Coordinated Universal Time)
+                at Wed Jun 03 2020 08:00:19 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
