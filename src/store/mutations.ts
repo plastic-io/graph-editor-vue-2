@@ -11,7 +11,7 @@ export interface ChangeEvent {
     changes: any[],
 }
 function updateGraphPresentationTemplate(state: any, e: {value: string}) {
-    state.graph.properties.presentationTemplate = e.value;
+    state.graphSnapshot.properties.presentationTemplate = e.value;
 }
 function commitToRewindVersion(state: any) {
     state.rewindTarget = JSON.parse(JSON.stringify(state.graphSnapshot));
@@ -968,7 +968,7 @@ function clearLog(state: any, e: any) {
 function connectorActivity(state: any, e: any) {
     Vue.set(state.activityConnectors, e.key, state.activityConnectors[e.key] || []);
     state.activityConnectors[e.key].push(e);
-    while (state.preferences.maxConnectorActivity > state.activityConnectors[e.key].length) {
+    while (state.preferences.maxConnectorActivity < state.activityConnectors[e.key].length) {
         state.activityConnectors[e.key].shift();
     }
 }

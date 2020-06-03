@@ -24,6 +24,24 @@ export default {
 <style>
 </style>
 `;
+const defaultNewGraphTemplate = `<template>
+    <div>
+        <graph-vector
+            v-for="vector in graph.vectors"
+            :key="vector.id"
+            :vector="vector"
+            :graph="graph"
+        ></graph-vector>
+    </div>
+</template>
+<script>
+    export default {
+        props: {
+            graph: Object,
+        },
+    }
+</script>
+`;
 const randomName = getRandomName();
 const preferences = {
     userName: randomName,
@@ -43,6 +61,7 @@ const preferences = {
         y: 100,
         z: 0,
     },
+    defaultNewGraphTemplate,
     defaultNewSetTemplate,
     defaultNewVueTemplate,
     snapToGrid: true,
