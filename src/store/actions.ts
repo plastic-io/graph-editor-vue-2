@@ -143,7 +143,10 @@ export default {
             if (preferences === null) {
                 throw "not found";
             }
-            preferences = JSON.parse(preferences);
+            preferences = {
+                ...context.state.originalPreferences,
+                ...JSON.parse(preferences),
+            };
         } catch (err) {
             if (/not found/.test(err.toString())) {
                 console.warn("No preferences found, writing defaults.");
@@ -488,6 +491,7 @@ export default {
                 height: 150,
                 width: 300,
                 startInPresentationMode: false,
+                presentationTemplate: context.state.preferences.defaultNewGraphTemplate
             }
         };
         context.dispatch("save", e);
@@ -531,7 +535,13 @@ export default {
             type: "savePreferences",
             loading: true,
         });
-        await context.state.dataProviders.preferences.set("preferences", {preferences: context.state.preferences});
+        // merge any new 
+        await context.state.dataProviders.preferences.set("preferences",
+            {
+                ...{preferences: context.state.originalPreferences},
+                ...{preferences: context.state.preferences}
+            }
+        );
         context.commit("setLoadingStatus", {
             key: 0,
             type: "savePreferences",

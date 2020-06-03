@@ -19,7 +19,7 @@
                 :graph="localGraph"
             />
         </template>
-        <graph-presentation :graph="localGraph" v-if="presentation"/>
+        <graph-presentation v-if="presentation"/>
         <div v-if="selectionRect.visible && !presentation" class="selection-rect" :style="selectionRectStyle"></div>
         <div v-if="selectedVectors.length > 0 && !presentation" class="bounding-rect" :style="boundingRectStyle"></div>
     </div>
