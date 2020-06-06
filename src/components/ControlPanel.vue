@@ -28,15 +28,14 @@
                         </v-icon>
                     </v-tab>
                     <v-tab key="vectors">
-                        <v-badge
-                          overlap
-                          :color="selectedVectors.length > 0 ? 'accent' : 'transparent'"
-                          :content="selectedVectors.length"
-                        >
-                            <v-icon>
-                                mdi-vector-point
-                            </v-icon>
-                        </v-badge>
+                        <v-icon>
+                            mdi-vector-point
+                        </v-icon>
+                    </v-tab>
+                    <v-tab key="endpoints">
+                        <v-icon>
+                            mdi-web
+                        </v-icon>
                     </v-tab>
                     <v-tab key="presentationTemplate">
                         <v-icon>
@@ -50,6 +49,11 @@
                     </v-tab-item>
                     <v-tab-item key="vectors">
                         <vector-list
+                            :style="gutterStyle"
+                            :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item key="endpoints">
+                        <endpoint-list
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
@@ -233,9 +237,11 @@ import ImportPanel from "./ImportPanel";
 import VectorTests from "./VectorTests";
 import VectorList from "./VectorList";
 import PresentationEditor from "./PresentationEditor";
+import EndpointList from "./EndpointList";
 export default {
     name: "control-panel",
     components: {
+        EndpointList,
         PresentationEditor,
         VectorTests,
         GraphLog,
