@@ -51,6 +51,7 @@ const preferences = {
     newVectorHelp: true,
     showLabels: true,
     debug: false,
+    showMap: false,
     useLocalStorage: true,
     showRemoteMouseMovements: true,
     maxConnectorActivity: 100,
@@ -91,6 +92,11 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            buttonMap: {
+                "0": "lmb",
+                "2": "rmb",
+                "1": "mmb"
+            },
             inRewindMode: false,
             rewindVisible: false,
             testOutputVersion: 0,
@@ -140,6 +146,7 @@ export default function () {
             jsonMimeType: "application/json",
             remoteEvents: [],
             remoteSnapshot: {},
+            setMapScale: 1,
             showInfo: false,
             infoMessage: "",
             showHelp: false,

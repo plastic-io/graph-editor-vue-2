@@ -88,7 +88,7 @@ export default function mouse(state: any, mouse: {
             && !state.keys[spaceKeyCode]
             && state.movingVectors.length === 0
         )) {
-        if (mouse.lmb && state.translating.mouse) {
+        if (mouse.lmb && state.translating.mouse && !state.translating.isMap) {
             state.selectionRect.visible = true;
             let x = state.translating.mouse.x - mouse.x;
             let y = state.translating.mouse.y - mouse.y;
@@ -286,10 +286,18 @@ export default function mouse(state: any, mouse: {
         }
     }
     // translate view
-    if ((state.keys[spaceKeyCode] && mouse.lmb) || mouse.mmb) {
+    if (((state.keys[spaceKeyCode] || state.translating.isMap) && mouse.lmb) || mouse.mmb) {
         mouse.event.preventDefault();
-        state.view.x = state.translating.view.x + (mouse.x - state.translating.mouse.x);
-        state.view.y = state.translating.view.y + (mouse.y - state.translating.mouse.y);
+        const p = {
+            x: state.translating.view.x + (mouse.x - state.translating.mouse.x),
+            y: state.translating.view.y + (mouse.y - state.translating.mouse.y),
+        };
+        if (state.translating.isMap) {
+            p.x = state.translating.view.x - ((mouse.x - state.translating.mouse.x) * state.mapScale * state.view.k);
+            p.y = state.translating.view.y - ((mouse.y - state.translating.mouse.y) * state.mapScale * state.view.k);
+        }
+        state.view.x = p.x * 1;
+        state.view.y = p.y * 1;
     }
     // move vectors
     if (state.movingVectors.length > 0 && !locked) {

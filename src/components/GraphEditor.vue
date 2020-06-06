@@ -116,7 +116,7 @@
                     <v-icon>mdi-network</v-icon>{{ selectedVectors.length }}/{{ graph.vectors.length }}
                 </div>
                 <div help-topic="viewportLocation" title="Viewport localtion" style="padding-right: 10px;cursor: crosshair;" @click="resetView">
-                    <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x }} y:{{ view.y }}
+                    <v-icon>mdi-crosshairs-gps</v-icon>x:{{ view.x.toFixed(0) }} y:{{ view.y.toFixed(0) }}
                 </div>
                 <v-icon title="Zoom Out (^ + -)" style="cursor: pointer;" @click="zoomOut">mdi-magnify-minus-outline</v-icon>
                 <div
@@ -152,6 +152,13 @@
                     style="padding-right: 10px;cursor: pointer;"
                     :color="preferences.appearance.showGrid ? 'info' : ''"
                     >mdi-grid</v-icon>
+                <v-icon
+                    title="Toggle Map Visibility"
+                    @click="toggleMap"
+                    help-topic="toggleMap"
+                    style="padding-right: 10px;cursor: pointer;"
+                    :color="preferences.showMap ? 'info' : ''"
+                    >mdi-map</v-icon>
                 <v-icon
                     title="Toggle Lock"
                     @click="toggleLock"
@@ -235,9 +242,11 @@
         </v-bottom-sheet>
         <test-view/>
         <graph-rewind v-if="rewindVisible"/>
+        <graph-map v-if="preferences.showMap && !presentation"/>
     </v-app>
 </template>
 <script>
+import GraphMap from "./GraphMap";
 import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
@@ -253,6 +262,7 @@ export default {
         route: Object,
     },
     components: {
+        GraphMap,
         GraphRewind,
         TestView,
         GraphCanvas,
@@ -296,6 +306,7 @@ export default {
     },
     computed: {
         ...mapState({
+            buttonMap: state => state.buttonMap,
             inRewindMode: state => state.inRewindMode,
             rewindVisible: state => state.rewindVisible,
             showInfo: state => state.showInfo,
@@ -361,6 +372,7 @@ export default {
             "toggleHelp",
         ]),
         ...mapActions([
+            "toggleMap",
             "save",
             "raiseError",
             "clearError",
@@ -484,6 +496,7 @@ export default {
             });
         },
         mousedown(e) {
+            let isMap = false;
             if (!this.graph || this.showHelp || this.inRewindMode) {
                 return;
             }
@@ -491,7 +504,11 @@ export default {
             if (!this.isGraphTarget(e)) {
                 return;
             }
+            if (/graph-map-view-port|graph-map/.test(e.target.className)) {
+                isMap = true;
+            }
             const translating = {
+                isMap,
                 mouse: {
                     x: this.mouse.x,
                     y: this.mouse.y,
@@ -704,11 +721,6 @@ export default {
     },
     data: () => {
         return {
-            buttonMap: {
-                "0": "lmb",
-                "2": "rmb",
-                "1": "mmb"
-            },
             spaceKeyCode: 32,
             translate: false,
             showDialog: false,

@@ -18,6 +18,11 @@ describe("GraphEditor.vue", () => {
     beforeEach(() => {
         storeConfig = {
             state: {
+                buttonMap: {
+                    "0": "lmb",
+                    "2": "rmb",
+                    "1": "mmb"
+                },
                 dataProviders: {
                     graph: {
                         asyncUpdate: false,
@@ -169,7 +174,7 @@ describe("GraphEditor.vue", () => {
                     className: "not-vector",
                 },
             });
-            expect(actions.translating.mock.calls[0][1]).toEqual({"mouse": {"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "not-vector"}}, "x": 0, "y": 0}, "vectors": [], "view": {"x": 0, "y": 0}});
+            expect(actions.translating.mock.calls[0][1]).toEqual({"mouse": {"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "not-vector"}}, "x": 0, "y": 0}, "vectors": [], "isMap": false, "view": {"x": 0, "y": 0}});
             expect(actions.mouse).toHaveBeenCalled();
             expect(actions.mouse.mock.calls[0][1]).toEqual({"event": {"button": 0, "clientX": 100, "clientY": 100, "target": {"className": "not-vector"}}, "lmb": true, "mmb": false, "rmb": false, "x": 0, "y": 0});
             done();

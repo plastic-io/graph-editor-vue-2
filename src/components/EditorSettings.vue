@@ -134,11 +134,11 @@ export default {
     },
     methods: {
         clearEditorSettings() {
-            localStorage.removeItem("preferences");
-            this.getPreferences();
+            this.preferences(); // sets defaults when called with no argument
+            this.savePreferences();
         },
         ...mapActions([
-            "getPreferences",
+            "preferences",
             "savePreferences",
         ]),
     },
