@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.26% </span>
+                <span class="strong">94.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>181/190</span>
+                <span class='fraction'>183/194</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.33% </span>
+                <span class="strong">85.11% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>157/184</span>
+                <span class='fraction'>160/188</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.86% </span>
+                <span class="strong">93.85% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>166/175</span>
+                <span class='fraction'>168/179</span>
             </div>
         
             
@@ -366,7 +366,15 @@
 <a name='L307'></a><a href='#L307'>307</a>
 <a name='L308'></a><a href='#L308'>308</a>
 <a name='L309'></a><a href='#L309'>309</a>
-<a name='L310'></a><a href='#L310'>310</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -657,6 +665,14 @@
 <span class="cline-any cline-yes">21x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -765,7 +781,7 @@ export default function mouse(state: any, mouse: {
             &amp;&amp; <span class="branch-7 cbranch-no" title="branch not covered" >!state.</span>keys[spaceKeyCode]
             &amp;&amp; <span class="branch-8 cbranch-no" title="branch not covered" >state.movingVectors.length === 0</span>
         )) {
-        if (mouse.lmb &amp;&amp; state.translating.mouse) {
+        if (mouse.lmb &amp;&amp; state.translating.mouse &amp;&amp; !state.translating.isMap) {
             state.selectionRect.visible = true;
             let x = state.translating.mouse.x - mouse.x;
             let y = state.translating.mouse.y - mouse.y;
@@ -963,10 +979,18 @@ export default function mouse(state: any, mouse: {
         }
     }
     // translate view
-    if ((state.keys[spaceKeyCode] &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >mouse.lmb) || m</span>ouse.mmb) {
+    if (((state.keys[spaceKeyCode] || state.translating.isMap) &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >mouse.lmb) || m</span>ouse.mmb) {
         mouse.event.preventDefault();
-        state.view.x = state.translating.view.x + (mouse.x - state.translating.mouse.x);
-        state.view.y = state.translating.view.y + (mouse.y - state.translating.mouse.y);
+        const p = {
+            x: state.translating.view.x + (mouse.x - state.translating.mouse.x),
+            y: state.translating.view.y + (mouse.y - state.translating.mouse.y),
+        };
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (state.translating.isMap) {
+<span class="cstat-no" title="statement not covered" >            p.</span>x = state.translating.view.x - ((mouse.x - state.translating.mouse.x) * state.mapScale * state.view.k);
+<span class="cstat-no" title="statement not covered" >            p.</span>y = state.translating.view.y - ((mouse.y - state.translating.mouse.y) * state.mapScale * state.view.k);
+        }
+        state.view.x = p.x * 1;
+        state.view.y = p.y * 1;
     }
     // move vectors
     if (state.movingVectors.length &gt; 0 &amp;&amp; !locked) {
@@ -991,7 +1015,7 @@ export default function mouse(state: any, mouse: {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jun 03 2020 08:00:19 GMT+0000 (Coordinated Universal Time)
+                at Sat Jun 06 2020 09:21:38 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
