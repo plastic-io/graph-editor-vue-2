@@ -10,6 +10,12 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function setMapScale(state: any, e: number) {
+    state.mapScale = e;
+}
+function toggleMap(state: any) {
+    state.preferences.showMap = !state.preferences.showMap;
+}
 function updateGraphPresentationTemplate(state: any, e: {value: string}) {
     state.graphSnapshot.properties.presentationTemplate = e.value;
 }
@@ -1099,6 +1105,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    setMapScale,
+    toggleMap,
     updateGraphPresentationTemplate,
     commitToRewindVersion,
     setRewindVersion,

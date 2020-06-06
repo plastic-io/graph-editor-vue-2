@@ -1,6 +1,6 @@
 <template>
     <div @wheel.stop @mousedown.stop @mouseup.stop @click.stop>
-        <v-card class="connector-view" v-if="activity">
+        <v-card class="connector-view" v-if="activity" elevation="7">
         <v-system-bar :key="activity.length">
             <v-icon title="Connector Information">
                 mdi-information-outline

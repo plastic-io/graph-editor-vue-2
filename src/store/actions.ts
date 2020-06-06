@@ -536,6 +536,7 @@ export default {
             loading: true,
         });
         // merge any new 
+        console.log("new");
         await context.state.dataProviders.preferences.set("preferences",
             {
                 ...{preferences: context.state.originalPreferences},
@@ -851,7 +852,11 @@ export default {
         context.dispatch("save");
     },
     preferences(context: any, e: object) {
-        context.commit("setPreferences", e);
+        context.commit("setPreferences", e || context.state.originalPreferences);
+        context.dispatch("savePreferences");
+    },
+    toggleMap(context: any) {
+        context.commit("toggleMap");
         context.dispatch("savePreferences");
     },
 };
