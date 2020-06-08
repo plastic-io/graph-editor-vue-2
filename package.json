@@ -24,6 +24,7 @@
     "@mdi/font": "^4.9.95",
     "@plastic-io/plastic-io": "1.0.17",
     "@vue/test-utils": "1.0.0-beta.29",
+    "canvas-datagrid": "^0.22.13",
     "core-js": "^3.6.5",
     "emmet": "git+https://github.com/cloud9ide/emmet-core.git#41973fcc70392864c7a469cf5dcd875b88b93d4a",
     "htmlparser2": "^4.1.0",

@@ -71,77 +71,61 @@
                     </v-card>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('error')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event.err.stack}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('error').map(i => i.event)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('warn')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event.err.stack}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('warn').map(i => i.event)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('info')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('info').map(i => i.event)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('debug')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('debug').map(i => i.event)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('edge')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('edge')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('edge').map(i => i.event)"/>
                 </v-tab-item>
             </v-tabs>
         </v-card-text>
     </v-card>
 </template>
 <script>
+import DataGrid from "./DataGrid";
 import JsonViewer from "vue-json-viewer";
 import {mapState, mapMutations} from "vuex";
 export default {
     name: "graph-log",
-    components: {JsonViewer},
+    components: {JsonViewer, DataGrid},
     data: () => {
         return {};
+    },
+    props: {
+        width: Number,
     },
     methods: {
         ...mapMutations([
