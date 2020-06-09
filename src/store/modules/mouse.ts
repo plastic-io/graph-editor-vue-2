@@ -196,7 +196,7 @@ export default function mouse(state: any, mouse: {
         }
     }
     // drop moving vectors and connectors
-    if (!mouse.lmb && state.mouse.lmb) {
+    if (!mouse.lmb && state.mouse.lmb && state.movingVectors.length > 0) {
         state.movingVectors = [];
         applyGraphChanges(state, "Move Vectors");
         state.movingConnector = null;

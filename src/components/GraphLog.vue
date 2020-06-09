@@ -71,82 +71,112 @@
                     </v-card>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
-                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('error').map(infoEvent)">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('error')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event.err.stack}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('error').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
-                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn').map(infoEvent)">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('warn')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event.err.stack}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('warn').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('info')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('info').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('debug')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :schema="debugSchema" :data="getLogByType('debug').map(debugEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
-                    <v-system-bar style="position: absolute; width: 100%;" color="primary">
+                    <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('edge')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
-                    <br>
-                    <div v-for="(item, index) in getLogByType('edge')" :key="index">
-                        <div>{{item._t}}</div>
-                        <pre>{{item.event}}</pre>
-                        <v-divider/>
-                    </div>
+                    <v-spacer/>
+                    <data-grid :width="width" :data="getLogByType('edge').map(i => i.event)"/>
                 </v-tab-item>
             </v-tabs>
         </v-card-text>
     </v-card>
 </template>
 <script>
+import DataGrid from "./DataGrid";
 import JsonViewer from "vue-json-viewer";
 import {mapState, mapMutations} from "vuex";
+import moment from "moment";
 export default {
     name: "graph-log",
-    components: {JsonViewer},
+    components: {JsonViewer, DataGrid},
     data: () => {
-        return {};
+        return {
+            logSchema: [
+                {
+                    name: "time",
+                    title: "Time",
+                    type: "number",
+                },
+                {
+                    name: "message",
+                },
+                {
+                    name: "url",
+                }
+            ],
+            debugSchema: [
+                {
+                    name: "_t",
+                    title: "Time",
+                    type: "number",
+                },
+                {
+                    name: "event",
+                    title: "Event",
+                }
+            ],
+        };
+    },
+    props: {
+        width: Number,
     },
     methods: {
         ...mapMutations([
             "clearLog",
         ]),
+        fromNow(e) {
+            return moment(new Date(e)).fromNow();
+        },
+        debugEvent(item) {
+            return {
+                _t: this.fromNow(item._t),
+                event: item.event,
+            };
+        },
+        infoEvent(item) {
+            return typeof item.event === "string" ? {
+                time: this.fromNow(item._t),
+                url: "N/A",
+                message: item.event,
+            } : {
+                time: this.fromNow(item._t),
+                url: item.url,
+                message: "Execute vector via URL",
+            };
+        },
     },
     computed: {
         ...mapState({
