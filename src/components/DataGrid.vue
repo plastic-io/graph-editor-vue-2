@@ -1,7 +1,7 @@
 
 <template>
     <div style="overflow: hidden;">
-        <canvas-datagrid ref="grid" :style="gridStyle" :data.prop="data"/>
+        <canvas-datagrid :schema.prop="schema" ref="grid" :style="gridStyle" :data.prop="data"/>
     </div>
 </template>
 <script>
@@ -48,6 +48,9 @@ export default {
             setTimeout(() => {
                 if (!setTheme && this.$refs.grid) {
                     setTheme = true;
+                    this.$refs.grid.sorters.number = function (a, b) {
+                        return a - b;
+                    };
                     this.$refs.grid.style = gridThemes[this.preferences.appearance.theme];
                 }
                 this.$refs.grid.style.height = this.height + "px";

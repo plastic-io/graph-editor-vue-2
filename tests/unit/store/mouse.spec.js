@@ -400,6 +400,7 @@ describe("Mouse mutations", () => {
             state.graphSnapshot.vectors[0].properties.groups = [groupId];
             state.graphSnapshot.vectors[1].properties.groups = [groupId];
             state.hoveredVector = state.graphSnapshot.vectors[0];
+            state.movingVectors = [state.graphSnapshot.vectors[0]];
             state.translating = {
                 view: state.view,
                 mouse: state.mouse,

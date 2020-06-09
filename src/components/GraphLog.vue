@@ -73,18 +73,18 @@
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
-                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('error')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('error').map(infoEvent)">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <v-spacer/>
-                    <data-grid :width="width" :data="getLogByType('error').map(i => i.event)"/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('error').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
                         <v-spacer/>
-                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn')">mdi-notification-clear-all</v-icon>
+                        <v-icon help-topic="logClear" title="Clear" @click="clearLog('warn').map(infoEvent)">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <v-spacer/>
-                    <data-grid :width="width" :data="getLogByType('warn').map(i => i.event)"/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('warn').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab">
                     <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
@@ -92,7 +92,7 @@
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('info')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <v-spacer/>
-                    <data-grid :width="width" :data="getLogByType('info').map(i => i.event)"/>
+                    <data-grid :width="width" :schema="logSchema" :data="getLogByType('info').map(infoEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
                     <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
@@ -100,7 +100,7 @@
                         <v-icon help-topic="logClear" title="Clear" @click="clearLog('debug')">mdi-notification-clear-all</v-icon>
                     </v-system-bar>
                     <v-spacer/>
-                    <data-grid :width="width" :data="getLogByType('debug').map(i => i.event)"/>
+                    <data-grid :width="width" :schema="debugSchema" :data="getLogByType('debug').map(debugEvent)"/>
                 </v-tab-item>
                 <v-tab-item class="log-tab" v-if="preferences.debug">
                     <v-system-bar style="position: absolute; width: calc(100% - 3px);" color="primary">
@@ -118,11 +118,37 @@
 import DataGrid from "./DataGrid";
 import JsonViewer from "vue-json-viewer";
 import {mapState, mapMutations} from "vuex";
+import moment from "moment";
 export default {
     name: "graph-log",
     components: {JsonViewer, DataGrid},
     data: () => {
-        return {};
+        return {
+            logSchema: [
+                {
+                    name: "time",
+                    title: "Time",
+                    type: "number",
+                },
+                {
+                    name: "message",
+                },
+                {
+                    name: "url",
+                }
+            ],
+            debugSchema: [
+                {
+                    name: "_t",
+                    title: "Time",
+                    type: "number",
+                },
+                {
+                    name: "event",
+                    title: "Event",
+                }
+            ],
+        };
     },
     props: {
         width: Number,
@@ -131,6 +157,26 @@ export default {
         ...mapMutations([
             "clearLog",
         ]),
+        fromNow(e) {
+            return moment(new Date(e)).fromNow();
+        },
+        debugEvent(item) {
+            return {
+                _t: this.fromNow(item._t),
+                event: item.event,
+            };
+        },
+        infoEvent(item) {
+            return typeof item.event === "string" ? {
+                time: this.fromNow(item._t),
+                url: "N/A",
+                message: item.event,
+            } : {
+                time: this.fromNow(item._t),
+                url: item.url,
+                message: "Execute vector via URL",
+            };
+        },
     },
     computed: {
         ...mapState({
