@@ -195,7 +195,11 @@ export default {
                     });
                 }
             };
-            const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer, wsMessage, wsOpen, wsClose);
+            const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer,
+                preferences.graphHTTPServer,
+                wsMessage,
+                wsOpen,
+                wsClose);
             const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
             context.dispatch("setDataProviders", {
                 artifact: httpDataProvider,

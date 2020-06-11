@@ -7,8 +7,14 @@ export default class HTTPDataProvider {
         }
         this.baseUrl = baseUrl + (baseUrl[baseUrl.length - 1] === "/" ? "" : "/");
     }
-    set(url: string, value: any) {
-        console.log("httpDataProvider", url, value);
+    async set(url: string, value: any) {
+        const request = new Request(this.baseUrl + url, {method: "POST", body: value});
+        try {
+            const response = await fetch(request);
+            return await response.json();
+        } catch (err) {
+            throw new Error("Cannot post event: " + err);
+        }
     }
     async get(url: string) {
         const data = await fetch(this.baseUrl + url);

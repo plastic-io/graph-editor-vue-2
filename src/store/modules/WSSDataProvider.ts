@@ -1,8 +1,13 @@
 import {newId} from "../mutations"; // eslint-disable-line
+import HTTPDataProvider from "./HTTPDataProvider";
+const CHUNK_SIZE = 35000;
 export default class WSSDataProvider {
     asyncUpdate: boolean;
-    url: string;
+    httpUrl: string;
+    wssUrl: string;
     keepOpen: boolean;
+    chunks: any;
+    httpDataProvider: HTTPDataProvider;
     webSocket: WebSocket;
     state: string;
     messages: any[];
@@ -11,22 +16,28 @@ export default class WSSDataProvider {
     close: () => void;
     events: any;
     subscriptions: string[];
-    constructor(url: string, message: (e: any) => void, open: () => void, close: () => void) {
-        if (!url) {
-            throw new Error("No url was passed to WSSDataProvider");
+    constructor(wssUrl: string, httpUrl: string, message: (e: any) => void, open: () => void, close: () => void) {
+        if (!wssUrl) {
+            throw new Error("No wssUrl was passed to WSSDataProvider");
+        }
+        if (!httpUrl) {
+            throw new Error("No httpUrl was passed to WSSDataProvider");
         }
         this.asyncUpdate = true;
         this.events = {};
+        this.chunks = {};
         this.messages = [];
         this.keepOpen = true;
-        this.url = url;
+        this.wssUrl = wssUrl;
+        this.httpUrl = httpUrl;
         this.message = message;
         this.open = open;
         this.close = close;
         this.subscriptions = [];
         this.state = "connecting";
         this.keepOpen = true;
-        this.webSocket = new WebSocket(this.url);
+        this.httpDataProvider = new HTTPDataProvider(this.httpUrl);
+        this.webSocket = new WebSocket(this.wssUrl);
         this.connect();
     }
     send(e: any) {
@@ -39,7 +50,7 @@ export default class WSSDataProvider {
     connect() {
         if (this.state === "closed") {
             this.state = "connecting";
-            this.webSocket = new WebSocket(this.url);
+            this.webSocket = new WebSocket(this.wssUrl);
         }
         this.webSocket.addEventListener("open", () => {
             this.state = "open";
@@ -64,6 +75,20 @@ export default class WSSDataProvider {
         });
     }
     messageHandler(e: any) {
+        if (e.chunkCollectionId) {
+            this.chunks[e.chunkCollectionId] = this.chunks[e.chunkCollectionId] || [];
+            this.chunks[e.chunkCollectionId].push(e);
+            if (this.chunks[e.chunkCollectionId].length === e.parts) {
+                const msg: any[] = [];
+                this.chunks[e.chunkCollectionId].sort((a: any, b: any) => {
+                    return a.part - b.part;
+                }).forEach((chunk: any) => {
+                    msg.push(chunk.value);
+                });
+                this.messageHandler(JSON.parse(msg.join("")));
+            }
+            return;
+        }
         if (e.unsubscribed) {
             const idx = this.subscriptions.indexOf(e.unsubscribed);
             if (idx !== -1) {
@@ -183,9 +208,22 @@ export default class WSSDataProvider {
             id: url,
         });
     }
-    set(url: string, value: any) {
+    async set(url: string, value: any) {
         // can be three things, changes, published graph, published vector
         if ("changes" in value) {
+            const valueLen = JSON.stringify(value).length;
+            if (valueLen > CHUNK_SIZE) {
+                try {
+                    const response = await this.httpDataProvider.set("addEvent", JSON.stringify({
+                        action: "addEvent",
+                        event: value,
+                    }));
+                    this.messageHandler(response);
+                } catch (err) {
+                    throw new Error("Cannot write event via HTTP POST: " + err);
+                }
+                return;
+            }
             this.send({
                 action: "addEvent",
                 event: value
