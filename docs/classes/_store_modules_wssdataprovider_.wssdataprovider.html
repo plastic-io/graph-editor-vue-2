@@ -91,16 +91,19 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#asyncupdate" class="tsd-kind-icon">async<wbr>Update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#chunks" class="tsd-kind-icon">chunks</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#events" class="tsd-kind-icon">events</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#httpdataprovider" class="tsd-kind-icon">http<wbr>Data<wbr>Provider</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#httpurl" class="tsd-kind-icon">http<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#keepopen" class="tsd-kind-icon">keep<wbr>Open</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#message" class="tsd-kind-icon">message</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#messages" class="tsd-kind-icon">messages</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#open" class="tsd-kind-icon">open</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#state" class="tsd-kind-icon">state</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#subscriptions" class="tsd-kind-icon">subscriptions</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#url" class="tsd-kind-icon">url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#websocket" class="tsd-kind-icon">web<wbr>Socket</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_store_modules_wssdataprovider_.wssdataprovider.html#wssurl" class="tsd-kind-icon">wss<wbr>Url</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -131,19 +134,22 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new WSSData<wbr>Provider<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, close<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_store_modules_wssdataprovider_.wssdataprovider.html" class="tsd-signature-type">WSSDataProvider</a></li>
+						<li class="tsd-signature tsd-kind-icon">new WSSData<wbr>Provider<span class="tsd-signature-symbol">(</span>wssUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, httpUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, close<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_store_modules_wssdataprovider_.wssdataprovider.html" class="tsd-signature-type">WSSDataProvider</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L13">store/modules/WSSDataProvider.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L18">store/modules/WSSDataProvider.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<h5>wssUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>httpUrl: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>message: <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
@@ -210,7 +216,17 @@
 					<div class="tsd-signature tsd-kind-icon">async<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L3">store/modules/WSSDataProvider.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L5">store/modules/WSSDataProvider.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="chunks" class="tsd-anchor"></a>
+					<h3>chunks</h3>
+					<div class="tsd-signature tsd-kind-icon">chunks<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L9">store/modules/WSSDataProvider.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -220,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L11">store/modules/WSSDataProvider.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L16">store/modules/WSSDataProvider.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -245,7 +261,27 @@
 					<div class="tsd-signature tsd-kind-icon">events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L12">store/modules/WSSDataProvider.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L17">store/modules/WSSDataProvider.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="httpdataprovider" class="tsd-anchor"></a>
+					<h3>http<wbr>Data<wbr>Provider</h3>
+					<div class="tsd-signature tsd-kind-icon">http<wbr>Data<wbr>Provider<span class="tsd-signature-symbol">:</span> <a href="_store_modules_httpdataprovider_.httpdataprovider.html" class="tsd-signature-type">HTTPDataProvider</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L10">store/modules/WSSDataProvider.ts:10</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="httpurl" class="tsd-anchor"></a>
+					<h3>http<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">http<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L6">store/modules/WSSDataProvider.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -255,7 +291,7 @@
 					<div class="tsd-signature tsd-kind-icon">keep<wbr>Open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L5">store/modules/WSSDataProvider.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L8">store/modules/WSSDataProvider.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -265,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L9">store/modules/WSSDataProvider.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L14">store/modules/WSSDataProvider.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -296,7 +332,7 @@
 					<div class="tsd-signature tsd-kind-icon">messages<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L8">store/modules/WSSDataProvider.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L13">store/modules/WSSDataProvider.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -306,7 +342,7 @@
 					<div class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L10">store/modules/WSSDataProvider.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L15">store/modules/WSSDataProvider.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -331,7 +367,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L7">store/modules/WSSDataProvider.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L12">store/modules/WSSDataProvider.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -341,17 +377,7 @@
 					<div class="tsd-signature tsd-kind-icon">subscriptions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L13">store/modules/WSSDataProvider.ts:13</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="url" class="tsd-anchor"></a>
-					<h3>url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L4">store/modules/WSSDataProvider.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L18">store/modules/WSSDataProvider.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -361,7 +387,17 @@
 					<div class="tsd-signature tsd-kind-icon">web<wbr>Socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebSocket</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L6">store/modules/WSSDataProvider.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L11">store/modules/WSSDataProvider.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="wssurl" class="tsd-anchor"></a>
+					<h3>wss<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">wss<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L7">store/modules/WSSDataProvider.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -378,7 +414,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L39">store/modules/WSSDataProvider.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L50">store/modules/WSSDataProvider.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -395,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L180">store/modules/WSSDataProvider.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L205">store/modules/WSSDataProvider.ts:205</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -418,7 +454,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L88">store/modules/WSSDataProvider.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L113">store/modules/WSSDataProvider.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -435,7 +471,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L160">store/modules/WSSDataProvider.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L185">store/modules/WSSDataProvider.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -458,7 +494,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L118">store/modules/WSSDataProvider.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L143">store/modules/WSSDataProvider.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -481,7 +517,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L129">store/modules/WSSDataProvider.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L154">store/modules/WSSDataProvider.ts:154</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -504,7 +540,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L66">store/modules/WSSDataProvider.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L77">store/modules/WSSDataProvider.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -527,7 +563,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L32">store/modules/WSSDataProvider.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L43">store/modules/WSSDataProvider.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -550,7 +586,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L140">store/modules/WSSDataProvider.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L165">store/modules/WSSDataProvider.ts:165</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -573,7 +609,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L146">store/modules/WSSDataProvider.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L171">store/modules/WSSDataProvider.ts:171</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -607,7 +643,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L153">store/modules/WSSDataProvider.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L178">store/modules/WSSDataProvider.ts:178</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -635,13 +671,13 @@
 					<a name="set" class="tsd-anchor"></a>
 					<h3>set</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L186">store/modules/WSSDataProvider.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L211">store/modules/WSSDataProvider.ts:211</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -653,7 +689,7 @@
 									<h5>value: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -667,7 +703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L92">store/modules/WSSDataProvider.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L117">store/modules/WSSDataProvider.ts:117</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -693,7 +729,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/1a2b3b9/src/store/modules/WSSDataProvider.ts#L104">store/modules/WSSDataProvider.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/0b1ed93/src/store/modules/WSSDataProvider.ts#L129">store/modules/WSSDataProvider.ts:129</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -802,10 +838,19 @@
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#asyncupdate" class="tsd-kind-icon">async<wbr>Update</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#chunks" class="tsd-kind-icon">chunks</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#close" class="tsd-kind-icon">close</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#events" class="tsd-kind-icon">events</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#httpdataprovider" class="tsd-kind-icon">http<wbr>Data<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#httpurl" class="tsd-kind-icon">http<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#keepopen" class="tsd-kind-icon">keep<wbr>Open</a>
@@ -826,10 +871,10 @@
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#subscriptions" class="tsd-kind-icon">subscriptions</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#url" class="tsd-kind-icon">url</a>
+								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#websocket" class="tsd-kind-icon">web<wbr>Socket</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#websocket" class="tsd-kind-icon">web<wbr>Socket</a>
+								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#wssurl" class="tsd-kind-icon">wss<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_store_modules_wssdataprovider_.wssdataprovider.html#connect" class="tsd-kind-icon">connect</a>
@@ -877,6 +922,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_store_modules_wssdataprovider_.html#chunk_size" class="tsd-kind-icon">CHUNK_<wbr>SIZE</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
