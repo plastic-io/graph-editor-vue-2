@@ -401,7 +401,6 @@ const notFoundMessages = [
 ];
 const notFoundIcons = [
     "mdi-skull",
-    "mdi - space - station",
     "mdi-space-station",
     "mdi-head-question-outline",
     "mdi-head-cog-outline",

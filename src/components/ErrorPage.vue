@@ -5,14 +5,17 @@
                 <v-container>
                     <v-row class="flex-column flex-md-row">
                         <v-col class="pa-0 text-center" >
-                            <v-icon :color="getRandomColor" class="mr-md-3" size="12rem">
-                            {{messageIcon}}
-                            </v-icon>
+                            <v-icon
+                                :color="getRandomColor"
+                                class="mr-md-3"
+                                size="12rem"
+                                v-html="messageIcon"
+                            />
                         </v-col>
                         <v-col class="align-self-center pa-0 text-center text-md-left">
                             <v-card-text>
-                                <h1 class="mb-3">{{ pageNotFound }}</h1>
-                                <p class="mb-0">{{ userMessage }}</p>
+                                <h1 class="mb-3" v-html="pageNotFound" />
+                                <p class="mb-0" v-html="userMessage" />
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn class="mx-auto-xs" color="primary" to="/graph-editor/graphs">

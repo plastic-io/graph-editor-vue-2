@@ -195,7 +195,7 @@
                 </v-row>
                 <v-row>
                     <v-col v-if="graph">
-                        <v-btn @click="clearError">{{errBtnMsg}}</v-btn>
+                        <v-btn @click="clearError">Dismise</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
@@ -251,7 +251,6 @@ import GraphMap from "./GraphMap";
 import ErrorPage from "./ErrorPage";
 import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
-import {randomNotFoundMessage} from "../names";
 import {mapState, mapActions, mapMutations} from "vuex";
 import ControlPanel from "./ControlPanel";
 import HelpOverlay from "./HelpOverlay";
@@ -345,9 +344,6 @@ export default {
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
-        errBtnMsg: function() {
-            return randomNotFoundMessage();
-        },
         pending: function() {
             return Object.keys(this.pendingEvents).length;
         },
