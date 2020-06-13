@@ -393,11 +393,23 @@ const animals = [
     "Worm",
     "Louse",
 ];
+const userErrorMessagesList = [
+    "Were you born this stupid?",
+    "Ya done fucked up, SON!.",
+    "You have a face in need of punching.",
+    "If you have reached this page, you are probably dumb as shit.",
+    "Your parents must be so disapointed in you.",
+    "Maybe try not being so dumb next time."
+];
+
 function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     //The maximum is exclusive and the minimum is inclusive
     return Math.floor(Math.random() * (max - min)) + min;
+}
+export function randomErrorMessage() {
+    return userErrorMessagesList[getRandomInt(0, userErrorMessagesList.length)];
 }
 export default function getName() {
     const animal = animals[getRandomInt(0, animals.length)];
