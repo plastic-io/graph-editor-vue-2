@@ -1,41 +1,46 @@
 <template>
-<v-app>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <v-card color="transparent" flat>
-          <v-card-title>
-            <v-icon class="mr-4">mdi-skull</v-icon>
-            {{ error.statusCode }}
-            <v-divider class="mx-4" vertical />
-            <span v-if="error.statusCode === 404">{{ pageNotFound }}</span>
-            <span v-else>{{ otherError }}</span>
-          </v-card-title>
-          <v-card-subtitle>
-            {{ userMessage }}
-          </v-card-subtitle>
-          <v-card-actions>
-            <v-btn color="primary" to="/graph-editor/graphs">
-              Back to the Graph Manager
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
-</v-app>
-
+    <v-app>
+        <div class="error-wrap d-flex">
+            <v-card color="transparent" flat>
+                <v-container>
+                    <v-row>
+                        <v-col class="flex-grow-0" >
+                            <v-icon :color="getRandomColor" class="mr-4" size="10rem">
+                            {{messageIcon}}
+                            </v-icon>
+                        </v-col>
+                        <v-col class="flex-grow-1">
+                            <v-card-text>
+                                <h1 class="mb-4">{{ pageNotFound }}</h1>
+                                <p class="mb-0">{{ userMessage }}</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn color="primary" to="/graph-editor/graphs">
+                                Back to the Graph Manager
+                                </v-btn>
+                            </v-card-actions>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+        </div>
+    </v-app>
 </template>
 
 <script>
 import {mapState} from "vuex";
-import {randomErrorMessage} from "../names";
+import colors from "vuetify/lib/util/colors";
+import {randomNotFoundMessage, randomNotFoundIcons} from "../names";
 export default {
     name: "error-page",
     props: {
         error: {
             type: Object,
-            default: null
+            default: () => {
+                return {
+                    statusCode: 404,
+                };
+            },
         }
     },
     data() {
@@ -49,8 +54,21 @@ export default {
             preferences: (state) => state.preferences,
         }),
         userMessage() {
-            return randomErrorMessage();
-        }
+            return randomNotFoundMessage();
+        },
+        messageIcon() {
+            return randomNotFoundIcons();
+        },
+        getRandomColor() {
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                //The maximum is exclusive and the minimum is inclusive
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+            const colorNames = Object.keys(colors);
+            return colorNames[getRandomInt(0, colorNames.length)];
+        },
     },
     created() {
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
@@ -66,7 +84,13 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-size: 20px;
+.error-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 100vh;
+  width: 100%;
 }
+
 </style>
