@@ -1,24 +1,22 @@
 <template>
     <v-app>
-        <div class="error-wrap d-flex">
-            <v-card color="transparent" flat>
+        <div class="error-wrap d-flex justify-center align-center">
+            <v-card class="align-self-center" color="transparent" flat>
                 <v-container>
                     <v-row>
-                        <v-col class="flex-grow-0" >
-                            <v-icon :color="getRandomColor" class="mr-4" size="10rem">
+                        <v-col class="pa-0 text-center" >
+                            <v-icon :color="getRandomColor" class="mr-3-md" size="12rem">
                             {{messageIcon}}
                             </v-icon>
                         </v-col>
-                        <v-col class="flex-grow-1">
+                        <v-col class="align-self-center pa-0 text-center text-sm-left">
                             <v-card-text>
-                                <h1 class="mb-4">{{ pageNotFound }}</h1>
-                                <p class="mb-0">{{ userMessage }}</p>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn color="primary" to="/graph-editor/graphs">
+                                <h1 class="mb-3">{{ pageNotFound }}</h1>
+                                <p >{{ userMessage }}</p>
+                                <v-btn  class="mx-auto-xs" color="primary" to="/graph-editor/graphs">
                                 Back to the Graph Manager
                                 </v-btn>
-                            </v-card-actions>
+                            </v-card-text>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -85,9 +83,6 @@ export default {
 
 <style scoped>
 .error-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   min-height: 100vh;
   width: 100%;
