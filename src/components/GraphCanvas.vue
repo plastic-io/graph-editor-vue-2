@@ -17,6 +17,7 @@
                 :key="vector.id"
                 :vector="vector"
                 :graph="localGraph"
+                :presentation="false"
             />
         </template>
         <graph-presentation v-if="presentation"/>
