@@ -44,7 +44,6 @@ export default {
     data() {
         return {
             pageNotFound: "Page Not Found",
-            otherError: "An error occurred"
         };
     },
     computed: {
@@ -71,13 +70,6 @@ export default {
     created() {
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
     },
-    head() {
-        const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
-        return {
-            title
-        };
-    }
 };
 </script>
 
