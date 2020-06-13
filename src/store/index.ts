@@ -98,6 +98,7 @@ export default function () {
                 "2": "rmb",
                 "1": "mmb"
             },
+            fortunes: [],
             inRewindMode: false,
             rewindVisible: false,
             testOutputVersion: 0,

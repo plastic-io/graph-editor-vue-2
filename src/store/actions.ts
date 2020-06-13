@@ -351,6 +351,11 @@ export default {
             });
         }
     },
+    async getFortune(context: any) {
+        const response = await fetch("http://fortunecookieapi.herokuapp.com/v1/cookie");
+        const e = await response.json();
+        context.commit("addFortune", e);
+    },
     async download(context: any, e: any) {
         let item;
         try {

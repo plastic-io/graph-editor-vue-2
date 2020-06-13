@@ -6,6 +6,7 @@
                     <v-row class="flex-column flex-md-row">
                         <v-col class="pa-0 text-center" >
                             <v-icon
+                                @click="getFortune"
                                 :color="getRandomColor"
                                 class="mr-md-3"
                                 size="12rem"
@@ -15,7 +16,7 @@
                         <v-col class="align-self-center pa-0 text-center text-md-left">
                             <v-card-text>
                                 <h1 class="mb-3" v-html="pageNotFound" />
-                                <p class="mb-0" v-html="userMessage" />
+                                <p class="mb-0" v-html="topFortune" />
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn class="mx-auto-xs" color="primary" to="/graph-editor/graphs">
@@ -31,9 +32,9 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState, mapActions} from "vuex";
 import colors from "vuetify/lib/util/colors";
-import {randomNotFoundMessage, randomNotFoundIcons} from "../names";
+import {randomNotFoundIcons} from "../names";
 export default {
     name: "error-page",
     props: {
@@ -51,12 +52,18 @@ export default {
             pageNotFound: "Page Not Found",
         };
     },
+    methods: {
+        ...mapActions([
+            "getFortune",
+        ]),
+    },
     computed: {
         ...mapState({
             preferences: (state) => state.preferences,
+            fortunes: (state) => state.fortunes,
         }),
-        userMessage() {
-            return randomNotFoundMessage();
+        topFortune() {
+            return this.fortunes[this.fortunes.length - 1][0].fortune.message;
         },
         messageIcon() {
             return randomNotFoundIcons();
@@ -74,6 +81,7 @@ export default {
     },
     created() {
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
+        this.getFortune();
     },
 };
 </script>

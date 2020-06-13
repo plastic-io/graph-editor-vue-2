@@ -10,6 +10,9 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function addFortune(state: any, e: any) {
+    state.fortunes.push(e);
+}
 function notFound(state: any, e: any) {
     state.notFound = e;
 }
@@ -1108,6 +1111,7 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    addFortune,
     notFound,
     setMapScale,
     toggleMap,
