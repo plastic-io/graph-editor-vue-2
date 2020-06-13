@@ -3,20 +3,22 @@
         <div class="error-wrap d-flex justify-center align-center">
             <v-card class="align-self-center" color="transparent" flat>
                 <v-container>
-                    <v-row>
+                    <v-row class="flex-column flex-md-row">
                         <v-col class="pa-0 text-center" >
-                            <v-icon :color="getRandomColor" class="mr-3-md" size="12rem">
+                            <v-icon :color="getRandomColor" class="mr-md-3" size="12rem">
                             {{messageIcon}}
                             </v-icon>
                         </v-col>
-                        <v-col class="align-self-center pa-0 text-center text-sm-left">
+                        <v-col class="align-self-center pa-0 text-center text-md-left">
                             <v-card-text>
                                 <h1 class="mb-3">{{ pageNotFound }}</h1>
-                                <p >{{ userMessage }}</p>
-                                <v-btn  class="mx-auto-xs" color="primary" to="/graph-editor/graphs">
+                                <p class="mb-0">{{ userMessage }}</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn class="mx-auto-xs" color="primary" to="/graph-editor/graphs">
                                 Back to the Graph Manager
                                 </v-btn>
-                            </v-card-text>
+                            </v-card-actions>
                         </v-col>
                     </v-row>
                 </v-container>
