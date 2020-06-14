@@ -10,6 +10,12 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function addFortune(state: any, e: any) {
+    state.fortunes.push(e);
+}
+function notFound(state: any, e: any) {
+    state.notFound = e;
+}
 function setMapScale(state: any, e: number) {
     state.mapScale = e;
 }
@@ -123,7 +129,7 @@ function remoteChangeEvents(state: any, event: any) {
         console.warn("No remote mutations allowed during rewind mode.");
         return;
     }
-    const ownKeys: string[] = state.ownEvents.map((e: {id: string}) => e.id); 
+    const ownKeys: string[] = state.ownEvents.map((e: {id: string}) => e.id);
     const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
     const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
     // don't apply events we created, don't apply events we've already recieved
@@ -174,7 +180,7 @@ export function applyGraphChanges(state: any, name: string) {
 /** Creates a new v4 UUID */
 export function newId() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-        var r = Math.random() * 16 | 0, v = c == "x" ? r : (r & 0x3 | 0x8); // eslint-disable-line 
+        var r = Math.random() * 16 | 0, v = c == "x" ? r : (r & 0x3 | 0x8); // eslint-disable-line
         return v.toString(16);
     });
 }
@@ -1105,6 +1111,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    addFortune,
+    notFound,
     setMapScale,
     toggleMap,
     updateGraphPresentationTemplate,

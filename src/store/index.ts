@@ -92,11 +92,13 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            notFound: null,
             buttonMap: {
                 "0": "lmb",
                 "2": "rmb",
                 "1": "mmb"
             },
+            fortunes: [],
             inRewindMode: false,
             rewindVisible: false,
             testOutputVersion: 0,

@@ -1,5 +1,6 @@
 <template>
     <v-app class="graph-editor">
+        <ErrorPage v-if="notFound" />
         <template v-if="graph">
             <v-system-bar
                 v-if="!presentation && panelVisibility"
@@ -194,7 +195,7 @@
                 </v-row>
                 <v-row>
                     <v-col v-if="graph">
-                        <v-btn @click="clearError">That Sucks</v-btn>
+                        <v-btn @click="clearError">Dismiss</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
@@ -247,6 +248,7 @@
 </template>
 <script>
 import GraphMap from "./GraphMap";
+import ErrorPage from "./ErrorPage";
 import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
@@ -271,6 +273,7 @@ export default {
         GraphUsers,
         GraphMouse,
         ConnectorView,
+        ErrorPage,
     },
     watch: {
         presentationWarning() {
@@ -306,6 +309,7 @@ export default {
     },
     computed: {
         ...mapState({
+            notFound: state => state.notFound,
             buttonMap: state => state.buttonMap,
             inRewindMode: state => state.inRewindMode,
             rewindVisible: state => state.rewindVisible,
@@ -717,7 +721,10 @@ export default {
         });
         this.$store.dispatch("subscribeToc");
         this.$store.dispatch("subscribePreferences");
-        this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
+        if (this.notFound) {
+            this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
+        }
+
     },
     data: () => {
         return {
