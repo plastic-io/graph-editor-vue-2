@@ -648,7 +648,7 @@ export default {
         } catch (err) {
             er = err;
         }
-        if (!graph) {
+        if (!graph || graph.err) {
             return context.commit("notFound", er);
         }
         context.commit("setLoadingStatus", {
