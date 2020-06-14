@@ -1,7 +1,7 @@
 <template>
-    <v-app class="graph-editor">
+    <v-app class="graph-editor" :style="`background: ${bgColor};`">
         <ErrorPage v-if="notFound" />
-        <template v-if="graph">
+        <template v-if="graph && !graph.err">
             <v-system-bar
                 v-if="!presentation && panelVisibility"
                 ref="topBar"
@@ -298,6 +298,9 @@ export default {
             deep: true,
         },
         showError() {
+            if (/NoSuchKey/.test(this.error)) {
+                return;
+            }
             this.localShowError = this.showError;
             if (this.error) {
                 this.localErrorMessage = this.error.toString();
@@ -698,6 +701,11 @@ export default {
             this.$store.dispatch("keydown", e);
         }
     },
+    created() {
+        const isDark = this.preferences.appearance.theme === "dark";
+        this.$vuetify.theme.dark = isDark;
+        this.bgColor = isDark ? "#000000" : "#FFFFFF";
+    },
     mounted() {
         document.onwheel = e => {
             this.scale(e);
@@ -724,10 +732,10 @@ export default {
         if (this.notFound) {
             this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
         }
-
     },
     data: () => {
         return {
+            bgColor: "#000000",
             spaceKeyCode: 32,
             translate: false,
             showDialog: false,
