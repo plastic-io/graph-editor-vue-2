@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div class="error-wrap d-flex justify-center align-center">
+        <div :style="`background: radial-gradient(ellipse at -100% 0, ${getRandomColor}, ${bgColor} 55%, transparent 100%);`" class="error-wrap d-flex justify-center align-center">
             <v-icon
                 :color="getRandomColor"
                 class="mr-md-3 bg-icon"
@@ -18,10 +18,10 @@
                             />
                         </v-col>
                         <v-col class="align-self-center pa-0 text-center text-md-left flex-md-grow-0">
-                            <v-card-text>
+                            <v-card-text style="">
                                 <h1 class="mb-3" v-html="pageNotFound" />
                                 <v-slide-x-transition>
-                                    <p class="mb-0" v-show="showFortune" v-html="topFortune" />
+                                    <p class="mb-0" style="min-height: 46px;" v-show="showFortune" v-html="topFortune" />
                                 </v-slide-x-transition>
                             </v-card-text>
                             <v-card-actions class="justify-sm-center">
@@ -36,7 +36,6 @@
         </div>
     </v-app>
 </template>
-
 <script>
 import {mapState, mapActions} from "vuex";
 import colors from "vuetify/lib/util/colors";
@@ -57,6 +56,8 @@ export default {
         return {
             pageNotFound: "Page Not Found",
             showFortune: true,
+            bgColor: "#000000",
+            version: 0,
         };
     },
     methods: {
@@ -65,6 +66,7 @@ export default {
         ]),
         async refreshFortune() {
             this.showFortune = false;
+            this.version += 1;
             await this.getFortune();
             this.showFortune = true;
         }
@@ -90,28 +92,44 @@ export default {
                 //The maximum is exclusive and the minimum is inclusive
                 return Math.floor(Math.random() * (max - min)) + min;
             }
-            const colorNames = Object.keys(colors);
+            console.log(colors);
+            const colorNames = Object.keys(colors).map((colorName) => {
+                return colors[colorName].base;
+            });
             return colorNames[getRandomInt(0, colorNames.length)];
         },
     },
     created() {
-        this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
+        const isDark = this.preferences.appearance.theme === "dark";
+        this.$vuetify.theme.dark = isDark;
+        this.bgColor = isDark ? "#000000" : "#FFFFFF";
         this.getFortune();
+        setInterval(() => {
+            this.refreshFortune();
+        }, 15000);
     },
 };
 </script>
 
-<style scoped>
+<style>
+html {
+    overflow: hidden;
+}
 .error-wrap {
     position: relative;
     height: 100%;
     min-height: 100vh;
     width: 100%;
+    overflow: hidden;
     z-index: 2;
 }
 .bg-icon {
     position: absolute;
     opacity: .10;
+    height: 0;
+    width: 0;
+    overflow: visible;
+    font-size: 400vw !important;
     animation-duration: 500s;
     animation-name: bg-icon-scale;
     animation-iteration-count: infinite;
@@ -119,18 +137,17 @@ export default {
 @keyframes bg-icon-scale {
     from {
         top: -150vh;
-        left: -100vw;
-        font-size: 200vw;
+        left: -10vw;
+        transform: scale(1);
     }
     50% {
-        top: -50vh;
-        left: 0vw;
-        font-size: 300vw;
+        left: -100vw;
+        transform: scale(2);
     }
     to {
         top: -150vh;
-        left: -100vw;
-        font-size: 200vw;
+        left: -10vw;
+        transform: scale(1);
     }
 }
 </style>
