@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.48% </span>
+                <span class="strong">50.7% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>106/210</span>
+                <span class='fraction'>109/215</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.45% </span>
+                <span class="strong">28.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>33/116</span>
+                <span class='fraction'>34/120</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.63% </span>
+                <span class="strong">53.25% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>40/76</span>
+                <span class='fraction'>41/77</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.72% </span>
+                <span class="strong">50.93% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>106/209</span>
+                <span class='fraction'>109/214</span>
             </div>
         
             
@@ -823,7 +823,15 @@
 <a name='L764'></a><a href='#L764'>764</a>
 <a name='L765'></a><a href='#L765'>765</a>
 <a name='L766'></a><a href='#L766'>766</a>
-<a name='L767'></a><a href='#L767'>767</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L767'></a><a href='#L767'>767</a>
+<a name='L768'></a><a href='#L768'>768</a>
+<a name='L769'></a><a href='#L769'>769</a>
+<a name='L770'></a><a href='#L770'>770</a>
+<a name='L771'></a><a href='#L771'>771</a>
+<a name='L772'></a><a href='#L772'>772</a>
+<a name='L773'></a><a href='#L773'>773</a>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1122,6 +1130,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -1525,6 +1536,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
@@ -1551,8 +1567,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1590,9 +1606,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-    &lt;v-app class="graph-editor"&gt;
+    &lt;v-app class="graph-editor" :style="`background: ${bgColor};`"&gt;
         &lt;ErrorPage v-if="notFound" /&gt;
-        &lt;template v-if="graph"&gt;
+        &lt;template v-if="graph &amp;&amp; !graph.err"&gt;
             &lt;v-system-bar
                 v-if="!presentation &amp;&amp; panelVisibility"
                 ref="topBar"
@@ -1889,6 +1905,9 @@ export default {
             deep: true,
         },
 <span class="fstat-no" title="function not covered" >        showError() {</span>
+<span class="cstat-no" title="statement not covered" >            if (/NoSuchKey/.test(this.error)) {</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
 <span class="cstat-no" title="statement not covered" >            this.localShowError = this.showError;</span>
 <span class="cstat-no" title="statement not covered" >            if (this.error) {</span>
 <span class="cstat-no" title="statement not covered" >                this.localErrorMessage = this.error.toString();</span>
@@ -2289,6 +2308,11 @@ export default {
             this.$store.dispatch("keydown", e);
         }
     },
+    created() {
+        const isDark = this.preferences.appearance.theme === "dark";
+        this.$vuetify.theme.dark = isDark;
+<span class="branch-0 cbranch-no" title="branch not covered" >        this.bgColor = isDark ? "#000000" : "#FFFFFF";</span>
+    },
     mounted() {
 <span class="fstat-no" title="function not covered" >        document.onwheel = e =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >            this.scale(e);</span>
@@ -2315,10 +2339,10 @@ export default {
 <span class="missing-if-branch" title="if path not taken" >I</span>        if (this.notFound) {
 <span class="cstat-no" title="statement not covered" >            this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;</span>
         }
-&nbsp;
     },
     data: () =&gt; {
         return {
+            bgColor: "#000000",
             spaceKeyCode: 32,
             translate: false,
             showDialog: false,
@@ -2362,7 +2386,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Jun 14 2020 02:44:58 GMT+0000 (Coordinated Universal Time)
+                at Sun Jun 14 2020 03:46:01 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
