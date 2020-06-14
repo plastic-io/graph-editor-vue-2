@@ -3,6 +3,7 @@ import vuetify from "./plugins/vuetify";
 import storeConfig from "./store";
 import App from "./App.vue";
 import GraphEditor from "./components/GraphEditor.vue";
+import ErrorPage from "./components/ErrorPage.vue";
 import GraphManager from "./components/GraphManager.vue";
 import GraphVector from "./components/GraphVector.vue";
 import VueRouter from "vue-router";
@@ -66,6 +67,15 @@ const router = new VueRouter({
             component: GraphEditor,
             props: function (route) {
                 return {route};
+            },
+        },
+        {
+            path: "/*",
+            component: ErrorPage,
+            props: function () {
+                return { error: {
+                    statusCode: 404
+                } };
             },
         },
     ],

@@ -351,6 +351,11 @@ export default {
             });
         }
     },
+    async getFortune(context: any) {
+        const response = await fetch("https://fortunecookieapi.herokuapp.com/v1/cookie");
+        const e = await response.json();
+        context.commit("addFortune", e);
+    },
     async download(context: any, e: any) {
         let item;
         try {
@@ -539,7 +544,7 @@ export default {
             type: "savePreferences",
             loading: true,
         });
-        // merge any new 
+        // merge any new
         console.log("new");
         await context.state.dataProviders.preferences.set("preferences",
             {
@@ -643,8 +648,8 @@ export default {
         } catch (err) {
             er = err;
         }
-        if (!graph) {
-            context.commit("raiseError", new Error("Cannot open graph. " + er));
+        if (!graph || graph.err) {
+            return context.commit("notFound", er);
         }
         context.commit("setLoadingStatus", {
             key: e.graphId,

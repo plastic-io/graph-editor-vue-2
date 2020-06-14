@@ -1,6 +1,7 @@
 <template>
-    <v-app class="graph-editor">
-        <template v-if="graph">
+    <v-app class="graph-editor" :style="`background: ${bgColor};`">
+        <ErrorPage v-if="notFound" />
+        <template v-if="graph && !graph.err">
             <v-system-bar
                 v-if="!presentation && panelVisibility"
                 ref="topBar"
@@ -17,7 +18,6 @@
                     <i v-else style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-
                 <span help-topic="documentName" class="pa-1">
                     {{ graph.properties.name || "Untitled" }}
                 </span>
@@ -194,7 +194,7 @@
                 </v-row>
                 <v-row>
                     <v-col v-if="graph">
-                        <v-btn @click="clearError">That Sucks</v-btn>
+                        <v-btn @click="clearError">Dismiss</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
@@ -247,6 +247,7 @@
 </template>
 <script>
 import GraphMap from "./GraphMap";
+import ErrorPage from "./ErrorPage";
 import GraphRewind from "./GraphRewind";
 import GraphCanvas from "./GraphCanvas";
 import {mapState, mapActions, mapMutations} from "vuex";
@@ -271,6 +272,7 @@ export default {
         GraphUsers,
         GraphMouse,
         ConnectorView,
+        ErrorPage,
     },
     watch: {
         presentationWarning() {
@@ -295,6 +297,9 @@ export default {
             deep: true,
         },
         showError() {
+            if (/NoSuchKey/.test(this.error)) {
+                return;
+            }
             this.localShowError = this.showError;
             if (this.error) {
                 this.localErrorMessage = this.error.toString();
@@ -306,6 +311,7 @@ export default {
     },
     computed: {
         ...mapState({
+            notFound: state => state.notFound,
             buttonMap: state => state.buttonMap,
             inRewindMode: state => state.inRewindMode,
             rewindVisible: state => state.rewindVisible,
@@ -694,6 +700,11 @@ export default {
             this.$store.dispatch("keydown", e);
         }
     },
+    created() {
+        const isDark = this.preferences.appearance.theme === "dark";
+        this.$vuetify.theme.dark = isDark;
+        this.bgColor = isDark ? "#000000" : "#FFFFFF";
+    },
     mounted() {
         document.onwheel = e => {
             this.scale(e);
@@ -717,10 +728,13 @@ export default {
         });
         this.$store.dispatch("subscribeToc");
         this.$store.dispatch("subscribePreferences");
-        this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
+        if (this.notFound) {
+            this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
+        }
     },
     data: () => {
         return {
+            bgColor: "#000000",
             spaceKeyCode: 32,
             translate: false,
             showDialog: false,
