@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70.08% </span>
+                <span class="strong">69.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>370/528</span>
+                <span class='fraction'>370/530</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.04% </span>
+                <span class="strong">73.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>154/208</span>
+                <span class='fraction'>154/210</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.17% </span>
+                <span class="strong">68.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>341/493</span>
+                <span class='fraction'>341/495</span>
             </div>
         
             
@@ -1262,7 +1262,15 @@
 <a name='L1203'></a><a href='#L1203'>1203</a>
 <a name='L1204'></a><a href='#L1204'>1204</a>
 <a name='L1205'></a><a href='#L1205'>1205</a>
-<a name='L1206'></a><a href='#L1206'>1206</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L1206'></a><a href='#L1206'>1206</a>
+<a name='L1207'></a><a href='#L1207'>1207</a>
+<a name='L1208'></a><a href='#L1208'>1208</a>
+<a name='L1209'></a><a href='#L1209'>1209</a>
+<a name='L1210'></a><a href='#L1210'>1210</a>
+<a name='L1211'></a><a href='#L1211'>1211</a>
+<a name='L1212'></a><a href='#L1212'>1212</a>
+<a name='L1213'></a><a href='#L1213'>1213</a>
+<a name='L1214'></a><a href='#L1214'>1214</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1273,6 +1281,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2467,6 +2481,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
@@ -2478,6 +2494,12 @@ export interface ChangeEvent {
     id: string,
     date: number,
     changes: any[],
+}
+function <span class="fstat-no" title="function not covered" >addFortune(s</span>tate: any, e: any) {
+<span class="cstat-no" title="statement not covered" >    state.</span>fortunes.push(e);
+}
+function <span class="fstat-no" title="function not covered" >notFound(s</span>tate: any, e: any) {
+<span class="cstat-no" title="statement not covered" >    state.</span>notFound = e;
 }
 function <span class="fstat-no" title="function not covered" >setMapScale(s</span>tate: any, e: number) {
 <span class="cstat-no" title="statement not covered" >    state.</span>mapScale = e;
@@ -2592,7 +2614,7 @@ function <span class="fstat-no" title="function not covered" >remoteChangeEvents
 <span class="cstat-no" title="statement not covered" >        console.</span>warn("No remote mutations allowed during rewind mode.");
 <span class="cstat-no" title="statement not covered" >        return;</span>
     }
-    const ownKeys: string[] = <span class="cstat-no" title="statement not covered" >state.</span>ownEvents.map((<span class="fstat-no" title="function not covered" >e: {id: string}) =&gt; <span class="cstat-no" title="statement not covered" >e</span>.id); </span>
+    const ownKeys: string[] = <span class="cstat-no" title="statement not covered" >state.</span>ownEvents.map((<span class="fstat-no" title="function not covered" >e: {id: string}) =&gt; <span class="cstat-no" title="statement not covered" >e</span>.id);</span>
     const remoteEventKeys: string[] = <span class="cstat-no" title="statement not covered" >state.</span>remoteEvents.map((<span class="fstat-no" title="function not covered" >e: {id: string}) =&gt; <span class="cstat-no" title="statement not covered" >e</span>.id);</span>
     const preApplySnapshot: any = <span class="cstat-no" title="statement not covered" >JSON.</span>parse(JSON.stringify(state.graph));
     // don't apply events we created, don't apply events we've already recieved
@@ -2643,7 +2665,7 @@ export function applyGraphChanges(state: any, name: string) {
 /** Creates a new v4 UUID */
 export function newId() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) =&gt; {
-        var r = Math.random() * 16 | 0, v = c == "x" ? r : (r &amp; 0x3 | 0x8); // eslint-disable-line 
+        var r = Math.random() * 16 | 0, v = c == "x" ? r : (r &amp; 0x3 | 0x8); // eslint-disable-line
         return v.toString(16);
     });
 }
@@ -3574,6 +3596,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    addFortune,
+    notFound,
     setMapScale,
     toggleMap,
     updateGraphPresentationTemplate,
@@ -3679,7 +3703,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 11 2020 07:36:33 GMT+0000 (Coordinated Universal Time)
+                at Sun Jun 14 2020 00:59:03 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
