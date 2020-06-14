@@ -18,7 +18,6 @@
                     <i v-else style="display: inline-block; width: 75px; overflow: visible;" help-topic="saveStatus" v-html="pending ? 'Saving...' : 'Saved'"/>
                 </div>
                 <v-spacer style="margin-right: 5%;"/>
-
                 <span help-topic="documentName" class="pa-1">
                     {{ graph.properties.name || "Untitled" }}
                 </span>
