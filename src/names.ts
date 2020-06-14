@@ -393,12 +393,6 @@ const animals = [
     "Worm",
     "Louse",
 ];
-const userErrorMessages = [
-    "Were you born this awesome?",
-];
-const notFoundMessages = [
-    "Were you born this awesome?",
-];
 const notFoundIcons = [
     "mdi-skull",
     "mdi-space-station",
@@ -575,12 +569,6 @@ function getRandomInt(min: number, max: number) {
     max = Math.floor(max);
     //The maximum is exclusive and the minimum is inclusive
     return Math.floor(Math.random() * (max - min)) + min;
-}
-export function randomErrorMessage() {
-    return userErrorMessages[getRandomInt(0, userErrorMessages.length)];
-}
-export function randomNotFoundMessage() {
-    return notFoundMessages[getRandomInt(0, notFoundMessages.length)];
 }
 export function randomNotFoundIcons() {
     return notFoundIcons[getRandomInt(0, notFoundIcons.length)];
