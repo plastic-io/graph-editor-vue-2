@@ -195,7 +195,7 @@
                 </v-row>
                 <v-row>
                     <v-col v-if="graph">
-                        <v-btn @click="clearError">Dismise</v-btn>
+                        <v-btn @click="clearError">Dismiss</v-btn>
                     </v-col>
                 </v-row>
             </v-alert>
