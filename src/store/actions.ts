@@ -352,7 +352,7 @@ export default {
         }
     },
     async getFortune(context: any) {
-        const response = await fetch("http://fortunecookieapi.herokuapp.com/v1/cookie");
+        const response = await fetch("https://fortunecookieapi.herokuapp.com/v1/cookie");
         const e = await response.json();
         context.commit("addFortune", e);
     },
