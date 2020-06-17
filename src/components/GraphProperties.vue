@@ -46,7 +46,7 @@
                     <v-expansion-panel-content>
                         <v-card class="ma-0 pa-0" flat>
                             <v-card-text class="ma-0 pa-0" help-topic="graphMeta">
-                                <v-text-field disabled label="Created By" :value="createdBy || lastUpdatedBy"></v-text-field>
+                                <v-text-field disabled label="Created By" :value="createdBy"></v-text-field>
                                 <v-text-field disabled label="Last Updated By" :value="lastUpdatedBy"></v-text-field>
                                 <v-text-field disabled label="Created" :value="fromNow(createdOn)"></v-text-field>
                                 <v-text-field disabled label="Updated" :value="fromNow(lastUpdate)"></v-text-field>

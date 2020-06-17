@@ -15,6 +15,18 @@ _Note: LocalStorage only by default._
 
 _Note: You can use the graph editor and export to other systems even without a graph server.  However you cannot host HTTP web sites without the graph server._
 
+# .env
+
+You can automatically fill out the values of your users preferences by setting an `.env` file with the following values:
+
+  VUE_APP_GRAPH_HTTP_SERVER=https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/
+  VUE_APP_GRAPH_WSS_SERVER=wss://w84525agw3.execute-api.us-east-1.amazonaws.com/dev
+  VUE_APP_AUTH_PROVIDER_NAME=auth0
+  VUE_APP_AUTH_DOMAIN=dev-32-g55ap.us.auth0.com
+  VUE_APP_AUTH_CLIENT_ID=V352372k7efF4asfsJyizdfasasUKl
+  VUE_APP_AUTH_AUDIENCE=plastic-io-graph-server
+  VUE_APP_FORCE_SERVER=false
+
 # What is Plastic-IO?
 
 ## Overview
@@ -197,7 +209,7 @@ See https://github.com/plastic-io/graph-editor for for the GUI client for this s
 
 Scheduling engine documentation: [Scheduler](https://plastic-io.github.io/plastic-io/classes/_scheduler_.scheduler.html)
 
-# Installing the Graph Editor
+# Installing development Graph Editor
  
 Uses local storage
 

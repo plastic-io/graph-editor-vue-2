@@ -19,9 +19,19 @@ Vue.use(Vuex);
 Vue.use(PortalVue);
 Vue.component("graph-vector", GraphVector);
 const store = new Vuex.Store(storeConfig()) as any;
-store.dispatch("setupDataProvider");
+store.dispatch("setupProviders");
 store.watch((state: any) => state.historyPosition, () => {
     store.dispatch("save");
+});
+store.watch((state: any) => state.identity, (identity: any) => {
+    if (identity.user) {
+        store.dispatch("getToc");
+        store.dispatch("subscribeToc");
+        store.dispatch("subscribePreferences");
+    } else if (identity === false) {
+        localStorage.setItem("redirectAfterLogin", window.location.href.toString());
+        store.dispatch("login");
+    }
 });
 store.watch((state: any) => state.graphSnapshot, () => {
     clearTimeout(saveDiffDebounceTimer);
@@ -51,6 +61,15 @@ store.watch((state: any) => state.graph, () => {
 const router = new VueRouter({
     mode: "history",
     routes: [
+        {
+            path: "/graph-editor/auth-callback",
+            redirect: () => {
+                console.log("route: /graph-editor/auth-callback");
+                const rdr = localStorage.getItem("redirectAfterLogin")
+                    || "/graph-editor/graphs";
+                return rdr.replace(window.location.origin, "");
+            },
+        },
         {
             path: "/graph-editor/",
             redirect: "/graph-editor/graphs",

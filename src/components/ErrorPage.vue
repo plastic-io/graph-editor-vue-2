@@ -89,10 +89,8 @@ export default {
             function getRandomInt(min, max) {
                 min = Math.ceil(min);
                 max = Math.floor(max);
-                //The maximum is exclusive and the minimum is inclusive
                 return Math.floor(Math.random() * (max - min)) + min;
             }
-            console.log(colors);
             const colorNames = Object.keys(colors).map((colorName) => {
                 return colors[colorName].base;
             });
@@ -133,6 +131,9 @@ html {
     animation-duration: 500s;
     animation-name: bg-icon-scale;
     animation-iteration-count: infinite;
+    transform: translateZ(0);
+    transform: rotateZ(360deg);
+    will-change: transform;
 }
 @keyframes bg-icon-scale {
     from {

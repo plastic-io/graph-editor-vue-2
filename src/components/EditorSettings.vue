@@ -9,8 +9,26 @@
                 <v-expansion-panel>
                     <v-expansion-panel-header>User</v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <v-card class="ma-0 pa-0" flat>
-                            <v-card-text class="ma-0 pa-0">
+                        <v-card class="ma-0 pa-0" flat v-if="identity">
+                            <v-card-text class="ma-0 pa-0" v-if="identity.provider !== 'local'">
+                                <v-img
+                                    :title="identity.user.email"
+                                    :src="identity.user.avatar"
+                                    style="width: 50px; border-radius: 25px;border: solid 2px rgba(255, 255, 255, 0.5);"/>
+                                <v-text-field
+                                    :value="identity.user.email"
+                                    disabled
+                                    help-topic="userName"
+                                    label="User Name"
+                                />
+                                <v-btn @click="logoff">
+                                    <v-icon>
+                                        mdi-logout
+                                    </v-icon>
+                                    Logoff
+                                </v-btn>
+                            </v-card-text>
+                            <v-card-text class="ma-0 pa-0" v-if="identity.provider === 'local'">
                                 <v-img
                                     :title="userName"
                                     :src="avatar"
@@ -21,15 +39,17 @@
                                     label="User Name"
                                 />
                                 <v-text-field
-                                    disabled
-                                    v-model="workstationId"
-                                    help-topic="workstationId"
-                                    label="Workstation Id"
-                                />
-                                <v-text-field
                                     v-model="avatar"
                                     help-topic="avatar"
                                     label="Avatar"
+                                />
+                            </v-card-text>
+                            <v-card-text class="ma-0 pa-0">
+                                <v-text-field
+                                    disabled
+                                    :value="workstationId"
+                                    help-topic="workstationId"
+                                    label="Workstation Id"
                                 />
                             </v-card-text>
                         </v-card>
@@ -138,6 +158,7 @@ export default {
             this.savePreferences();
         },
         ...mapActions([
+            "logoff",
             "preferences",
             "savePreferences",
         ]),
@@ -149,7 +170,7 @@ export default {
     },
     computed: {
         ...mapState({
-            preferences: state => state.preferences,
+            identity: state => state.identity,
         }),
         ...mapFields([
             "preferences.useLocalStorage",

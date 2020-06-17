@@ -7,6 +7,9 @@ import {Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const NODE_ENV = process.env.NODE_ENV;
 const graphHTTPServer = process.env.VUE_APP_GRAPH_HTTP_SERVER;
 const graphWSSServer = process.env.VUE_APP_GRAPH_WSS_SERVER;
+const authDomain = process.env.VUE_APP_AUTH_DOMAIN;
+const authClientId = process.env.VUE_APP_AUTH_CLIENT_ID;
+const authAudience = process.env.VUE_APP_AUTH_AUDIENCE;
 const defaultNewSetTemplate = "console.info(value)";
 const defaultNewVueTemplate = `<template>
     <div>
@@ -45,6 +48,7 @@ const defaultNewGraphTemplate = `<template>
 const randomName = getRandomName();
 const preferences = {
     userName: randomName,
+    email: "",
     userId: 0,
     avatar: "https://api.adorable.io/avatars/50/" + randomName.replace(/ /g, "") + ".png",
     workstationId: mutations.newId(),
@@ -57,6 +61,9 @@ const preferences = {
     maxConnectorActivity: 100,
     graphHTTPServer,
     graphWSSServer,
+    authDomain,
+    authClientId,
+    authAudience,
     newVectorOffset: {
         x: 100,
         y: 100,
@@ -92,6 +99,8 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            authProvider: null,
+            identity: {},
             notFound: null,
             buttonMap: {
                 "0": "lmb",

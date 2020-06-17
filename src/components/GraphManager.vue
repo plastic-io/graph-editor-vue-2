@@ -3,6 +3,7 @@
         <v-app-bar app clipped-left>
             <v-toolbar-title>Plastic IO</v-toolbar-title>
             <v-spacer/>
+            <user-menu/>
             <v-btn color="info" @click="create">
                 New Graph
                 <v-icon right>
@@ -246,19 +247,48 @@
                         help-topic="WSSServer"
                         label="WSS Server"
                     />
+                    <v-text-field
+                        :disabled="useLocalStorage"
+                        v-model="authDomain"
+                        help-topic="authDomain"
+                        label="Authentication Domain"
+                    />
+                    <v-text-field
+                        :disabled="useLocalStorage"
+                        v-model="authClientId"
+                        help-topic="authClientId"
+                        label="Authentication ClientId"
+                    />
                 </v-card-text>
                 <v-card-title class="headline" primary-title>
                     User Settings
                 </v-card-title>
                 <v-card-text>
+                    <div v-if="!useLocalStorage && identity && identity.user">
+                        <v-text-field disabled :value="identity.user.email" label="E-Mail"/>
+                        <v-text-field
+                            disabled
+                            :value="identity.user.avatar"
+                            help-topic="avatar"
+                            label="Avatar"
+                        >
+                            <template v-slot:prepend>
+                                <v-img
+                                    :src="identity.user.avatar"
+                                    style="width: 30px; border-radius: 15px;"/>
+                            </template>
+                        </v-text-field>
+                    </div>
                     <v-text-field
                         v-model="userName"
+                        v-show="useLocalStorage"
                         @click:prepend="randomizeName"
                         prepend-icon="mdi-dice-multiple-outline"
                         help-topic="userName"
                         label="User Name"
                     />
                     <v-text-field
+                        v-show="useLocalStorage"
                         v-model="avatar"
                         help-topic="avatar"
                         label="Avatar"
@@ -278,6 +308,12 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
+                    <v-btn @click="logoff">
+                        <v-icon small>
+                            mdi-logout
+                        </v-icon>
+                        Logoff
+                    </v-btn>
                     <v-btn @click="saveDbPrefs">Ok</v-btn>
                 </v-card-actions>
             </v-card>
@@ -295,10 +331,13 @@
 import {mapState, mapActions} from "vuex";
 import {mapFields} from "vuex-map-fields";
 import getRandomName from "../names";
+import UserMenu from "./UserMenu";
 export default {
     name: "graph-manager",
+    components: {UserMenu},
     methods: {
         ...mapActions([
+            "logoff",
             "savePreferences",
             "download",
             "removeArtifact",
@@ -399,6 +438,8 @@ export default {
     computed: {
         ...mapFields([
             "preferences.useLocalStorage",
+            "preferences.authClientId",
+            "preferences.authDomain",
             "preferences.graphHTTPServer",
             "preferences.graphWSSServer",
             "preferences.userName",
@@ -406,6 +447,7 @@ export default {
             "preferences.workstationId",
         ]),
         ...mapState({
+            identity: state => state.identity,
             createdGraphId: state => state.createdGraphId,
             pathPrefix: state => state.pathPrefix,
             toc: state => state.toc,
@@ -428,9 +470,6 @@ export default {
         }
     },
     created() {
-        this.getToc();
-        this.$store.dispatch("subscribeToc");
-        this.$store.dispatch("subscribePreferences");
         this.$vuetify.theme.dark = this.preferences.appearance.theme === "dark";
     }
 };

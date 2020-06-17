@@ -89,7 +89,6 @@ export default function compileTemplate(hostComp: any, id: string, tmp: string, 
         hostComp.$store.dispatch("raiseError", new Error(`Vector ${id} contains an error in the Vue script. ${err}.`));
     }
     const checkReg = () => {
-        console.log("checkReg");
         if ((Vue as any).options.components["vector-" + id]) {
             hostComp.loaded[id] = true;
             // attempts were made to avoid memory leaks
@@ -106,7 +105,6 @@ export default function compileTemplate(hostComp: any, id: string, tmp: string, 
                 clearTimeout(hostComp.longLoadingTimer);
                 hostComp.broken = false;
                 try {
-                    console.log("checkReg forceUpdate");
                     hostComp.$forceUpdate();
                 } catch (err) {
                     console.error(`Vector ${id} error:`, err);

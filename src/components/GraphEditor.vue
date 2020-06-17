@@ -79,6 +79,7 @@
                         :color="showHelp ? 'info' : ''"
                         title="Help">mdi-help-circle-outline</v-icon>
                 </span>
+                <user-menu :size="17"/>
             </v-system-bar>
             <div :style="showHelp ? 'pointer-events: none;' : ''">
                 <control-panel v-if="!presentation && panelVisibility" ref="panel"/>
@@ -256,6 +257,7 @@ import HelpOverlay from "./HelpOverlay";
 import GraphUsers from "./GraphUsers";
 import GraphMouse from "./GraphMouse";
 import ConnectorView from "./ConnectorView";
+import UserMenu from "./UserMenu";
 import TestView from "./TestView";
 export default {
     name: "GraphEditor",
@@ -263,6 +265,7 @@ export default {
         route: Object,
     },
     components: {
+        UserMenu,
         GraphMap,
         GraphRewind,
         TestView,
@@ -718,7 +721,6 @@ export default {
         document.onmousemove = this.mousemove;
         window.onkeyup = this.keyup;
         window.onkeydown = this.keydown;
-        this.$store.dispatch("getToc");
         let graphId = "index";
         if (this.route.path.split("/")[2]) {
             graphId = this.route.path.split("/")[2];
@@ -726,8 +728,6 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
-        this.$store.dispatch("subscribeToc");
-        this.$store.dispatch("subscribePreferences");
         if (this.notFound) {
             this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
         }
