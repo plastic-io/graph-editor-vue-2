@@ -5,6 +5,17 @@ describe("Bummer in the summer", () => {
     beforeEach(() => {
         context = {
             state: {
+                identity: {
+                    provider: "local",
+                    user: {
+                        userName: "some@guy.com",
+                        email: "some@guy.com",
+                        emailVerified: false,
+                        avatar: "http://my-picture.jpg",
+                        updated: new Date().toISOString(),
+                        sub: "",
+                    },
+                },
                 jsonMimeType: "application/json",
                 graph: JSON.parse(JSON.stringify(graph)),
                 dataProviders: {

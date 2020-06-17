@@ -172,7 +172,7 @@ describe("GraphVector.vue", () => {
             });
             setTimeout(() => {
                 // should load the remote vector
-                expect(wrapper.html()).toMatch("mdi-code-string");
+                expect(wrapper.html()).toMatch("c.comp.name = 'vector-artifacts_8a70164d-8ecd-4fd6-b363-200db305e751_114'");
                 done();
             }, 100);
         });
