@@ -244,7 +244,48 @@
 <a name='L185'></a><a href='#L185'>185</a>
 <a name='L186'></a><a href='#L186'>186</a>
 <a name='L187'></a><a href='#L187'>187</a>
-<a name='L188'></a><a href='#L188'>188</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -382,6 +423,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -442,8 +484,26 @@
                 &lt;v-expansion-panel&gt;
                     &lt;v-expansion-panel-header&gt;User&lt;/v-expansion-panel-header&gt;
                     &lt;v-expansion-panel-content&gt;
-                        &lt;v-card class="ma-0 pa-0" flat&gt;
-                            &lt;v-card-text class="ma-0 pa-0"&gt;
+                        &lt;v-card class="ma-0 pa-0" flat v-if="identity"&gt;
+                            &lt;v-card-text class="ma-0 pa-0" v-if="identity.provider !== 'local'"&gt;
+                                &lt;v-img
+                                    :title="identity.user.email"
+                                    :src="identity.user.avatar"
+                                    style="width: 50px; border-radius: 25px;border: solid 2px rgba(255, 255, 255, 0.5);"/&gt;
+                                &lt;v-text-field
+                                    :value="identity.user.email"
+                                    disabled
+                                    help-topic="userName"
+                                    label="User Name"
+                                /&gt;
+                                &lt;v-btn @click="logoff"&gt;
+                                    &lt;v-icon&gt;
+                                        mdi-logout
+                                    &lt;/v-icon&gt;
+                                    Logoff
+                                &lt;/v-btn&gt;
+                            &lt;/v-card-text&gt;
+                            &lt;v-card-text class="ma-0 pa-0" v-if="identity.provider === 'local'"&gt;
                                 &lt;v-img
                                     :title="userName"
                                     :src="avatar"
@@ -454,15 +514,17 @@
                                     label="User Name"
                                 /&gt;
                                 &lt;v-text-field
-                                    disabled
-                                    v-model="workstationId"
-                                    help-topic="workstationId"
-                                    label="Workstation Id"
-                                /&gt;
-                                &lt;v-text-field
                                     v-model="avatar"
                                     help-topic="avatar"
                                     label="Avatar"
+                                /&gt;
+                            &lt;/v-card-text&gt;
+                            &lt;v-card-text class="ma-0 pa-0"&gt;
+                                &lt;v-text-field
+                                    disabled
+                                    :value="workstationId"
+                                    help-topic="workstationId"
+                                    label="Workstation Id"
                                 /&gt;
                             &lt;/v-card-text&gt;
                         &lt;/v-card&gt;
@@ -571,6 +633,7 @@ export default {
 <span class="cstat-no" title="statement not covered" >            this.savePreferences();</span>
         },
         ...mapActions([
+            "logoff",
             "preferences",
             "savePreferences",
         ]),
@@ -582,7 +645,7 @@ export default {
     },
     computed: {
         ...mapState({
-            preferences: state =&gt; state.preferences,
+            identity: state =&gt; state.identity,
         }),
         ...mapFields([
             "preferences.useLocalStorage",
@@ -625,7 +688,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 18 2020 04:38:17 GMT+0000 (Coordinated Universal Time)
+                at Thu Jun 18 2020 09:42:41 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

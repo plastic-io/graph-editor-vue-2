@@ -74,6 +74,9 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#node_env" class="tsd-kind-icon">NODE_<wbr>ENV</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#authaudience" class="tsd-kind-icon">auth<wbr>Audience</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#authclientid" class="tsd-kind-icon">auth<wbr>Client<wbr>Id</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#authdomain" class="tsd-kind-icon">auth<wbr>Domain</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#defaultnewgraphtemplate" class="tsd-kind-icon">default<wbr>New<wbr>Graph<wbr>Template</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#defaultnewsettemplate" class="tsd-kind-icon">default<wbr>New<wbr>Set<wbr>Template</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_store_index_.html#defaultnewvuetemplate" class="tsd-kind-icon">default<wbr>New<wbr>Vue<wbr>Template</a></li>
@@ -105,7 +108,37 @@
 					<div class="tsd-signature tsd-kind-icon">NODE_<wbr>ENV<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.NODE_ENV</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L7">store/index.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L7">store/index.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="authaudience" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> auth<wbr>Audience</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.VUE_APP_AUTH_AUDIENCE</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L12">store/index.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="authclientid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> auth<wbr>Client<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.VUE_APP_AUTH_CLIENT_ID</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L11">store/index.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="authdomain" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> auth<wbr>Domain</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Domain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.VUE_APP_AUTH_DOMAIN</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L10">store/index.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -115,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Graph<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"&lt;template&gt;&lt;div&gt;&lt;graph-vectorv-for&#x3D;&quot;vector in graph.vectors&quot;:key&#x3D;&quot;vector.id&quot;:vector&#x3D;&quot;vector&quot;:graph&#x3D;&quot;graph&quot;&gt;&lt;/graph-vector&gt;&lt;/div&gt;&lt;/template&gt;&lt;script&gt;export default {props: {graph: Object,},}&lt;/script&gt;"</span><span class="tsd-signature-symbol"> = &#x60;&lt;template&gt;&lt;div&gt;&lt;graph-vectorv-for&#x3D;&quot;vector in graph.vectors&quot;:key&#x3D;&quot;vector.id&quot;:vector&#x3D;&quot;vector&quot;:graph&#x3D;&quot;graph&quot;&gt;&lt;/graph-vector&gt;&lt;/div&gt;&lt;/template&gt;&lt;script&gt;export default {props: {graph: Object,},}&lt;/script&gt;&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L27">store/index.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L30">store/index.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -125,7 +158,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Set<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"console.info(value)"</span><span class="tsd-signature-symbol"> = &quot;console.info(value)&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L10">store/index.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L13">store/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -135,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Vue<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"&lt;template&gt;&lt;div&gt;New Vector&lt;/div&gt;&lt;/template&gt;&lt;script&gt;export default {props: {vector: Object,state: Object,}}&lt;/script&gt;&lt;style&gt;&lt;/style&gt;"</span><span class="tsd-signature-symbol"> = &#x60;&lt;template&gt;&lt;div&gt;New Vector&lt;/div&gt;&lt;/template&gt;&lt;script&gt;export default {props: {vector: Object,state: Object,}}&lt;/script&gt;&lt;style&gt;&lt;/style&gt;&#x60;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L11">store/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L14">store/index.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -145,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">graphHTTPServer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.VUE_APP_GRAPH_HTTP_SERVER</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L8">store/index.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L8">store/index.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">graphWSSServer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = process.env.VUE_APP_GRAPH_WSS_SERVER</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L9">store/index.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L9">store/index.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -165,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">random<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = getRandomName()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L45">store/index.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L48">store/index.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -176,19 +209,19 @@
 					<a name="default" class="tsd-anchor"></a>
 					<h3>default</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupDataProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>strict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>mutations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></li>
+						<li class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logoff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>strict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>mutations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L88">store/index.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L95">store/index.ts:95</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupDataProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>strict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>mutations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logoff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>strict<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>getters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>mutations<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter">
-									<h5>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupDataProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5>actions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>addInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addItem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>addOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringForward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>bringToFront<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeConnectorOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeInputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>changeOutputOrder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>clearError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>create<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>createNewVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>deleteSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>download<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>duplicateSelection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getFortune<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getPublicRegistry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>getToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>graphUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>groupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredPort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>hoveredVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>instantiateGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keydown<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>keyup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logoff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>logon<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>lut<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>mouse<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>moveHistoryPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>open<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>pasteVectors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishGraph<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>publishVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>raiseError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>redo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>remove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeArtifact<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>removeOutput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>runVectorTest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>save<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>savePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>selectConnector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendBackward<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>sendToBack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setConnectionState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setDataProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setGraphVector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setLoadingStatus<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setToRewindVersion<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>setupProviders<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribe<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribePreferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToGraphEvents<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>subscribeToc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleLock<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>toggleMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>togglePresentation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>translating<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>undo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ungroupSelected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphPresentationTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateGraphProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorFields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>updateVectorProperties<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>add<wbr>Input<span class="tsd-signature-symbol">: </span>function</h5>
@@ -199,7 +232,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L755">store/actions.ts:755</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L831">store/actions.ts:831</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -224,7 +257,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L665">store/actions.ts:665</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L741">store/actions.ts:741</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -249,7 +282,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L759">store/actions.ts:759</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L835">store/actions.ts:835</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -274,7 +307,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L795">store/actions.ts:795</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L871">store/actions.ts:871</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -296,7 +329,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L803">store/actions.ts:803</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L879">store/actions.ts:879</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,7 +351,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L723">store/actions.ts:723</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L799">store/actions.ts:799</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -354,7 +387,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L747">store/actions.ts:747</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L823">store/actions.ts:823</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -379,7 +412,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L751">store/actions.ts:751</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L827">store/actions.ts:827</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -404,7 +437,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L711">store/actions.ts:711</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L787">store/actions.ts:787</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -429,7 +462,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L485">store/actions.ts:485</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L556">store/actions.ts:556</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -451,7 +484,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L735">store/actions.ts:735</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L811">store/actions.ts:811</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -476,7 +509,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L727">store/actions.ts:727</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L803">store/actions.ts:803</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -506,7 +539,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L819">store/actions.ts:819</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L895">store/actions.ts:895</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -528,7 +561,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L359">store/actions.ts:359</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L430">store/actions.ts:430</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -553,7 +586,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L787">store/actions.ts:787</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L863">store/actions.ts:863</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -575,7 +608,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L354">store/actions.ts:354</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L425">store/actions.ts:425</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -597,7 +630,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L319">store/actions.ts:319</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L390">store/actions.ts:390</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -622,7 +655,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L458">store/actions.ts:458</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L529">store/actions.ts:529</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -644,7 +677,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L859">store/actions.ts:859</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L935">store/actions.ts:935</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -669,7 +702,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L416">store/actions.ts:416</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L487">store/actions.ts:487</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -694,7 +727,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L811">store/actions.ts:811</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L887">store/actions.ts:887</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -716,7 +749,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L838">store/actions.ts:838</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L914">store/actions.ts:914</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -741,7 +774,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L823">store/actions.ts:823</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L899">store/actions.ts:899</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -766,7 +799,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L826">store/actions.ts:826</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L902">store/actions.ts:902</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -791,7 +824,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L384">store/actions.ts:384</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L455">store/actions.ts:455</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -813,7 +846,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L847">store/actions.ts:847</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L923">store/actions.ts:923</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -838,7 +871,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L844">store/actions.ts:844</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L920">store/actions.ts:920</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -855,6 +888,50 @@
 											</ul>
 										</li>
 										<li class="tsd-parameter">
+											<h5>logoff<span class="tsd-signature-symbol">: </span>function</h5>
+											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon">logoff<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<aside class="tsd-sources">
+														<ul>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L142">store/actions.ts:142</a></li>
+														</ul>
+													</aside>
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>context: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+										<li class="tsd-parameter">
+											<h5>logon<span class="tsd-signature-symbol">: </span>function</h5>
+											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon">logon<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<aside class="tsd-sources">
+														<ul>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L136">store/actions.ts:136</a></li>
+														</ul>
+													</aside>
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>context: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+										<li class="tsd-parameter">
 											<h5>lut<span class="tsd-signature-symbol">: </span>function</h5>
 											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
 												<li class="tsd-signature tsd-kind-icon">lut<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, e<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -863,7 +940,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L856">store/actions.ts:856</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L932">store/actions.ts:932</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -888,7 +965,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L853">store/actions.ts:853</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L929">store/actions.ts:929</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -913,7 +990,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L783">store/actions.ts:783</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L859">store/actions.ts:859</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -938,7 +1015,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L639">store/actions.ts:639</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L714">store/actions.ts:714</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -968,7 +1045,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L791">store/actions.ts:791</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L867">store/actions.ts:867</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -993,7 +1070,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L863">store/actions.ts:863</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L939">store/actions.ts:939</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1018,7 +1095,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L419">store/actions.ts:419</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L490">store/actions.ts:490</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1040,7 +1117,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L437">store/actions.ts:437</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L508">store/actions.ts:508</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1065,7 +1142,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L715">store/actions.ts:715</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L791">store/actions.ts:791</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1090,7 +1167,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L779">store/actions.ts:779</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L855">store/actions.ts:855</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1112,7 +1189,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L527">store/actions.ts:527</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L602">store/actions.ts:602</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1137,7 +1214,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L513">store/actions.ts:513</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L588">store/actions.ts:588</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1162,7 +1239,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L763">store/actions.ts:763</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L839">store/actions.ts:839</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1187,7 +1264,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L767">store/actions.ts:767</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L843">store/actions.ts:843</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1212,7 +1289,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L135">store/actions.ts:135</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L153">store/actions.ts:153</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1237,7 +1314,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L561">store/actions.ts:561</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L635">store/actions.ts:635</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1262,7 +1339,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L541">store/actions.ts:541</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L616">store/actions.ts:616</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1284,7 +1361,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L829">store/actions.ts:829</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L905">store/actions.ts:905</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1309,7 +1386,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L799">store/actions.ts:799</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L875">store/actions.ts:875</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1331,7 +1408,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L807">store/actions.ts:807</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L883">store/actions.ts:883</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1353,7 +1430,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L286">store/actions.ts:286</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L357">store/actions.ts:357</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1378,7 +1455,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L705">store/actions.ts:705</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L781">store/actions.ts:781</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1408,7 +1485,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L289">store/actions.ts:289</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L360">store/actions.ts:360</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1433,7 +1510,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L699">store/actions.ts:699</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L775">store/actions.ts:775</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1463,7 +1540,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L626">store/actions.ts:626</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L701">store/actions.ts:701</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1480,15 +1557,15 @@
 											</ul>
 										</li>
 										<li class="tsd-parameter">
-											<h5>setup<wbr>Data<wbr>Provider<span class="tsd-signature-symbol">: </span>function</h5>
+											<h5>setup<wbr>Providers<span class="tsd-signature-symbol">: </span>function</h5>
 											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon">setup<wbr>Data<wbr>Provider<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+												<li class="tsd-signature tsd-kind-icon">setup<wbr>Providers<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L138">store/actions.ts:138</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L156">store/actions.ts:156</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1510,7 +1587,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L314">store/actions.ts:314</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L385">store/actions.ts:385</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1564,7 +1641,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L300">store/actions.ts:300</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L371">store/actions.ts:371</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1586,7 +1663,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L214">store/actions.ts:214</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L285">store/actions.ts:285</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1611,7 +1688,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L307">store/actions.ts:307</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L378">store/actions.ts:378</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1633,7 +1710,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L835">store/actions.ts:835</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L911">store/actions.ts:911</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1655,7 +1732,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L867">store/actions.ts:867</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L943">store/actions.ts:943</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1677,7 +1754,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L832">store/actions.ts:832</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L908">store/actions.ts:908</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1699,7 +1776,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L841">store/actions.ts:841</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L917">store/actions.ts:917</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1724,7 +1801,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L775">store/actions.ts:775</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L851">store/actions.ts:851</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1746,7 +1823,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L815">store/actions.ts:815</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L891">store/actions.ts:891</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1768,7 +1845,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L719">store/actions.ts:719</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L795">store/actions.ts:795</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1798,7 +1875,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L739">store/actions.ts:739</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L815">store/actions.ts:815</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1823,7 +1900,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L771">store/actions.ts:771</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L847">store/actions.ts:847</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1859,7 +1936,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L731">store/actions.ts:731</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L807">store/actions.ts:807</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1884,7 +1961,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L743">store/actions.ts:743</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L819">store/actions.ts:819</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1909,7 +1986,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/actions.ts#L850">store/actions.ts:850</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/actions.ts#L926">store/actions.ts:926</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1945,7 +2022,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L246">store/index.ts:246</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L255">store/index.ts:255</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1967,7 +2044,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L241">store/index.ts:241</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L250">store/index.ts:250</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1989,7 +2066,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L259">store/index.ts:259</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L268">store/index.ts:268</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2011,7 +2088,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L254">store/index.ts:254</a></li>
+															<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L263">store/index.ts:263</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-parameters-title">Parameters</h4>
@@ -2052,6 +2129,9 @@
 											<h5>artifacts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
 											<ul class="tsd-parameters">
 											</ul>
+										</li>
+										<li class="tsd-parameter">
+											<h5>auth<wbr>Provider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>connection<wbr>State<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
@@ -2125,6 +2205,11 @@
 											<h5>hovered<wbr>Vector<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span></h5>
 										</li>
 										<li class="tsd-parameter">
+											<h5>identity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
+											<ul class="tsd-parameters">
+											</ul>
+										</li>
+										<li class="tsd-parameter">
 											<h5>in<wbr>Rewind<wbr>Mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
 										</li>
 										<li class="tsd-parameter">
@@ -2190,8 +2275,17 @@
 											</ul>
 										</li>
 										<li class="tsd-parameter">
-											<h5>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>debug<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>defaultNewGraphTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>defaultNewSetTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>defaultNewVueTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>graphHTTPServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>graphWSSServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>gridSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>maxConnectorActivity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>newVectorHelp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showLabels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showRemoteMouseMovements<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>snapToGrid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>useLocalStorage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>userName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>workstationId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>appearance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>newVectorOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></h5>
+											<h5>preferences<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>authAudience<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>authClientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>authDomain<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>debug<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>defaultNewGraphTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>defaultNewSetTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>defaultNewVueTemplate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>email<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>graphHTTPServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>graphWSSServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>gridSize<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>maxConnectorActivity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>newVectorHelp<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showLabels<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>showRemoteMouseMovements<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>snapToGrid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>useLocalStorage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>userId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>userName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>workstationId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>appearance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">; </span>newVectorOffset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></h5>
 											<ul class="tsd-parameters">
+												<li class="tsd-parameter">
+													<h5>auth<wbr>Audience<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+												</li>
+												<li class="tsd-parameter">
+													<h5>auth<wbr>Client<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+												</li>
+												<li class="tsd-parameter">
+													<h5>auth<wbr>Domain<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+												</li>
 												<li class="tsd-parameter">
 													<h5>avatar<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 												</li>
@@ -2206,6 +2300,9 @@
 												</li>
 												<li class="tsd-parameter">
 													<h5>default<wbr>New<wbr>Vue<wbr>Template<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+												</li>
+												<li class="tsd-parameter">
+													<h5>email<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 												</li>
 												<li class="tsd-parameter">
 													<h5>graphHTTPServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
@@ -2562,16 +2659,46 @@
 					<div class="tsd-signature tsd-kind-icon">preferences<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L46">store/index.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L49">store/index.ts:49</a></li>
 						</ul>
 					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
+						<a name="preferences.authaudience-1" class="tsd-anchor"></a>
+						<h3>auth<wbr>Audience</h3>
+						<div class="tsd-signature tsd-kind-icon">auth<wbr>Audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L66">store/index.ts:66</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
+						<a name="preferences.authclientid-1" class="tsd-anchor"></a>
+						<h3>auth<wbr>Client<wbr>Id</h3>
+						<div class="tsd-signature tsd-kind-icon">auth<wbr>Client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L65">store/index.ts:65</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
+						<a name="preferences.authdomain-1" class="tsd-anchor"></a>
+						<h3>auth<wbr>Domain</h3>
+						<div class="tsd-signature tsd-kind-icon">auth<wbr>Domain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L64">store/index.ts:64</a></li>
+							</ul>
+						</aside>
+					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
 						<a name="preferences.avatar" class="tsd-anchor"></a>
 						<h3>avatar</h3>
 						<div class="tsd-signature tsd-kind-icon">avatar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://api.adorable.io/avatars/50/&quot; + randomName.replace(/ /g, &quot;&quot;) + &quot;.png&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L49">store/index.ts:49</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L53">store/index.ts:53</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2581,7 +2708,7 @@
 						<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L53">store/index.ts:53</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L57">store/index.ts:57</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2591,7 +2718,7 @@
 						<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Graph<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L65">store/index.ts:65</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L72">store/index.ts:72</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2601,7 +2728,7 @@
 						<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Set<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L66">store/index.ts:66</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L73">store/index.ts:73</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2611,7 +2738,17 @@
 						<div class="tsd-signature tsd-kind-icon">default<wbr>New<wbr>Vue<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L67">store/index.ts:67</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L74">store/index.ts:74</a></li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
+						<a name="preferences.email" class="tsd-anchor"></a>
+						<h3>email</h3>
+						<div class="tsd-signature tsd-kind-icon">email<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L51">store/index.ts:51</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2621,7 +2758,7 @@
 						<div class="tsd-signature tsd-kind-icon">graphHTTPServer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L58">store/index.ts:58</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L62">store/index.ts:62</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2631,7 +2768,7 @@
 						<div class="tsd-signature tsd-kind-icon">graphWSSServer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L59">store/index.ts:59</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L63">store/index.ts:63</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2641,7 +2778,7 @@
 						<div class="tsd-signature tsd-kind-icon">grid<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 10</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L69">store/index.ts:69</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L76">store/index.ts:76</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2651,7 +2788,7 @@
 						<div class="tsd-signature tsd-kind-icon">max<wbr>Connector<wbr>Activity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 100</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L57">store/index.ts:57</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L61">store/index.ts:61</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2661,7 +2798,7 @@
 						<div class="tsd-signature tsd-kind-icon">new<wbr>Vector<wbr>Help<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L51">store/index.ts:51</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L55">store/index.ts:55</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2671,7 +2808,7 @@
 						<div class="tsd-signature tsd-kind-icon">show<wbr>Labels<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L52">store/index.ts:52</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L56">store/index.ts:56</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2681,7 +2818,7 @@
 						<div class="tsd-signature tsd-kind-icon">show<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L54">store/index.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L58">store/index.ts:58</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2691,7 +2828,7 @@
 						<div class="tsd-signature tsd-kind-icon">show<wbr>Remote<wbr>Mouse<wbr>Movements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L56">store/index.ts:56</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L60">store/index.ts:60</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2701,7 +2838,7 @@
 						<div class="tsd-signature tsd-kind-icon">snap<wbr>ToGrid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L68">store/index.ts:68</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L75">store/index.ts:75</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2711,7 +2848,7 @@
 						<div class="tsd-signature tsd-kind-icon">use<wbr>Local<wbr>Storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L55">store/index.ts:55</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L59">store/index.ts:59</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2721,7 +2858,7 @@
 						<div class="tsd-signature tsd-kind-icon">user<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L48">store/index.ts:48</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L52">store/index.ts:52</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2731,7 +2868,7 @@
 						<div class="tsd-signature tsd-kind-icon">user<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = randomName</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L47">store/index.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L50">store/index.ts:50</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2741,7 +2878,7 @@
 						<div class="tsd-signature tsd-kind-icon">workstation<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = mutations.newId()</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L50">store/index.ts:50</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L54">store/index.ts:54</a></li>
 							</ul>
 						</aside>
 					</section>
@@ -2751,7 +2888,7 @@
 						<div class="tsd-signature tsd-kind-icon">appearance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L70">store/index.ts:70</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L77">store/index.ts:77</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -2760,7 +2897,7 @@
 							<div class="tsd-signature tsd-kind-icon">bounding<wbr>Rect<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;shades&quot;</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L75">store/index.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L82">store/index.ts:82</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2770,7 +2907,7 @@
 							<div class="tsd-signature tsd-kind-icon">help<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;blue&quot;</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L72">store/index.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L79">store/index.ts:79</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2780,7 +2917,7 @@
 							<div class="tsd-signature tsd-kind-icon">selection<wbr>Rect<wbr>Color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;lightBlue&quot;</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L74">store/index.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L81">store/index.ts:81</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2790,7 +2927,7 @@
 							<div class="tsd-signature tsd-kind-icon">show<wbr>Grid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L73">store/index.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L80">store/index.ts:80</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2800,7 +2937,7 @@
 							<div class="tsd-signature tsd-kind-icon">theme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;light&quot;</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L71">store/index.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L78">store/index.ts:78</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2810,7 +2947,7 @@
 							<div class="tsd-signature tsd-kind-icon">connectors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L76">store/index.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L83">store/index.ts:83</a></li>
 								</ul>
 							</aside>
 							<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -2819,7 +2956,7 @@
 								<div class="tsd-signature tsd-kind-icon">activity<wbr>Stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;indigo&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L83">store/index.ts:83</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L90">store/index.ts:90</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2829,7 +2966,7 @@
 								<div class="tsd-signature tsd-kind-icon">control<wbr>Fill<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;blue&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L78">store/index.ts:78</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L85">store/index.ts:85</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2839,7 +2976,7 @@
 								<div class="tsd-signature tsd-kind-icon">drag<wbr>Dead<wbr>Zone<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 10</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L77">store/index.ts:77</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L84">store/index.ts:84</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2849,7 +2986,7 @@
 								<div class="tsd-signature tsd-kind-icon">error<wbr>Stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;red&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L84">store/index.ts:84</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L91">store/index.ts:91</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2859,7 +2996,7 @@
 								<div class="tsd-signature tsd-kind-icon">hover<wbr>Stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;deepPurple&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L81">store/index.ts:81</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L88">store/index.ts:88</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2869,7 +3006,7 @@
 								<div class="tsd-signature tsd-kind-icon">line<wbr>Width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L85">store/index.ts:85</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L92">store/index.ts:92</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2879,7 +3016,7 @@
 								<div class="tsd-signature tsd-kind-icon">selected<wbr>Stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;amber&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L80">store/index.ts:80</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L87">store/index.ts:87</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2889,7 +3026,7 @@
 								<div class="tsd-signature tsd-kind-icon">stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;pink&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L79">store/index.ts:79</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L86">store/index.ts:86</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2899,7 +3036,7 @@
 								<div class="tsd-signature tsd-kind-icon">watch<wbr>Stroke<wbr>Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;orange&quot;</span></div>
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L82">store/index.ts:82</a></li>
+										<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L89">store/index.ts:89</a></li>
 									</ul>
 								</aside>
 							</section>
@@ -2911,7 +3048,7 @@
 						<div class="tsd-signature tsd-kind-icon">new<wbr>Vector<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L60">store/index.ts:60</a></li>
+								<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L67">store/index.ts:67</a></li>
 							</ul>
 						</aside>
 						<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
@@ -2920,7 +3057,7 @@
 							<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 100</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L61">store/index.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L68">store/index.ts:68</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2930,7 +3067,7 @@
 							<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 100</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L62">store/index.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L69">store/index.ts:69</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2940,7 +3077,7 @@
 							<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/4023a64/src/store/index.ts#L63">store/index.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/plastic-io/graph-editor/blob/929bdac/src/store/index.ts#L70">store/index.ts:70</a></li>
 								</ul>
 							</aside>
 						</section>
@@ -2982,6 +3119,9 @@
 						<a href="_store_index_.html">&quot;store/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_store_modules_auth0authprovider_.html">&quot;store/modules/<wbr>Auth0<wbr>Auth<wbr>Provider&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_store_modules_httpdataprovider_.html">&quot;store/modules/HTTPData<wbr>Provider&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -3011,6 +3151,15 @@
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_index_.html#node_env" class="tsd-kind-icon">NODE_<wbr>ENV</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_store_index_.html#authaudience" class="tsd-kind-icon">auth<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_store_index_.html#authclientid" class="tsd-kind-icon">auth<wbr>Client<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_store_index_.html#authdomain" class="tsd-kind-icon">auth<wbr>Domain</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_store_index_.html#defaultnewgraphtemplate" class="tsd-kind-icon">default<wbr>New<wbr>Graph<wbr>Template</a>

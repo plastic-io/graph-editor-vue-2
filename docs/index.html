@@ -80,6 +80,17 @@
 					<li>Open your graph editor and start making graphs.</li>
 				</ol>
 				<p><em>Note: You can use the graph editor and export to other systems even without a graph server.  However you cannot host HTTP web sites without the graph server.</em></p>
+				<a href="#env" id="env" style="color: inherit; text-decoration: none;">
+					<h1>.env</h1>
+				</a>
+				<p>You can automatically fill out the values of your users preferences by setting an <code>.env</code> file with the following values:</p>
+				<p>  VUE_APP_GRAPH_HTTP_SERVER=<a href="https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/">https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/</a>
+					VUE_APP_GRAPH_WSS_SERVER=wss://w84525agw3.execute-api.us-east-1.amazonaws.com/dev
+					VUE_APP_AUTH_PROVIDER_NAME=auth0
+					VUE_APP_AUTH_DOMAIN=dev-32-g55ap.us.auth0.com
+					VUE_APP_AUTH_CLIENT_ID=V352372k7efF4asfsJyizdfasasUKl
+					VUE_APP_AUTH_AUDIENCE=plastic-io-graph-server
+				VUE_APP_FORCE_SERVER=false</p>
 				<a href="#what-is-plastic-io" id="what-is-plastic-io" style="color: inherit; text-decoration: none;">
 					<h1>What is Plastic-IO?</h1>
 				</a>
@@ -148,11 +159,14 @@
 				<a href="#vectors" id="vectors" style="color: inherit; text-decoration: none;">
 					<h3>Vectors</h3>
 				</a>
-				<p>Vectors are points on the graph.  Vectors in Plastic-IO are classed as &quot;hypervectors&quot;.  This means your vector can have multiple sets of &quot;edges&quot; that connect your vector to other points on the graph.  Additionally, each edge can be shared with multiple other vector&#39;s edges at the same time.  These &quot;hyper edges&quot; are called &quot;connectors&quot;.  The relationship between the vectors, edges and connectors controls the flow of your graph program.</p>
+				<p>Vectors are points on the graph.  Vectors have an explicit URL.  Vectors in Plastic-IO are classed as &quot;hypervectors&quot;.  This means your vector can have multiple sets of &quot;edges&quot; that connect your vector to other points on the graph.  Additionally, each edge can be shared with multiple other vector&#39;s edges at the same time.  These &quot;hyper edges&quot; are called &quot;connectors&quot;.  The relationship between the vectors, edges and connectors controls the flow of your graph program.</p>
 				<a href="#view" id="view" style="color: inherit; text-decoration: none;">
 					<h3>View</h3>
 				</a>
-				<p>Each vector has a &quot;view&quot;.  When you view the graph, you can see the view of each vector on the graph.  You can edit the view of the vector directly in the IDE.  Vectors have an explicit URL.  You can publish and share vectors.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.</p>
+				<p>Each vector has a view.  The graph itself has a view as well.  When you use the graph editor, you can see the view of each vector or graph.  You can edit the view of the vector directly in the IDE.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.</p>
+				<p>Each vector on the graph is registered as a Vue component with the following name <code>vector-&lt;vector-id&gt;</code> where <code>&lt;vector-id&gt;</code> is the
+				unique ID of the vector.  The graph itself is also registered as a Vue component with the following name <code>vector-&lt;graph-id&gt;</code> where <code>&lt;graph-id&gt;</code> is the unique id of the graph.  The graph view is only visible when in presentation mode.  By setting the graph to start in presentation mode you can create functional web sites that can be presented to end users.</p>
+				<p>When a graph is imported into another graph, the graph view template gains the property <code>vector</code> that represents the host vector.</p>
 				<a href="#bus" id="bus" style="color: inherit; text-decoration: none;">
 					<h3>Bus</h3>
 				</a>
@@ -165,7 +179,8 @@
 					<h2>Executing Graphs on the browser</h2>
 				</a>
 				<p>Graph can be executed directly in the design view of the editor, however you can also set your graph to &quot;Presentation Mode&quot;.
-				In presentation mode, connectors not marked &quot;Visible in Presentation&quot; will be hidden.  Additionally, vectors will by default stack into a flex-grid.  You can set your graph to &quot;Start in Presentation Mode&quot; which will allow you to then distribute your graph program to anyone with a Plastic-IO graph host.</p>
+					In presentation mode, connectors not marked &quot;Visible in Presentation&quot; will be hidden.  The template that is displayed is defined
+				on the graph properties.  From this template you can display other vectors on your graph or enter your own template code.</p>
 				<p>When a vector&#39;s set function is being invoked, the <code>this</code> object contains a few helpful properties:</p>
 				<table>
 					<thead>
@@ -272,8 +287,8 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 					<h2>Going Deeper</h2>
 				</a>
 				<p>Scheduling engine documentation: <a href="https://plastic-io.github.io/plastic-io/classes/_scheduler_.scheduler.html">Scheduler</a></p>
-				<a href="#installing-the-graph-editor" id="installing-the-graph-editor" style="color: inherit; text-decoration: none;">
-					<h1>Installing the Graph Editor</h1>
+				<a href="#installing-development-graph-editor" id="installing-development-graph-editor" style="color: inherit; text-decoration: none;">
+					<h1>Installing development Graph Editor</h1>
 				</a>
 				<p>Uses local storage</p>
 				<a href="#project-setup" id="project-setup" style="color: inherit; text-decoration: none;">
@@ -334,6 +349,9 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_store_index_.html">&quot;store/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_store_modules_auth0authprovider_.html">&quot;store/modules/<wbr>Auth0<wbr>Auth<wbr>Provider&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_store_modules_httpdataprovider_.html">&quot;store/modules/HTTPData<wbr>Provider&quot;</a>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.7% </span>
+                <span class="strong">49.77% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>109/215</span>
+                <span class='fraction'>106/213</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.33% </span>
+                <span class="strong">27.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>34/120</span>
+                <span class='fraction'>33/120</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.25% </span>
+                <span class="strong">52.56% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>41/77</span>
+                <span class='fraction'>41/78</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50.93% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>109/214</span>
+                <span class='fraction'>106/212</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -830,7 +830,10 @@
 <a name='L771'></a><a href='#L771'>771</a>
 <a name='L772'></a><a href='#L772'>772</a>
 <a name='L773'></a><a href='#L773'>773</a>
-<a name='L774'></a><a href='#L774'>774</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L774'></a><a href='#L774'>774</a>
+<a name='L775'></a><a href='#L775'>775</a>
+<a name='L776'></a><a href='#L776'>776</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1089,6 +1092,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1105,6 +1109,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1553,15 +1563,9 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1684,6 +1688,7 @@
                         :color="showHelp ? 'info' : ''"
                         title="Help"&gt;mdi-help-circle-outline&lt;/v-icon&gt;
                 &lt;/span&gt;
+                &lt;user-menu :size="17"/&gt;
             &lt;/v-system-bar&gt;
             &lt;div :style="showHelp ? 'pointer-events: none;' : ''"&gt;
                 &lt;control-panel v-if="!presentation &amp;&amp; panelVisibility" ref="panel"/&gt;
@@ -1861,6 +1866,7 @@ import HelpOverlay from "./HelpOverlay";
 import GraphUsers from "./GraphUsers";
 import GraphMouse from "./GraphMouse";
 import ConnectorView from "./ConnectorView";
+import UserMenu from "./UserMenu";
 import TestView from "./TestView";
 export default {
     name: "GraphEditor",
@@ -1868,6 +1874,7 @@ export default {
         route: Object,
     },
     components: {
+        UserMenu,
         GraphMap,
         GraphRewind,
         TestView,
@@ -1880,6 +1887,11 @@ export default {
         ErrorPage,
     },
     watch: {
+<span class="fstat-no" title="function not covered" >        notFound() {</span>
+<span class="cstat-no" title="statement not covered" >            if (!this.notFound) {</span>
+<span class="cstat-no" title="statement not covered" >                this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;</span>
+            }
+        },
 <span class="fstat-no" title="function not covered" >        presentationWarning() {</span>
 <span class="cstat-no" title="statement not covered" >            this.hasSeenPresentationWarning = true;</span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            setTimeout(() =&gt; {</span></span>
@@ -2323,7 +2335,6 @@ export default {
         document.onmousemove = this.mousemove;
         window.onkeyup = this.keyup;
         window.onkeydown = this.keydown;
-        this.$store.dispatch("getToc");
         let graphId = "index";
 <span class="missing-if-branch" title="else path not taken" >E</span>        if (this.route.path.split("/")[2]) {
             graphId = this.route.path.split("/")[2];
@@ -2331,11 +2342,6 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
-        this.$store.dispatch("subscribeToc");
-        this.$store.dispatch("subscribePreferences");
-<span class="missing-if-branch" title="if path not taken" >I</span>        if (this.notFound) {
-<span class="cstat-no" title="statement not covered" >            this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;</span>
-        }
     },
     data: () =&gt; {
         return {
@@ -2383,7 +2389,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 18 2020 04:38:17 GMT+0000 (Coordinated Universal Time)
+                at Thu Jun 18 2020 09:42:41 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

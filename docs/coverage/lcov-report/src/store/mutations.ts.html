@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.81% </span>
+                <span class="strong">69.74% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>370/530</span>
+                <span class='fraction'>371/532</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">73.11% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>154/210</span>
+                <span class='fraction'>155/212</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.89% </span>
+                <span class="strong">68.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>341/495</span>
+                <span class='fraction'>342/497</span>
             </div>
         
             
@@ -1270,7 +1270,15 @@
 <a name='L1211'></a><a href='#L1211'>1211</a>
 <a name='L1212'></a><a href='#L1212'>1212</a>
 <a name='L1213'></a><a href='#L1213'>1213</a>
-<a name='L1214'></a><a href='#L1214'>1214</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L1214'></a><a href='#L1214'>1214</a>
+<a name='L1215'></a><a href='#L1215'>1215</a>
+<a name='L1216'></a><a href='#L1216'>1216</a>
+<a name='L1217'></a><a href='#L1217'>1217</a>
+<a name='L1218'></a><a href='#L1218'>1218</a>
+<a name='L1219'></a><a href='#L1219'>1219</a>
+<a name='L1220'></a><a href='#L1220'>1220</a>
+<a name='L1221'></a><a href='#L1221'>1221</a>
+<a name='L1222'></a><a href='#L1222'>1222</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1281,6 +1289,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2202,9 +2216,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2231,7 +2245,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -2483,6 +2497,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
 import mouse from "./modules/mouse";
 import {keyup, keydown} from "./modules/keys";
@@ -2494,6 +2510,12 @@ export interface ChangeEvent {
     id: string,
     date: number,
     changes: any[],
+}
+function <span class="fstat-no" title="function not covered" >setAuthProvider(s</span>tate: any, e: any) {
+<span class="cstat-no" title="statement not covered" >    state.</span>authProvider = e;
+}
+function setIdentity(state: any, e: any) {
+    state.identity = e;
 }
 function <span class="fstat-no" title="function not covered" >addFortune(s</span>tate: any, e: any) {
 <span class="cstat-no" title="statement not covered" >    state.</span>fortunes.push(e);
@@ -3596,6 +3618,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    setAuthProvider,
+    setIdentity,
     addFortune,
     notFound,
     setMapScale,
@@ -3703,7 +3727,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 18 2020 04:38:17 GMT+0000 (Coordinated Universal Time)
+                at Thu Jun 18 2020 09:42:41 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
