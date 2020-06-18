@@ -1,7 +1,13 @@
 <template>
     <v-app class="graph-manager">
         <v-app-bar app clipped-left>
-            <v-toolbar-title>Plastic IO</v-toolbar-title>
+            <v-toolbar-title>
+                <a href="/graph-editor/graphs">
+                    <v-avatar size="40px" color="primary" class="ma-5">
+                        <v-img src="https://avatars1.githubusercontent.com/u/60668496?s=200&v=4"/>
+                    </v-avatar>
+                </a>
+            </v-toolbar-title>
             <v-spacer/>
             <v-btn color="info" @click="create">
                 New Graph
@@ -195,11 +201,6 @@
                 </v-row>
             </v-container>
         </v-content>
-        <v-btn fab style="position: fixed; bottom: 15px; left: 15px;" small @click="dataSourceProviderSetup">
-            <v-icon small>
-                mdi-database
-            </v-icon>
-        </v-btn>
         <v-snackbar :timeout="0" v-model="localShowError" top>
             <v-alert prominent type="error">
                 <v-row align="center">
@@ -225,99 +226,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="showDataSourceProviderSetup" width="500">
-            <v-card>
-                <v-card-title class="headline" primary-title>
-                    Data Source Provider
-                </v-card-title>
-                <v-card-text>
-                    <v-switch
-                        help-topic="useLocalStorage"
-                        :label="useLocalStorage ? 'Local Storage' : 'Server Storage'"
-                        v-model="useLocalStorage"></v-switch>
-                    <v-text-field
-                        :disabled="useLocalStorage"
-                        v-model="graphHTTPServer"
-                        help-topic="HTTPServer"
-                        label="HTTPS Server"
-                    />
-                    <v-text-field
-                        :disabled="useLocalStorage"
-                        v-model="graphWSSServer"
-                        help-topic="WSSServer"
-                        label="WSS Server"
-                    />
-                    <v-text-field
-                        :disabled="useLocalStorage"
-                        v-model="authDomain"
-                        help-topic="authDomain"
-                        label="Authentication Domain"
-                    />
-                    <v-text-field
-                        :disabled="useLocalStorage"
-                        v-model="authClientId"
-                        help-topic="authClientId"
-                        label="Authentication ClientId"
-                    />
-                </v-card-text>
-                <v-card-title class="headline" primary-title>
-                    User Settings
-                </v-card-title>
-                <v-card-text>
-                    <div v-if="!useLocalStorage && identity && identity.user">
-                        <v-text-field disabled :value="identity.user.email" label="E-Mail"/>
-                        <v-text-field
-                            disabled
-                            :value="identity.user.avatar"
-                            help-topic="avatar"
-                            label="Avatar"
-                        >
-                            <template v-slot:prepend>
-                                <v-img
-                                    :src="identity.user.avatar"
-                                    style="width: 30px; border-radius: 15px;"/>
-                            </template>
-                        </v-text-field>
-                    </div>
-                    <v-text-field
-                        v-model="userName"
-                        v-show="useLocalStorage"
-                        @click:prepend="randomizeName"
-                        prepend-icon="mdi-dice-multiple-outline"
-                        help-topic="userName"
-                        label="User Name"
-                    />
-                    <v-text-field
-                        v-show="useLocalStorage"
-                        v-model="avatar"
-                        help-topic="avatar"
-                        label="Avatar"
-                    >
-                        <template v-slot:prepend>
-                            <v-img
-                                :src="avatar"
-                                style="width: 30px; border-radius: 15px;"/>
-                        </template>
-                    </v-text-field>
-                    <v-text-field
-                        disabled
-                        v-model="workstationId"
-                        help-topic="workstationId"
-                        label="Workstation Id"
-                    />
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn @click="logoff">
-                        <v-icon small>
-                            mdi-logout
-                        </v-icon>
-                        Logoff
-                    </v-btn>
-                    <v-btn @click="saveDbPrefs">Ok</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
         <v-bottom-sheet :timeout="2000" v-model="showWarning">
             <v-alert type="warning">
                 <v-row>
@@ -329,8 +237,6 @@
 </template>
 <script>
 import {mapState, mapActions} from "vuex";
-import {mapFields} from "vuex-map-fields";
-import getRandomName from "../names";
 import UserMenu from "./UserMenu";
 export default {
     name: "graph-manager",
@@ -346,19 +252,6 @@ export default {
             "clearError",
             "getToc",
         ]),
-        saveDbPrefs() {
-            if (this.originalPreferences !== JSON.stringify(this.preferences)) {
-                this.showWarning = true;
-                this.warningMessage = "Changes to data source provider will not take effect until you refresh your browser.";
-            }
-            this.showDataSourceProviderSetup = false;
-            this.savePreferences();
-        },
-        randomizeName() {
-            const name = getRandomName();
-            this.userName = name;
-            this.avatar = "https://api.adorable.io/avatars/50/" + name.replace(/ /g, "") + ".png";
-        },
         confirmDelete(e) {
             this.deleteConfirm = true;
             this.deleteRef = e;
@@ -386,10 +279,6 @@ export default {
         updateItemsPerPage(number) {
             this.itemsPerPage = number;
         },
-        dataSourceProviderSetup() {
-            this.originalPreferences = JSON.stringify(this.preferences);
-            this.showDataSourceProviderSetup = true;
-        },
     },
     data: () => ({
         showWarning: null,
@@ -398,7 +287,6 @@ export default {
         deleteConfirm: false,
         deleteRef: null,
         localErrorMessage: "",
-        showDataSourceProviderSetup: false,
         localShowError: false,
         drawer: null,
         localItems: [],
@@ -424,7 +312,6 @@ export default {
         },
         toc: {
             handler: function () {
-                console.log("toc updated");
                 this.localItems = this.toc;
             },
             deep: true,
@@ -437,16 +324,6 @@ export default {
         },
     },
     computed: {
-        ...mapFields([
-            "preferences.useLocalStorage",
-            "preferences.authClientId",
-            "preferences.authDomain",
-            "preferences.graphHTTPServer",
-            "preferences.graphWSSServer",
-            "preferences.userName",
-            "preferences.avatar",
-            "preferences.workstationId",
-        ]),
         ...mapState({
             identity: state => state.identity,
             createdGraphId: state => state.createdGraphId,

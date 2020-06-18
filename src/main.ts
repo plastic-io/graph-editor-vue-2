@@ -5,6 +5,7 @@ import App from "./App.vue";
 import GraphEditor from "./components/GraphEditor.vue";
 import ErrorPage from "./components/ErrorPage.vue";
 import GraphManager from "./components/GraphManager.vue";
+import ProviderSettings from "./components/ProviderSettings.vue";
 import GraphVector from "./components/GraphVector.vue";
 import VueRouter from "vue-router";
 import {sync} from "vuex-router-sync";
@@ -64,7 +65,6 @@ const router = new VueRouter({
         {
             path: "/graph-editor/auth-callback",
             redirect: () => {
-                console.log("route: /graph-editor/auth-callback");
                 const rdr = localStorage.getItem("redirectAfterLogin")
                     || "/graph-editor/graphs";
                 return rdr.replace(window.location.origin, "");
@@ -73,6 +73,10 @@ const router = new VueRouter({
         {
             path: "/graph-editor/",
             redirect: "/graph-editor/graphs",
+        },
+        {
+            path: "/graph-editor/provider-settings",
+            component: ProviderSettings,
         },
         {
             path: "/graph-editor/graphs",

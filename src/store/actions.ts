@@ -144,8 +144,10 @@ export default {
             return;
         }
         context.commit("setIdentity", false);
+        const rdr = /graph-editor\/provider-settings/.test(window.location.toString()) ?
+            "/graph-editor/provider-settings" : "/graph-editor/graphs";
         await context.state.authProvider.logoff({
-            returnTo: window.location.origin + "/graph-editor/graphs"
+            returnTo: window.location.origin + rdr
         });
     },
     async runVectorTest(context: any, vector: any) {
@@ -238,7 +240,6 @@ export default {
                 preferences: localStoreDataProvider,
             });
             const auth = new Auth0AuthProvider();
-            let er;
             let token;
             let user;
             context.commit("setAuthProvider", auth);
@@ -256,12 +257,13 @@ export default {
                 token = await auth.getToken();
                 user = await auth.getUser();
             } catch (err) {
-                er = err;
+                console.info("getToken or getUser error", err);
             }
             if (!user) {
-                console.info("Auth login redirect", er);
-                localStorage.setItem("redirectAfterLogin", window.location.href.toString());
-                auth.login();
+                if (!/graph-editor\/provider-settings/.test(window.location.toString())) {
+                    localStorage.setItem("redirectAfterLogin", window.location.href.toString());
+                    auth.login();
+                }
                 return;
             }
             context.commit("setIdentity", {
