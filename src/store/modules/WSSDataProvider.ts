@@ -9,6 +9,7 @@ export default class WSSDataProvider {
     chunks: any;
     httpDataProvider: HTTPDataProvider;
     webSocket: WebSocket;
+    token = "";
     state: string;
     messages: any[];
     message: (e: any) => void;
@@ -39,6 +40,10 @@ export default class WSSDataProvider {
         this.httpDataProvider = new HTTPDataProvider(this.httpUrl);
         this.webSocket = new WebSocket(this.wssUrl);
         this.connect();
+    }
+    setToken(token: string) {
+        this.token = token;
+        this.httpDataProvider.setToken(token);
     }
     send(e: any) {
         if (this.state !== "open") {

@@ -23,6 +23,9 @@ describe("EditorSettings.vue", () => {
                 keys: {},
                 graph: acid,
                 locked: false,
+                identity: {
+                    provider: "local",
+                },
                 preferences: {
                     appearance: {
                         showGrid: false,

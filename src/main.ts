@@ -5,6 +5,7 @@ import App from "./App.vue";
 import GraphEditor from "./components/GraphEditor.vue";
 import ErrorPage from "./components/ErrorPage.vue";
 import GraphManager from "./components/GraphManager.vue";
+import ProviderSettings from "./components/ProviderSettings.vue";
 import GraphVector from "./components/GraphVector.vue";
 import VueRouter from "vue-router";
 import {sync} from "vuex-router-sync";
@@ -19,9 +20,19 @@ Vue.use(Vuex);
 Vue.use(PortalVue);
 Vue.component("graph-vector", GraphVector);
 const store = new Vuex.Store(storeConfig()) as any;
-store.dispatch("setupDataProvider");
+store.dispatch("setupProviders");
 store.watch((state: any) => state.historyPosition, () => {
     store.dispatch("save");
+});
+store.watch((state: any) => state.identity, (identity: any) => {
+    if (identity.user) {
+        store.dispatch("getToc");
+        store.dispatch("subscribeToc");
+        store.dispatch("subscribePreferences");
+    } else if (identity === false) {
+        localStorage.setItem("redirectAfterLogin", window.location.href.toString());
+        store.dispatch("login");
+    }
 });
 store.watch((state: any) => state.graphSnapshot, () => {
     clearTimeout(saveDiffDebounceTimer);
@@ -52,8 +63,20 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
+            path: "/graph-editor/auth-callback",
+            redirect: () => {
+                const rdr = localStorage.getItem("redirectAfterLogin")
+                    || "/graph-editor/graphs";
+                return rdr.replace(window.location.origin, "");
+            },
+        },
+        {
             path: "/graph-editor/",
             redirect: "/graph-editor/graphs",
+        },
+        {
+            path: "/graph-editor/provider-settings",
+            component: ProviderSettings,
         },
         {
             path: "/graph-editor/graphs",

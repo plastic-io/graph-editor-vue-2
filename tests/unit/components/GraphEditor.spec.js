@@ -91,7 +91,6 @@ describe("GraphEditor.vue", () => {
     });
     describe("Graph Edtior Methods", () => {
         it("Should attempt to open the current document and fetch the local TOC", (done) => {
-            expect(actions.getToc).toHaveBeenCalled();
             expect(actions.open.mock.calls[0][1].graphId).toEqual("1234");
             done();
         });

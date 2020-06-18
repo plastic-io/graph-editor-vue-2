@@ -162,7 +162,7 @@ export default {
         },
         debugEvent(item) {
             return {
-                _t: this.fromNow(item._t),
+                _t: item._t,
                 event: item.event,
             };
         },

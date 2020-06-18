@@ -10,6 +10,12 @@ export interface ChangeEvent {
     date: number,
     changes: any[],
 }
+function setAuthProvider(state: any, e: any) {
+    state.authProvider = e;
+}
+function setIdentity(state: any, e: any) {
+    state.identity = e;
+}
 function addFortune(state: any, e: any) {
     state.fortunes.push(e);
 }
@@ -1111,6 +1117,8 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    setAuthProvider,
+    setIdentity,
     addFortune,
     notFound,
     setMapScale,

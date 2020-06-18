@@ -5,6 +5,7 @@ import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io
 import LocalStoreDataProvider from "./modules/LocalStoreDataProvider";
 import WSSDataProvider from "./modules/WSSDataProvider";
 import HTTPDataProvider from "./modules/HTTPDataProvider";
+import Auth0AuthProvider from "./modules/Auth0AuthProvider";
 import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
 let rewindDebounceTimeout = 900;
@@ -132,10 +133,27 @@ const schedulerNotifyActions: any = {
     }
 };
 export default {
+    async logon(context: any) {
+        if (!context.state.authProvider) {
+            return;
+        }
+        await context.state.authProvider.logon();
+    },
+    async logoff(context: any) {
+        if (!context.state.authProvider) {
+            return;
+        }
+        context.commit("setIdentity", false);
+        const rdr = /graph-editor\/provider-settings/.test(window.location.toString()) ?
+            "/graph-editor/provider-settings" : "/graph-editor/graphs";
+        await context.state.authProvider.logoff({
+            returnTo: window.location.origin + rdr
+        });
+    },
     async runVectorTest(context: any, vector: any) {
         testService(context, vector);
     },
-    async setupDataProvider(context: any) {
+    async setupProviders(context: any) {
         const localStoreDataProvider = new LocalStoreDataProvider();
         let preferences;
         try {
@@ -166,6 +184,18 @@ export default {
                 notification: localStoreDataProvider,
                 graph: localStoreDataProvider,
                 preferences: localStoreDataProvider,
+            });
+            context.commit("setIdentity", {
+                provider: "local",
+                token: "",
+                user: {
+                    userName: preferences.userName,
+                    email: preferences.email,
+                    emailVerified: false,
+                    avatar: preferences.avatar,
+                    updated: new Date().toISOString(),
+                    sub: "",
+                },
             });
         } else {
             const wsOpen = () => {
@@ -209,6 +239,47 @@ export default {
                 graph: wssDataProvider,
                 preferences: localStoreDataProvider,
             });
+            const auth = new Auth0AuthProvider();
+            let token;
+            let user;
+            context.commit("setAuthProvider", auth);
+            // setup auth
+            await auth.create(
+                preferences.authDomain,
+                preferences.authClientId,
+                preferences.authAudience,
+                window.location.origin + "/graph-editor/auth-callback",
+            );
+            if (/graph-editor\/auth-callback/.test(window.location.toString())) {
+                await auth.handleRedirectCallback();
+            }
+            try {
+                token = await auth.getToken();
+                user = await auth.getUser();
+            } catch (err) {
+                console.info("getToken or getUser error", err);
+            }
+            if (!user) {
+                if (!/graph-editor\/provider-settings/.test(window.location.toString())) {
+                    localStorage.setItem("redirectAfterLogin", window.location.href.toString());
+                    auth.login();
+                }
+                return;
+            }
+            context.commit("setIdentity", {
+                provider: "auth0",
+                token,
+                user: {
+                    userName: user.name,
+                    email: user.email,
+                    emailVerified: user.email_verified,
+                    avatar: user.picture,
+                    updated: user.updated_at,
+                    sub: user.sub,
+                },
+            });
+            wssDataProvider.setToken(token);
+            httpDataProvider.setToken(token);
         }
     },
     subscribeToGraphEvents(context: any, e: any) {
@@ -483,6 +554,9 @@ export default {
         context.commit("setToc", toc);
     },
     create(context: any) {
+        if (!context.state.identity.user.userName) {
+            throw new Error("Must login to create a graph.");
+        }
         const id = newId();
         const e = {
             id,
@@ -493,7 +567,8 @@ export default {
                 name: "",
                 description: "",
                 icon: "mdi-graph",
-                createdBy: "",
+                createdBy: context.state.identity.user.userName,
+                lastUpdatedBy: context.state.identity.user.userName,
                 tags: [],
                 createdOn: Date.now(),
                 lastUpdate: Date.now(),
@@ -507,7 +582,7 @@ export default {
         if (context.state.preferences.useLocalStorage) {
             setTimeout(() => {
                 context.dispatch("getToc");
-            }, 0);
+            }, saveDebounceTimeout + 100);
         }
     },
     async removeArtifact(context: any, item: any) {
@@ -545,7 +620,6 @@ export default {
             loading: true,
         });
         // merge any new
-        console.log("new");
         await context.state.dataProviders.preferences.set("preferences",
             {
                 ...{preferences: context.state.originalPreferences},
@@ -571,6 +645,7 @@ export default {
                 const calcState = JSON.stringify(context.state.graph, replacer);
                 const crc = Hashes.CRC32(calcState);
                 const event = {
+                    token: context.state.identity ? context.state.identity.token : "",
                     graphId: context.state.graph.id,
                     crc,
                     changes,
@@ -578,7 +653,7 @@ export default {
                 };
                 if (Object.keys(context.state.pendingEvents).length > 0
                     && context.state.dataProviders.graph.asyncUpdate) {
-                    console.log("queueEvent", event.id);
+                    console.info("queueEvent", event.id);
                     context.commit("queueEvent", event);
                     return;
                 }
@@ -649,8 +724,9 @@ export default {
             er = err;
         }
         if (!graph || graph.err) {
-            return context.commit("notFound", er);
+            return context.commit("notFound", er || "Unknown error or graph not found");
         }
+        context.commit("notFound", false);
         context.commit("setLoadingStatus", {
             key: e.graphId,
             type: "graph",

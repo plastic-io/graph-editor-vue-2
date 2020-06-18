@@ -47,8 +47,8 @@
                 :class="translating && mouse.lmb ? 'no-select' : ''"
             >
                 <component
-                    v-if="!localVector.linkedGraph"
                     :is="'vector-' + vectorComponentName"
+                    :graph="localVector.linkedGraph ? localVector.linkedGraph.graph : null"
                     :vector="localVector"
                     :scheduler="scheduler"
                     :state="$store.state.scheduler.state"
@@ -58,15 +58,6 @@
                     @dataChange="dataChange"
                     @set="set"
                 />
-                <div v-else style="display: flex;">
-                    <graph-vector
-                        v-for="vect in localVector.linkedGraph.graph.vectors"
-                        :style="{order: vect.properties.presentation.z}"
-                        :key="vect.key"
-                        :vector="vect"
-                        :hostVector="localVector"
-                    />
-                </div>
                 <component
                     v-for="(style, index) in styles"
                     :is="'style'"
@@ -100,6 +91,7 @@ export default {
         vector: Vector,
         hostVector: Vector,
         graph: Graph,
+        presentation: Boolean,
     },
     watch: {
         vectorProps: {
@@ -274,9 +266,8 @@ export default {
             }
         },
         async importGraph(g) {
-            for (let v of g.vectors) {
-                await this.importRoot(v);
-            }
+            console.log("importGraph", g);
+            await compileTemplate(this, this.vectorComponentName, g.properties.presentationTemplate);
             this.loaded[this.vectorComponentName] = true;
         },
         async importVector(v, artifactKey) {
@@ -295,7 +286,6 @@ export default {
     },
     computed: {
         ...mapState({
-            presentation: state => state.presentation,
             dataProviders: state => state.dataProviders,
             state: state => state.scheduler.state,
             scheduler: state => state.scheduler,

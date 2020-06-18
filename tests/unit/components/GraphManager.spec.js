@@ -23,6 +23,17 @@ describe("GraphManager.vue", () => {
         localToc = JSON.parse(JSON.stringify(localTocJson));
         storeConfig = {
             state: {
+                identity: {
+                    provider: "local",
+                    user: {
+                        userName: "some@guy.com",
+                        email: "some@guy.com",
+                        emailVerified: false,
+                        avatar: "http://my-picture.jpg",
+                        updated: new Date().toISOString(),
+                        sub: "",
+                    },
+                },
                 pathPrefix: "/graph-editor/",
                 showError: null,
                 translating: {},
