@@ -10,7 +10,7 @@ _Note: LocalStorage only by default._
 
 1. Install the AWS based [Plastic-IO Graph Server](https://github.com/plastic-io/graph-server)
 2. Install the Graph Editor, this repository, or use the [public version](https://plastic-io.github.io/graph-editor/graphs).
-3. Configure the Graph Editor to use your server.
+3. Configure the Graph Editor to use your server by visiting `/graph-editor/provider-settings`, or if using the [public version](https://plastic-io.github.io/graph-editor/provider-settings).
 4. Open your graph editor and start making graphs.
 
 _Note: You can use the graph editor and export to other systems even without a graph server.  However you cannot host HTTP web sites without the graph server._
