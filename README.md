@@ -96,11 +96,16 @@ Graphs in Plastic-IO are classed as "hypergraphs".  This means your graph can be
 
 ### Vectors
 
-Vectors are points on the graph.  Vectors in Plastic-IO are classed as "hypervectors".  This means your vector can have multiple sets of "edges" that connect your vector to other points on the graph.  Additionally, each edge can be shared with multiple other vector's edges at the same time.  These "hyper edges" are called "connectors".  The relationship between the vectors, edges and connectors controls the flow of your graph program.
+Vectors are points on the graph.  Vectors have an explicit URL.  Vectors in Plastic-IO are classed as "hypervectors".  This means your vector can have multiple sets of "edges" that connect your vector to other points on the graph.  Additionally, each edge can be shared with multiple other vector's edges at the same time.  These "hyper edges" are called "connectors".  The relationship between the vectors, edges and connectors controls the flow of your graph program.
 
 ### View
 
-Each vector has a "view".  When you view the graph, you can see the view of each vector on the graph.  You can edit the view of the vector directly in the IDE.  Vectors have an explicit URL.  You can publish and share vectors.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.
+Each vector has a view.  The graph itself has a view as well.  When you use the graph editor, you can see the view of each vector or graph.  You can edit the view of the vector directly in the IDE.  Although the Plastic-IO execution engine is rendering engine agnostic, this view on the graph editor uses Vue and Vuetify to render views.  It is currently not possible to use rendering engines other than Vue.
+
+Each vector on the graph is registered as a Vue component with the following name `vector-<vector-id>` where `<vector-id>` is the
+  unique ID of the vector.  The graph itself is also registered as a Vue component with the following name `vector-<graph-id>` where `<graph-id>` is the unique id of the graph.  The graph view is only visible when in presentation mode.  By setting the graph to start in presentation mode you can create functional web sites that can be presented to end users.
+
+When a graph is imported into another graph, the graph view template gains the property `vector` that represents the host vector.
 
 ### Bus
 
@@ -113,7 +118,8 @@ Plastic-IO graphs are a high level graph programming language built on top of Ja
 ## Executing Graphs on the browser
 
 Graph can be executed directly in the design view of the editor, however you can also set your graph to "Presentation Mode".
-In presentation mode, connectors not marked "Visible in Presentation" will be hidden.  Additionally, vectors will by default stack into a flex-grid.  You can set your graph to "Start in Presentation Mode" which will allow you to then distribute your graph program to anyone with a Plastic-IO graph host.
+In presentation mode, connectors not marked "Visible in Presentation" will be hidden.  The template that is displayed is defined
+on the graph properties.  From this template you can display other vectors on your graph or enter your own template code.
 
 When a vector's set function is being invoked, the `this` object contains a few helpful properties:
 
