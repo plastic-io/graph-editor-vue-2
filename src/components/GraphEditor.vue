@@ -278,6 +278,11 @@ export default {
         ErrorPage,
     },
     watch: {
+        notFound() {
+            if (!this.notFound) {
+                this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
+            }
+        },
         presentationWarning() {
             this.hasSeenPresentationWarning = true;
             setTimeout(() => {
@@ -728,9 +733,6 @@ export default {
         this.$store.dispatch("open", {
             graphId,
         });
-        if (this.notFound) {
-            this.showAnnoyingHelpMessage = !!this.preferences.newVectorHelp;
-        }
     },
     data: () => {
         return {

@@ -724,6 +724,7 @@ export default {
         if (!graph || graph.err) {
             return context.commit("notFound", er || "Unknown error or graph not found");
         }
+        context.commit("notFound", false);
         context.commit("setLoadingStatus", {
             key: e.graphId,
             type: "graph",
