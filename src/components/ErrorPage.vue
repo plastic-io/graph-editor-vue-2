@@ -6,7 +6,7 @@
                 class="mr-md-3 bg-icon"
                 v-html="messageIcon"
             />
-            <v-card max-width="476" class="align-self-center" color="transparent" flat>
+            <v-card max-width="477px" class="align-self-center" color="transparent" flat>
                 <v-container>
                     <v-row class="flex-column flex-md-row">
                         <v-col class="pa-0 text-center flex-md-grow-0"  @click="refreshFortune">
