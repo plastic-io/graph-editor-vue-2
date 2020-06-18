@@ -2,9 +2,14 @@
     <div class="ma-3" v-if="identity.provider !== 'local'">
         <v-menu v-if="identity.user">
             <template v-slot:activator="{ on }">
-                <v-avatar v-on="on" :size="`${size}px`">
-                    <v-img :src="identity.user.avatar"/>
-                </v-avatar>
+                <div>
+                    <v-avatar v-on="on" :size="`${size}px`" style="cursor: pointer;">
+                        <v-img :src="identity.user.avatar"/>
+                    </v-avatar>
+                    <v-icon v-on="on" small>
+                        mdi-menu-down
+                    </v-icon>
+                </div>
             </template>
             <v-list>
                 <v-list-item style="white-space: nowrap;">

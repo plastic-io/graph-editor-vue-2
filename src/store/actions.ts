@@ -580,7 +580,7 @@ export default {
         if (context.state.preferences.useLocalStorage) {
             setTimeout(() => {
                 context.dispatch("getToc");
-            }, 0);
+            }, saveDebounceTimeout + 100);
         }
     },
     async removeArtifact(context: any, item: any) {

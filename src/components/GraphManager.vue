@@ -3,13 +3,13 @@
         <v-app-bar app clipped-left>
             <v-toolbar-title>Plastic IO</v-toolbar-title>
             <v-spacer/>
-            <user-menu/>
             <v-btn color="info" @click="create">
                 New Graph
                 <v-icon right>
                     mdi-plus-circle-outline
                 </v-icon>
             </v-btn>
+            <user-menu/>
         </v-app-bar>
         <v-content>
             <v-container>
@@ -424,6 +424,7 @@ export default {
         },
         toc: {
             handler: function () {
+                console.log("toc updated");
                 this.localItems = this.toc;
             },
             deep: true,
