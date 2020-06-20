@@ -212,7 +212,11 @@
 <a name='L153'></a><a href='#L153'>153</a>
 <a name='L154'></a><a href='#L154'>154</a>
 <a name='L155'></a><a href='#L155'>155</a>
-<a name='L156'></a><a href='#L156'>156</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,56 +384,58 @@
             &lt;v-tab v-for="(category, index) in selectedRegistryCollection" :key="index" help-topic="importPublicTopLevel"&gt;
                 {{category.name}}
             &lt;/v-tab&gt;
-            &lt;v-tab-item v-for="(category, index) in selectedRegistryCollection" :key="index"&gt;
-                &lt;v-tabs v-if="registry[category.artifact] !== undefined"&gt;
-                    &lt;v-tab v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index" help-topic="importPublicSecondLevel"&gt;
-                        {{subCategory.name}}
-                    &lt;/v-tab&gt;
-                    &lt;v-tab-item v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index"&gt;
-                        &lt;v-list  style="overflow-y: auto; height: calc(100vh - 435px);" help-topic="importPublicList"&gt;
-                            &lt;v-list-group v-for="(item, index) in groupItems(subCategory.items)" :key="index"&gt;
-                                &lt;template v-slot:activator&gt;
-                                    &lt;v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)"&gt;
-                                        &lt;v-icon :title="item.type === 'publishedGraph' ? 'Graph' : 'Vector'"&gt;
-                                            {{item.icon || iconType(item.type)}}
-                                        &lt;/v-icon&gt;
-                                    &lt;/v-list-item-icon&gt;
-                                    &lt;v-list-item-content&gt;
-                                        {{item.name || "Untitled"}}
-                                        &lt;v-list-item-subtitle&gt;
-                                            &lt;span v-if="item.description"&gt;{{item.description}}&lt;/span&gt;
-                                            &lt;span v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/span&gt;
-                                        &lt;/v-list-item-subtitle&gt;
-                                    &lt;/v-list-item-content&gt;
-                                    &lt;v-list-item-icon&gt;
-                                        &lt;v-tooltip bottom&gt;
-                                            &lt;template v-slot:activator="{ on: tooltip }"&gt;
-                                                &lt;v-icon v-on="{ ...tooltip }"&gt;mdi-information-outline&lt;/v-icon&gt;
-                                            &lt;/template&gt;
-                                            &lt;div&gt;Latest Version: {{item.version}}&lt;/div&gt;
-                                            &lt;div&gt;Last Updated: {{item.lastUpdate}}&lt;/div&gt;
-                                            &lt;div&gt;Total Versions: {{artifacts(item.id).length}}&lt;/div&gt;
-                                            &lt;div v-if="item.description"&gt;{{item.description}}&lt;/div&gt;
-                                            &lt;div v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/div&gt;
-                                        &lt;/v-tooltip&gt;
-                                    &lt;/v-list-item-icon&gt;
-                                &lt;/template&gt;
-                                &lt;v-list-item v-for="(artifact, index) in detailItems(subCategory.items, item)" :key="index"&gt;
-                                    &lt;v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)"&gt;
-                                        &lt;v-icon&gt;{{artifact.icon}}&lt;/v-icon&gt;
-                                    &lt;/v-list-item-icon&gt;
-                                    &lt;v-list-item-content&gt;
-                                        &lt;v-list-item-title&gt;v{{artifact.version}}&lt;/v-list-item-title&gt;
-                                        &lt;v-list-item-subtitle&gt;
-                                            &lt;div v-if="item.description"&gt;{{item.description}}&lt;/div&gt;
-                                            &lt;div v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/div&gt;
-                                        &lt;/v-list-item-subtitle&gt;
-                                    &lt;/v-list-item-content&gt;
-                                &lt;/v-list-item&gt;
-                            &lt;/v-list-group&gt;
-                        &lt;/v-list&gt;
-                    &lt;/v-tab-item&gt;
-                &lt;/v-tabs&gt;
+            &lt;v-tab-item v-for="(category, index) in selectedRegistryCollection" :key="index" style="overflow-y: auto; height: calc(100vh - 370px);"&gt;
+                &lt;v-expansion-panels flat accordion v-if="registry[category.artifact] !== undefined"&gt;
+                    &lt;v-expansion-panel v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index" help-topic="importPublicSecondLevel"&gt;
+                        &lt;v-expansion-panel-header&gt;
+                            {{subCategory.name}}
+                        &lt;/v-expansion-panel-header&gt;
+                        &lt;v-expansion-panel-content class="pb-0" v-for="(item, index) in groupItems(subCategory.items)" :key="index"&gt;
+                            &lt;v-list dense help-topic="importPublicList"&gt;
+                                &lt;v-list-group&gt;
+                                    &lt;template v-slot:activator&gt;
+                                        &lt;v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)"&gt;
+                                            &lt;v-icon :title="item.type === 'publishedGraph' ? 'Graph' : 'Vector'"&gt;
+                                                {{item.icon || iconType(item.type)}}
+                                            &lt;/v-icon&gt;
+                                        &lt;/v-list-item-icon&gt;
+                                        &lt;v-list-item-content&gt;
+                                            {{item.name || "Untitled"}}
+                                            &lt;v-list-item-subtitle&gt;
+                                                &lt;span v-if="item.description"&gt;{{item.description}}&lt;/span&gt;
+                                                &lt;span v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/span&gt;
+                                            &lt;/v-list-item-subtitle&gt;
+                                        &lt;/v-list-item-content&gt;
+                                        &lt;v-list-item-icon&gt;
+                                            &lt;v-tooltip bottom&gt;
+                                                &lt;template v-slot:activator="{ on: tooltip }"&gt;
+                                                    &lt;v-icon v-on="{ ...tooltip }"&gt;mdi-information-outline&lt;/v-icon&gt;
+                                                &lt;/template&gt;
+                                                &lt;div&gt;Latest Version: {{item.version}}&lt;/div&gt;
+                                                &lt;div&gt;Last Updated: {{item.lastUpdate}}&lt;/div&gt;
+                                                &lt;div&gt;Total Versions: {{artifacts(item.id).length}}&lt;/div&gt;
+                                                &lt;div v-if="item.description"&gt;{{item.description}}&lt;/div&gt;
+                                                &lt;div v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/div&gt;
+                                            &lt;/v-tooltip&gt;
+                                        &lt;/v-list-item-icon&gt;
+                                    &lt;/template&gt;
+                                    &lt;v-list-item dense v-for="(artifact, index) in detailItems(subCategory.items, item)" :key="index"&gt;
+                                        &lt;v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)"&gt;
+                                            &lt;v-icon&gt;{{artifact.icon}}&lt;/v-icon&gt;
+                                        &lt;/v-list-item-icon&gt;
+                                        &lt;v-list-item-content&gt;
+                                            &lt;v-list-item-title&gt;v{{artifact.version}}&lt;/v-list-item-title&gt;
+                                            &lt;v-list-item-subtitle&gt;
+                                                &lt;div v-if="item.description"&gt;{{item.description}}&lt;/div&gt;
+                                                &lt;div v-else&gt;&lt;i&gt;No description&lt;/i&gt;&lt;/div&gt;
+                                            &lt;/v-list-item-subtitle&gt;
+                                        &lt;/v-list-item-content&gt;
+                                    &lt;/v-list-item&gt;
+                                &lt;/v-list-group&gt;
+                            &lt;/v-list&gt;
+                        &lt;/v-expansion-panel-content&gt;
+                    &lt;/v-expansion-panel&gt;
+                &lt;/v-expansion-panels&gt;
             &lt;/v-tab-item&gt;
         &lt;/v-tabs&gt;
     &lt;/v-card&gt;
@@ -529,7 +535,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jun 18 2020 09:42:41 GMT+0000 (Coordinated Universal Time)
+                at Sat Jun 20 2020 20:33:30 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
