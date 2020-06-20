@@ -24,6 +24,13 @@ store.dispatch("setupProviders");
 store.watch((state: any) => state.historyPosition, () => {
     store.dispatch("save");
 });
+store.watch((state: any) => state.preferences, (e: any) => {
+    if (e) {
+        store.dispatch("preferences", e);
+    }
+}, {
+    deep: true,
+});
 store.watch((state: any) => state.identity, (identity: any) => {
     if (identity.user) {
         store.dispatch("getToc");
