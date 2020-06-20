@@ -378,6 +378,9 @@ export default {
     padding-right: 18px;
     width: 100%;
 }
+.icon-nav .v-icon.v-icon:after {
+    display: none;
+}
 .nav-drawer {
     margin-top: 24px;
     transition: width 0.25s;

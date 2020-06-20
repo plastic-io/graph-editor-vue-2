@@ -563,6 +563,7 @@ const notFoundIcons = [
     "mdi-worker",
     "mdi-wrench",
     "mdi-windows-classic",
+    "mdi-cannabis mdi-spin",
 ];
 function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);

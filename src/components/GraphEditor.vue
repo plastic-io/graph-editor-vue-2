@@ -3,6 +3,7 @@
         <ErrorPage v-if="notFound" />
         <template v-if="graph && !graph.err">
             <v-system-bar
+                class="top-system-bar"
                 v-if="!presentation && panelVisibility"
                 ref="topBar"
                 style="z-index: 2;white-space: nowrap; top: 0; position: fixed; width: 100vw;">
@@ -184,19 +185,16 @@
             </v-alert>
         </v-bottom-sheet>
         <v-snackbar :timeout="0" v-model="localShowError" :top="!graph" color="transparent">
-            <v-alert type="error" prominent>
-                <v-row>
-                    <v-col>
+            <v-alert class="pa-4" type="error" prominent>
+                <v-row no-gutters>
+                    <v-col class="d-flex">
                         <h2>Error</h2>
+                        <v-spacer />
+                        <v-icon class="error-close-btn mt-n8 mr-n3" @click="clearError">mdi-close-circle</v-icon>
                     </v-col>
                 </v-row>
-                <v-row>
+                <v-row no-gutters>
                     <v-col>{{localErrorMessage}}</v-col>
-                </v-row>
-                <v-row>
-                    <v-col v-if="graph">
-                        <v-btn @click="clearError">Dismiss</v-btn>
-                    </v-col>
                 </v-row>
             </v-alert>
         </v-snackbar>
@@ -757,6 +755,11 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+}
+.error-close-btn.v-icon.v-icon:after,
+.bottom-system-bar .v-icon.v-icon:after,
+.top-system-bar  .v-icon.v-icon:after {
+    display: none;
 }
 .bottom-system-bar {
     white-space: nowrap;
