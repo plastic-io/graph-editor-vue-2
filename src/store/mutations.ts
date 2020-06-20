@@ -27,6 +27,7 @@ function setMapScale(state: any, e: number) {
 }
 function toggleMap(state: any) {
     state.preferences.showMap = !state.preferences.showMap;
+    setPreferences(state, state.preferences);
 }
 function updateGraphPresentationTemplate(state: any, e: {value: string}) {
     state.graphSnapshot.properties.presentationTemplate = e.value;
