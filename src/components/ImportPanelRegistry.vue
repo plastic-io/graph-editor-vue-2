@@ -11,56 +11,58 @@
             <v-tab v-for="(category, index) in selectedRegistryCollection" :key="index" help-topic="importPublicTopLevel">
                 {{category.name}}
             </v-tab>
-            <v-tab-item v-for="(category, index) in selectedRegistryCollection" :key="index">
-                <v-tabs v-if="registry[category.artifact] !== undefined">
-                    <v-tab v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index" help-topic="importPublicSecondLevel">
-                        {{subCategory.name}}
-                    </v-tab>
-                    <v-tab-item v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index">
-                        <v-list  style="overflow-y: auto; height: calc(100vh - 435px);" help-topic="importPublicList">
-                            <v-list-group v-for="(item, index) in groupItems(subCategory.items)" :key="index">
-                                <template v-slot:activator>
-                                    <v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)">
-                                        <v-icon :title="item.type === 'publishedGraph' ? 'Graph' : 'Vector'">
-                                            {{item.icon || iconType(item.type)}}
-                                        </v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        {{item.name || "Untitled"}}
-                                        <v-list-item-subtitle>
-                                            <span v-if="item.description">{{item.description}}</span>
-                                            <span v-else><i>No description</i></span>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    <v-list-item-icon>
-                                        <v-tooltip bottom>
-                                            <template v-slot:activator="{ on: tooltip }">
-                                                <v-icon v-on="{ ...tooltip }">mdi-information-outline</v-icon>
-                                            </template>
-                                            <div>Latest Version: {{item.version}}</div>
-                                            <div>Last Updated: {{item.lastUpdate}}</div>
-                                            <div>Total Versions: {{artifacts(item.id).length}}</div>
-                                            <div v-if="item.description">{{item.description}}</div>
-                                            <div v-else><i>No description</i></div>
-                                        </v-tooltip>
-                                    </v-list-item-icon>
-                                </template>
-                                <v-list-item v-for="(artifact, index) in detailItems(subCategory.items, item)" :key="index">
-                                    <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)">
-                                        <v-icon>{{artifact.icon}}</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>v{{artifact.version}}</v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            <div v-if="item.description">{{item.description}}</div>
-                                            <div v-else><i>No description</i></div>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list-group>
-                        </v-list>
-                    </v-tab-item>
-                </v-tabs>
+            <v-tab-item v-for="(category, index) in selectedRegistryCollection" :key="index" style="overflow-y: auto; height: calc(100vh - 370px);">
+                <v-expansion-panels flat accordion v-if="registry[category.artifact] !== undefined">
+                    <v-expansion-panel v-for="(subCategory, index) in registry[category.artifact].toc.items" :key="index" help-topic="importPublicSecondLevel">
+                        <v-expansion-panel-header>
+                            {{subCategory.name}}
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content class="pb-0" v-for="(item, index) in groupItems(subCategory.items)" :key="index">
+                            <v-list dense help-topic="importPublicList">
+                                <v-list-group>
+                                    <template v-slot:activator>
+                                        <v-list-item-icon draggable="true" style="cursor: copy;" @dragstart="dragStart($event, item)">
+                                            <v-icon :title="item.type === 'publishedGraph' ? 'Graph' : 'Vector'">
+                                                {{item.icon || iconType(item.type)}}
+                                            </v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            {{item.name || "Untitled"}}
+                                            <v-list-item-subtitle>
+                                                <span v-if="item.description">{{item.description}}</span>
+                                                <span v-else><i>No description</i></span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-icon>
+                                            <v-tooltip bottom>
+                                                <template v-slot:activator="{ on: tooltip }">
+                                                    <v-icon v-on="{ ...tooltip }">mdi-information-outline</v-icon>
+                                                </template>
+                                                <div>Latest Version: {{item.version}}</div>
+                                                <div>Last Updated: {{item.lastUpdate}}</div>
+                                                <div>Total Versions: {{artifacts(item.id).length}}</div>
+                                                <div v-if="item.description">{{item.description}}</div>
+                                                <div v-else><i>No description</i></div>
+                                            </v-tooltip>
+                                        </v-list-item-icon>
+                                    </template>
+                                    <v-list-item dense v-for="(artifact, index) in detailItems(subCategory.items, item)" :key="index">
+                                        <v-list-item-icon draggable="true" style="cursor: copy; margin-left: 25px;" @dragstart="dragStart($event, artifact)">
+                                            <v-icon>{{artifact.icon}}</v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title>v{{artifact.version}}</v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                <div v-if="item.description">{{item.description}}</div>
+                                                <div v-else><i>No description</i></div>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list-group>
+                            </v-list>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
             </v-tab-item>
         </v-tabs>
     </v-card>
