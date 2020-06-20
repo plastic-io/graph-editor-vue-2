@@ -209,9 +209,10 @@
                         @click="selectPanel('settings')">
                         mdi-cogs
                     </v-icon>
+                    <v-divider style="margin-top: 10px; margin-bottom: 15px; margin-right: 5px;"/>
                     <v-icon
                         help-topic="dragResizePanel"
-                        class="control-panel-icon"
+                        class="control-panel-icon mb-2"
                         title="Use this slider to resize the control panel for some tabs"
                         style="cursor: ew-resize;"
                         color="secondary"
@@ -377,6 +378,9 @@ export default {
 .main-nav {
     padding-right: 18px;
     width: 100%;
+}
+.icon-nav .v-icon.v-icon:after {
+    display: none;
 }
 .nav-drawer {
     margin-top: 24px;
