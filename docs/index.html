@@ -68,29 +68,60 @@
 					<h1>Plastic-IO Graph Editor</h1>
 				</a>
 				<p><img src="https://avatars1.githubusercontent.com/u/60668496?s=200&v=4" alt="plastic-io"></p>
-				<p><a href="https://plastic-io.github.io/graph-editor/graphs">Public CDN Graph Editor Application</a></p>
-				<p><em>Note: LocalStorage only by default.</em></p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h1>Installation</h1>
+				<p><a href="https://plastic-io.github.io/graph-editor/graphs">Demo</a></p>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h1>Table of Contents</h1>
 				</a>
 				<ol>
-					<li>Install the AWS based <a href="https://github.com/plastic-io/graph-server">Plastic-IO Graph Server</a></li>
-					<li>Install the Graph Editor, this repository, or use the <a href="https://plastic-io.github.io/graph-editor/graphs">public version</a>.</li>
-					<li>Configure the Graph Editor to use your server by visiting <code>/graph-editor/provider-settings</code>, or if using the <a href="https://plastic-io.github.io/graph-editor/provider-settings">public version</a>.</li>
-					<li>Open your graph editor and start making graphs.</li>
+					<li><a href="#what-is-plastic-io">What is Plastic-IO</a><ol>
+							<li><a href="#overview">Overview</a></li>
+							<li><a href="#what-is-plastic-io-for">What is Plastic-IO for?</a></li>
+							<li><a href="#what-are-the-major-features-of-plastic-io">What are the major features of Plastic-IO?</a></li>
+							<li><a href="#where-can-i-run-plastic-io">Where can I run Plastic-IO?</a></li>
+						</ol>
+					</li>
+					<li><a href="#installation">Installation</a><ol>
+							<li><a href="#local-sandbox">Local Sandbox</a></li>
+							<li><a href="#public-editor-with-private-graph-server">Public Editor with Private Graph Server</a></li>
+							<li><a href="#private-editor-and-server">Private Editor and Server</a></li>
+						</ol>
+					</li>
+					<li><a href="#provider-settings">provider-settings</a></li>
+					<li><a href="#how-does-this-work">How does this work?</a><ol>
+							<li><a href="#core-concepts">Core Concepts</a><ol>
+									<li><a href="#graph">Graph</a></li>
+									<li><a href="#vectors">Vectors</a></li>
+									<li><a href="#view">View</a></li>
+									<li><a href="#bus">Bus</a></li>
+								</ol>
+							</li>
+							<li><a href="#what-are-plastic-io-graphs">What are Plastic-IO Graphs?</a></li>
+							<li><a href="#executing-graphs-on-the-browser">Executing Graphs on the browser</a></li>
+							<li><a href="#executing-graphs-on-the-graph-server">Executing Graphs on the Graph Server</a></li>
+							<li><a href="#environments-and-publishing">Environments and Publishing</a></li>
+							<li><a href="#sharing-vectors-and-graphs">Sharing Vectors and Graphs</a><ol>
+									<li><a href="#infrastructure-as-a-graph">Infrastructure as a Graph</a></li>
+									<li><a href="#maximize-code-reuse">Maximize Code Reuse</a><ol start="5">
+											<li><a href="#client-server-sequence-diagram">Client Server Sequence Diagram</a></li>
+										</ol>
+									</li>
+								</ol>
+							</li>
+						</ol>
+					</li>
+					<li><a href="#implementing-the-graph-scheduler-directly">Implementing the Graph Scheduler Directly</a><ol>
+							<li><a href="#going-deeper">Going Deeper</a></li>
+						</ol>
+					</li>
+					<li><a href="#contributing">Contributing</a><ol>
+							<li><a href="#graphs-and-vectors">Graphs and Vectors</a></li>
+							<li><a href="#graph-editor-ide">Graph Editor IDE</a></li>
+							<li><a href="#graph-server-lambda">Graph Server Lambda</a></li>
+							<li><a href="#artwork">Artwork</a></li>
+						</ol>
+					</li>
+					<li><a href="#Installing-Development-Graph-Editor">Installing Development Graph Editor</a></li>
 				</ol>
-				<p><em>Note: You can use the graph editor and export to other systems even without a graph server.  However you cannot host HTTP web sites without the graph server.</em></p>
-				<a href="#env" id="env" style="color: inherit; text-decoration: none;">
-					<h1>.env</h1>
-				</a>
-				<p>You can automatically fill out the values of your users preferences by setting an <code>.env</code> file with the following values:</p>
-				<p>  VUE_APP_GRAPH_HTTP_SERVER=<a href="https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/">https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/</a>
-					VUE_APP_GRAPH_WSS_SERVER=wss://w84525agw3.execute-api.us-east-1.amazonaws.com/dev
-					VUE_APP_AUTH_PROVIDER_NAME=auth0
-					VUE_APP_AUTH_DOMAIN=dev-32-g55ap.us.auth0.com
-					VUE_APP_AUTH_CLIENT_ID=V352372k7efF4asfsJyizdfasasUKl
-					VUE_APP_AUTH_AUDIENCE=plastic-io-graph-server
-				VUE_APP_FORCE_SERVER=false</p>
 				<a href="#what-is-plastic-io" id="what-is-plastic-io" style="color: inherit; text-decoration: none;">
 					<h1>What is Plastic-IO?</h1>
 				</a>
@@ -103,14 +134,14 @@
 				</a>
 				<p>Plastic-IO is a general purpose graph programming language.  It can be used to create any sort of program in any domain.  Here&#39;s a few ideas:</p>
 				<ul>
-					<li>Build your entire microservice architecture as reuseable graphs and vectors.</li>
+					<li>Build your entire microservice architecture as reusable graphs and vectors.</li>
 					<li>Build an entire front facing web site, code and views on the same graph.</li>
 					<li>Create a highly mailable services facade to control the shape and flow of your existing APIs.</li>
 					<li>Create your massively parallel CLI build pipeline.</li>
 				</ul>
 				<p>Declarative graph programming is great for parallel and asynchronous tasks and generally runs faster and can be built in less time than imperative programming.</p>
-				<a href="#what39s-so-cool-about-plastic-io" id="what39s-so-cool-about-plastic-io" style="color: inherit; text-decoration: none;">
-					<h2>What&#39;s so cool about Plastic-IO?</h2>
+				<a href="#what-are-the-major-features-of-plastic-io" id="what-are-the-major-features-of-plastic-io" style="color: inherit; text-decoration: none;">
+					<h2>What are the major features of Plastic-IO?</h2>
 				</a>
 				<ul>
 					<li>Build your components in the same interface where you build your graph.</li>
@@ -128,19 +159,98 @@
 					<h2>Where can I run Plastic-IO?</h2>
 				</a>
 				<p>Plastic-IO graphs are domain agnostic.  If it can run JavaScript, it can run a Plastic-IO graph.  Just like JavaScript, Plastic-IO vectors and graphs can run in mixed domains, although some are dedicated to a specific domain, for example, a vector that reads files from the file system will likely not work in the browser domain, but will work in the server or CLI domains.  Vectors and graphs are tagged with which domains they work in, so you can make sure you&#39;re using the right kind.</p>
-				<a href="#how-does-this-work" id="how-does-this-work" style="color: inherit; text-decoration: none;">
-					<h2>How does this work?</h2>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h1>Installation</h1>
 				</a>
-				<p>If you use the Graph-Editor and Graph-Server together all of this is abstracted from you and you can concentrate on graph programming.  However if you want to use the scheduling engine directly, it is very easy to do.</p>
-				<p>Plastic-IO uses a number of code build and analysis tools to build and execute code held in graphs or side loaded in via registries and CDNs.  Compiled code executes through the graph scheduling engine.</p>
-				<p>To get started, a graph is built then passed to the scheduler.</p>
-				<p><code>const scheduler = new Scheduler(graph, {}, {}, console);</code></p>
-				<p>Next, let the scheduler know which vector to invoke first by using the vector&#39;s URL.</p>
-				<p><code>scheduler.url(&#39;my-vectors-url&#39;);</code></p>
-				<p>And that&#39;s it!  The code within the graph&#39;s vectors takes care of the rest.</p>
-				<p>You can hook into a variety of events listed in the scheduling engine documentation if you want to log or react to different events and changes that occur during the runtime of the graph.</p>
-				<a href="#graph-programming-in-plastic-io" id="graph-programming-in-plastic-io" style="color: inherit; text-decoration: none;">
-					<h1>Graph Programming in Plastic-IO</h1>
+				<p>You can install Plastic-IO in three ways.</p>
+				<ol>
+					<li>Use the <a href="https://plastic-io.github.io/graph-editor/graphs">public version</a> in a local sandbox.</li>
+					<li>Use the <a href="https://plastic-io.github.io/graph-editor/graphs">public version</a> connected to a private graph server.</li>
+					<li>Deploy your own Graph Editor IDE and connect to a private graph server.</li>
+				</ol>
+				<p>The instruction below cover each use case.</p>
+				<a href="#local-sandbox" id="local-sandbox" style="color: inherit; text-decoration: none;">
+					<h2>Local Sandbox</h2>
+				</a>
+				<ol>
+					<li>Open your <a href="https://plastic-io.github.io/graph-editor/graphs">graph editor</a> and start making graphs.</li>
+				</ol>
+				<p>No installation required.  Graphs and vectors you make are saved to your browser, but you can still export them to files to be shared with others.</p>
+				<a href="#public-editor-with-private-graph-server" id="public-editor-with-private-graph-server" style="color: inherit; text-decoration: none;">
+					<h2>Public Editor with Private Graph Server</h2>
+				</a>
+				<ol>
+					<li>Install the AWS based <a href="https://github.com/plastic-io/graph-server">Plastic-IO Graph Server</a></li>
+					<li>Create a free account with <a href="https://auth0.com/">Auth0</a>, setup a SPA and an API for your Graph-Editor and Graph-Server.</li>
+					<li>Configure your provider settings here at <code>/graph-editor/provider-settings</code>.</li>
+					<li>Open your graph editor and start making graphs.</li>
+				</ol>
+				<a href="#private-editor-and-server" id="private-editor-and-server" style="color: inherit; text-decoration: none;">
+					<h2>Private Editor and Server</h2>
+				</a>
+				<p>This is the recommended way to install the program for use in an enterprise environment.  This will ensure that changes to the public graph editor have no impact on your system.</p>
+				<ol>
+					<li>Install the AWS based <a href="https://github.com/plastic-io/graph-server">Plastic-IO Graph Server</a></li>
+					<li>Create a free account with <a href="https://auth0.com/">Auth0</a>, setup a SPA and an API for your Graph-Editor and Graph-Server.</li>
+					<li>Clone the <a href="https://github.com/plastic-io/graph-editor">graph-editor</a> repository.</li>
+					<li>Change to the repository directory</li>
+					<li>Optional: add a .env file using <a href="https://github.com/plastic-io/graph-editor#provider-settings">the instructions below</a>.</li>
+					<li>Run <code>npm install &amp;&amp; npm run build</code></li>
+					<li>Copy the content of the <code>/dist</code> directory to your CDN.</li>
+					<li>Set your CDN to use the <code>/dist/index.html</code> file as the 404 page, and configure the CDN to return 200 status code.</li>
+					<li>Open <code>/graph-editor/provider-settings</code> and configure your browser. </li>
+				</ol>
+				<a href="#provider-settings" id="provider-settings" style="color: inherit; text-decoration: none;">
+					<h1>Provider Settings</h1>
+				</a>
+				<p>When using the public CDN graph editor, you can change which server you&#39;re connected to by visiting the <a href="https://plastic-io.github.io/graph-editor/provider-settings">provider settings page</a> on the public graph editor.  The settings are saved to the browser.</p>
+				<p>Alternatively, you can deploy your own instance of the graph editor to your own CDN.  This makes it so the graph editor is hosted in your network where you have more control over it.  When hosted this way, you can automatically fill out the values of provider settings page by setting an <code>.env</code> file in the root of your project with the following values:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Property</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>VUE_APP_GRAPH_HTTP_SERVER</td>
+							<td>The HTTPS endpoint of your graph server instance, provider after graph server deploy.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_GRAPH_WSS_SERVER</td>
+							<td>The WSS endpoint of your graph server instance, provider after graph server deploy.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_AUTH_PROVIDER_NAME</td>
+							<td>The authentication provider name.  Currently only auth0 is supported.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_AUTH_DOMAIN</td>
+							<td>The authentication domain name.  Provided by your authentication provider.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_AUTH_CLIENT_ID</td>
+							<td>The authentication client ID.  Provided by your authentication provider.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_AUTH_AUDIENCE</td>
+							<td>The authentication audience.  Provided by your authentication provider.</td>
+						</tr>
+						<tr>
+							<td>VUE_APP_FORCE_SERVER</td>
+							<td>When true, the provider-settings page is disabled and forced to use the above settings.</td>
+						</tr>
+				</tbody></table>
+				<p>Example <code>.env</code> file:</p>
+				<p>  VUE_APP_GRAPH_HTTP_SERVER=<a href="https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/">https://7hcv242f49.execute-api.us-east-1.amazonaws.com/dev/</a>
+					VUE_APP_GRAPH_WSS_SERVER=wss://w84525agw3.execute-api.us-east-1.amazonaws.com/dev
+					VUE_APP_AUTH_PROVIDER_NAME=auth0
+					VUE_APP_AUTH_DOMAIN=dev-32-g55ap.us.auth0.com
+					VUE_APP_AUTH_CLIENT_ID=V352372k7efF4asfsJyizdfasasUKl
+					VUE_APP_AUTH_AUDIENCE=plastic-io-graph-server
+				VUE_APP_FORCE_SERVER=false</p>
+				<a href="#how-does-this-work" id="how-does-this-work" style="color: inherit; text-decoration: none;">
+					<h1>How does this work?</h1>
 				</a>
 				<a href="#core-concepts" id="core-concepts" style="color: inherit; text-decoration: none;">
 					<h2>Core Concepts</h2>
@@ -172,7 +282,7 @@
 				</a>
 				<p>Each vector has a &quot;set&quot; function. This set function dictates how data flows through the graph.  You can edit the set function of the vector directly in the IDE.  The flow of data through the graph is called &quot;the bus&quot;.  Data always flows in one direction, left to right.  This meams data always &quot;comes out&quot; of the right hand side of a vector and &quot;goes into&quot; the left side a vector.</p>
 				<a href="#what-are-plastic-io-graphs" id="what-are-plastic-io-graphs" style="color: inherit; text-decoration: none;">
-					<h1>What are Plastic-IO Graphs?</h1>
+					<h2>What are Plastic-IO Graphs?</h2>
 				</a>
 				<p>Plastic-IO graphs are a high level graph programming language built on top of JavaScript and executed with the <a href="https://github.com/plastic-io/plastic-io">Plastic-IO Scheduling Engine</a>.  Plastic-IO graphs are stored as JSON files.  The GUI for Plastic-IO is the <a href="https://github.com/plastic-io/graph-editor">Plastic-IO Graph Editor IDE</a>.</p>
 				<a href="#executing-graphs-on-the-browser" id="executing-graphs-on-the-browser" style="color: inherit; text-decoration: none;">
@@ -266,7 +376,7 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 				<p>Because each vector and graph in Plastic-IO are implicitly modular, this makes it so you can reuse the artifacts you create in other graphs very easily.  Plastic-IO graph server provides a marketplace of graphs and vectors for developers to choose from, safely and securely.</p>
 				<p>See <a href="https://github.com/plastic-io/graph-editor">https://github.com/plastic-io/graph-editor</a> for for the GUI client for this server.</p>
 				<a href="#client-server-sequence-diagram" id="client-server-sequence-diagram" style="color: inherit; text-decoration: none;">
-					<h2>Client Server Sequence Diagram</h2>
+					<h1>Client Server Sequence Diagram</h1>
 				</a>
 				<pre><code>+-----------+ +------------------+ +-----------------------------+       +----------------+
 |<span class="hljs-string">           </span>|<span class="hljs-string"> </span>|<span class="hljs-string">                  </span>|<span class="hljs-string"> </span>|<span class="hljs-string">                             </span>|<span class="hljs-string">       </span>|<span class="hljs-string">                </span>|
@@ -283,12 +393,59 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
       |<span class="hljs-string">               +++                       +++                              +++
       </span>|<span class="hljs-string">                </span>|<span class="hljs-string">                         </span>|<span class="hljs-string">                                </span>|
       |<span class="hljs-string">                </span>|<span class="hljs-string">                         </span>|<span class="hljs-string">                                </span>|</code></pre>
+				<a href="#implementing-the-graph-scheduler-directly" id="implementing-the-graph-scheduler-directly" style="color: inherit; text-decoration: none;">
+					<h1>Implementing the Graph Scheduler Directly</h1>
+				</a>
+				<p>If you use the Graph-Editor and Graph-Server together all of this is abstracted from you and you can concentrate on graph programming.  However if you want to use the scheduling engine directly, it is very easy to do.</p>
+				<p>Plastic-IO uses a number of code build and analysis tools to build and execute code held in graphs or side loaded in via registries and CDNs.  Compiled code executes through the graph scheduling engine.</p>
+				<p>To get started, a graph is built then passed to the scheduler.</p>
+				<p><code>const scheduler = new Scheduler(graph, {}, {}, console);</code></p>
+				<p>Next, let the scheduler know which vector to invoke first by using the vector&#39;s URL.</p>
+				<p><code>scheduler.url(&#39;my-vectors-url&#39;);</code></p>
+				<p>And that&#39;s it!  The code within the graph&#39;s vectors takes care of the rest.</p>
+				<p>You can hook into a variety of events listed in the scheduling engine documentation if you want to log or react to different events and changes that occur during the runtime of the graph.</p>
 				<a href="#going-deeper" id="going-deeper" style="color: inherit; text-decoration: none;">
 					<h2>Going Deeper</h2>
 				</a>
 				<p>Scheduling engine documentation: <a href="https://plastic-io.github.io/plastic-io/classes/_scheduler_.scheduler.html">Scheduler</a></p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h1>Contributing</h1>
+				</a>
+				<p>We offer a very free and open environment where you can express yourself in a multitude of ways, and showcase your creations to the world!  There are four major paths of contribution.</p>
+				<a href="#graphs-and-vectors" id="graphs-and-vectors" style="color: inherit; text-decoration: none;">
+					<h2>Graphs and Vectors</h2>
+				</a>
+				<p>Always looking for contributors to our public catalog.  At Plastic-IO we maintain a catalog of user generated graphs and vectors that are available by default to all installation of the graph-editor.</p>
+				<p>You can contribute to the core public artifact registry by making pull requests to the <a href="https://github.com/plastic-io/registry">Graph Registry</a> repository.  From there you can create categories and sub-categories of your work and make it available to the public.</p>
+				<p>Your creations can be in any domain (browser, aws server, CLI), and you can use your own creations to make new creations.  Even mix and match creations from other people in your new creations and repeat.</p>
+				<p>Here&#39;s a few ideas:</p>
+				<ul>
+					<li>Navigation bar component with drop down menus</li>
+					<li>Reusable table with XHR paging support</li>
+					<li>Closed loop CRUD system for you favorite AWS data storage solution</li>
+					<li>Web page skeleton that people can modify to make their own</li>
+					<li>Build pipeline configuration builder</li>
+					<li>Admin web site with basic CRUD functionality</li>
+					<li>MIDI component synthesizer using a lib like <a href="https://tonejs.github.io/">Tone.js</a></li>
+					<li>Visualization pipeline using a lib like <a href="http://google.github.io/liquidfun/">LiquidFun</a></li>
+				</ul>
+				<p>Make them and publish them so others can use them directly or use them as building blocks in another creation.</p>
+				<a href="#graph-editor-ide" id="graph-editor-ide" style="color: inherit; text-decoration: none;">
+					<h2>Graph Editor IDE</h2>
+				</a>
+				<p>The Graph Editor IDE itself is always in need of love.  Built with Typescript, Vue, Vuex, and Vuetify, the graph-editor both produces the graphs that are executed by the scheduling engine, but also renders the views built into the graphs and vectors.  It is also responsible for displaying events that occur in the graph execution runtime environment, both on the server and the browser using web sockets.</p>
+				<p>Contributing to the graph editor is not for beginners, but there are some tickets that are easier to accomplish than others.  If you think you&#39;re up to the task check out the <a href="https://github.com/plastic-io/graph-editor/issues">issues</a> page and look for the &quot;good first time issue&quot; tag.</p>
+				<a href="#graph-server-lambda" id="graph-server-lambda" style="color: inherit; text-decoration: none;">
+					<h2>Graph Server Lambda</h2>
+				</a>
+				<p>The <a href="https://github.com/plastic-io/graph-server">Graph Server</a> is an AWS HTTP Lambda {proxy+} implementation of the graph server.  Using event sourcing and a publishing pipeline, the graph server lambda represents an entire micro service architecture framework.  Graphs are accessed via their registered URLs and served to the users as HTTPS APIs.  Graphs running on the graph server have full access to the AWS infrastructure and can do anything AWS allows.</p>
+				<p>Work on the graph server is not for beginners.  Here we are creating new O(1) routing paradigms that fit with graph programming.  Additionally the graph server is used to communicate debugging and business intelligence events to AWS cloud watch and the Graph Editor IDE.  These are highly complex system and require a skilled and careful hand to maintain.  If you think you&#39;re up for it check out the <a href="https://github.com/plastic-io/graph-server/issues">issues</a> list on the graph server.</p>
+				<a href="#artwork" id="artwork" style="color: inherit; text-decoration: none;">
+					<h2>Artwork</h2>
+				</a>
+				<p>There is a limited set of <a href="https://github.com/plastic-io/media">media assets</a> here.  Contributions to the asset set  is always welcome.  There are no current issues opened, but feel free to create an issue and make a PR.</p>
 				<a href="#installing-development-graph-editor" id="installing-development-graph-editor" style="color: inherit; text-decoration: none;">
-					<h1>Installing development Graph Editor</h1>
+					<h1>Installing Development Graph Editor</h1>
 				</a>
 				<p>Uses local storage</p>
 				<a href="#project-setup" id="project-setup" style="color: inherit; text-decoration: none;">
