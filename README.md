@@ -281,6 +281,8 @@ Here are the steps to create a plugin.  Below that is a plugin template.
 
 When using the `addPlugin` action to define a `vectorProperties` plugin or `graphProperties` plugin, you must select an icon that is registered in the vuetify icon library.  You can select an icon from the [mdi-icons list](https://cdn.materialdesignicons.com/4.9.95/) or you can register custom icons, [instructions](https://vuetifyjs.com/en/features/icons/#material-design-icons).  When a user clicks the tab with your plugin, your component will load in the tab content area.  Trying to register a component to a non existent plugin type will cause an error.
 
+The template below is setup to allow you to pass parameters from `main.ts` into your plugin.  In this example, the vuex store instance is passed into the plugin as the argument `context`.  In the plugin template, a store module is created with some examples.  Using this pattern you can add your plugin UI and functionality in a single interface.
+
 ## Plugin Template
 ```
     module.exports = function (context) {
@@ -309,7 +311,7 @@ When using the `addPlugin` action to define a `vectorProperties` plugin or `grap
                     component: TestView,
                 });
                 // add custom store
-                context.registerModule('slg-vuex-module-template', store);
+                context.registerModule('myplugin', store);
             }
         };
     };
