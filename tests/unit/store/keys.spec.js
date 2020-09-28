@@ -13,7 +13,7 @@ const equalKeyCode = 187;
 const graveKeyCode = 192;
 const tabKeyCode = 9;
 const spaceKeyCode = 32;
-import {keydown, keyup} from "@/store/modules/keys.ts";
+import {keydown, keyup} from "@/store/keys.ts";
 import {deleteSelected, groupSelected, ungroupSelected,
     undo, redo, duplicateSelection, bringForward, sendBackward,
     bringToFront, sendToBack, zoom, nudgeUp, nudgeDown,

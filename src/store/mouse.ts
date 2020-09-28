@@ -3,7 +3,7 @@ const metaKeyCode = 91;
 const ctrlKeyCode = 17;
 const spaceKeyCode = 32;
 import {Vector, linkInnerVectorEdges} from "@plastic-io/plastic-io"; // eslint-disable-line
-import {applyGraphChanges, newId, updateBoundingRect, remapVectors} from "../mutations"; // eslint-disable-line
+import {applyGraphChanges, newId, updateBoundingRect, remapVectors} from "./mutations"; // eslint-disable-line
 export default function mouse(state: any, mouse: {
         lmb: boolean,
         rmb: boolean,

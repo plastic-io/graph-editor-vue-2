@@ -22,14 +22,16 @@
             :width="width + 'px'"
             height="calc(100vh - 145px)"
         ></editor>
+        <test-view/>
     </div>
 </template>
 <script>
 import {mapState, mapActions} from "vuex";
 import editor from "vue2-ace-editor";
+import TestView from "./TestView.vue";
 export default {
     name: "tests-editor",
-    components: {editor},
+    components: {editor, TestView},
     props: {
         width: Number,
     },

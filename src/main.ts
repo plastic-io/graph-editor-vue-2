@@ -1,5 +1,11 @@
 import Vue from "vue";
+// Plugins
 import vuetify from "./plugins/vuetify";
+import Preferences from "./plugins/Preferences";
+import Auth0Provider from "./plugins/Auth0Provider";
+import AwsProvider from "./plugins/AwsProvider";
+import MochaTestProvider from "./plugins/MochaTestProvider";
+// Core libs
 import storeConfig from "./store";
 import App from "./App.vue";
 import GraphEditor from "./components/GraphEditor.vue";
@@ -20,7 +26,16 @@ Vue.use(Vuex);
 Vue.use(PortalVue);
 Vue.component("graph-vector", GraphVector);
 const store = new Vuex.Store(storeConfig()) as any;
-store.dispatch("setupProviders");
+// ------------ ADD PLUGINS BETWEEN THESE LINES ---------------
+// Preferences must be loaded first
+Vue.use(Preferences(store));
+// next auth
+Vue.use(Auth0Provider(store));
+// next data/event provider
+Vue.use(AwsProvider(store));
+// next any addtional plugins
+Vue.use(MochaTestProvider(store));
+// ------------------------------------------------------------
 store.watch((state: any) => state.historyPosition, () => {
     store.dispatch("save");
 });

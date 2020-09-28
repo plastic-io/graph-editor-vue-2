@@ -1,12 +1,7 @@
 import {newId, replacer} from "./mutations"; // eslint-disable-line
-import {diff, applyChange} from "deep-diff";
+import {diff} from "deep-diff";
 import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
-import LocalStoreDataProvider from "./modules/LocalStoreDataProvider";
-import WSSDataProvider from "./modules/WSSDataProvider";
-import HTTPDataProvider from "./modules/HTTPDataProvider";
-import Auth0AuthProvider from "./modules/Auth0AuthProvider";
-import testService from "./modules/testService";
 const artifactPrefix = "artifacts/";
 let rewindDebounceTimeout = 900;
 let saveDebounceTimeout = 900;
@@ -133,6 +128,9 @@ const schedulerNotifyActions: any = {
     }
 };
 export default {
+    addPlugin(context: any, e: any) {
+        context.commit("addPlugin", e);
+    },
     async logon(context: any) {
         if (!context.state.authProvider) {
             return;
@@ -149,138 +147,6 @@ export default {
         await context.state.authProvider.logoff({
             returnTo: window.location.origin + rdr
         });
-    },
-    async runVectorTest(context: any, vector: any) {
-        testService(context, vector);
-    },
-    async setupProviders(context: any) {
-        const localStoreDataProvider = new LocalStoreDataProvider();
-        let preferences;
-        try {
-            preferences = localStorage.getItem("preferences");
-            if (preferences === null) {
-                throw "not found";
-            }
-            preferences = {
-                ...context.state.originalPreferences,
-                ...JSON.parse(preferences),
-            };
-        } catch (err) {
-            if (/not found/.test(err.toString())) {
-                console.warn("No preferences found, writing defaults.");
-                localStorage.setItem("preferences", JSON.stringify(context.state.originalPreferences));
-                preferences = JSON.parse(JSON.stringify(context.state.originalPreferences));
-            }
-        }
-        if (preferences.useLocalStorage !== false && preferences.useLocalStorage !== true) {
-            preferences.useLocalStorage = true;
-        }
-        context.commit("setPreferences", preferences);
-        if (preferences.useLocalStorage) {
-            context.dispatch("setDataProviders", {
-                artifact: localStoreDataProvider,
-                toc: localStoreDataProvider,
-                publish: localStoreDataProvider,
-                notification: localStoreDataProvider,
-                graph: localStoreDataProvider,
-                preferences: localStoreDataProvider,
-            });
-            context.commit("setIdentity", {
-                provider: "local",
-                token: "",
-                user: {
-                    userName: preferences.userName,
-                    email: preferences.email,
-                    emailVerified: false,
-                    avatar: preferences.avatar,
-                    updated: new Date().toISOString(),
-                    sub: "",
-                },
-            });
-        } else {
-            const wsOpen = () => {
-                context.dispatch("setConnectionState", {
-                    state: "open",
-                });
-            };
-            const wsClose = () => {
-                context.dispatch("setConnectionState", {
-                    state: "closed",
-                });
-            };
-            const wsMessage = (e: any) => {
-                context.commit("clearPendingMessage", e);
-                if (context.state.queuedEvent) {
-                    context.state.queuedEvent.changes.forEach((change: any) => {
-                        applyChange(context.state.graph, true, change);
-                    });
-                    context.commit("dequeueEvent");
-                    context.dispatch("save");
-                }
-                if (context.state.resyncRequired) {
-                    context.commit("clearResync");
-                    console.warn("Resyncing due to remote state mismatch.", context.pendingEvents);
-                    context.dispatch("open", {
-                        graphId: context.state.graph.id,
-                    });
-                }
-            };
-            const wssDataProvider = new WSSDataProvider(preferences.graphWSSServer,
-                preferences.graphHTTPServer,
-                wsMessage,
-                wsOpen,
-                wsClose);
-            const httpDataProvider = new HTTPDataProvider(preferences.graphHTTPServer);
-            context.dispatch("setDataProviders", {
-                artifact: httpDataProvider,
-                toc: httpDataProvider,
-                publish: wssDataProvider,
-                notification: wssDataProvider,
-                graph: wssDataProvider,
-                preferences: localStoreDataProvider,
-            });
-            const auth = new Auth0AuthProvider();
-            let token;
-            let user;
-            context.commit("setAuthProvider", auth);
-            // setup auth
-            await auth.create(
-                preferences.authDomain,
-                preferences.authClientId,
-                preferences.authAudience,
-                window.location.origin + "/graph-editor/auth-callback",
-            );
-            if (/graph-editor\/auth-callback/.test(window.location.toString())) {
-                await auth.handleRedirectCallback();
-            }
-            try {
-                token = await auth.getToken();
-                user = await auth.getUser();
-            } catch (err) {
-                console.info("getToken or getUser error", err);
-            }
-            if (!user) {
-                if (!/graph-editor\/provider-settings/.test(window.location.toString())) {
-                    localStorage.setItem("redirectAfterLogin", window.location.href.toString());
-                    auth.login();
-                }
-                return;
-            }
-            context.commit("setIdentity", {
-                provider: "auth0",
-                token,
-                user: {
-                    userName: user.name,
-                    email: user.email,
-                    emailVerified: user.email_verified,
-                    avatar: user.picture,
-                    updated: user.updated_at,
-                    sub: user.sub,
-                },
-            });
-            wssDataProvider.setToken(token);
-            httpDataProvider.setToken(token);
-        }
     },
     subscribeToGraphEvents(context: any, e: any) {
         const chGraphEvents = "graph-event-" + e.graphId;
@@ -575,7 +441,18 @@ export default {
                 height: 150,
                 width: 300,
                 startInPresentationMode: false,
-                presentationTemplate: context.state.preferences.defaultNewGraphTemplate
+                presentationTemplate: context.state.preferences.defaultNewGraphTemplate,
+                deploy: {
+                    provider: {
+                        aws: {
+                            application: {
+                                applicationName: id,
+                                computePlatform: "Lambda",
+                                dependencies: [],
+                            }
+                        }
+                    }
+                },
             }
         };
         context.dispatch("save", e);

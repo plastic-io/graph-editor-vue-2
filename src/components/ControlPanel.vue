@@ -42,6 +42,11 @@
                             mdi-vuejs
                         </v-icon>
                     </v-tab>
+                    <v-tab
+                        :key="'graph_property_plugin_' + index"
+                        v-for="(plugin, index) in graphPropertiesPlugins">
+                        <v-icon v-html="plugin.icon"/>
+                    </v-tab>
                     <v-tab-item key="properties">
                         <graph-properties
                             :style="gutterStyle"
@@ -61,6 +66,13 @@
                         <presentation-editor
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
+                    </v-tab-item>
+                    <v-tab-item
+                        :key="'graph_property_plugin_' + index"
+                        v-for="(plugin, index) in graphPropertiesPlugins">
+                        <component
+                            :is="plugin.component"
+                        />
                     </v-tab-item>
                 </v-tabs>
                 <v-tabs
@@ -87,10 +99,10 @@
                             mdi-lambda
                         </v-icon>
                     </v-tab>
-                    <v-tab key="tests">
-                        <v-icon help-topic="tests">
-                            mdi-flask
-                        </v-icon>
+                    <v-tab
+                        :key="'vector_property_plugin_' + index"
+                        v-for="(plugin, index) in vectorPropertiesPlugins">
+                        <v-icon v-html="plugin.icon"/>
                     </v-tab>
                     <v-tab-item key="properties">
                         <vector-properties
@@ -112,10 +124,12 @@
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/>
                     </v-tab-item>
-                    <v-tab-item key="tests">
-                        <vector-tests
-                            :style="gutterStyle"
-                            :width="this.navWidth - this.iconGutterSize"/>
+                    <v-tab-item
+                        :key="'vector_propertyplugin_' + index"
+                        v-for="(plugin, index) in vectorPropertiesPlugins">
+                        <component
+                            :is="plugin.component"
+                        />
                     </v-tab-item>
                 </v-tabs>
                 <history-panel
@@ -235,7 +249,6 @@ import SetEditor from "./SetEditor";
 import TemplateEditor from "./TemplateEditor";
 import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
-import VectorTests from "./VectorTests";
 import VectorList from "./VectorList";
 import PresentationEditor from "./PresentationEditor";
 import EndpointList from "./EndpointList";
@@ -244,7 +257,6 @@ export default {
     components: {
         EndpointList,
         PresentationEditor,
-        VectorTests,
         GraphLog,
         VectorProperties,
         GraphProperties,
@@ -284,11 +296,18 @@ export default {
             hoveredVectors: state => state.hoveredVectors,
             hoveredPorts: state => state.hoveredPorts,
             mouse: state => state.mouse,
+            plugins: state => state.plugins,
             translating: state => state.translating,
             keys: state => state.keys,
             view: state => state.view,
             preferences: (state) => state.preferences,
         }),
+        graphPropertiesPlugins: function () {
+            return this.plugins.graphProperties;
+        },
+        vectorPropertiesPlugins: function () {
+            return this.plugins.vectorProperties;
+        },
         gutterStyle: function () {
             return {
                 width: (this.navWidth - this.iconGutterSize) + "px",

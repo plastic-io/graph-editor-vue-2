@@ -239,7 +239,6 @@
                 </v-row>
             </v-alert>
         </v-bottom-sheet>
-        <test-view/>
         <graph-rewind v-if="rewindVisible"/>
         <graph-map v-if="preferences.showMap && !presentation"/>
     </v-app>
@@ -256,7 +255,6 @@ import GraphUsers from "./GraphUsers";
 import GraphMouse from "./GraphMouse";
 import ConnectorView from "./ConnectorView";
 import UserMenu from "./UserMenu";
-import TestView from "./TestView";
 export default {
     name: "GraphEditor",
     props: {
@@ -266,7 +264,6 @@ export default {
         UserMenu,
         GraphMap,
         GraphRewind,
-        TestView,
         GraphCanvas,
         ControlPanel,
         HelpOverlay,
