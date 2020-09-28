@@ -405,6 +405,7 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 					<h3>Plugin Components</h3>
 				</a>
 				<p>When using the <code>addPlugin</code> action to define a <code>vectorProperties</code> plugin or <code>graphProperties</code> plugin, you must select an icon that is registered in the vuetify icon library.  You can select an icon from the <a href="https://cdn.materialdesignicons.com/4.9.95/">mdi-icons list</a> or you can register custom icons, <a href="https://vuetifyjs.com/en/features/icons/#material-design-icons">instructions</a>.  When a user clicks the tab with your plugin, your component will load in the tab content area.  Trying to register a component to a non existent plugin type will cause an error.</p>
+				<p>The template below is setup to allow you to pass parameters from <code>main.ts</code> into your plugin.  In this example, the vuex store instance is passed into the plugin as the argument <code>context</code>.  In the plugin template, a store module is created with some examples.  Using this pattern you can add your plugin UI and functionality in a single interface.</p>
 				<a href="#plugin-template" id="plugin-template" style="color: inherit; text-decoration: none;">
 					<h2>Plugin Template</h2>
 				</a>
@@ -434,7 +435,7 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
                     component: TestView,
                 });
                 // add custom store
-                context.registerModule('slg-vuex-module-template', store);
+                context.registerModule('myplugin', store);
             }
         };
     };</code></pre>
