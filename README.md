@@ -283,38 +283,39 @@ When using the `addPlugin` action to define a `vectorProperties` plugin or `grap
 
 The template below is setup to allow you to pass parameters from `main.ts` into your plugin.  In this example, the vuex store instance is passed into the plugin as the argument `context`.  In the plugin template, a store module is created with some examples.  Using this pattern you can add your plugin UI and functionality in a single interface.
 
+
 ## Plugin Template
-```
-    module.exports = function (context) {
-        return {
-            install: () => {
-                const store = {
-                    namespaced: true,
-                    state: {
-                        status: "PENDING",
+```TypeScript
+export default function (context: any) {
+    return {
+        install: () => {
+            const store = {
+                namespaced: true,
+                state: {
+                    status: "PENDING",
+                },
+                mutations: {
+                    SET_STATUS(state, e) {
+                        state.status = e;
                     },
-                    mutations: {
-                        SET_STATUS(state, e) {
-                            state.status = e;
-                        },
-                    },
-                    actions: {
-                        changeStatus(context, e) {
-                            context.commit("SET_STATUS", e);
-                        }
-                    },
-                };
-                // add graph editor plugins
-                context.commit("addPlugin", {
-                    type: "vectorProperties",
-                    icon: "mdi-flask",
-                    component: TestView,
-                });
-                // add custom store
-                context.registerModule('myplugin', store);
-            }
-        };
+                },
+                actions: {
+                    changeStatus(context, e) {
+                        context.commit("SET_STATUS", e);
+                    }
+                },
+            };
+            // add graph editor plugins
+            context.commit("addPlugin", {
+                type: "vectorProperties",
+                icon: "mdi-flask",
+                component: TestView,
+            });
+            // add custom store
+            context.registerModule('myplugin', store);
+        }
     };
+};
 ```
 
 # Client Server Sequence Diagram
