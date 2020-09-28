@@ -409,36 +409,36 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 				<a href="#plugin-template" id="plugin-template" style="color: inherit; text-decoration: none;">
 					<h2>Plugin Template</h2>
 				</a>
-				<pre><code>    module.exports = function (context) {
-        return {
-            install: () =&gt; {
-                const store = {
-                    namespaced: true,
-                    <span class="hljs-keyword">state</span>: {
-                        status: <span class="hljs-string">"PENDING"</span>,
+				<pre><code class="language-TypeScript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">context: <span class="hljs-built_in">any</span></span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        install: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            <span class="hljs-keyword">const</span> store = {
+                namespaced: <span class="hljs-literal">true</span>,
+                state: {
+                    status: <span class="hljs-string">"PENDING"</span>,
+                },
+                mutations: {
+                    SET_STATUS(state, e) {
+                        state.status = e;
                     },
-                    mutations: {
-                        SET_STATUS(<span class="hljs-keyword">state</span>, e) {
-                            <span class="hljs-keyword">state</span>.status = e;
-                        },
-                    },
-                    actions: {
-                        changeStatus(context, e) {
-                            context.commit(<span class="hljs-string">"SET_STATUS"</span>, e);
-                        }
-                    },
-                };
-                // add graph editor plugins
-                context.commit(<span class="hljs-string">"addPlugin"</span>, {
-                    type: <span class="hljs-string">"vectorProperties"</span>,
-                    icon: <span class="hljs-string">"mdi-flask"</span>,
-                    component: TestView,
-                });
-                // add custom store
-                context.registerModule('myplugin', store);
-            }
-        };
-    };</code></pre>
+                },
+                actions: {
+                    changeStatus(context, e) {
+                        context.commit(<span class="hljs-string">"SET_STATUS"</span>, e);
+                    }
+                },
+            };
+            <span class="hljs-comment">// add graph editor plugins</span>
+            context.commit(<span class="hljs-string">"addPlugin"</span>, {
+                <span class="hljs-keyword">type</span>: <span class="hljs-string">"vectorProperties"</span>,
+                icon: <span class="hljs-string">"mdi-flask"</span>,
+                component: TestView,
+            });
+            <span class="hljs-comment">// add custom store</span>
+            context.registerModule(<span class="hljs-string">'myplugin'</span>, store);
+        }
+    };
+};</code></pre>
 				<a href="#client-server-sequence-diagram" id="client-server-sequence-diagram" style="color: inherit; text-decoration: none;">
 					<h1>Client Server Sequence Diagram</h1>
 				</a>
