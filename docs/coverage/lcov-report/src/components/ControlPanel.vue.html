@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.29% </span>
+                <span class="strong">60.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/56</span>
+                <span class='fraction'>35/58</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40.74% </span>
+                <span class="strong">36.67% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/27</span>
+                <span class='fraction'>11/30</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64.29% </span>
+                <span class="strong">60.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/56</span>
+                <span class='fraction'>35/58</span>
             </div>
         
             
@@ -460,7 +460,40 @@
 <a name='L401'></a><a href='#L401'>401</a>
 <a name='L402'></a><a href='#L402'>402</a>
 <a name='L403'></a><a href='#L403'>403</a>
-<a name='L404'></a><a href='#L404'>404</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L404'></a><a href='#L404'>404</a>
+<a name='L405'></a><a href='#L405'>405</a>
+<a name='L406'></a><a href='#L406'>406</a>
+<a name='L407'></a><a href='#L407'>407</a>
+<a name='L408'></a><a href='#L408'>408</a>
+<a name='L409'></a><a href='#L409'>409</a>
+<a name='L410'></a><a href='#L410'>410</a>
+<a name='L411'></a><a href='#L411'>411</a>
+<a name='L412'></a><a href='#L412'>412</a>
+<a name='L413'></a><a href='#L413'>413</a>
+<a name='L414'></a><a href='#L414'>414</a>
+<a name='L415'></a><a href='#L415'>415</a>
+<a name='L416'></a><a href='#L416'>416</a>
+<a name='L417'></a><a href='#L417'>417</a>
+<a name='L418'></a><a href='#L418'>418</a>
+<a name='L419'></a><a href='#L419'>419</a>
+<a name='L420'></a><a href='#L420'>420</a>
+<a name='L421'></a><a href='#L421'>421</a>
+<a name='L422'></a><a href='#L422'>422</a>
+<a name='L423'></a><a href='#L423'>423</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -700,8 +733,6 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -749,6 +780,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -907,6 +945,11 @@
                             mdi-vuejs
                         &lt;/v-icon&gt;
                     &lt;/v-tab&gt;
+                    &lt;v-tab
+                        :key="'graph_property_plugin_' + index"
+                        v-for="(plugin, index) in graphPropertiesPlugins"&gt;
+                        &lt;v-icon v-html="plugin.icon"/&gt;
+                    &lt;/v-tab&gt;
                     &lt;v-tab-item key="properties"&gt;
                         &lt;graph-properties
                             :style="gutterStyle"
@@ -926,6 +969,13 @@
                         &lt;presentation-editor
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/&gt;
+                    &lt;/v-tab-item&gt;
+                    &lt;v-tab-item
+                        :key="'graph_property_plugin_' + index"
+                        v-for="(plugin, index) in graphPropertiesPlugins"&gt;
+                        &lt;component
+                            :is="plugin.component"
+                        /&gt;
                     &lt;/v-tab-item&gt;
                 &lt;/v-tabs&gt;
                 &lt;v-tabs
@@ -952,10 +1002,10 @@
                             mdi-lambda
                         &lt;/v-icon&gt;
                     &lt;/v-tab&gt;
-                    &lt;v-tab key="tests"&gt;
-                        &lt;v-icon help-topic="tests"&gt;
-                            mdi-flask
-                        &lt;/v-icon&gt;
+                    &lt;v-tab
+                        :key="'vector_property_plugin_' + index"
+                        v-for="(plugin, index) in vectorPropertiesPlugins"&gt;
+                        &lt;v-icon v-html="plugin.icon"/&gt;
                     &lt;/v-tab&gt;
                     &lt;v-tab-item key="properties"&gt;
                         &lt;vector-properties
@@ -977,10 +1027,12 @@
                             :style="gutterStyle"
                             :width="this.navWidth - this.iconGutterSize"/&gt;
                     &lt;/v-tab-item&gt;
-                    &lt;v-tab-item key="tests"&gt;
-                        &lt;vector-tests
-                            :style="gutterStyle"
-                            :width="this.navWidth - this.iconGutterSize"/&gt;
+                    &lt;v-tab-item
+                        :key="'vector_propertyplugin_' + index"
+                        v-for="(plugin, index) in vectorPropertiesPlugins"&gt;
+                        &lt;component
+                            :is="plugin.component"
+                        /&gt;
                     &lt;/v-tab-item&gt;
                 &lt;/v-tabs&gt;
                 &lt;history-panel
@@ -1100,7 +1152,6 @@ import SetEditor from "./SetEditor";
 import TemplateEditor from "./TemplateEditor";
 import EditorSettings from "./EditorSettings";
 import ImportPanel from "./ImportPanel";
-import VectorTests from "./VectorTests";
 import VectorList from "./VectorList";
 import PresentationEditor from "./PresentationEditor";
 import EndpointList from "./EndpointList";
@@ -1109,7 +1160,6 @@ export default {
     components: {
         EndpointList,
         PresentationEditor,
-        VectorTests,
         GraphLog,
         VectorProperties,
         GraphProperties,
@@ -1149,11 +1199,18 @@ export default {
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            hoveredVectors: state =&gt; state.hoveredVectors,</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            hoveredPorts: state =&gt; state.hoveredPorts,</span></span>
             mouse: state =&gt; state.mouse,
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            plugins: state =&gt; state.plugins,</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            translating: state =&gt; state.translating,</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            keys: state =&gt; state.keys,</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            view: state =&gt; state.view,</span></span>
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >            preferences: (state) =&gt; state.preferences,</span></span>
         }),
+<span class="fstat-no" title="function not covered" >        graphPropertiesPlugins: function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this.plugins.graphProperties;</span>
+        },
+<span class="fstat-no" title="function not covered" >        vectorPropertiesPlugins: function () {</span>
+<span class="cstat-no" title="statement not covered" >            return this.plugins.vectorProperties;</span>
+        },
 <span class="fstat-no" title="function not covered" >        gutterStyle: function () {</span>
 <span class="cstat-no" title="statement not covered" >            return {</span>
                 width: (this.navWidth - this.iconGutterSize) + "px",
@@ -1273,7 +1330,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Jun 21 2020 01:23:14 GMT+0000 (Coordinated Universal Time)
+                at Mon Sep 28 2020 06:51:52 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

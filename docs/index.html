@@ -101,14 +101,19 @@
 							<li><a href="#environments-and-publishing">Environments and Publishing</a></li>
 							<li><a href="#sharing-vectors-and-graphs">Sharing Vectors and Graphs</a><ol>
 									<li><a href="#infrastructure-as-a-graph">Infrastructure as a Graph</a></li>
-									<li><a href="#maximize-code-reuse">Maximize Code Reuse</a><ol start="5">
-											<li><a href="#client-server-sequence-diagram">Client Server Sequence Diagram</a></li>
-										</ol>
-									</li>
+									<li><a href="#maximize-code-reuse">Maximize Code Reuse</a></li>
 								</ol>
 							</li>
 						</ol>
 					</li>
+					<li><a href="#extending-the-graph-editor">Extending The Graph Editor</a><ol>
+							<li><a href="#how-to-create-a-plugin">How To Create A Plugin</a></li>
+							<li><a href="#plugin-types">Plugin Types</a></li>
+							<li><a href="#plugin-components">Plugin Components</a></li>
+							<li><a href="#plugin-template">Plugin Template</a></li>
+						</ol>
+					</li>
+					<li><a href="#client-server-sequence-diagram">Client Server Sequence Diagram</a></li>
 					<li><a href="#implementing-the-graph-scheduler-directly">Implementing the Graph Scheduler Directly</a><ol>
 							<li><a href="#going-deeper">Going Deeper</a></li>
 						</ol>
@@ -374,7 +379,65 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 					<h3>Maximize Code Reuse</h3>
 				</a>
 				<p>Because each vector and graph in Plastic-IO are implicitly modular, this makes it so you can reuse the artifacts you create in other graphs very easily.  Plastic-IO graph server provides a marketplace of graphs and vectors for developers to choose from, safely and securely.</p>
-				<p>See <a href="https://github.com/plastic-io/graph-editor">https://github.com/plastic-io/graph-editor</a> for for the GUI client for this server.</p>
+				<a href="#extending-the-graph-editor" id="extending-the-graph-editor" style="color: inherit; text-decoration: none;">
+					<h1>Extending The Graph Editor</h1>
+				</a>
+				<p>You can add your own components to the graph editor using the vue plugin framework.  This is the way the graph editor imports its own components.</p>
+				<a href="#how-to-create-a-plugin" id="how-to-create-a-plugin" style="color: inherit; text-decoration: none;">
+					<h2>How To Create A Plugin</h2>
+				</a>
+				<p>Here are the steps to create a plugin.  Below that is a plugin template.</p>
+				<ol>
+					<li>Make a fork of this project (<a href="https://github.com/plastic-io/graph-editor">https://github.com/plastic-io/graph-editor</a>).</li>
+					<li>Make a new file to hold your plugin, usually in <code>/src/plugins</code>.</li>
+					<li>Copy the template below into your new file and name the file your plugin&#39;s name.</li>
+					<li>Edit <code>/src/main.ts</code>.  Import your plugin file.  E.g.: <code>import MyPlugin from &quot;./plugins/MyPlugin&quot;;</code>.</li>
+					<li>Add your plugin inside of the <code>--- ADD PLUGINS BETWEEN THESE LINES ---</code> lines.  E.g.: <code>Vue.use(MyPlugin(store));</code>.</li>
+				</ol>
+				<a href="#plugin-types" id="plugin-types" style="color: inherit; text-decoration: none;">
+					<h2>Plugin Types</h2>
+				</a>
+				<ul>
+					<li>vectorProperties</li>
+					<li>graphProperties</li>
+				</ul>
+				<a href="#plugin-components" id="plugin-components" style="color: inherit; text-decoration: none;">
+					<h3>Plugin Components</h3>
+				</a>
+				<p>When using the <code>addPlugin</code> action to define a <code>vectorProperties</code> plugin or <code>graphProperties</code> plugin, you must select an icon that is registered in the vuetify icon library.  You can select an icon from the <a href="https://cdn.materialdesignicons.com/4.9.95/">mdi-icons list</a> or you can register custom icons, <a href="https://vuetifyjs.com/en/features/icons/#material-design-icons">instructions</a>.  When a user clicks the tab with your plugin, your component will load in the tab content area.  Trying to register a component to a non existent plugin type will cause an error.</p>
+				<a href="#plugin-template" id="plugin-template" style="color: inherit; text-decoration: none;">
+					<h2>Plugin Template</h2>
+				</a>
+				<pre><code>    module.exports = function (context) {
+        return {
+            install: () =&gt; {
+                const store = {
+                    namespaced: true,
+                    <span class="hljs-keyword">state</span>: {
+                        status: <span class="hljs-string">"PENDING"</span>,
+                    },
+                    mutations: {
+                        SET_STATUS(<span class="hljs-keyword">state</span>, e) {
+                            <span class="hljs-keyword">state</span>.status = e;
+                        },
+                    },
+                    actions: {
+                        changeStatus(context, e) {
+                            context.commit(<span class="hljs-string">"SET_STATUS"</span>, e);
+                        }
+                    },
+                };
+                // add graph editor plugins
+                context.commit(<span class="hljs-string">"addPlugin"</span>, {
+                    type: <span class="hljs-string">"vectorProperties"</span>,
+                    icon: <span class="hljs-string">"mdi-flask"</span>,
+                    component: TestView,
+                });
+                // add custom store
+                context.registerModule('slg-vuex-module-template', store);
+            }
+        };
+    };</code></pre>
 				<a href="#client-server-sequence-diagram" id="client-server-sequence-diagram" style="color: inherit; text-decoration: none;">
 					<h1>Client Server Sequence Diagram</h1>
 				</a>
@@ -499,6 +562,30 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 						<a href="modules/_names_.html">&quot;names&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_auth0provider_auth0authprovider_.html">&quot;plugins/<wbr>Auth0<wbr>Provider/<wbr>Auth0<wbr>Auth<wbr>Provider&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_auth0provider_index_.html">&quot;plugins/<wbr>Auth0<wbr>Provider/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_awsprovider_httpdataprovider_.html">&quot;plugins/<wbr>Aws<wbr>Provider/HTTPData<wbr>Provider&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_awsprovider_wssdataprovider_.html">&quot;plugins/<wbr>Aws<wbr>Provider/<wbr>Wss<wbr>Data<wbr>Provider&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_awsprovider_index_.html">&quot;plugins/<wbr>Aws<wbr>Provider/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_localstoredataprovider_.html">&quot;plugins/<wbr>Local<wbr>Store<wbr>Data<wbr>Provider&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_mochatestprovider_index_.html">&quot;plugins/<wbr>Mocha<wbr>Test<wbr>Provider/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_plugins_preferences_.html">&quot;plugins/<wbr>Preferences&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_plugins_vuetify_.html">&quot;plugins/vuetify&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -508,25 +595,10 @@ https:</span><span class="hljs-comment">//mysite.com/home.html</span></code></pr
 						<a href="modules/_store_index_.html">&quot;store/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_auth0authprovider_.html">&quot;store/modules/<wbr>Auth0<wbr>Auth<wbr>Provider&quot;</a>
+						<a href="modules/_store_keys_.html">&quot;store/keys&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_httpdataprovider_.html">&quot;store/modules/HTTPData<wbr>Provider&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_localstoredataprovider_.html">&quot;store/modules/<wbr>Local<wbr>Store<wbr>Data<wbr>Provider&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_wssdataprovider_.html">&quot;store/modules/WSSData<wbr>Provider&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_keys_.html">&quot;store/modules/keys&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_mouse_.html">&quot;store/modules/mouse&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_store_modules_testservice_.html">&quot;store/modules/test<wbr>Service&quot;</a>
+						<a href="modules/_store_mouse_.html">&quot;store/mouse&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_store_mutations_.html">&quot;store/mutations&quot;</a>
