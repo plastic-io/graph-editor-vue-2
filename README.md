@@ -29,15 +29,20 @@
     6. [Sharing Vectors and Graphs](#sharing-vectors-and-graphs)
         1.  [Infrastructure as a Graph](#infrastructure-as-a-graph)
         2. [Maximize Code Reuse](#maximize-code-reuse)
-  5. [Client Server Sequence Diagram](#client-server-sequence-diagram)
-6. [Implementing the Graph Scheduler Directly](#implementing-the-graph-scheduler-directly)
+5. [Extending The Graph Editor](#extending-the-graph-editor)
+    1. [How To Create A Plugin](#how-to-create-a-plugin)
+    2. [Plugin Types](#plugin-types)
+    3. [Plugin Components](#plugin-components)
+    4. [Plugin Template](#plugin-template)
+6. [Client Server Sequence Diagram](#client-server-sequence-diagram)
+7. [Implementing the Graph Scheduler Directly](#implementing-the-graph-scheduler-directly)
     1. [Going Deeper](#going-deeper)
-7. [Contributing](#contributing)
+8. [Contributing](#contributing)
     1.   [Graphs and Vectors](#graphs-and-vectors)
     2.  [Graph Editor IDE](#graph-editor-ide)
     3. [Graph Server Lambda](#graph-server-lambda)
     4.  [Artwork](#artwork)
-8. [Installing Development Graph Editor](#Installing-Development-Graph-Editor)
+9. [Installing Development Graph Editor](#Installing-Development-Graph-Editor)
 
 
 # What is Plastic-IO?
@@ -251,8 +256,64 @@ Because you can share the parts of the graph, and entire hypergraphs, Plastic-IO
 
 Because each vector and graph in Plastic-IO are implicitly modular, this makes it so you can reuse the artifacts you create in other graphs very easily.  Plastic-IO graph server provides a marketplace of graphs and vectors for developers to choose from, safely and securely.
 
-See https://github.com/plastic-io/graph-editor for for the GUI client for this server.
 
+
+# Extending The Graph Editor
+
+You can add your own components to the graph editor using the vue plugin framework.  This is the way the graph editor imports its own components.
+
+## How To Create A Plugin
+
+Here are the steps to create a plugin.  Below that is a plugin template.
+
+1. Make a fork of this project (https://github.com/plastic-io/graph-editor).
+2. Make a new file to hold your plugin, usually in `/src/plugins`.
+3. Copy the template below into your new file and name the file your plugin's name.
+4. Edit `/src/main.ts`.  Import your plugin file.  E.g.: `import MyPlugin from "./plugins/MyPlugin";`.
+5. Add your plugin inside of the `--- ADD PLUGINS BETWEEN THESE LINES ---` lines.  E.g.: `Vue.use(MyPlugin(store));`.
+
+## Plugin Types
+
+* vectorProperties
+* graphProperties
+
+### Plugin Components
+
+When using the `addPlugin` action to define a `vectorProperties` plugin or `graphProperties` plugin, you must select an icon that is registered in the vuetify icon library.  You can select an icon from the [mdi-icons list](https://cdn.materialdesignicons.com/4.9.95/) or you can register custom icons, [instructions](https://vuetifyjs.com/en/features/icons/#material-design-icons).  When a user clicks the tab with your plugin, your component will load in the tab content area.  Trying to register a component to a non existent plugin type will cause an error.
+
+## Plugin Template
+```
+    module.exports = function (context) {
+        return {
+            install: () => {
+                const store = {
+                    namespaced: true,
+                    state: {
+                        status: "PENDING",
+                    },
+                    mutations: {
+                        SET_STATUS(state, e) {
+                            state.status = e;
+                        },
+                    },
+                    actions: {
+                        changeStatus(context, e) {
+                            context.commit("SET_STATUS", e);
+                        }
+                    },
+                };
+                // add graph editor plugins
+                context.commit("addPlugin", {
+                    type: "vectorProperties",
+                    icon: "mdi-flask",
+                    component: TestView,
+                });
+                // add custom store
+                context.registerModule('slg-vuex-module-template', store);
+            }
+        };
+    };
+```
 
 # Client Server Sequence Diagram
 

@@ -1,4 +1,4 @@
-import {newId} from "../mutations"; // eslint-disable-line
+import {newId} from "../../store/mutations"; // eslint-disable-line
 import HTTPDataProvider from "./HTTPDataProvider";
 const CHUNK_SIZE = 35000;
 export default class WSSDataProvider {
@@ -143,6 +143,19 @@ export default class WSSDataProvider {
         this.send({
             action: "unsubscribe",
             channelId,
+        });
+    }
+    async deploy(args: any) {
+        return new Promise((success) => {
+            const value = {
+                messageId: newId(),
+                action: "deploy",
+                env: args.env,
+                version: args.version,
+                id: args.id,
+            };
+            this.send(value);
+            this.events[value.messageId] = success;
         });
     }
     async listSubscribers(channelId: string) {

@@ -1,6 +1,6 @@
 import {diff, applyChange, revertChange, observableDiff} from "deep-diff";
-import mouse from "./modules/mouse";
-import {keyup, keydown} from "./modules/keys";
+import mouse from "./mouse";
+import {keyup, keydown} from "./keys";
 import helpTemplate from "./newVectorHelpTemplate";
 import Vue from "vue";
 import Scheduler, {Vector, Edge, Connector, FieldMap} from "@plastic-io/plastic-io"; // eslint-disable-line
@@ -9,6 +9,12 @@ export interface ChangeEvent {
     id: string,
     date: number,
     changes: any[],
+}
+function addPlugin(state: any, e: any) {
+    if (!state.plugins[e.type]) {
+        throw new Error("No plugin type " + e.type);
+    }
+    state.plugins[e.type].push(e);
 }
 function setAuthProvider(state: any, e: any) {
     state.authProvider = e;
@@ -1118,6 +1124,7 @@ export function updateBoundingRect(state: any) {
     }
 }
 export default {
+    addPlugin,
     setAuthProvider,
     setIdentity,
     addFortune,

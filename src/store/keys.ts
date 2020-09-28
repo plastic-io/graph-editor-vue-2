@@ -2,7 +2,7 @@ import {deleteSelected, groupSelected, ungroupSelected,
     undo, redo, duplicateSelection, bringForward, sendBackward,
     bringToFront, sendToBack, zoom, nudgeUp, nudgeDown,
     nudgeLeft, nudgeRight, togglePresentation, togglePanelVisibility,
-    toggleSelectedVectorPresentationMode} from "../mutations"; // eslint-disable-line
+    toggleSelectedVectorPresentationMode} from "./mutations"; // eslint-disable-line
 const deleteKey = 46;
 const dKeyCode = 68;
 const gKeyCode = 71;

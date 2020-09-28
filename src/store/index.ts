@@ -99,6 +99,11 @@ export default function () {
         // Always follow string mode rules
         strict: false,
         state: {
+            token: null,
+            plugins: {
+                graphProperties: [],
+                vectorProperties: [],
+            },
             authProvider: null,
             identity: {},
             notFound: null,

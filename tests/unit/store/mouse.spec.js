@@ -1,4 +1,4 @@
-import mouse from "@/store/modules/mouse.ts";
+import mouse from "@/store/mouse.ts";
 import graph from "../../stubs/graph.json";
 import luts from "../../stubs/luts.json";
 describe("Mouse mutations", () => {

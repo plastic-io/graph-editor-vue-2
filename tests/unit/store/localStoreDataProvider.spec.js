@@ -1,4 +1,4 @@
-import Provider from "@/store/modules/LocalStoreDataProvider";
+import Provider from "@/plugins/LocalStoreDataProvider";
 // NOTE: This was VERY complex for some reason.  Jest + Async = hard.
 // Could not use beforeEach, caused problems with shared localStorage
 describe("Local storage data provider tests", () => {
