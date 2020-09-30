@@ -37,12 +37,13 @@
 6. [Client Server Sequence Diagram](#client-server-sequence-diagram)
 7. [Implementing the Graph Scheduler Directly](#implementing-the-graph-scheduler-directly)
     1. [Going Deeper](#going-deeper)
-8. [Contributing](#contributing)
+8. [Operational Transformation](#operational-transformation)
+9. [Contributing](#contributing)
     1.   [Graphs and Vectors](#graphs-and-vectors)
     2.  [Graph Editor IDE](#graph-editor-ide)
     3. [Graph Server Lambda](#graph-server-lambda)
     4.  [Artwork](#artwork)
-9. [Installing Development Graph Editor](#Installing-Development-Graph-Editor)
+10. [Installing Development Graph Editor](#Installing-Development-Graph-Editor)
 
 
 # What is Plastic-IO?
@@ -66,7 +67,7 @@ Declarative graph programming is great for parallel and asynchronous tasks and g
 
 * Build your components in the same interface where you build your graph.
 * Pure serverless environment.  Plastic-IO only uses lambdas and CDN based client applications.
-* Event Sourced Graph Database ensures you can rewind or fast-forward changes made to your graph.
+* Operational Transformation ensures you can rewind or fast-forward changes made to your graph.
 * Multiuser debug environment for server side _and_ client side programming.
 * See the actual animated server data flow in your program _live_ via web sockets.
 * Typescript Graph Scheduling Engine built on promises from the ground up.
@@ -359,6 +360,16 @@ You can hook into a variety of events listed in the scheduling engine documentat
 
 Scheduling engine documentation: [Scheduler](https://plastic-io.github.io/plastic-io/classes/_scheduler_.scheduler.html)
 
+# Operational Transformation
+
+Plastic-IO uses [Operational Transformation (OT)](https://en.wikipedia.org/wiki/Operational_transformation), Event Sourcing (ES), [Command Query Resource Separation (CQRS)](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation), [Blockchain](https://en.wikipedia.org/wiki/Blockchain), and [Domain Driven Design (DDD)](https://en.wikipedia.org/wiki/Domain-driven_design) for event bus, and storage patterns.  By using these patterns Plastic-IO works very much like git.  Each change creates an event that is saved into a collection of change events that is then projected into a state.
+
+DDD and ES are used to create different views using the OT events in conjunction with real time runtime ES data pushed to graph data subscribers, for example using your graph as an interactive web site.
+
+The event bus itself is CQRS, which means all OT messages are fire and forget.  No response is sent back from the [websocket](https://en.wikipedia.org/wiki/WebSocket) based server.  Rather, interested clients subscribe to the graph's notification topic and events are pushed out to the client.
+
+In order to maintain consistency in OT edits, a Blockchain pattern is used.  Each OT change event sent to the central server contains a cryptographic link to the previous state and the projected changed state.  This cryptographic signature ensures that, in theory, the OT event ledger can never be corrupted due to invalid state change messages.
+
 # Contributing
 
 We offer a very free and open environment where you can express yourself in a multitude of ways, and showcase your creations to the world!  There are four major paths of contribution.
@@ -392,7 +403,7 @@ Contributing to the graph editor is not for beginners, but there are some ticket
 
 ## Graph Server Lambda
 
-The [Graph Server](https://github.com/plastic-io/graph-server) is an AWS HTTP Lambda {proxy+} implementation of the graph server.  Using event sourcing and a publishing pipeline, the graph server lambda represents an entire micro service architecture framework.  Graphs are accessed via their registered URLs and served to the users as HTTPS APIs.  Graphs running on the graph server have full access to the AWS infrastructure and can do anything AWS allows.
+The [Graph Server](https://github.com/plastic-io/graph-server) is an AWS HTTP Lambda {proxy+} implementation of the graph server.  Using Operational Transformation (OT) and a publishing pipeline, the graph server lambda represents an entire micro service architecture framework.  Graphs are accessed via their registered URLs and served to the users as HTTPS APIs.  Graphs running on the graph server have full access to the AWS infrastructure and can do anything AWS allows.
 
 Work on the graph server is not for beginners.  Here we are creating new O(1) routing paradigms that fit with graph programming.  Additionally the graph server is used to communicate debugging and business intelligence events to AWS cloud watch and the Graph Editor IDE.  These are highly complex system and require a skilled and careful hand to maintain.  If you think you're up for it check out the [issues](https://github.com/plastic-io/graph-server/issues) list on the graph server.
 
