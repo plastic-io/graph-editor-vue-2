@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1601276784919" clover="3.2.0">
-  <project timestamp="1601276784919" name="All files">
-    <metrics statements="2904" coveredstatements="1759" conditionals="1262" coveredconditionals="655" methods="1017" coveredmethods="591" elements="5183" coveredelements="3005" complexity="0" loc="2904" ncloc="2904" packages="7" files="53" classes="53"/>
+<coverage generated="1606121325852" clover="3.2.0">
+  <project timestamp="1606121325852" name="All files">
+    <metrics statements="2908" coveredstatements="1759" conditionals="1267" coveredconditionals="657" methods="1017" coveredmethods="590" elements="5192" coveredelements="3006" complexity="0" loc="2908" ncloc="2908" packages="7" files="53" classes="53"/>
     <package name="src">
       <metrics statements="146" coveredstatements="104" conditionals="46" coveredconditionals="18" methods="26" coveredmethods="18"/>
       <file name="compileTemplate.ts" path="/home/runner/work/graph-editor/graph-editor/src/compileTemplate.ts">
@@ -1029,7 +1029,7 @@
         <line num="179" count="8" type="stmt"/>
         <line num="180" count="8" type="stmt"/>
         <line num="181" count="8" type="stmt"/>
-        <line num="182" count="2" type="stmt"/>
+        <line num="182" count="3" type="stmt"/>
         <line num="184" count="8" type="stmt"/>
         <line num="198" count="0" type="stmt"/>
         <line num="201" count="8" type="stmt"/>
@@ -1669,13 +1669,13 @@
       </file>
     </package>
     <package name="src.plugins.Auth0Provider">
-      <metrics statements="35" coveredstatements="10" conditionals="6" coveredconditionals="0" methods="9" coveredmethods="4"/>
+      <metrics statements="39" coveredstatements="10" conditionals="11" coveredconditionals="2" methods="9" coveredmethods="3"/>
       <file name="Auth0AuthProvider.ts" path="/home/runner/work/graph-editor/graph-editor/src/plugins/Auth0Provider/Auth0AuthProvider.ts">
-        <metrics statements="17" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="1"/>
+        <metrics statements="17" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -1691,25 +1691,29 @@
         <line num="44" count="0" type="stmt"/>
       </file>
       <file name="index.ts" path="/home/runner/work/graph-editor/graph-editor/src/plugins/Auth0Provider/index.ts">
-        <metrics statements="18" coveredstatements="6" conditionals="6" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <metrics statements="22" coveredstatements="9" conditionals="11" coveredconditionals="2" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="9" count="1" type="cond" truecount="2" falsecount="3"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="23" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="43" count="1" type="stmt"/>
-        <line num="44" count="1" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="52" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.plugins.AwsProvider">
