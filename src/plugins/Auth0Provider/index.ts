@@ -4,11 +4,19 @@ export default function (context: any) {
     let token: any;
     let user: any;
     async function authenticate() {
+        const cfg = context.state.preferences;
+        // abort creation if no info is provided
+        if (!(cfg.authDomain
+            && cfg.authClientId
+            && cfg.authAudience)) {
+            console.warn("No authentication provider information supplied.  Probably working in local mode.");
+            return;
+        }
         // setup auth
         await auth.create(
-            context.state.preferences.authDomain,
-            context.state.preferences.authClientId,
-            context.state.preferences.authAudience,
+            cfg.authDomain,
+            cfg.authClientId,
+            cfg.authAudience,
             window.location.origin + "/graph-editor/auth-callback",
         );
         if (/graph-editor\/auth-callback/.test(window.location.toString())) {
