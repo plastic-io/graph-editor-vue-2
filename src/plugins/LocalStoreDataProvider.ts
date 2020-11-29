@@ -1,8 +1,9 @@
 import {applyChange} from "deep-diff";
-import Hashes from "jshashes";
+import * as Automerge from "automerge";
 const preferencesKey = "preferences";
 const tocKey = "toc.json";
 const eventsPrefix = "events/";
+const crdtPrefix = "crdt/";
 const artifactsPrefix = "artifacts/";
 import {Vector, Graph} from "@plastic-io/plastic-io"; // eslint-disable-line
 interface Toc {
@@ -18,8 +19,7 @@ interface TocItem {
     version: number;
 }
 interface GraphDiff {
-    time: number
-    crc: number,
+    userId: string,
     changes: object[]
 }
 interface VectorArtifact {
@@ -31,16 +31,9 @@ interface GraphArtifact {
 interface PreferencesArtifact {
     preferences: any;
 }
-// Note: localStorage methods are not async.  Async  methods are used to show
-// what it would look like to implement an async data provider which are far
-// more typical than sync providers like local store.
 export default class LocalStorageDataProvider {
-    asyncUpdate: boolean;
-    constructor() {
-        this.asyncUpdate = false;
-    }
-    async updateToc(key: string, value: TocItem) {
-        let sToc: string | null = await localStorage.getItem(tocKey);
+    updateToc(key: string, value: TocItem) {
+        let sToc: string | null = localStorage.getItem(tocKey);
         let toc: Toc;
         if (!sToc) {
             toc = {};
@@ -52,13 +45,13 @@ export default class LocalStorageDataProvider {
             }
         }
         toc[key] = value;
-        await localStorage.setItem(tocKey, JSON.stringify(toc));
+        localStorage.setItem(tocKey, JSON.stringify(toc));
     }
-    async subscribe(url: string | null, callback: (e: any) => void): Promise<void> {
+    subscribe(url: string | null, callback: (e: any) => void) {
         let lastLength = -1;
-        const updateState = async () => {
+        const updateState = () => {
             if (url === "toc.json") {
-                const strToc: string = (await localStorage.getItem(tocKey) || "");
+                const strToc: string = (localStorage.getItem(tocKey) || "");
                 let toc: object;
                 try {
                     toc = JSON.parse(strToc);
@@ -70,7 +63,7 @@ export default class LocalStorageDataProvider {
                     toc,
                 });
             } else if (url === "preferences") {
-                const strPreferences: string = (await localStorage.getItem(preferencesKey) || "");
+                const strPreferences: string = (localStorage.getItem(preferencesKey) || "");
                 let preferences: object;
                 try {
                     preferences = JSON.parse(strPreferences);
@@ -82,7 +75,7 @@ export default class LocalStorageDataProvider {
                     preferences,
                 });
             } else {
-                const eventStr = (await localStorage.getItem(eventsPrefix + url) || "");
+                const eventStr = (localStorage.getItem(eventsPrefix + url) || "");
                 let events;
                 if (!eventStr) {
                     events = [];
@@ -110,8 +103,15 @@ export default class LocalStorageDataProvider {
             updateState();
         }
     }
-    async get(url: string): Promise<object> {
-        let item: string = (await localStorage.getItem(url) || "");
+    getString(url: string): string {
+        let item: string = (localStorage.getItem(url) || "");
+        if (!item) {
+            throw new Error("Resource not found." + url);
+        }
+        return item;
+    }
+    get(url: string): object {
+        let item: string = (localStorage.getItem(url) || "");
         let obj: object;
         if (!item) {
             throw new Error("Resource not found." + url);
@@ -123,78 +123,72 @@ export default class LocalStorageDataProvider {
         }
         return obj;
     }
-    async set(url: string, value: GraphDiff | VectorArtifact | GraphArtifact | PreferencesArtifact): Promise<void> {
-        let events: GraphDiff[] = [];
-        const state: any = {};
+    setChanges(value: GraphDiff, url: string) {
+        // load the document
+        console.log("Save local changes");
+        const docStr = localStorage.getItem(crdtPrefix + url);
+        const currentDoc = docStr ? Automerge.load(docStr, value.userId) : Automerge.init(value.userId);
+        const state = Automerge.change(currentDoc, (doc: any) => {
+            value.changes.forEach((change: any) => {
+                applyChange(doc, true, change);
+            });
+        }) as Graph;
+        const changedDocStr = Automerge.save(state) as any;
+        localStorage.setItem(crdtPrefix + url, changedDocStr);
+        localStorage.setItem(url, JSON.stringify(state));
+        this.updateToc(url, {
+            id: state.id,
+            lastUpdate: Date.now(),
+            type: "graph",
+            icon: state.properties.icon,
+            description: state.properties.description,
+            name: state.properties.name,
+            version: state.version,
+        } as TocItem);
+    }
+    setPublishedVector(value: VectorArtifact, url: string) {
+        const key = artifactsPrefix + url + "." + value.vector.version;
+        localStorage.setItem(key, JSON.stringify(value.vector));
+        this.updateToc(key, {
+            id: value.vector.id,
+            lastUpdate: Date.now(),
+            type: "publishedVector",
+            description: value.vector.properties.description,
+            icon: value.vector.properties.icon,
+            name: value.vector.properties.name,
+            version: value.vector.version,
+        } as TocItem);
+    }
+    setPublishedGraph(value: GraphArtifact, url: string) {
+        const key = artifactsPrefix + url + "." + value.graph.version;
+        localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
+        this.updateToc(key, {
+            id: value.graph.id,
+            lastUpdate: Date.now(),
+            type: "publishedGraph",
+            icon: value.graph.properties.icon,
+            description: value.graph.properties.description,
+            name: value.graph.properties.name,
+            version: value.graph.version,
+        } as TocItem);
+    }
+    set(url: string, value: GraphDiff | VectorArtifact | GraphArtifact | PreferencesArtifact) {
         if ("preferences" in value) {
             // set preferences
-            await localStorage.setItem(url, JSON.stringify(value.preferences));
+            localStorage.setItem(url, JSON.stringify(value.preferences));
         } else if ("changes" in value) {
-            // load the events
-            const eventStr = await localStorage.getItem(eventsPrefix + url);
-            if (!eventStr) {
-                events = [];
-            } else if(eventStr) {
-                try {
-                    events = JSON.parse(eventStr);
-                } catch (err) {
-                    throw new Error("Cannot parse events. Error: " + err.toString());
-                }
-            }
-            value.time = Date.now();
-            events.push(value);
-            events.forEach((event) => {
-                event.changes.forEach((change: any) => {
-                    applyChange(state, true, change);
-                });
-            });
-            const crc = Hashes.CRC32(JSON.stringify(state));
-            if (crc !== value.crc) {
-                console.log("state", value, JSON.parse(JSON.stringify(state)));
-                throw new Error(`CRC Mismatch.  Expected ${crc} got ${value.crc}`);
-            }
-            await localStorage.setItem(eventsPrefix + url, JSON.stringify(events));
-            await localStorage.setItem(url, JSON.stringify(state));
-            await this.updateToc(url, {
-                id: state.id,
-                lastUpdate: Date.now(),
-                type: "graph",
-                icon: state.properties.icon,
-                description: state.properties.description,
-                name: state.properties.name,
-                version: state.version,
-            } as TocItem);
+            this.setChanges(value, url);
         } else if ("vector" in value) {
-            const key = artifactsPrefix + url + "." + value.vector.version;
-            localStorage.setItem(key, JSON.stringify(value.vector));
-            await this.updateToc(key, {
-                id: value.vector.id,
-                lastUpdate: Date.now(),
-                type: "publishedVector",
-                description: value.vector.properties.description,
-                icon: value.vector.properties.icon,
-                name: value.vector.properties.name,
-                version: value.vector.version,
-            } as TocItem);
+            this.setPublishedVector(value, url);
         } else if ("graph" in value) {
-            const key = artifactsPrefix + url + "." + value.graph.version;
-            localStorage.setItem(artifactsPrefix + url + "." + value.graph.version, JSON.stringify(value.graph));
-            await this.updateToc(key, {
-                id: value.graph.id,
-                lastUpdate: Date.now(),
-                type: "publishedGraph",
-                icon: value.graph.properties.icon,
-                description: value.graph.properties.description,
-                name: value.graph.properties.name,
-                version: value.graph.version,
-            } as TocItem);
+            this.setPublishedGraph(value, url);
         } else {
             throw new Error("Set called without a recognized type");
         }
     }
-    async delete(url: string): Promise<void> {
+    delete(url: string) {
         // HACK: also do this for event prefix, silently fail if there's nothing there
-        const sToc = await localStorage.getItem(tocKey);
+        const sToc = localStorage.getItem(tocKey);
         let toc: Toc;
         if (!sToc) {
             throw new Error("Cannot find TOC.");
@@ -206,10 +200,10 @@ export default class LocalStorageDataProvider {
             }
         }
         delete toc[url];
-        await localStorage.setItem(tocKey, JSON.stringify(toc));
+        localStorage.setItem(tocKey, JSON.stringify(toc));
         if (localStorage.getItem(eventsPrefix + url) !== null) {
             localStorage.removeItem(eventsPrefix + url);
         }
-        return await localStorage.removeItem(url);
+        localStorage.removeItem(url);
     }
 }
