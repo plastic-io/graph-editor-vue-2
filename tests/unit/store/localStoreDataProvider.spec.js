@@ -39,7 +39,7 @@ describe("Local storage data provider tests", () => {
     it("Should delete items then update the TOC, but if TOC is missing kick out an error.", (done) => {
         returns.getItem = undefined;
         try {
-            provider.delete("1234")
+            provider.delete("1234");
         } catch (err) {
             expect(err.toString()).toMatch(/Cannot find TOC/);
             done();

@@ -256,7 +256,7 @@ export default class WSSDataProvider {
             id: url,
         });
     }
-    async setChanges(value: GraphDiff, url: string) {
+    async setChanges(value: GraphDiff) {
         console.log("setting graph changes");
         const isNewDocument = !this.remoteDocument;
         // # transform local deep-diff OT changes into Automerge CRDT changes
@@ -298,7 +298,7 @@ export default class WSSDataProvider {
     async set(url: string, value: any) {
         // can be three things, changes, published graph, published vector
         if ("changes" in value) {
-            await this.setChanges(value, url);
+            await this.setChanges(value);
         } else if ("vector" in value) {
             this.send({
                 action: "publishVector",
