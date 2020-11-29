@@ -1,15 +1,25 @@
 import {newId} from "../../store/mutations"; // eslint-disable-line
+import {diff, applyChange} from "deep-diff";
+import * as Automerge from "automerge";
 import HTTPDataProvider from "./HTTPDataProvider";
 const CHUNK_SIZE = 35000;
+interface GraphDiff {
+    userId: string,
+    workstationId: string,
+    changes: any
+}
 export default class WSSDataProvider {
     asyncUpdate: boolean;
     httpUrl: string;
     wssUrl: string;
     keepOpen: boolean;
+    remoteDocument: any;
+    currentDocument: any;
     chunks: any;
     httpDataProvider: HTTPDataProvider;
     webSocket: WebSocket;
     token = "";
+    userId = newId();
     state: string;
     messages: any[];
     message: (e: any) => void;
@@ -24,6 +34,8 @@ export default class WSSDataProvider {
         if (!httpUrl) {
             throw new Error("No httpUrl was passed to WSSDataProvider");
         }
+        this.currentDocument = null;
+        this.remoteDocument = null;
         this.asyncUpdate = true;
         this.events = {};
         this.chunks = {};
@@ -40,6 +52,9 @@ export default class WSSDataProvider {
         this.httpDataProvider = new HTTPDataProvider(this.httpUrl);
         this.webSocket = new WebSocket(this.wssUrl);
         this.connect();
+    }
+    setUserId(userId: string) {
+        this.userId = userId;
     }
     setToken(token: string) {
         this.token = token;
@@ -109,6 +124,13 @@ export default class WSSDataProvider {
         if (e.channelId) {
             if (this.events[e.channelId]) {
                 this.events[e.channelId].forEach((listener: any) => {
+                    if (/graph-event-/.test(e.channelId)) {
+                        console.log("receiving automerge changes");
+                        // translate Automerge CRDT messages into deep-diff changes
+                        const newDoc = Automerge.applyChanges(this.remoteDocument, e.response[0].changes);
+                        e.response[0].changes = diff(this.remoteDocument, newDoc);
+                        this.remoteDocument = newDoc;
+                    }
                     listener(e.response);
                 });
             }
@@ -216,6 +238,14 @@ export default class WSSDataProvider {
             };
             this.send(value);
             this.events[value.messageId] = (e: any) => {
+                if (version === "latest") {
+                    console.log("loading automerge document");
+                    // autodetect and instantiate an automerge instance on document open
+                    // HACK: must re-stringify this message to avoid complexity in outer handler for now
+                    this.remoteDocument = Automerge.load(e, {freeze: true});
+                    this.currentDocument = this.remoteDocument;
+                    e = JSON.parse(JSON.stringify(this.remoteDocument));
+                }
                 success(e);
             };
         });
@@ -226,26 +256,49 @@ export default class WSSDataProvider {
             id: url,
         });
     }
+    async setChanges(value: GraphDiff) {
+        console.log("setting graph changes");
+        const isNewDocument = !this.remoteDocument;
+        // # transform local deep-diff OT changes into Automerge CRDT changes
+        if (isNewDocument) {
+            console.log("new document");
+            // if this is a new document, instantiate it now and send up the save body
+            this.remoteDocument = Automerge.init(value.workstationId);
+        }
+        // send up changes
+        console.log("change doc", this.remoteDocument);
+        const newDoc = Automerge.change(this.remoteDocument, "change", (doc: any) => {
+            console.log("in change doc", doc);
+            value.changes.forEach((change: any) => {
+                applyChange(doc, true, change);
+            });
+        });
+        const docChanges = Automerge.getChanges(this.remoteDocument, newDoc);
+        this.currentDocument = newDoc;
+        value.changes = isNewDocument ? Automerge.save(this.remoteDocument) : docChanges;
+        // check length for transport selection (https/wss)
+        const valueLen = JSON.stringify(value).length;
+        if (valueLen > CHUNK_SIZE) {
+            try {
+                const response = await this.httpDataProvider.set("addEvent", JSON.stringify({
+                    action: "addEvent",
+                    event: value,
+                }));
+                this.messageHandler(response);
+            } catch (err) {
+                throw new Error("Cannot write event via HTTP POST: " + err);
+            }
+            return;
+        }
+        this.send({
+            action: "addEvent",
+            event: value
+        });
+    }
     async set(url: string, value: any) {
         // can be three things, changes, published graph, published vector
         if ("changes" in value) {
-            const valueLen = JSON.stringify(value).length;
-            if (valueLen > CHUNK_SIZE) {
-                try {
-                    const response = await this.httpDataProvider.set("addEvent", JSON.stringify({
-                        action: "addEvent",
-                        event: value,
-                    }));
-                    this.messageHandler(response);
-                } catch (err) {
-                    throw new Error("Cannot write event via HTTP POST: " + err);
-                }
-                return;
-            }
-            this.send({
-                action: "addEvent",
-                event: value
-            });
+            await this.setChanges(value);
         } else if ("vector" in value) {
             this.send({
                 action: "publishVector",

@@ -99,9 +99,11 @@ function clearPendingMessage(state: any, e: any) {
         }
     } else if (e && e.response && e.response.event) {
         const ev = state.pendingEvents[e.response.event.id];
-        ev.changes.forEach((change: any) => {
-            applyChange(state.remoteSnapshot, true, change);
-        });
+        if (!e.response.event.isNewGraph) {
+            ev.changes.forEach((change: any) => {
+                applyChange(state.remoteSnapshot, true, change);
+            });
+        }
         Vue.delete(state.pendingEvents, e.response.event.id);
     }
     if (Object.keys(state.pendingEvents).length === 0 && state.eventQueue.length > 0) {
@@ -145,8 +147,11 @@ function remoteChangeEvents(state: any, event: any) {
     const ownKeys: string[] = state.ownEvents.map((e: {id: string}) => e.id);
     const remoteEventKeys: string[] = state.remoteEvents.map((e: {id: string}) => e.id);
     const preApplySnapshot: any = JSON.parse(JSON.stringify(state.graph));
-    // don't apply events we created, don't apply events we've already recieved
-    if (ownKeys.indexOf(event.id) === -1
+    // don't apply events we created
+    // don't apply events we've already received
+    // don't apply events without changes
+    if (event.changes
+        && ownKeys.indexOf(event.id) === -1
         && remoteEventKeys.indexOf(event.id) === -1) {
         event.changes.forEach((change: any) => {
             applyChange(preApplySnapshot, true, change);

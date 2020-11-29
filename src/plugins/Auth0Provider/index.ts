@@ -5,10 +5,9 @@ export default function (context: any) {
     let user: any;
     async function authenticate() {
         const cfg = context.state.preferences;
-        // abort creation if no info is provided
+        // abort creation if no info is provided (cfg.authAudience can be blank)
         if (!(cfg.authDomain
-            && cfg.authClientId
-            && cfg.authAudience)) {
+            && cfg.authClientId)) {
             console.warn("No authentication provider information supplied.  Probably working in local mode.");
             return;
         }
