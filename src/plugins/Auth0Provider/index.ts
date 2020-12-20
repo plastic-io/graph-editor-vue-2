@@ -7,8 +7,7 @@ export default function (context: any) {
         const cfg = context.state.preferences;
         // abort creation if no info is provided
         if (!(cfg.authDomain
-            && cfg.authClientId
-            && cfg.authAudience)) {
+            && cfg.authClientId)) {
             console.warn("No authentication provider information supplied.  Probably working in local mode.");
             return;
         }
