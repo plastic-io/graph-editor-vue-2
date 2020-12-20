@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1608493399731" clover="3.2.0">
-  <project timestamp="1608493399731" name="All files">
-    <metrics statements="2908" coveredstatements="1759" conditionals="1267" coveredconditionals="657" methods="1017" coveredmethods="590" elements="5192" coveredelements="3006" complexity="0" loc="2908" ncloc="2908" packages="7" files="53" classes="53"/>
+<coverage generated="1608507417855" clover="3.2.0">
+  <project timestamp="1608507417855" name="All files">
+    <metrics statements="2908" coveredstatements="1759" conditionals="1266" coveredconditionals="657" methods="1017" coveredmethods="590" elements="5191" coveredelements="3006" complexity="0" loc="2908" ncloc="2908" packages="7" files="53" classes="53"/>
     <package name="src">
       <metrics statements="146" coveredstatements="104" conditionals="46" coveredconditionals="18" methods="26" coveredmethods="18"/>
       <file name="compileTemplate.ts" path="/home/runner/work/graph-editor/graph-editor/src/compileTemplate.ts">
@@ -1669,7 +1669,7 @@
       </file>
     </package>
     <package name="src.plugins.Auth0Provider">
-      <metrics statements="39" coveredstatements="10" conditionals="11" coveredconditionals="2" methods="9" coveredmethods="3"/>
+      <metrics statements="39" coveredstatements="10" conditionals="10" coveredconditionals="2" methods="9" coveredmethods="3"/>
       <file name="Auth0AuthProvider.ts" path="/home/runner/work/graph-editor/graph-editor/src/plugins/Auth0Provider/Auth0AuthProvider.ts">
         <metrics statements="17" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
@@ -1691,29 +1691,29 @@
         <line num="44" count="0" type="stmt"/>
       </file>
       <file name="index.ts" path="/home/runner/work/graph-editor/graph-editor/src/plugins/Auth0Provider/index.ts">
-        <metrics statements="22" coveredstatements="9" conditionals="11" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <metrics statements="22" coveredstatements="9" conditionals="10" coveredconditionals="2" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="2" falsecount="3"/>
+        <line num="9" count="1" type="cond" truecount="2" falsecount="2"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="23" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="31" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="32" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="54" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.plugins.AwsProvider">
