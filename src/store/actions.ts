@@ -1,5 +1,6 @@
 import {newId, replacer} from "./mutations"; // eslint-disable-line
 import {diff} from "deep-diff";
+import Hashes from "jshashes";
 import Scheduler, {ConnectorEvent, LoadEvent, Warning, Vector} from "@plastic-io/plastic-io"; // eslint-disable-line
 const artifactPrefix = "artifacts/";
 let rewindDebounceTimeout = 900;
@@ -516,12 +517,14 @@ export default {
         clearTimeout(saveTimer);
         saveTimer = setTimeout(() => {
             function sendEvent(changes: any) {
+                // calculate CRC
                 const eventId = newId();
+                const calcState = JSON.stringify(context.state.graph, replacer);
+                const crc = Hashes.CRC32(calcState);
                 const event = {
                     token: context.state.identity ? context.state.identity.token : "",
                     graphId: context.state.graph.id,
-                    userId: context.state.identity ? context.state.identity.user.userName : context.state.preferences.workstationId,
-                    workstationId: context.state.preferences.workstationId,
+                    crc,
                     changes,
                     id: eventId,
                 };
