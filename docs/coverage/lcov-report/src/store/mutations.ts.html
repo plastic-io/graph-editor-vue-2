@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">69.65% </span>
+                <span class="strong">69.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>374/537</span>
+                <span class='fraction'>374/536</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.62% </span>
+                <span class="strong">60.49% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>124/208</span>
+                <span class='fraction'>124/205</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.73% </span>
+                <span class="strong">68.86% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>345/502</span>
+                <span class='fraction'>345/501</span>
             </div>
         
             
@@ -1286,12 +1286,7 @@
 <a name='L1227'></a><a href='#L1227'>1227</a>
 <a name='L1228'></a><a href='#L1228'>1228</a>
 <a name='L1229'></a><a href='#L1229'>1229</a>
-<a name='L1230'></a><a href='#L1230'>1230</a>
-<a name='L1231'></a><a href='#L1231'>1231</a>
-<a name='L1232'></a><a href='#L1232'>1232</a>
-<a name='L1233'></a><a href='#L1233'>1233</a>
-<a name='L1234'></a><a href='#L1234'>1234</a>
-<a name='L1235'></a><a href='#L1235'>1235</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
+<a name='L1230'></a><a href='#L1230'>1230</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -1394,8 +1389,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1441,10 +1434,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -2626,11 +2616,9 @@ function <span class="fstat-no" title="function not covered" >clearPendingMessag
         }
     } else <span class="cstat-no" title="statement not covered" >if (e &amp;&amp; e.response &amp;&amp; e.response.event) {</span>
         const ev = <span class="cstat-no" title="statement not covered" >state.</span>pendingEvents[e.response.event.id];
-<span class="cstat-no" title="statement not covered" >        if (!e.response.event.isNewGraph) {</span>
-<span class="cstat-no" title="statement not covered" >            ev.</span>changes.forEach((<span class="fstat-no" title="function not covered" >change: any) =&gt; </span>{
-<span class="cstat-no" title="statement not covered" >                applyChange(s</span>tate.remoteSnapshot, true, change);
-            });
-        }
+<span class="cstat-no" title="statement not covered" >        ev.</span>changes.forEach((<span class="fstat-no" title="function not covered" >change: any) =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >            applyChange(s</span>tate.remoteSnapshot, true, change);
+        });
 <span class="cstat-no" title="statement not covered" >        Vue.d</span>elete(state.pendingEvents, e.response.event.id);
     }
 <span class="cstat-no" title="statement not covered" >    if (Object.keys(state.pendingEvents).length === 0 &amp;&amp; state.eventQueue.length &gt; 0) {</span>
@@ -2674,11 +2662,8 @@ function <span class="fstat-no" title="function not covered" >remoteChangeEvents
     const ownKeys: string[] = <span class="cstat-no" title="statement not covered" >state.</span>ownEvents.map((<span class="fstat-no" title="function not covered" >e: {id: string}) =&gt; <span class="cstat-no" title="statement not covered" >e</span>.id);</span>
     const remoteEventKeys: string[] = <span class="cstat-no" title="statement not covered" >state.</span>remoteEvents.map((<span class="fstat-no" title="function not covered" >e: {id: string}) =&gt; <span class="cstat-no" title="statement not covered" >e</span>.id);</span>
     const preApplySnapshot: any = <span class="cstat-no" title="statement not covered" >JSON.</span>parse(JSON.stringify(state.graph));
-    // don't apply events we created
-    // don't apply events we've already received
-    // don't apply events without changes
-<span class="cstat-no" title="statement not covered" >    if (event.changes</span>
-        &amp;&amp; ownKeys.indexOf(event.id) === -1
+    // don't apply events we created, don't apply events we've already recieved
+<span class="cstat-no" title="statement not covered" >    if (ownKeys.indexOf(event.id) === -1</span>
         &amp;&amp; remoteEventKeys.indexOf(event.id) === -1) {
 <span class="cstat-no" title="statement not covered" >        event.</span>changes.forEach((<span class="fstat-no" title="function not covered" >change: any) =&gt; </span>{
 <span class="cstat-no" title="statement not covered" >            applyChange(p</span>reApplySnapshot, true, change);
@@ -3766,7 +3751,7 @@ export default {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Nov 29 2020 12:11:16 GMT+0000 (Coordinated Universal Time)
+                at Sun Dec 20 2020 19:43:19 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
