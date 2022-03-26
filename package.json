@@ -81,7 +81,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "jest": "^25.3.0",
     "jest-css-modules-transform": "^4.0.0",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "prettier": "^1.19.1",
     "ts-jest": "^25.3.1",
     "typedoc": "^0.16.11",
