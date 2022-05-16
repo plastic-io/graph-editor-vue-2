@@ -29,7 +29,7 @@
     "emmet": "git+https://github.com/cloud9ide/emmet-core.git#41973fcc70392864c7a469cf5dcd875b88b93d4a",
     "htmlparser2": "^4.1.0",
     "jshashes": "^1.0.8",
-    "moment": "^2.26.0",
+    "moment": "^2.29.2",
     "portal-vue": "^2.1.7",
     "roboto-fontface": "*",
     "v-runtime-template": "^1.10.0",
