@@ -1,6 +1,6 @@
 module.exports = { // eslint-disable-line
     runtimeCompiler: true,
-    publicPath: "/graph-editor/",
+    publicPath: "/graph-editor-vue-2/",
     devServer: {
         overlay: {
             warnings: false,
