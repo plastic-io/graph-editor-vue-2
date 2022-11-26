@@ -2,7 +2,7 @@
 
 ![plastic-io](https://avatars1.githubusercontent.com/u/60668496?s=200&v=4)
 
-[Demo](https://plastic-io.github.io/graph-editor/graphs)
+[Demo](https://plastic-io.github.io/graph-editor-vue-2/graphs)
 
 # Table of Contents
 
@@ -84,15 +84,15 @@ Plastic-IO graphs are domain agnostic.  If it can run JavaScript, it can run a P
 
 You can install Plastic-IO in three ways.
 
-1. Use the [public version](https://plastic-io.github.io/graph-editor/graphs) in a local sandbox.
-2. Use the [public version](https://plastic-io.github.io/graph-editor/graphs) connected to a private graph server.
+1. Use the [public version](https://plastic-io.github.io/graph-editor-vue-2/graphs) in a local sandbox.
+2. Use the [public version](https://plastic-io.github.io/graph-editor-vue-2/graphs) connected to a private graph server.
 3. Deploy your own Graph Editor IDE and connect to a private graph server.
 
 The instruction below cover each use case.
 
 ## Local Sandbox
 
-1. Open your [graph editor](https://plastic-io.github.io/graph-editor/graphs) and start making graphs.
+1. Open your [graph editor](https://plastic-io.github.io/graph-editor-vue-2/graphs) and start making graphs.
 
 No installation required.  Graphs and vectors you make are saved to your browser, but you can still export them to files to be shared with others.
 
@@ -121,7 +121,7 @@ This is the recommended way to install the program for use in an enterprise envi
 
 # Provider Settings
 
-When using the public CDN graph editor, you can change which server you're connected to by visiting the [provider settings page](https://plastic-io.github.io/graph-editor/provider-settings) on the public graph editor.  The settings are saved to the browser.
+When using the public CDN graph editor, you can change which server you're connected to by visiting the [provider settings page](https://plastic-io.github.io/graph-editor-vue-2/provider-settings) on the public graph editor.  The settings are saved to the browser.
 
 Alternatively, you can deploy your own instance of the graph editor to your own CDN.  This makes it so the graph editor is hosted in your network where you have more control over it.  When hosted this way, you can automatically fill out the values of provider settings page by setting an `.env` file in the root of your project with the following values:
 
