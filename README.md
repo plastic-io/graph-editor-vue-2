@@ -1,3 +1,5 @@
+# This project is depricated.  [Use new Vue 3 based project](https://github.com/plastic-io/graph-editor) 
+
 # Plastic-IO Graph Editor
 
 ![plastic-io](https://avatars1.githubusercontent.com/u/60668496?s=200&v=4)
