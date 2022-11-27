@@ -134,7 +134,7 @@ export default function () {
             createdGraphId: null,
             helpTopics,
             log: [],
-            pathPrefix: "/graph-editor/",
+            pathPrefix: "/graph-editor-vue-2/",
             ioTypes: [
                 "Object",
                 "String",
