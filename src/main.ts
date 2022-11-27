@@ -85,30 +85,30 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/graph-editor/auth-callback",
+            path: "/graph-editor-vue-2/auth-callback",
             redirect: () => {
                 const rdr = localStorage.getItem("redirectAfterLogin")
-                    || "/graph-editor/graphs";
+                    || "/graph-editor-vue-2/graphs";
                 return rdr.replace(window.location.origin, "");
             },
         },
         {
-            path: "/graph-editor/",
-            redirect: "/graph-editor/graphs",
+            path: "/graph-editor-vue-2/",
+            redirect: "/graph-editor-vue-2/graphs",
         },
         {
-            path: "/graph-editor/provider-settings",
+            path: "/graph-editor-vue-2/provider-settings",
             component: ProviderSettings,
         },
         {
-            path: "/graph-editor/graphs",
+            path: "/graph-editor-vue-2/graphs",
             component: GraphManager,
             props: function (route) {
                 return {route};
             },
         },
         {
-            path: "/graph-editor/*",
+            path: "/graph-editor-vue-2/*",
             component: GraphEditor,
             props: function (route) {
                 return {route};
